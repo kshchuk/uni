@@ -27,17 +27,6 @@ type Request struct {
 	Code uint8
 }
 
-type RequestData struct {
-	Request
-	ContentType string
-	DataSize    int32
-	Data        []byte
-}
-
-type Serializable interface {
-	Serialize() ([]byte, error)
-}
-
 func (r *Request) IsSuccess() bool {
 	return r.Code == SuccessCode
 }
@@ -52,43 +41,6 @@ func (r *Request) IsStatusRequest() bool {
 
 func (r *Request) GetTime() (time.Time, error) {
 	return time.Unix(0, r.Time), nil
-}
-
-func NewDataRequest(contentType string, data []byte) *RequestData {
-	return &RequestData{
-		Request{
-			Time: time.Now().UnixNano(),
-			Code: SuccessCode,
-		},
-		contentType,
-		int32(len(data)),
-		data,
-	}
-}
-
-func (r *RequestData) Serialize() ([]byte, error) {
-	var buffer bytes.Buffer
-	encoder := gob.NewEncoder(&buffer)
-	e := encoder.Encode(r)
-	if e != nil {
-		return nil, e
-	}
-	return buffer.Bytes(), nil
-}
-
-func DeserializeRequestData(data []byte) (*RequestData, error) {
-	var buffer bytes.Buffer
-	_, e := buffer.Write(data)
-	if e != nil {
-		return nil, e
-	}
-	decoder := gob.NewDecoder(&buffer)
-	var request RequestData
-	e = decoder.Decode(&request)
-	if e != nil {
-		return nil, e
-	}
-	return &request, nil
 }
 
 func NewCancelRequest() *Request {
@@ -123,6 +75,54 @@ func DeserializeRequest(data []byte) (*Request, error) {
 	}
 	decoder := gob.NewDecoder(&buffer)
 	var request Request
+	e = decoder.Decode(&request)
+	if e != nil {
+		return nil, e
+	}
+	return &request, nil
+}
+
+type RequestData struct {
+	Request
+	ContentType string
+	DataSize    int32
+	Data        []byte
+}
+
+type Serializable interface {
+	Serialize() ([]byte, error)
+}
+
+func NewDataRequest(contentType string, data []byte) *RequestData {
+	return &RequestData{
+		Request{
+			Time: time.Now().UnixNano(),
+			Code: SuccessCode,
+		},
+		contentType,
+		int32(len(data)),
+		data,
+	}
+}
+
+func (r *RequestData) Serialize() ([]byte, error) {
+	var buffer bytes.Buffer
+	encoder := gob.NewEncoder(&buffer)
+	e := encoder.Encode(r)
+	if e != nil {
+		return nil, e
+	}
+	return buffer.Bytes(), nil
+}
+
+func DeserializeRequestData(data []byte) (*RequestData, error) {
+	var buffer bytes.Buffer
+	_, e := buffer.Write(data)
+	if e != nil {
+		return nil, e
+	}
+	decoder := gob.NewDecoder(&buffer)
+	var request RequestData
 	e = decoder.Decode(&request)
 	if e != nil {
 		return nil, e

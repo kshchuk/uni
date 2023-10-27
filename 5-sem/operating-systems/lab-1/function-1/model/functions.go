@@ -11,14 +11,15 @@ import (
  */
 func CalculateFactorial(errChan chan error, args ...interface{}) (interface{}, error) {
 	// Get the first argument and convert it to an integer
-	n, ok := args[0].(int)
+	n, ok := args[0].(int64)
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
 
 	// Calculate the factorial
-	fact := 1
-	for i := 1; i <= n; i++ {
+	var fact int64 = 1
+	var i int64
+	for i = 1; i <= n; i++ {
 		fact *= i
 
 		// Simulate a long-running task and non-critical errors
@@ -37,14 +38,15 @@ func CalculateFactorial(errChan chan error, args ...interface{}) (interface{}, e
  */
 func CalculateFibonacci(errChan chan error, args ...interface{}) (interface{}, error) {
 	// Get the first argument and convert it to an integer
-	n, ok := args[0].(int)
+	n, ok := args[0].(int64)
 	if !ok {
 		return nil, fmt.Errorf("invalid argument")
 	}
 
 	// Calculate the Fibonacci number
-	fib := 1
-	for i, j := 0, 1; i < n; i, j = i+j, i {
+	var fib int64 = 1
+	var i, j int64
+	for i, j = 0, 1; i < n; i, j = i+j, i {
 		fib = i
 
 		// Simulate a long-running task and non-critical errors
