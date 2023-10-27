@@ -1,5 +1,11 @@
 package model
 
+import (
+	"bytes"
+	"encoding/gob"
+	"time"
+)
+
 /* Error is the base error type
  * Code 0 is success
  * Code 1 is non-fatal error
@@ -7,42 +13,53 @@ package model
  */
 
 type Error struct {
-	Response
-	message string
+	Request
+	Message string
 }
 
-type FatalError struct {
-	Error
+func (r *Request) IsNonFatalError() bool {
+	return r.Code == NonFatalErrorCode
 }
 
-type NonFatalError struct {
-	Error
-	Data interface{}
+func (r *Request) IsFatalError() bool {
+	return r.Code == FatalErrorCode
 }
 
-func NewFatalError(message string) *FatalError {
-	return &FatalError{
-		Error{
-			Response{
-				code: 2,
-			},
-			message,
+func NewFatalError(message string) *Error {
+	return &Error{
+		Request{
+			Code: FatalErrorCode,
+			Time: time.Now().UnixNano(),
 		},
+		message,
 	}
 }
 
-func NewNonFatalError(message string, data interface{}) *NonFatalError {
-	return &NonFatalError{
-		Error{
-			Response{
-				code: 1,
-			},
-			message,
+func NewNonFatalError(message string, data interface{}) *Error {
+	return &Error{
+		Request{
+			Code: NonFatalErrorCode,
+			Time: time.Now().UnixNano(),
 		},
-		data,
+		message,
 	}
 }
 
 func (e *Error) ErrorString() string {
-	return e.message
+	return e.Message
+}
+
+func (e *Error) Serialize() []byte {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	enc.Encode(e)
+	return buf.Bytes()
+}
+
+func DeserializeError(data []byte) *Error {
+	var e Error
+	buf := bytes.NewBuffer(data)
+	dec := gob.NewDecoder(buf)
+	dec.Decode(&e)
+	return &e
 }

@@ -1,0 +1,109 @@
+package model
+
+import (
+	"bytes"
+	"encoding/gob"
+	"time"
+)
+
+/* Request is the base request type
+* Code 0 is success
+* Code 1 is non-fatal error
+* Code 2 is fatal error
+* Code 3 is computation cancelling request
+* Code 4 is status request
+ */
+
+const (
+	SuccessCode       uint8 = iota
+	NonFatalErrorCode uint8 = iota
+	FatalErrorCode    uint8 = iota
+	CancelRequestCode uint8 = iota
+	StatusRequestCode uint8 = iota
+)
+
+type Request struct {
+	Time int64
+	Code uint8
+}
+
+type RequestData struct {
+	Request
+	ContentType string
+	DataSize    int32
+	Data        []byte
+}
+
+func (r *Request) IsSuccess() bool {
+	return r.Code == SuccessCode
+}
+
+func (r *Request) IsCancelRequest() bool {
+	return r.Code == CancelRequestCode
+}
+
+func (r *Request) IsStatusRequest() bool {
+	return r.Code == StatusRequestCode
+}
+
+func (r *Request) GetTime() (time.Time, error) {
+	return time.Unix(0, r.Time), nil
+}
+
+func NewDataRequest(contentType string, data []byte) *RequestData {
+	return &RequestData{
+		Request{
+			Time: time.Now().UnixNano(),
+			Code: SuccessCode,
+		},
+		contentType,
+		int32(len(data)),
+		data,
+	}
+}
+
+func (r *RequestData) Serialize() []byte {
+	var buffer bytes.Buffer
+	encoder := gob.NewEncoder(&buffer)
+	encoder.Encode(r)
+	return buffer.Bytes()
+}
+
+func DeserializeRequestData(data []byte) *RequestData {
+	var buffer bytes.Buffer
+	buffer.Write(data)
+	decoder := gob.NewDecoder(&buffer)
+	var request RequestData
+	decoder.Decode(&request)
+	return &request
+}
+
+func NewCancelRequest() *Request {
+	return &Request{
+		Time: time.Now().UnixNano(),
+		Code: CancelRequestCode,
+	}
+}
+
+func NewStatusRequest() *Request {
+	return &Request{
+		Time: time.Now().UnixNano(),
+		Code: StatusRequestCode,
+	}
+}
+
+func (r *Request) Serialize() []byte {
+	var buffer bytes.Buffer
+	encoder := gob.NewEncoder(&buffer)
+	encoder.Encode(r)
+	return buffer.Bytes()
+}
+
+func DeserializeRequest(data []byte) *Request {
+	var buffer bytes.Buffer
+	buffer.Write(data)
+	decoder := gob.NewDecoder(&buffer)
+	var request Request
+	decoder.Decode(&request)
+	return &request
+}
