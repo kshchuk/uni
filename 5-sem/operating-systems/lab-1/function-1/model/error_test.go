@@ -19,8 +19,14 @@ func TestError(t *testing.T) {
 		t.Errorf("Expected error message to be 'Fatal error occurred'")
 	}
 
-	serialized := err.Serialize()
-	deserialized := DeserializeError(serialized)
+	serialized, e := err.Serialize()
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	deserialized, e := DeserializeError(serialized)
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
 
 	if deserialized.ErrorString() != "Fatal error occurred" {
 		t.Errorf("Expected deserialized error message to be 'Fatal error occurred'")

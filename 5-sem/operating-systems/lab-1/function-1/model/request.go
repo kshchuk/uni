@@ -34,6 +34,10 @@ type RequestData struct {
 	Data        []byte
 }
 
+type Serializable interface {
+	Serialize() ([]byte, error)
+}
+
 func (r *Request) IsSuccess() bool {
 	return r.Code == SuccessCode
 }
@@ -62,20 +66,29 @@ func NewDataRequest(contentType string, data []byte) *RequestData {
 	}
 }
 
-func (r *RequestData) Serialize() []byte {
+func (r *RequestData) Serialize() ([]byte, error) {
 	var buffer bytes.Buffer
 	encoder := gob.NewEncoder(&buffer)
-	encoder.Encode(r)
-	return buffer.Bytes()
+	e := encoder.Encode(r)
+	if e != nil {
+		return nil, e
+	}
+	return buffer.Bytes(), nil
 }
 
-func DeserializeRequestData(data []byte) *RequestData {
+func DeserializeRequestData(data []byte) (*RequestData, error) {
 	var buffer bytes.Buffer
-	buffer.Write(data)
+	_, e := buffer.Write(data)
+	if e != nil {
+		return nil, e
+	}
 	decoder := gob.NewDecoder(&buffer)
 	var request RequestData
-	decoder.Decode(&request)
-	return &request
+	e = decoder.Decode(&request)
+	if e != nil {
+		return nil, e
+	}
+	return &request, nil
 }
 
 func NewCancelRequest() *Request {
@@ -92,18 +105,27 @@ func NewStatusRequest() *Request {
 	}
 }
 
-func (r *Request) Serialize() []byte {
+func (r *Request) Serialize() ([]byte, error) {
 	var buffer bytes.Buffer
 	encoder := gob.NewEncoder(&buffer)
-	encoder.Encode(r)
-	return buffer.Bytes()
+	e := encoder.Encode(r)
+	if e != nil {
+		return nil, e
+	}
+	return buffer.Bytes(), nil
 }
 
-func DeserializeRequest(data []byte) *Request {
+func DeserializeRequest(data []byte) (*Request, error) {
 	var buffer bytes.Buffer
-	buffer.Write(data)
+	_, e := buffer.Write(data)
+	if e != nil {
+		return nil, e
+	}
 	decoder := gob.NewDecoder(&buffer)
 	var request Request
-	decoder.Decode(&request)
-	return &request
+	e = decoder.Decode(&request)
+	if e != nil {
+		return nil, e
+	}
+	return &request, nil
 }

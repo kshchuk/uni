@@ -35,7 +35,7 @@ func NewFatalError(message string) *Error {
 	}
 }
 
-func NewNonFatalError(message string, data interface{}) *Error {
+func NewNonFatalError(message string) *Error {
 	return &Error{
 		Request{
 			Code: NonFatalErrorCode,
@@ -49,17 +49,23 @@ func (e *Error) ErrorString() string {
 	return e.Message
 }
 
-func (e *Error) Serialize() []byte {
+func (e *Error) Serialize() ([]byte, error) {
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
-	enc.Encode(e)
-	return buf.Bytes()
+	err := enc.Encode(e)
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
-func DeserializeError(data []byte) *Error {
+func DeserializeError(data []byte) (*Error, error) {
 	var e Error
 	buf := bytes.NewBuffer(data)
 	dec := gob.NewDecoder(buf)
-	dec.Decode(&e)
-	return &e
+	err := dec.Decode(&e)
+	if err != nil {
+		return nil, err
+	}
+	return &e, nil
 }

@@ -41,8 +41,14 @@ func TestRequestData(t *testing.T) {
 		t.Errorf("Expected data to be '%s'", data)
 	}
 
-	serialized := reqData.Serialize()
-	deserialized := DeserializeRequestData(serialized)
+	serialized, e := reqData.Serialize()
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	deserialized, e := DeserializeRequestData(serialized)
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
 
 	if bytes.Compare(deserialized.Data, data) != 0 {
 		t.Errorf("Expected deserialized data to be '%s'", data)
