@@ -1,6 +1,6 @@
 package model
 
-/* Response is the base response type
+/* Request is the base response type
 * Code 0 is success
 * Code 1 is non-fatal error
 * Code 2 is fatal error
