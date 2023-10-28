@@ -7,7 +7,7 @@ import (
 )
 
 /* Request is the base request type
-* Code 0 is success
+* Code 0 is success/Data request
 * Code 1 is non-fatal error
 * Code 2 is fatal error
 * Code 3 is computation cancelling request
@@ -27,7 +27,7 @@ type Request struct {
 	Code uint8
 }
 
-func (r *Request) IsSuccess() bool {
+func (r *Request) IsDataRequest() bool {
 	return r.Code == SuccessCode
 }
 
@@ -47,13 +47,6 @@ func NewCancelRequest() *Request {
 	return &Request{
 		Time: time.Now().UnixNano(),
 		Code: CancelRequestCode,
-	}
-}
-
-func NewStatusRequest() *Request {
-	return &Request{
-		Time: time.Now().UnixNano(),
-		Code: StatusRequestCode,
 	}
 }
 
@@ -102,6 +95,18 @@ func NewDataRequest(contentType string, data []byte) *RequestData {
 		contentType,
 		int32(len(data)),
 		data,
+	}
+}
+
+func NewStatusRequestData(status []byte) *RequestData {
+	return &RequestData{
+		Request{
+			Time: time.Now().UnixNano(),
+			Code: StatusRequestCode,
+		},
+		"raw/status",
+		int32(len(status)),
+		status,
 	}
 }
 
