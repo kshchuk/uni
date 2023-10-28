@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"errors"
 	"testing"
 	"time"
@@ -15,7 +14,6 @@ func TestExec(t *testing.T) {
 		}
 	}()
 
-	ctx := context.Background()
 	criticalLimit := 2 * time.Second
 	nonCriticalLimit := 1 * time.Second
 	controller := NewFunctionController(criticalLimit, nonCriticalLimit)
@@ -25,7 +23,7 @@ func TestExec(t *testing.T) {
 		return "success", nil
 	}
 
-	result, err := controller.Exec(ctx, fun, errChan)
+	result, err := controller.Exec(fun, errChan)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -38,7 +36,7 @@ func TestExec(t *testing.T) {
 		return nil, errors.New("function error")
 	}
 
-	result, err = controller.Exec(ctx, fun, errChan)
+	result, err = controller.Exec(fun, errChan)
 	if err == nil || err.Error() != "critical error: function execution exceeded critical limit" {
 		t.Errorf("Expected critical limit error, got: %v", err)
 	}
@@ -49,24 +47,11 @@ func TestExec(t *testing.T) {
 		return "partial success", nil
 	}
 
-	result, err = controller.Exec(ctx, fun, errChan)
+	result, err = controller.Exec(fun, errChan)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
 	if result != "partial success" {
 		t.Errorf("Unexpected result: %v", result)
-	}
-
-	ctxWithCancel, cancelFunc := context.WithCancel(ctx)
-	cancelFunc()
-
-	fun = func(errChan chan error, args ...interface{}) (interface{}, error) {
-		time.Sleep(500 * time.Millisecond)
-		return "success", nil
-	}
-
-	result, err = controller.Exec(ctxWithCancel, fun, errChan)
-	if err == nil || err.Error() != "context canceled" {
-		t.Errorf("Expected context canceled error, got: %v", err)
 	}
 }

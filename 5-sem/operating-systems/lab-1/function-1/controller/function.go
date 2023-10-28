@@ -15,6 +15,8 @@ type FunctionController struct {
 	nonCriticalLimit time.Duration
 	executionTime    time.Duration
 	status           string
+	ctx              context.Context
+	cancel           context.CancelFunc
 }
 
 type FunctionControllerInterface interface {
@@ -23,13 +25,32 @@ type FunctionControllerInterface interface {
 }
 
 func NewFunctionController(criticalLimit time.Duration, nonCriticalLimit time.Duration) *FunctionController {
-	return &FunctionController{criticalLimit: criticalLimit,
-		nonCriticalLimit: nonCriticalLimit}
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	return &FunctionController{
+		criticalLimit:    criticalLimit,
+		nonCriticalLimit: nonCriticalLimit,
+		executionTime:    time.Duration(0),
+		status:           "idle",
+		ctx:              ctx,
+		cancel:           cancel,
+	}
+}
+
+func (controller *FunctionController) SetNewContext() {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	controller.ctx = ctx
+	controller.cancel = cancel
+}
+
+func (controller *FunctionController) Cancel() {
+	controller.cancel()
 }
 
 // Exec is the function to control the execution of a function which executes some value.
 // errChan is a channel that can be used to send non-critical errors back to the client.
-func (controller *FunctionController) Exec(ctx context.Context, fun model.Function, errChan chan error, args ...interface{}) (interface{}, error) {
+func (controller *FunctionController) Exec(fun model.Function, errChan chan error, args ...interface{}) (interface{}, error) {
 	// Create a channel to get the result of the function
 	resultChan := make(chan interface{})
 	criticalErrorChan := make(chan error)
@@ -55,9 +76,9 @@ func (controller *FunctionController) Exec(ctx context.Context, fun model.Functi
 
 	for {
 		select {
-		case <-ctx.Done():
+		case <-controller.ctx.Done():
 			controller.status = "cancelled"
-			return nil, ctx.Err()
+			return nil, controller.ctx.Err()
 		case <-nonCriticalTimer.C:
 			errChan <- fmt.Errorf("non-critical error: function execution exceeded non-critical limit")
 		case <-criticalTimer.C:
@@ -111,4 +132,4 @@ func DeserializeFunctionControllerStatus(data []byte) (*FunctionControllerStatus
 	return &status, nil
 }
 
-var functionController = NewFunctionController(config.DefaultCriticalErrorLimit, config.DefaultCriticalErrorLimit)
+var functionController = NewFunctionController(config.DefaultCriticalErrorLimit, config.DefaultNonCriticalErrorLimit)
