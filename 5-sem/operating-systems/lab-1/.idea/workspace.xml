@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/function-1/controller/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/controller/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/controller/function_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/controller/handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/model/error_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/model/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-1/model/request_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/function-1/controller/client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/function-1/model/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/error.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/model/response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/model/error.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/model/response.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +27,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/function-1/functions.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/function-1/model/error.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -64,6 +55,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/uni/5-sem/operating-systems/lab-1/manager&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,8 +73,8 @@
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestExec in lab-1/function-1/controller">
-    <configuration name="TestExec in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.go test lab-1/function-1/controller (1)">
+    <configuration name="TestExec in lab-1/function-1/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
@@ -94,7 +86,7 @@
       <pattern value="^\QTestExec\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestExec/test_non-critical_error in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestHandleRequest in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
@@ -103,10 +95,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestExec\E$/^\Qtest_non-critical_error\E$" />
+      <pattern value="^\QTestHandleRequest\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestRequestData in lab-1/function-1/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRequest in lab-1/function-1/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/model" />
       <root_directory value="$PROJECT_DIR$" />
@@ -115,7 +107,18 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestRequestData\E$" />
+      <pattern value="^\QTestRequest\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go test lab-1/function-1/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="lab-1" />
+      <working_directory value="$PROJECT_DIR$/function-1/controller" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="lab-1/function-1/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <configuration name="go test lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -129,24 +132,13 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="go test lab-1/function-1/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/model" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="lab-1/function-1/model" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestExec in lab-1/function-1/controller" />
+        <item itemvalue="Go Test.go test lab-1/function-1/controller (1)" />
+        <item itemvalue="Go Test.TestHandleRequest in lab-1/function-1/controller" />
         <item itemvalue="Go Test.go test lab-1/function-1/controller" />
-        <item itemvalue="Go Test.TestExec/test_non-critical_error in lab-1/function-1/controller" />
-        <item itemvalue="Go Test.go test lab-1/function-1/model" />
-        <item itemvalue="Go Test.TestRequestData in lab-1/function-1/model" />
+        <item itemvalue="Go Test.TestExec in lab-1/function-1/controller (1)" />
+        <item itemvalue="Go Test.TestRequest in lab-1/function-1/model" />
       </list>
     </recent_temporary>
   </component>
@@ -178,6 +170,16 @@
           <url>file://$PROJECT_DIR$/function-1/model/request_test.go</url>
           <line>43</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/model/request_test.go</url>
+          <line>8</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/model/error_test.go</url>
+          <line>21</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
