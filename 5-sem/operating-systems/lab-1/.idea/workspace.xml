@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="" />
+    <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../system-modelling/lab-1/~$Lab1.doc" beforeDir="false" afterPath="$PROJECT_DIR$/../../system-modelling/lab-1/~$Lab1.doc" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,17 +72,16 @@
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.go test lab-1/function-1/controller (1)">
-    <configuration name="TestExec in lab-1/function-1/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.client_test.go">
+    <configuration name="TestExecFunction in client_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="lab-1/function-1/controller" />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/function-1/controller/client_test.go" />
       <framework value="gotest" />
-      <pattern value="^\QTestExec\E$" />
+      <pattern value="^\QTestExecFunction\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestHandleRequest in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -94,16 +96,14 @@
       <pattern value="^\QTestHandleRequest\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestRequest in lab-1/function-1/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="client_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/model" />
+      <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="lab-1/function-1/model" />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/function-1/controller/client_test.go" />
       <framework value="gotest" />
-      <pattern value="^\QTestRequest\E$" />
       <method v="2" />
     </configuration>
     <configuration name="go test lab-1/function-1/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -130,11 +130,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.client_test.go" />
+        <item itemvalue="Go Test.TestExecFunction in client_test.go" />
         <item itemvalue="Go Test.go test lab-1/function-1/controller (1)" />
         <item itemvalue="Go Test.TestHandleRequest in lab-1/function-1/controller" />
         <item itemvalue="Go Test.go test lab-1/function-1/controller" />
-        <item itemvalue="Go Test.TestExec in lab-1/function-1/controller (1)" />
-        <item itemvalue="Go Test.TestRequest in lab-1/function-1/model" />
       </list>
     </recent_temporary>
   </component>
@@ -176,6 +176,11 @@
           <url>file://$PROJECT_DIR$/function-1/model/error_test.go</url>
           <line>21</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/controller/client_test.go</url>
+          <line>47</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
