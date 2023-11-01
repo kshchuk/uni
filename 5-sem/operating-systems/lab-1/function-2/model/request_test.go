@@ -2,6 +2,7 @@ package model
 
 import (
 	"bytes"
+	"lab-1/manager/util"
 	"testing"
 	"time"
 )
@@ -52,5 +53,36 @@ func TestRequestData(t *testing.T) {
 
 	if bytes.Compare(deserialized.Data, data) != 0 {
 		t.Errorf("Expected deserialized data to be '%s'", data)
+	}
+
+	datai, e := util.ToBytes(int64(5))
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	reqDatai := NewDataRequest("int64", datai)
+	seri, e := reqDatai.Serialize()
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	_, e = DeserializeRequest(seri)
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	deseriData, e := DeserializeRequestData(seri)
+	if deseriData.ContentType != "int64" {
+		t.Errorf("Expected content type to be 'int64'")
+	}
+	if deseriData.DataSize != int32(len(datai)) {
+		t.Errorf("Expected data size to be %d", len(datai))
+	}
+	if bytes.Compare(deseriData.Data, datai) != 0 {
+		t.Errorf("Expected data to be '%s'", datai)
+	}
+	inter, e := util.FromBytes(deseriData.Data)
+	if e != nil {
+		t.Errorf("Unexpected error: %v", e)
+	}
+	if inter != int64(5) {
+		t.Errorf("Expected data to be '%d'", 123)
 	}
 }

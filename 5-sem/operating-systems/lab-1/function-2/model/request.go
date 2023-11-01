@@ -1,8 +1,7 @@
 package model
 
 import (
-	"bytes"
-	"encoding/gob"
+	"encoding/json"
 	"time"
 )
 
@@ -51,26 +50,14 @@ func NewCancelRequest() *Request {
 }
 
 func (r *Request) Serialize() ([]byte, error) {
-	var buffer bytes.Buffer
-	encoder := gob.NewEncoder(&buffer)
-	e := encoder.Encode(r)
-	if e != nil {
-		return nil, e
-	}
-	return buffer.Bytes(), nil
+	return json.Marshal(r)
 }
 
 func DeserializeRequest(data []byte) (*Request, error) {
-	var buffer bytes.Buffer
-	_, e := buffer.Write(data)
-	if e != nil {
-		return nil, e
-	}
-	decoder := gob.NewDecoder(&buffer)
 	var request Request
-	e = decoder.Decode(&request)
-	if e != nil {
-		return nil, e
+	err := json.Unmarshal(data, &request)
+	if err != nil {
+		return nil, err
 	}
 	return &request, nil
 }
@@ -111,26 +98,14 @@ func NewStatusRequestData(status []byte) *RequestData {
 }
 
 func (r *RequestData) Serialize() ([]byte, error) {
-	var buffer bytes.Buffer
-	encoder := gob.NewEncoder(&buffer)
-	e := encoder.Encode(r)
-	if e != nil {
-		return nil, e
-	}
-	return buffer.Bytes(), nil
+	return json.Marshal(r)
 }
 
 func DeserializeRequestData(data []byte) (*RequestData, error) {
-	var buffer bytes.Buffer
-	_, e := buffer.Write(data)
-	if e != nil {
-		return nil, e
+	var requestData RequestData
+	err := json.Unmarshal(data, &requestData)
+	if err != nil {
+		return nil, err
 	}
-	decoder := gob.NewDecoder(&buffer)
-	var request RequestData
-	e = decoder.Decode(&request)
-	if e != nil {
-		return nil, e
-	}
-	return &request, nil
+	return &requestData, nil
 }

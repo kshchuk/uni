@@ -1,8 +1,7 @@
 package model
 
 import (
-	"bytes"
-	"encoding/gob"
+	"encoding/json"
 	"os"
 	"time"
 )
@@ -51,24 +50,16 @@ func (e *Error) ErrorString() string {
 }
 
 func (e *Error) Serialize() ([]byte, error) {
-	var buf bytes.Buffer
-	enc := gob.NewEncoder(&buf)
-	err := enc.Encode(e)
-	if err != nil {
-		return nil, err
-	}
-	return buf.Bytes(), nil
+	return json.Marshal(e)
 }
 
 func DeserializeError(data []byte) (*Error, error) {
-	var e Error
-	buf := bytes.NewBuffer(data)
-	dec := gob.NewDecoder(buf)
-	err := dec.Decode(&e)
+	var errorData Error
+	err := json.Unmarshal(data, &errorData)
 	if err != nil {
 		return nil, err
 	}
-	return &e, nil
+	return &errorData, nil
 }
 
 func SerializedFatalErrorOrDie(message string) []byte {

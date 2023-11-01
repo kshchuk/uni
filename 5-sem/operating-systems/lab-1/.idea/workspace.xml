@@ -5,38 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/function-2/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/controller/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/controller/client_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/controller/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/controller/function_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/controller/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/error_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/function.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/functions.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/model/request_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/util/util.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/function-2/util/util_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/controller/manager.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/model/error_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/model/request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/model/request_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/model/status.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/util/util.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manager/util/util_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/function-1/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/function.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/model/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/functions.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/model/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/model/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/model/request_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/request_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-2/model/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/model/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-2/model/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/model/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-2/model/request_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/model/request_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/controller/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/controller/manager.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/model/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/model/error.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/model/response.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/model/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/model/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/model/request_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/model/request_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +36,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/function-1/functions.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/function-1/model/error.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/manager/controller/manager.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -85,7 +65,7 @@
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/uni/5-sem/operating-systems/lab-1/manager/main.go",
+    "last_opened_file_path": "D:/uni/5-sem/operating-systems/lab-1/function-1/main.go",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.pluginManager",
@@ -94,9 +74,10 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\uni\5-sem\operating-systems\lab-1\manager\model" />
+      <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\model" />
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-2" />
       <recent name="D:\uni\5-sem\operating-systems\lab-1\manager" />
-      <recent name="D:\uni\5-sem\operating-systems\lab-1\manager\model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\model" />
@@ -113,7 +94,7 @@
       <filePath value="$PROJECT_DIR$/manager/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go run function 1" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+    <configuration name="go run function-1" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
@@ -131,7 +112,19 @@
       <filePath value="$PROJECT_DIR$/function-2/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestExec in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestError in lab-1/function-2/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="lab-1" />
+      <working_directory value="$PROJECT_DIR$/function-2/model" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="lab-1/function-2/model" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestError\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHandleRequest in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
@@ -140,60 +133,62 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestExec\E$" />
+      <pattern value="^\QTestHandleRequest\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestExecFunction in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestHandleRequest in lab-1/function-2/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/controller" />
+      <working_directory value="$PROJECT_DIR$/function-2/controller" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="lab-1/function-1/controller" />
+      <package value="lab-1/function-2/controller" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestExecFunction\E$" />
+      <pattern value="^\QTestHandleRequest\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestToBytesAndFromBytes in lab-1/function-1/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRequest in lab-1/function-2/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/util" />
+      <working_directory value="$PROJECT_DIR$/function-2/model" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="lab-1/function-1/util" />
+      <package value="lab-1/function-2/model" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestToBytesAndFromBytes\E$" />
+      <pattern value="^\QTestRequest\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="client_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRequestData in lab-1/function-2/model" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/controller" />
+      <working_directory value="$PROJECT_DIR$/function-2/model" />
       <root_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="lab-1/function-1/controller" />
+      <kind value="PACKAGE" />
+      <package value="lab-1/function-2/model" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/function-1/controller/client_test.go" />
+      <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
+      <pattern value="^\QTestRequestData\E$" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Go Build.go run function-2" />
+      <item itemvalue="Go Build.go run function-1" />
       <item itemvalue="Go Build.go build manager" />
-      <item itemvalue="Go Build.go run function 1" />
-      <item itemvalue="Go Test.client_test.go" />
-      <item itemvalue="Go Test.TestExec in lab-1/function-1/controller" />
-      <item itemvalue="Go Test.TestExecFunction in lab-1/function-1/controller" />
-      <item itemvalue="Go Test.TestToBytesAndFromBytes in lab-1/function-1/util" />
+      <item itemvalue="Go Test.TestError in lab-1/function-2/model" />
+      <item itemvalue="Go Test.TestHandleRequest in lab-1/function-1/controller" />
+      <item itemvalue="Go Test.TestHandleRequest in lab-1/function-2/controller" />
+      <item itemvalue="Go Test.TestRequest in lab-1/function-2/model" />
+      <item itemvalue="Go Test.TestRequestData in lab-1/function-2/model" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go run function 1" />
-        <item itemvalue="Go Test.client_test.go" />
-        <item itemvalue="Go Test.TestExec in lab-1/function-1/controller" />
-        <item itemvalue="Go Test.TestExecFunction in lab-1/function-1/controller" />
-        <item itemvalue="Go Test.TestToBytesAndFromBytes in lab-1/function-1/util" />
+        <item itemvalue="Go Test.TestHandleRequest in lab-1/function-2/controller" />
+        <item itemvalue="Go Test.TestError in lab-1/function-2/model" />
+        <item itemvalue="Go Test.TestRequestData in lab-1/function-2/model" />
+        <item itemvalue="Go Test.TestRequest in lab-1/function-2/model" />
+        <item itemvalue="Go Test.TestHandleRequest in lab-1/function-1/controller" />
       </list>
     </recent_temporary>
   </component>
@@ -223,36 +218,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/model/request_test.go</url>
-          <line>43</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/model/request_test.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/model/error_test.go</url>
-          <line>21</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/model/functions.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/controller/function.go</url>
-          <line>62</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/controller/function.go</url>
-          <line>54</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/function-1/controller/client_test.go</url>
           <line>48</line>
           <option name="timeStamp" value="27" />
@@ -263,19 +228,9 @@
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-2/main.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/function-1/main.go</url>
           <line>8</line>
           <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/manager/main.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
@@ -283,14 +238,34 @@
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
-          <line>134</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/function-1/controller/client.go</url>
           <line>32</line>
           <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
+          <line>120</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-2/model/request_test.go</url>
+          <line>57</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/controller/client_test.go</url>
+          <line>11</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-2/controller/client_test.go</url>
+          <line>11</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
+          <line>138</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

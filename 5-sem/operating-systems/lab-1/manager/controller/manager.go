@@ -14,7 +14,7 @@ type ManagerController struct {
 	function2 net.Conn
 
 	status     string
-	resultChan chan model.RequestData
+	resultChan chan *model.RequestData
 	ctx        context.Context
 	cancel     context.CancelFunc
 }
@@ -47,7 +47,7 @@ func (manager *ManagerController) InitConnections(address1, address2 string) err
 
 func (manager *ManagerController) StartManager() error {
 	manager.status = "Starting manager"
-	manager.resultChan = make(chan model.RequestData, 2)
+	manager.resultChan = make(chan *model.RequestData, 2)
 	manager.ctx = context.Background()
 	manager.ctx, manager.cancel = context.WithCancel(manager.ctx)
 
@@ -75,10 +75,10 @@ func (manager *ManagerController) listenFunction(c net.Conn) {
 			}
 
 			switch response.(type) {
-			case model.RequestData:
-				manager.resultChan <- response.(model.RequestData)
-			case model.Error:
-				err := response.(model.Error)
+			case *model.RequestData:
+				manager.resultChan <- response.(*model.RequestData)
+			case *model.Error:
+				err := response.(*model.Error)
 				fmt.Println(err.ErrorString())
 				if err.IsFatalError() {
 					manager.cancel()
@@ -111,6 +111,8 @@ func (manager *ManagerController) StartComputations(arg int64) error {
 	}
 
 	manager.status = "Computations started"
+
+	go manager.handleResults()
 	return nil
 }
 
@@ -121,6 +123,8 @@ func (manager *ManagerController) startComputation(arg int64, c net.Conn) error 
 	}
 	request := model.NewDataRequest("int64", argData)
 	requestSerialized, err := request.Serialize()
+	req, err := model.DeserializeRequestData(requestSerialized)
+	fmt.Printf("Request sent:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n", req.Code, time.Unix(0, req.Time).String(), request.ContentType, request.DataSize, arg)
 	if err != nil {
 		return err
 	}
@@ -131,8 +135,8 @@ func (manager *ManagerController) startComputation(arg int64, c net.Conn) error 
 	return nil
 }
 
-func (manager *ManagerController) HandleResults() {
-	results := make([]model.RequestData, 2)
+func (manager *ManagerController) handleResults() {
+	results := make([]*model.RequestData, 2)
 	var result int64 = 0
 
 	for i := 0; i < 2; i++ {
@@ -144,7 +148,7 @@ func (manager *ManagerController) HandleResults() {
 				continue
 			}
 			fmt.Printf("Request received:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n",
-				results[i].Code, time.Unix(results[i].Time, 0).String(), results[i].ContentType, results[i].DataSize, res)
+				results[i].Code, time.Unix(0, results[i].Time).String(), results[i].ContentType, results[i].DataSize, res)
 			result += res
 		case <-manager.ctx.Done():
 			return

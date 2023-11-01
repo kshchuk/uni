@@ -5,6 +5,7 @@ import (
 	"lab-1/function-1/model"
 	"lab-1/function-1/util"
 	"net"
+	"time"
 )
 
 type Client struct {
@@ -46,6 +47,8 @@ func (client *Client) handleRequest(data []byte) (response []byte) {
 	if err != nil {
 		return model.SerializedFatalErrorOrDie(err.Error())
 	}
+
+	fmt.Printf("Received request:\n Code %i\n Time: %s\n", req.Code, time.Unix(0, req.Time).String())
 
 	switch {
 	case req.IsStatusRequest():
@@ -116,6 +119,7 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 			if err != nil {
 				return nil, model.NewFatalError(err.Error())
 			}
+			fmt.Printf("Sent result: %d\n", result)
 			return model.NewDataRequest("int64", resultBytes), nil
 		case nonCriticalError := <-errChan:
 			err := model.NewNonFatalError(nonCriticalError.Error())
@@ -124,6 +128,7 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 				return nil, model.NewFatalError(errorr.Error())
 			}
 			_, err2 := client.conn.Write(serialized)
+			fmt.Printf("Sent error: %s\n", err.ErrorString())
 			if err2 != nil {
 				return nil, model.NewFatalError(err2.Error())
 			}

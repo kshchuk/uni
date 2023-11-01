@@ -5,6 +5,7 @@ import (
 	"lab-1/function-1/model"
 	"lab-1/function-1/util"
 	"net"
+	"time"
 )
 
 type Client struct {
@@ -47,6 +48,8 @@ func (client *Client) handleRequest(data []byte) (response []byte) {
 		return model.SerializedFatalErrorOrDie(err.Error())
 	}
 
+	fmt.Printf("Received request:\n Code %i\n Time: %s\n", req.Code, time.Unix(0, req.Time).String())
+
 	switch {
 	case req.IsStatusRequest():
 		status := functionController.GetStatus()
@@ -86,7 +89,6 @@ func (client *Client) handleRequest(data []byte) (response []byte) {
 	default:
 		return model.SerializedFatalErrorOrDie("unknown request type")
 	}
-
 }
 
 func (client *Client) execFunction(data *model.RequestData) (resp model.Serializable, e model.Serializable) {
@@ -113,11 +115,12 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 		case criticalError := <-criticalErrorChan:
 			return nil, model.NewFatalError(criticalError.Error())
 		case result := <-resultChan:
-			result_bytes, err := util.ToBytes(result.(int64))
+			resultBytes, err := util.ToBytes(result.(int64))
 			if err != nil {
 				return nil, model.NewFatalError(err.Error())
 			}
-			return model.NewDataRequest("int64", result_bytes), nil
+			fmt.Printf("Sent result: %d\n", result)
+			return model.NewDataRequest("int64", resultBytes), nil
 		case nonCriticalError := <-errChan:
 			err := model.NewNonFatalError(nonCriticalError.Error())
 			serialized, errorr := err.Serialize()
@@ -125,6 +128,7 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 				return nil, model.NewFatalError(errorr.Error())
 			}
 			_, err2 := client.conn.Write(serialized)
+			fmt.Printf("Sent error: %s\n", err.ErrorString())
 			if err2 != nil {
 				return nil, model.NewFatalError(err2.Error())
 			}
