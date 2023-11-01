@@ -91,7 +91,11 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 	errChan := make(chan error)
 	criticalErrorChan := make(chan error)
 	resultChan := make(chan interface{})
-	args := []interface{}{data.Data}
+	arg, err := util.FromBytes(data.Data)
+	if err != nil {
+		return nil, model.NewFatalError(err.Error())
+	}
+	args := []interface{}{arg}
 
 	go func() {
 		result, err := functionController.Exec(model.CalculateFactorial, errChan, args...)
@@ -107,7 +111,11 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 		case criticalError := <-criticalErrorChan:
 			return nil, model.NewFatalError(criticalError.Error())
 		case result := <-resultChan:
-			return model.NewDataRequest("int64", util.ToBytes(result.(int64))), nil
+			result_bytes, err := util.ToBytes(result.(int64))
+			if err != nil {
+				return nil, model.NewFatalError(err.Error())
+			}
+			return model.NewDataRequest("int64", result_bytes), nil
 		case nonCriticalError := <-errChan:
 			err := model.NewNonFatalError(nonCriticalError.Error())
 			serialized, errorr := err.Serialize()

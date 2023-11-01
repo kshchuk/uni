@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/function-1/util/util_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../system-modelling/lab-1/~$Lab1.doc" beforeDir="false" afterPath="$PROJECT_DIR$/../../system-modelling/lab-1/~$Lab1.doc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/controller/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/model/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/functions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/util/util.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,18 +78,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Go Test.client_test.go">
-    <configuration name="TestExecFunction in client_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/controller" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/function-1/controller/client_test.go" />
-      <framework value="gotest" />
-      <pattern value="^\QTestExecFunction\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestHandleRequest in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestExec in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
       <working_directory value="$PROJECT_DIR$/function-1/controller" />
       <root_directory value="$PROJECT_DIR$" />
@@ -93,7 +87,31 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestHandleRequest\E$" />
+      <pattern value="^\QTestExec\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestExecFunction in lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="lab-1" />
+      <working_directory value="$PROJECT_DIR$/function-1/controller" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="lab-1/function-1/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestExecFunction\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestToBytesAndFromBytes in lab-1/function-1/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="lab-1" />
+      <working_directory value="$PROJECT_DIR$/function-1/util" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="lab-1/function-1/util" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestToBytesAndFromBytes\E$" />
       <method v="2" />
     </configuration>
     <configuration name="client_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -106,23 +124,12 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="go test lab-1/function-1/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go test lab-1/function-1/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/controller" />
+      <working_directory value="$PROJECT_DIR$/function-1/util" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="lab-1/function-1/controller" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go test lab-1/function-1/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="lab-1" />
-      <working_directory value="$PROJECT_DIR$/function-1/controller" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="lab-1/function-1/controller" />
+      <package value="lab-1/function-1/util" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -131,10 +138,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Test.client_test.go" />
-        <item itemvalue="Go Test.TestExecFunction in client_test.go" />
-        <item itemvalue="Go Test.go test lab-1/function-1/controller (1)" />
-        <item itemvalue="Go Test.TestHandleRequest in lab-1/function-1/controller" />
-        <item itemvalue="Go Test.go test lab-1/function-1/controller" />
+        <item itemvalue="Go Test.TestExec in lab-1/function-1/controller" />
+        <item itemvalue="Go Test.TestExecFunction in lab-1/function-1/controller" />
+        <item itemvalue="Go Test.TestToBytesAndFromBytes in lab-1/function-1/util" />
+        <item itemvalue="Go Test.go test lab-1/function-1/util" />
       </list>
     </recent_temporary>
   </component>
@@ -178,11 +185,29 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/controller/client_test.go</url>
-          <line>47</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/function-1/model/functions.go</url>
+          <line>13</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/controller/function.go</url>
+          <line>62</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/controller/function.go</url>
+          <line>54</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/function-1/controller/client.go</url>
+          <line>100</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/lab_1$go_test_lab_1_function_1_controller__2_.out" NAME="go test lab-1/function-1/controller (2) Coverage Results" MODIFIED="1698779965990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

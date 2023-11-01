@@ -2,6 +2,7 @@ package controller
 
 import (
 	"lab-1/function-1/model"
+	"lab-1/function-1/util"
 	"net"
 	"testing"
 	"time"
@@ -49,13 +50,39 @@ func TestExecFunction(t *testing.T) {
 	client := NewClient(conn)
 
 	// Test case for execFunction with valid data
-	reqData := model.NewDataRequest("int64", []byte("5"))
+	argBytes, _ := util.ToBytes(int64(5))
+	reqData := model.NewDataRequest("int64", argBytes)
 	resp, err := client.execFunction(reqData)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
 	if resp == nil {
 		t.Errorf("Expected response, got nil")
+	}
+	// Check if response data is correct
+	resps, errs := resp.Serialize()
+	if errs != nil {
+		t.Errorf("Expected no error, got %v", errs)
+	}
+	if resp == nil {
+		t.Errorf("Expected response, got nil")
+	}
+	respData, errrrr := model.DeserializeRequestData(resps)
+	if errrrr != nil {
+		t.Errorf("Expected no error, got %v", errrrr)
+	}
+	if respData == nil {
+		t.Errorf("Expected response data, got nil")
+	}
+	if respData.ContentType != "int64" {
+		t.Errorf("Expected response data type int64, got %v", respData.ContentType)
+	}
+	res, errrr := util.FromBytes(respData.Data)
+	if errrr != nil {
+		t.Errorf("Expected no error, got %v", errrr)
+	}
+	if res != 120 {
+		t.Errorf("Expected response data 120, got %v", res)
 	}
 
 	// Test case for execFunction with invalid data
