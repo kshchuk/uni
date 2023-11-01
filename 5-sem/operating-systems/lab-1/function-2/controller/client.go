@@ -86,6 +86,7 @@ func (client *Client) handleRequest(data []byte) (response []byte) {
 	default:
 		return model.SerializedFatalErrorOrDie("unknown request type")
 	}
+
 }
 
 func (client *Client) execFunction(data *model.RequestData) (resp model.Serializable, e model.Serializable) {
@@ -99,7 +100,7 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 	args := []interface{}{arg}
 
 	go func() {
-		result, err := functionController.Exec(model.CalculateFactorial, errChan, args...)
+		result, err := functionController.Exec(model.CalculateFibonacci, errChan, args...)
 		if err != nil {
 			criticalErrorChan <- err
 			return
@@ -112,11 +113,11 @@ func (client *Client) execFunction(data *model.RequestData) (resp model.Serializ
 		case criticalError := <-criticalErrorChan:
 			return nil, model.NewFatalError(criticalError.Error())
 		case result := <-resultChan:
-			resultBytes, err := util.ToBytes(result.(int64))
+			result_bytes, err := util.ToBytes(result.(int64))
 			if err != nil {
 				return nil, model.NewFatalError(err.Error())
 			}
-			return model.NewDataRequest("int64", resultBytes), nil
+			return model.NewDataRequest("int64", result_bytes), nil
 		case nonCriticalError := <-errChan:
 			err := model.NewNonFatalError(nonCriticalError.Error())
 			serialized, errorr := err.Serialize()

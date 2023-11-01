@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	addr, err := net.ResolveTCPAddr("tcp", ":8000")
+	addr, err := net.ResolveTCPAddr("tcp", ":8002")
 	if err != nil {
 		panic(err)
 	}
