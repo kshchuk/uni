@@ -32,12 +32,6 @@ func (server *Server) Start() error {
 		client := NewClient(conn)
 		server.AddClient(client)
 		go client.HandleConnection()
-
-		// Remove client from server.clients when client closes connection
-		go func() {
-			<-client.done
-			server.RemoveClient(client)
-		}
 	}
 
 	return nil
