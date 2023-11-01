@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/function-1/util/util_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/function-1/controller/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/function-1/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/model/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/functions.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/util/util.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,9 +196,9 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/function-1/controller/client.go</url>
-          <line>100</line>
-          <option name="timeStamp" value="21" />
+          <url>file://$PROJECT_DIR$/function-1/controller/client_test.go</url>
+          <line>48</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

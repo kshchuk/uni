@@ -1,17 +1,15 @@
 package controller
 
 import (
-	"bufio"
 	"fmt"
 	"lab-1/function-1/model"
 	"lab-1/function-1/util"
 	"net"
-	"strings"
 )
 
 type Client struct {
+	id   int
 	conn net.Conn
-	data string
 }
 
 func NewClient(conn net.Conn) *Client {
@@ -21,22 +19,26 @@ func NewClient(conn net.Conn) *Client {
 func (client *Client) HandleConnection() {
 	fmt.Printf("Serving %s\n", client.conn.RemoteAddr().String())
 	defer client.conn.Close()
+	buf := make([]byte, 1024)
 
 	for {
-		netData, err := bufio.NewReader(client.conn).ReadString('\n')
+		n, err := client.conn.Read(buf)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		// TODO: remove this
-		client.data = strings.TrimSpace(string(netData))
-		if client.data == "STOP" {
-			break
-		}
-		fmt.Println(client.data)
-		client.conn.Write([]byte("OK\n"))
+		data := buf[:n]
+
+		go func() {
+			response := client.handleRequest(data)
+			if response != nil {
+				_, err := client.conn.Write(response)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+		}()
 	}
-	client.conn.Close()
 }
 
 func (client *Client) handleRequest(data []byte) (response []byte) {
