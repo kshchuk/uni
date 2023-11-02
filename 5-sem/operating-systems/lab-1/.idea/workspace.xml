@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/function.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/function.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +56,9 @@
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/uni/5-sem/operating-systems/lab-1/function-1/main.go",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
@@ -197,6 +195,7 @@
       <updated>1698336651095</updated>
       <workItem from="1698336651410" duration="25000" />
       <workItem from="1698865233885" duration="2000" />
+      <workItem from="1698959420874" duration="641000" />
     </task>
     <servers />
   </component>
@@ -261,6 +260,11 @@
           <url>file://$PROJECT_DIR$/function-2/controller/function.go</url>
           <line>2</line>
           <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://C:/Program Files/Go/src/os/exec/internal/fdtest/exists_test.go</url>
+          <line>6</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
