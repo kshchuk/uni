@@ -49,6 +49,13 @@ func NewCancelRequest() *Request {
 	}
 }
 
+func NewStatusRequest() *Request {
+	return &Request{
+		Time: time.Now().UnixNano(),
+		Code: StatusRequestCode,
+	}
+}
+
 func (r *Request) Serialize() ([]byte, error) {
 	return json.Marshal(r)
 }

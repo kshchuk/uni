@@ -6,12 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/model/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/model/functions.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-1/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/function.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-2/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/function-2/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/function.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/model/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/model/functions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function-2/controller/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/controller/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/controller/manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager/model/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/model/request.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,12 +231,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
-          <line>71</line>
+          <line>68</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
-          <line>120</line>
+          <line>112</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -254,7 +256,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/manager/controller/manager.go</url>
-          <line>138</line>
+          <line>131</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

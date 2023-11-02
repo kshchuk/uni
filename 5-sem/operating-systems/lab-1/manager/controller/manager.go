@@ -24,7 +24,6 @@ type ManagerControllerInterface interface {
 	StartManager() error
 	StartComputations(arg int64) error
 	GetComputationStatuses() error
-	GetConnectionStatuses() string
 	CancelComputations() error
 }
 
@@ -48,8 +47,6 @@ func (manager *ManagerController) InitConnections(address1, address2 string) err
 func (manager *ManagerController) StartManager() error {
 	manager.status = "Starting manager"
 	manager.resultChan = make(chan *model.RequestData, 2)
-	manager.ctx = context.Background()
-	manager.ctx, manager.cancel = context.WithCancel(manager.ctx)
 
 	go manager.listenFunction(manager.function1)
 	go manager.listenFunction(manager.function2)
@@ -73,6 +70,7 @@ func (manager *ManagerController) listenFunction(c net.Conn) {
 			if err != nil {
 				fmt.Println(err)
 			}
+			fmt.Printf("Connecttion %s\n", c.RemoteAddr().String())
 
 			switch response.(type) {
 			case *model.RequestData:
@@ -87,19 +85,13 @@ func (manager *ManagerController) listenFunction(c net.Conn) {
 				fmt.Println(response.(string))
 			}
 		}()
-
-		// For canceling listening
-		select {
-		case <-manager.ctx.Done():
-			return
-		default:
-			continue
-		}
 	}
 }
 
 func (manager *ManagerController) StartComputations(arg int64) error {
 	manager.status = "Starting computations"
+	manager.ctx = context.Background()
+	manager.ctx, manager.cancel = context.WithCancel(manager.ctx)
 
 	err := manager.startComputation(arg, manager.function1)
 	if err != nil {
@@ -124,7 +116,8 @@ func (manager *ManagerController) startComputation(arg int64, c net.Conn) error 
 	request := model.NewDataRequest("int64", argData)
 	requestSerialized, err := request.Serialize()
 	req, err := model.DeserializeRequestData(requestSerialized)
-	fmt.Printf("Request sent:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n", req.Code, time.Unix(0, req.Time).String(), request.ContentType, request.DataSize, arg)
+	fmt.Printf("_____________________________________________________________\nRequest sent:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n", req.Code, time.Unix(0, req.Time).String(), request.ContentType, request.DataSize, arg)
+	fmt.Printf("Connecttion %s\n", c.RemoteAddr().String())
 	if err != nil {
 		return err
 	}
@@ -145,16 +138,16 @@ func (manager *ManagerController) handleResults() {
 			res, err := util.FromBytes(results[i].Data)
 			if err != nil {
 				fmt.Println(err)
-				continue
+				return
 			}
-			fmt.Printf("Request received:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n",
+			fmt.Printf("_____________________________________________________________\nResult received:\n Code %d\n Time %s\n Content type %s\n Data size %d\n Data %d\n",
 				results[i].Code, time.Unix(0, results[i].Time).String(), results[i].ContentType, results[i].DataSize, res)
 			result += res
 		case <-manager.ctx.Done():
 			return
 		}
 	}
-	fmt.Printf("Result: %d\n", result)
+	fmt.Printf("_____________________________________________________________\nResult: %d\n", result)
 }
 
 func (manager *ManagerController) handleRequest(data []byte) (interface{}, error) {
@@ -163,7 +156,7 @@ func (manager *ManagerController) handleRequest(data []byte) (interface{}, error
 		return nil, err
 	}
 
-	fmt.Printf("Received request:\n Code %d\n Time %s\n", req.Code, time.Unix(0, req.Time).String())
+	fmt.Printf("_____________________________________________________________\nReceived request:\n Code %d\n Time %s\n", req.Code, time.Unix(0, req.Time).String())
 
 	switch {
 	case req.IsStatusRequest():
@@ -199,4 +192,72 @@ func (manager *ManagerController) handleRequest(data []byte) (interface{}, error
 	}
 
 	return nil, nil
+}
+
+func (manager *ManagerController) GetComputationStatuses() error {
+	err := manager.getStatus(manager.function1)
+	if err != nil {
+		return err
+	}
+	err = manager.getStatus(manager.function2)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (manager *ManagerController) getStatus(c net.Conn) error {
+	// Send status request
+	request := model.NewStatusRequest()
+	requestSerialized, err := request.Serialize()
+	if err != nil {
+		return err
+	}
+	_, err = c.Write(requestSerialized)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("_____________________________________________________________\nRequest sent:\n Code %d\n Time %s\n", request.Code, time.Unix(0, request.Time).String())
+	fmt.Printf("Connecttion %s\n", c.RemoteAddr().String())
+	return nil
+}
+
+func (manager *ManagerController) CancelComputations() error {
+	manager.status = "Canceling computations"
+	err := manager.cancelComputations()
+	manager.cancel()
+
+	if err != nil {
+		return err
+	}
+	fmt.Println("Computations canceled")
+	manager.status = "Computations canceled"
+	return nil
+}
+
+// Send cancel requests to both functions
+func (manager *ManagerController) cancelComputations() error {
+	request := model.NewCancelRequest()
+	requestSerialized, err := request.Serialize()
+	if err != nil {
+		return err
+	}
+
+	var e error = nil
+	_, err = manager.function1.Write(requestSerialized)
+	if err != nil {
+		e = err
+	}
+	fmt.Printf("_____________________________________________________________\nRequest sent:\n Code %d\n Time %s\n", request.Code, time.Unix(0, request.Time).String())
+	fmt.Printf("Connecttion %s\n", manager.function1.RemoteAddr().String())
+
+	_, err = manager.function2.Write(requestSerialized)
+	if err != nil {
+		e = err
+	}
+	fmt.Printf("_____________________________________________________________\nRequest sent:\n Code %d\n Time %s\n", request.Code, time.Unix(0, request.Time).String())
+	fmt.Printf("Connecttion %s\n", manager.function2.RemoteAddr().String())
+
+	manager.status = "Computations canceled"
+	return e
 }

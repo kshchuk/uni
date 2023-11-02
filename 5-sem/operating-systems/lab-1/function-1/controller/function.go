@@ -83,7 +83,8 @@ func (controller *FunctionController) Exec(fun model.Function, errChan chan erro
 			errChan <- fmt.Errorf("non-critical error: function execution exceeded non-critical limit")
 		case <-criticalTimer.C:
 			controller.status = "timeout"
-			return nil, fmt.Errorf("critical error: function execution exceeded critical limit")
+			status := controller.GetStatus()
+			return nil, fmt.Errorf("critical error: function execution exceeded critical limit, status: %s", status.String())
 		case err := <-criticalErrorChan:
 			controller.status = "cancelled"
 			return nil, err
@@ -120,6 +121,10 @@ func (status *FunctionControllerStatus) Serialize() ([]byte, error) {
 		return nil, err
 	}
 	return buf.Bytes(), nil
+}
+
+func (status *FunctionControllerStatus) String() string {
+	return "FunctionControllerStatus{CriticalLimit: " + status.CriticalLimit.String() + ", NonCriticalLimit: " + status.NonCriticalLimit.String() + ", ExecutionTime: " + status.ExecutionTime.String() + ", Status: " + status.Status + "}"
 }
 
 var functionController = NewFunctionController(config.DefaultCriticalErrorLimit, config.DefaultNonCriticalErrorLimit)

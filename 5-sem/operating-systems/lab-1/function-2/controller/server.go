@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net"
-	"time"
 )
 
 type Server struct {
@@ -27,7 +26,6 @@ func (server *Server) Start() error {
 		if err != nil {
 			return err
 		}
-		conn.SetDeadline(time.Now().Add(100 * time.Second))
 
 		client := NewClient(conn)
 		server.AddClient(client)

@@ -4,7 +4,7 @@ import "time"
 
 const (
 	DefaultNonCriticalErrorLimit = time.Duration(5 * time.Second)
-	DefaultCriticalErrorLimit    = time.Duration(10 * time.Second)
+	DefaultCriticalErrorLimit    = time.Duration(30 * time.Second)
 	DefaultPort                  = 8002
 	DefaultHost                  = "localhost"
 )
