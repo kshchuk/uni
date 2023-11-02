@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31563e7-fe9b-4fa4-9d32-1925706cc88c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-1/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-1/controller/function.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/controller/function.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/function.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/function-2/controller/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/function-2/controller/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/controller/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/controller/manager.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manager/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manager/model/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/manager/model/request.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +70,8 @@
       <recent name="D:\uni\5-sem\operating-systems\lab-1\manager" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\uni\5-sem\operating-systems\lab-1\manager\controller" />
+      <recent name="D:\uni\5-sem\operating-systems\lab-1\manager\util" />
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\model" />
       <recent name="D:\uni\5-sem\operating-systems\lab-1\function-1\controller" />
     </key>

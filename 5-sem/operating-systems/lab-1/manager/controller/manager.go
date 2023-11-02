@@ -186,6 +186,7 @@ func (manager *ManagerController) handleRequest(data []byte) (interface{}, error
 		if err != nil {
 			return nil, err
 		}
+		manager.CancelComputations()
 		return reqData, nil
 	default:
 		panic("Unknown request type")
