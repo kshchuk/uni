@@ -48,7 +48,7 @@ func (client *Client) handleRequest(data []byte) (response []byte) {
 		return model.SerializedFatalErrorOrDie(err.Error())
 	}
 
-	fmt.Printf("Received request:\n Code %i\n Time: %s\n", req.Code, time.Unix(0, req.Time).String())
+	fmt.Printf("__________________________________________\nReceived request:\n Code %i\n Time: %s\n", req.Code, time.Unix(0, req.Time).String())
 
 	switch {
 	case req.IsStatusRequest():

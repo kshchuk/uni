@@ -5,8 +5,8 @@ import (
 	"context"
 	"encoding/gob"
 	"fmt"
-	"lab-1/function-2/config"
-	"lab-1/function-2/model"
+	"lab-1/function-1/config"
+	"lab-1/function-1/model"
 	"time"
 )
 
@@ -15,6 +15,7 @@ type FunctionController struct {
 	nonCriticalLimit time.Duration
 	executionTime    time.Duration
 	status           string
+	memoizedResults  map[string]interface{}
 	ctx              context.Context
 	cancel           context.CancelFunc
 }
@@ -34,6 +35,7 @@ func NewFunctionController(criticalLimit time.Duration, nonCriticalLimit time.Du
 		status:           "idle",
 		ctx:              ctx,
 		cancel:           cancel,
+		memoizedResults:  make(map[string]interface{}),
 	}
 }
 
@@ -54,6 +56,14 @@ func (controller *FunctionController) Exec(fun model.Function, errChan chan erro
 	// Create a channel to get the result of the function
 	resultChan := make(chan interface{})
 	criticalErrorChan := make(chan error)
+
+	// Generate a key for the function and arguments
+	key := fmt.Sprintf("%v-%v", fun, args)
+
+	// Check if the result is in the memoizedResults map
+	if result, ok := controller.memoizedResults[key]; ok {
+		return result, nil // Return the memoized result
+	}
 
 	controller.status = "running"
 	start := time.Now()
@@ -90,6 +100,7 @@ func (controller *FunctionController) Exec(fun model.Function, errChan chan erro
 			return nil, err
 		case result := <-resultChan:
 			controller.status = "success"
+			controller.memoizedResults[key] = result
 			return result, nil
 		default:
 			controller.executionTime = time.Since(start)
