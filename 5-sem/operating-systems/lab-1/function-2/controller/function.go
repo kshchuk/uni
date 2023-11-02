@@ -5,8 +5,8 @@ import (
 	"context"
 	"encoding/gob"
 	"fmt"
-	"lab-1/function-1/config"
-	"lab-1/function-1/model"
+	"lab-1/function-2/config"
+	"lab-1/function-2/model"
 	"time"
 )
 

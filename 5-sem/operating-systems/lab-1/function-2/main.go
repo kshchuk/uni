@@ -1,7 +1,7 @@
 package main
 
 import (
-	"lab-1/function-1/controller"
+	"lab-1/function-2/controller"
 	"net"
 )
 

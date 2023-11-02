@@ -163,6 +163,8 @@ func (manager *ManagerController) handleRequest(data []byte) (interface{}, error
 		return nil, err
 	}
 
+	fmt.Printf("Received request:\n Code %d\n Time %s\n", req.Code, time.Unix(0, req.Time).String())
+
 	switch {
 	case req.IsStatusRequest():
 		reqData, err := model.DeserializeRequestData(data)

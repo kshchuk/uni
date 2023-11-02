@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"time"
 )
 
 /*CalculateFactorial is a function that calculates the factorial of the N.
@@ -22,7 +23,7 @@ func CalculateFactorial(errChan chan error, args ...interface{}) (interface{}, e
 		fact *= i
 
 		// Simulate a long-running task and non-critical errors
-		// time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Second)
 		if i%10 == 0 {
 			errChan <- fmt.Errorf("non-critical error occurred in CalculateFactorial")
 		}
@@ -49,7 +50,7 @@ func CalculateFibonacci(errChan chan error, args ...interface{}) (interface{}, e
 		fib = i
 
 		// Simulate a long-running task and non-critical errors
-		// time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Second)
 		if i%10 == 0 {
 			errChan <- fmt.Errorf("non-critical error occurred in CalculateFibonacci")
 		}

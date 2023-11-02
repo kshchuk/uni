@@ -2,8 +2,8 @@ package controller
 
 import (
 	"fmt"
-	"lab-1/function-1/model"
-	"lab-1/function-1/util"
+	"lab-1/function-2/model"
+	"lab-1/function-2/util"
 	"net"
 	"time"
 )
