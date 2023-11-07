@@ -5,11 +5,10 @@ import androidx.activity.ComponentActivity
 import ClassDescription
 import android.util.Log
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class MainActivity {
+    public fun MainActivity() {
         val classDescription = ClassDescription()
-        val description = classDescription.describeClass("ClassDescription")
+        val description = classDescription.describeClass("String")
         Log.i("Out", description)
     }
 }
