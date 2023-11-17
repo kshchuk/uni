@@ -7,6 +7,8 @@
 
 // Created by Alexander Reeder, 2001 January 06
 
+
+
 import java.io.*;
 import java.util.*;
 import sProcess;
@@ -107,7 +109,7 @@ public class Scheduling {
     Init(args[0]);
     if (processVector.size() < processnum) {
       i = 0;
-      while (processVector.size() < processnum) {       
+      while (processVector.size() < processnum) {
           double X = Common.R1();
           while (X == -1.0) {
             X = Common.R1();
