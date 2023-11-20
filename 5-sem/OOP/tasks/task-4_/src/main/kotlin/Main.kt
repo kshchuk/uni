@@ -1,3 +1,4 @@
+import java.util.Random
 
 class test {
     fun test() {
@@ -7,5 +8,6 @@ class test {
 
 fun main(args: Array<String>) {
     val classDescription = ClassDescription()
-    println(classDescription.describeClass("java.util.Random"))
+    var rand = Random(1)
+    println(classDescription.describeClass("ClassDescription"))
 }
