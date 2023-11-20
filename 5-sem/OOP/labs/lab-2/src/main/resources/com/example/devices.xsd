@@ -15,13 +15,20 @@
                                         <xs:element name="peripheral" type="xs:boolean" />
                                         <xs:element name="energy_consumption " type="xs:unsignedInt" />
                                         <xs:element name="cooler" type="xs:boolean" />
+                                        <xs:element name="component_group">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:enumeration value="io_devices" />
+                                                    <xs:enumeration value="multimedia" />
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
                                         <xs:element name="port" type="xs:string" />
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
                             <xs:element name="critical" type="xs:boolean" />
                         </xs:sequence>
-                        <xs:attribute name="id" type="xs:unsignedInt" use="required" />
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
