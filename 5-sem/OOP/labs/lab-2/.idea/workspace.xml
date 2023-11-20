@@ -46,7 +46,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.DOMParserTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -62,8 +62,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DOMParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="example" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example" />
+      <option name="MAIN_CLASS_NAME" value="com.example.DOMParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.DOMParserTest" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DOMParserTest" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -80,7 +100,7 @@
       <workItem from="1669824355478" duration="862000" />
       <workItem from="1669825625850" duration="502000" />
       <workItem from="1669826564074" duration="18000" />
-      <workItem from="1700500161474" duration="11462000" />
+      <workItem from="1700500161474" duration="11840000" />
     </task>
     <servers />
   </component>
