@@ -17,7 +17,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 3
@@ -80,7 +80,7 @@
       <workItem from="1669824355478" duration="862000" />
       <workItem from="1669825625850" duration="502000" />
       <workItem from="1669826564074" duration="18000" />
-      <workItem from="1700500161474" duration="10071000" />
+      <workItem from="1700500161474" duration="11462000" />
     </task>
     <servers />
   </component>
