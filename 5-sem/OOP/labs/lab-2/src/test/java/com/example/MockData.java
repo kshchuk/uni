@@ -5,6 +5,6 @@ import com.example.model.Device;
 
 public class MockData {
     static Device device = new Device(
-    1, "Device", "Korea", 100, new Type(true, 200, false, "multimedia", "USB"), true
+    0, "Device 1", "USA", 1000, new Type(true, 500, true, "io_devices", "USB"), false
     );
 }

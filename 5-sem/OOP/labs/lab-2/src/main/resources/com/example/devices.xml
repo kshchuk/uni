@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<devices>
+    <device id='1'>
+        <name>Device 1</name>
+        <origin>USA</origin>
+        <price>1000</price>
+        <type>
+            <peripheral>true</peripheral>
+            <energy_consumption>500</energy_consumption>
+            <cooler>true</cooler>
+            <component_group>io_devices</component_group>
+            <port>USB</port>
+        </type>
+        <critical>false</critical>
+    </device>
+    <device id='2'>
+        <name>Device 2</name>
+        <origin>Germany</origin>
+        <price>2000</price>
+        <type>
+            <peripheral>false</peripheral>
+            <energy_consumption>300</energy_consumption>
+            <cooler>false</cooler>
+            <component_group>multimedia</component_group>
+            <port>HDMI</port>
+        </type>
+        <critical>true</critical>
+    </device>
+    <device id='3'>
+        <name>Device 3</name>
+        <origin>China</origin>
+        <price>1500</price>
+        <type>
+            <peripheral>true</peripheral>
+            <energy_consumption>400</energy_consumption>
+            <cooler>true</cooler>
+            <component_group>io_devices</component_group>
+            <port>USB Type-C</port>
+        </type>
+        <critical>false</critical>
+    </device>
+</devices>

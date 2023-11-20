@@ -14,6 +14,6 @@ public class Strings {
     public static final String COOLER = "cooler";
     public static final String COMPONENT_GROUP = "component_group";
     public static final String PORT = "port";
-    public static final String DEVICES_PATH = "src/main/resources/devices.xml";
-    public static final String DEVICES_XSD_PATH = "src/main/resources/devices.xsd";
+    public static final String DEVICES_PATH = "src/main/resources/com/example/devices.xml";
+    public static final String DEVICES_XSD_PATH = "src/main/resources/com/example/devices.xsd";
 }

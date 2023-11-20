@@ -29,6 +29,7 @@
                             </xs:element>
                             <xs:element name="critical" type="xs:boolean" />
                         </xs:sequence>
+                        <xs:attribute name="id" type="xs:unsignedInt" use="required" />
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
