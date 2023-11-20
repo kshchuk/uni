@@ -36,6 +36,8 @@ public class Scheduling {
     String tmp;
     int cputime = 0;
     int ioblocking = 0;
+    double alpha = 0.0;
+    int standIoblockingDev = 0;
     double X = 0.0;
 
     try {   
@@ -57,6 +59,16 @@ public class Scheduling {
           st.nextToken();
           standardDev = Common.s2i(st.nextToken());
         }
+        if (line.startsWith("standIoblockingDev")) {
+          StringTokenizer st = new StringTokenizer(line);
+          st.nextToken();
+          standIoblockingDev = Common.s2i(st.nextToken());
+        }
+        if (line.startsWith("alpha")) {
+          StringTokenizer st = new StringTokenizer(line);
+          st.nextToken();
+          alpha = Common.s2i(st.nextToken());
+        }
         if (line.startsWith("process")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
@@ -67,7 +79,8 @@ public class Scheduling {
           }
           X = X * standardDev;
           cputime = (int) X + meanDev;
-          processVector.addElement(new sProcess(cputime, ioblocking, 0, 0, 0));
+          var process = new sProcess(cputime,ioblocking,0,0,0);
+          processVector.addElement(process);
         }
         if (line.startsWith("runtime")) {
           StringTokenizer st = new StringTokenizer(line);
@@ -75,6 +88,13 @@ public class Scheduling {
           runtime = Common.s2i(st.nextToken());
         }
       }
+
+      for (int i = 0; i < processVector.size(); i++) {
+        sProcess process = (sProcess) processVector.elementAt(i);
+        process.setAlpha((int) alpha);
+        process.setStandIoblockingDev(standIoblockingDev);
+      }
+
       in.close();
     } catch (IOException e) { /* Handle exceptions */ }
   }
