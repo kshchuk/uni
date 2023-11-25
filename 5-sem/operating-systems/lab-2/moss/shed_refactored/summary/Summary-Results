@@ -4,7 +4,7 @@ Simulation Run Time: 10000
 Mean: 3000
 Standard Deviation: 510
 Process #	CPU Time	IO Blocking	CPU Completed	CPU Blocked
-0		3245 (ms)	-32 (ms)		10000 (ms)	3 times
-1		3245 (ms)	923 (ms)	0 (ms)		0 times
-2		2270 (ms)	353 (ms)	0 (ms)		0 times
-3		2270 (ms)	353 (ms)	0 (ms)		0 times
+0		    2977 (ms)	1102 (ms)	10000 (ms)	15 times
+1   		2977 (ms)	923 (ms)	0 (ms)		0 times
+2	    	2977 (ms)	353 (ms)	0 (ms)		0 times
+3	    	2977 (ms)	353 (ms)	0 (ms)		0 times
