@@ -11,7 +11,7 @@ public class sProcess {
   public int standIoblockingDev;
 
   // aging variables
-  public int alpha;
+  public double alpha;
   public int estimatedExecutionTime;
 
   public sProcess(int cputime, int ioblocking, int cpudone, int ionext, int numblocked) {
@@ -22,7 +22,7 @@ public class sProcess {
     this.numblocked = numblocked;
   }
 
-  public void setAlpha(int alpha) {
+  public void setAlpha(double alpha) {
     this.alpha = alpha;
   }
 
@@ -31,7 +31,7 @@ public class sProcess {
   }
 
   public void calculateEstimateExecutionTime() {
-    estimatedExecutionTime = alpha * ioblocking + (1 - alpha) * estimatedExecutionTime;
+    estimatedExecutionTime = (int) (alpha * ioblocking + (1 - alpha) * estimatedExecutionTime);
   }
 
   public void calculateIoBlocking() {

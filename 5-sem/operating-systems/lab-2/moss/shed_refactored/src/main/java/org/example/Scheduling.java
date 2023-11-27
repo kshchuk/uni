@@ -38,6 +38,7 @@ public class Scheduling {
     int ioblocking = 0;
     double alpha = 0.0;
     int standIoblockingDev = 0;
+    int baseEstimatedExecutionTime = 0;
     double X = 0.0;
 
     try {   
@@ -64,10 +65,15 @@ public class Scheduling {
           st.nextToken();
           standIoblockingDev = Common.s2i(st.nextToken());
         }
+        if (line.startsWith("baseEstimatedExecutionTime")) {
+          StringTokenizer st = new StringTokenizer(line);
+          st.nextToken();
+          baseEstimatedExecutionTime = Common.s2i(st.nextToken());
+        }
         if (line.startsWith("alpha")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          alpha = Common.s2i(st.nextToken());
+          alpha = Common.s2d(st.nextToken());
         }
         if (line.startsWith("process")) {
           StringTokenizer st = new StringTokenizer(line);
@@ -91,8 +97,9 @@ public class Scheduling {
 
       for (int i = 0; i < processVector.size(); i++) {
         sProcess process = (sProcess) processVector.elementAt(i);
-        process.setAlpha((int) alpha);
+        process.setAlpha(alpha);
         process.setStandIoblockingDev(standIoblockingDev);
+        process.estimatedExecutionTime = baseEstimatedExecutionTime;
       }
 
       in.close();
