@@ -8,7 +8,7 @@ package org.example;
 // is where the process scheduling summary is written.
 
 // Created by Alexander Reeder, 2001 January 06
-// Refactored by Yaroslav Kishchuk, 2023 November 19
+// Modified by Yaroslav Kishchuk, 2023 November 19
 
 
 import org.example.process.Results;
@@ -163,7 +163,7 @@ public class Scheduling {
       out.println("Process #\tCPU Time\tIO Blocking\tCPU Completed\tCPU Blocked");
       for (i = 0; i < processVector.size(); i++) {
         sProcess process = (sProcess) processVector.elementAt(i);
-        out.print(Integer.toString(i));
+        out.print(Integer.toString(i) + "    ");
         if (i < 100) { out.print("\t\t"); } else { out.print("\t"); }
         out.print(Integer.toString(process.cputime));
         if (process.cputime < 100) { out.print(" (ms)\t\t"); } else { out.print(" (ms)\t"); }

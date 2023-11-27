@@ -21,6 +21,7 @@ public class ShortestProcessNext implements Algorithm {
         result.schedulingName = "Shortest Process Next";
         try {
             PrintStream out = new PrintStream(new FileOutputStream(resultsFile));
+            out.println("Current process              CPU time   IO blocking   CPU done   Estimated execution time");
             sProcess process = getShortestProcess(processVector);
 
             if (process == null) {
@@ -30,11 +31,11 @@ public class ShortestProcessNext implements Algorithm {
             }
 
             currentProcess = processVector.indexOf(process);
-            out.println("Process: " + currentProcess + " registered... (" + process.cputime + " " + process.ioblocking + " " + process.cpudone + " " + process.estimatedExecutionTime + ")");
+            printProcessRegistered(out, process, currentProcess);
             while (comptime < runtime) {
                 if (process.cpudone == process.cputime) {
                     completed++;
-                    out.println("Process: " + currentProcess + " completed... (" + process.cputime + " " + process.ioblocking + " " + process.cpudone + " " + process.estimatedExecutionTime + ")");
+                    printProcessCompleted(out, process, currentProcess);
                     if (completed == size) {
                         result.compuTime = comptime;
                         out.close();
@@ -43,29 +44,37 @@ public class ShortestProcessNext implements Algorithm {
                     process = getShortestProcess(processVector);
 
                     if (process == null) {
-                        comptime++;
-                        this.iterateTimeToUnblock(processVector);
+                        while (process == null && comptime < runtime) {
+                            comptime++;
+                            this.idleTime(processVector);
+                            process = getShortestProcess(processVector);
+                        }
+                        continue;
                     }
 
                     currentProcess = processVector.indexOf(process);
-                    out.println("Process: " + currentProcess + " registered... (" + process.cputime + " " + process.ioblocking + " " + process.cpudone + " " + process.estimatedExecutionTime + ")");
+                    printProcessRegistered(out, process, currentProcess);
                 }
 
                 if (process.ioblocking == process.ionext) {
                     process.block();
-                    out.println("Process: " + currentProcess + " I/O blocked... (" + process.cputime + " " + process.ioblocking + " " + process.cpudone + " " + process.estimatedExecutionTime + ")");
                     process.calculateEstimateExecutionTime();
+                    printProcessBlocked(out, process, currentProcess);
                     process.calculateIoBlocking();
 
                     process = getShortestProcess(processVector);
 
                     if (process == null) {
-                        comptime++;
-                        this.iterateTimeToUnblock(processVector);
+                        while (process == null && comptime < runtime) {
+                            comptime++;
+                            this.idleTime(processVector);
+                            process = getShortestProcess(processVector);
+                        }
+                        continue;
                     }
 
                     currentProcess = processVector.indexOf(process);
-                    out.println("Process: " + currentProcess + " registered... (" + process.cputime + " " + process.ioblocking + " " + process.cpudone + " " + process.estimatedExecutionTime + ")");
+                    printProcessRegistered(out, process, currentProcess);
                 }
 
                 process.cpudone++;
@@ -73,7 +82,7 @@ public class ShortestProcessNext implements Algorithm {
                     process.ionext++;
                 }
                 comptime++;
-                this.iterateTimeToUnblock(processVector);
+                this.idleTime(processVector);
             }
             out.close();
         } catch (IOException e) { /* Handle exceptions */ }
@@ -82,18 +91,23 @@ public class ShortestProcessNext implements Algorithm {
     }
 
     private sProcess getShortestProcess(Vector processVector) {
-        if (processVector.isEmpty()) {
-            return null;
-        }
 
-        sProcess shortestProcess = (sProcess) processVector.elementAt(0);
-        for (int i = 1; i < processVector.size(); i++) {
-            sProcess process = (sProcess) processVector.elementAt(i);
-            if (process.cpudone < process.cputime &&
-                    process.estimatedExecutionTime < shortestProcess.estimatedExecutionTime && !process.isBlocked) {
-                shortestProcess = process;
+        sProcess shortestProcess;
+        do {
+            shortestProcess = null;
+            for (int i = 0; i < processVector.size(); i++) {
+                sProcess process = (sProcess) processVector.elementAt(i);
+                if (process.isBlocked || process.cpudone == process.cputime) {
+                    continue;
+                }
+                if (shortestProcess == null || process.cputime < shortestProcess.cputime) {
+                    shortestProcess = process;
+                }
             }
-        }
+            if (shortestProcess == null) {
+                return null;
+            }
+        } while (shortestProcess.isBlocked);
 
         if (processVector.indexOf(shortestProcess) == 0 && shortestProcess.isBlocked) {
             var newVector = new Vector(processVector);
@@ -108,12 +122,24 @@ public class ShortestProcessNext implements Algorithm {
         return shortestProcess;
     }
 
-    private void iterateTimeToUnblock(Vector processVector) {
+    private void idleTime(Vector processVector) {
         for (int i = 0; i < processVector.size(); i++) {
             sProcess process = (sProcess) processVector.elementAt(i);
             if (process.isBlocked) {
                 process.tryUnblock();
             }
         }
+    }
+
+    private void printProcessRegistered(PrintStream out, sProcess process, int currentProcess) {
+        out.println("Process: " + currentProcess + "  registered... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
+    }
+
+    private void printProcessBlocked(PrintStream out, sProcess process, int currentProcess) {
+        out.println("Process: " + currentProcess + " I/O blocked... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
+    }
+
+    private void printProcessCompleted(PrintStream out, sProcess process, int currentProcess) {
+        out.println("Process: " + currentProcess + "   completed... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
     }
 }
