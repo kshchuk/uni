@@ -49,9 +49,9 @@ public class sProcess {
   }
 
   public void calculateIoBlocking() {
-    double X = Common.R1();
+    double X = Common.RandomDouble();
     while (X == -1.0) {
-      X = Common.R1();
+      X = Common.RandomDouble();
     }
     X = X * standIoblockingDev;
     this.ioblocking = (int) X + ioblocking;

@@ -48,40 +48,40 @@ public class Scheduling {
         if (line.startsWith("numprocess")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          processnum = Common.s2i(st.nextToken());
+          processnum = Common.parseInt(st.nextToken());
         }
         if (line.startsWith("meandev")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          meanDev = Common.s2i(st.nextToken());
+          meanDev = Common.parseInt(st.nextToken());
         }
         if (line.startsWith("standdev")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          standardDev = Common.s2i(st.nextToken());
+          standardDev = Common.parseInt(st.nextToken());
         }
         if (line.startsWith("standIoblockingDev")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          standIoblockingDev = Common.s2i(st.nextToken());
+          standIoblockingDev = Common.parseInt(st.nextToken());
         }
         if (line.startsWith("baseEstimatedExecutionTime")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          baseEstimatedExecutionTime = Common.s2i(st.nextToken());
+          baseEstimatedExecutionTime = Common.parseInt(st.nextToken());
         }
         if (line.startsWith("alpha")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          alpha = Common.s2d(st.nextToken());
+          alpha = Common.parseDouble(st.nextToken());
         }
         if (line.startsWith("process")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          ioblocking = Common.s2i(st.nextToken());
-          X = Common.R1();
+          ioblocking = Common.parseInt(st.nextToken());
+          X = Common.RandomDouble();
           while (X == -1.0) {
-            X = Common.R1();
+            X = Common.RandomDouble();
           }
           X = X * standardDev;
           cputime = (int) X + meanDev;
@@ -91,7 +91,7 @@ public class Scheduling {
         if (line.startsWith("runtime")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          runtime = Common.s2i(st.nextToken());
+          runtime = Common.parseInt(st.nextToken());
         }
       }
 
@@ -141,9 +141,9 @@ public class Scheduling {
     if (processVector.size() < processnum) {
       i = 0;
       while (processVector.size() < processnum) {
-          double X = Common.R1();
+          double X = Common.RandomDouble();
           while (X == -1.0) {
-            X = Common.R1();
+            X = Common.RandomDouble();
           }
           X = X * standardDev;
         int cputime = (int) X + meanDev;
