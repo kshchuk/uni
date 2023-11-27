@@ -9,10 +9,12 @@ public class sProcess {
   public int ionext;
   public int numblocked;
   public int standIoblockingDev;
+  public boolean isBlocked = false;
+  public int timeToUnblock = 0;
 
   // aging variables
   public double alpha;
-  public int estimatedExecutionTime;
+  public double estimatedExecutionTime;
 
   public sProcess(int cputime, int ioblocking, int cpudone, int ionext, int numblocked) {
     this.cputime = cputime;
@@ -31,7 +33,19 @@ public class sProcess {
   }
 
   public void calculateEstimateExecutionTime() {
-    estimatedExecutionTime = (int) (alpha * ioblocking + (1 - alpha) * estimatedExecutionTime);
+    if (estimatedExecutionTime == 0) {
+      estimatedExecutionTime = ioblocking;
+    }
+    else {
+      estimatedExecutionTime = alpha * ioblocking + (1 - alpha) * estimatedExecutionTime;
+    }
+  }
+
+  public void tryUnblock() {
+    timeToUnblock--;
+    if (timeToUnblock == 0) {
+      isBlocked = false;
+    }
   }
 
   public void calculateIoBlocking() {
@@ -41,5 +55,12 @@ public class sProcess {
     }
     X = X * standIoblockingDev;
     this.ioblocking = (int) X + ioblocking;
+  }
+
+  public void block() {
+    isBlocked = true;
+    timeToUnblock = ioblocking;
+    numblocked++;
+    ionext = 0;
   }
 }

@@ -4,7 +4,7 @@ Simulation Run Time: 30
 Mean: 10
 Standard Deviation: 2
 Process #	CPU Time	IO Blocking	CPU Completed	CPU Blocked
-0		10 (ms)		3 (ms)		30 (ms)		10 times
-1		10 (ms)		5 (ms)		0 (ms)		0 times
-2		10 (ms)		3 (ms)		0 (ms)		0 times
-3		10 (ms)		2 (ms)		0 (ms)		0 times
+0		    9 (ms)		5 (ms)		8 (ms)		2 times
+1		    13 (ms)		3 (ms)		5 (ms)		1 times
+2		    13 (ms)		7 (ms)		11 (ms)		1 times
+3		    13 (ms)		5 (ms)		6 (ms)		2 times
