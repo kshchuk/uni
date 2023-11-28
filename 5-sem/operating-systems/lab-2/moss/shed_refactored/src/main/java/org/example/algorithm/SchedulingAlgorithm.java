@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class SchedulingAlgorithm {
 
-  public static Results Run(int runtime, Vector processVector, Results result) {
+  public static Results run(int runtime, Vector processVector, Results result) {
     // Algorithm alg = new FirstComeFirstServed();
     Algorithm alg = new ShortestProcessNext();
     return alg.run(runtime, processVector, result);
