@@ -23,8 +23,8 @@ import java.util.Vector;
 public class Scheduling {
 
   private static int processnum = 5;
-  private static int meanDev = 1000;
-  private static int standardDev = 100;
+  private static int runTimeAverage = 1000;
+  private static int runTimeStddev = 100;
   private static int runtime = 1000;
   private static final Vector<Process> processVector = new Vector<>();
   private static Results result = new Results("null","null",0);
@@ -48,22 +48,22 @@ public class Scheduling {
           st.nextToken();
           processnum = Common.parseInt(st.nextToken());
         }
-        if (line.startsWith("meandev")) {
+        if (line.startsWith("run_time_average")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          meanDev = Common.parseInt(st.nextToken());
+          runTimeAverage = Common.parseInt(st.nextToken());
         }
-        if (line.startsWith("standdev")) {
+        if (line.startsWith("run_time_stddev")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
-          standardDev = Common.parseInt(st.nextToken());
+          runTimeStddev = Common.parseInt(st.nextToken());
         }
-        if (line.startsWith("standIoblockingDev")) {
+        if (line.startsWith("stand_io_blocking_dev")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
           standIoblockingDev = Common.parseInt(st.nextToken());
         }
-        if (line.startsWith("baseEstimatedExecutionTime")) {
+        if (line.startsWith("base_estimated_execution_time")) {
           StringTokenizer st = new StringTokenizer(line);
           st.nextToken();
           baseEstimatedExecutionTime = Common.parseInt(st.nextToken());
@@ -81,8 +81,8 @@ public class Scheduling {
           while (X == -1.0) {
             X = Common.RandomDouble();
           }
-          X = X * standardDev;
-          cputime = (int) X + meanDev;
+          X = X * runTimeStddev;
+          cputime = (int) X + runTimeAverage;
           var process = new Process(cputime,ioblocking,0,0,0);
           processVector.addElement(process);
         }
@@ -132,8 +132,8 @@ public class Scheduling {
           while (X == -1.0) {
             X = Common.RandomDouble();
           }
-          X = X * standardDev;
-        int cputime = (int) X + meanDev;
+          X = X * runTimeStddev;
+        int cputime = (int) X + runTimeAverage;
         processVector.addElement(new Process(cputime,i*100,0,0,0));
         i++;
       }
@@ -146,8 +146,8 @@ public class Scheduling {
       out.println("Scheduling Type: " + result.schedulingType);
       out.println("Scheduling Name: " + result.schedulingName);
       out.println("Simulation Run Time: " + result.compuTime);
-      out.println("Mean: " + meanDev);
-      out.println("Standard Deviation: " + standardDev);
+      out.println("Mean: " + runTimeAverage);
+      out.println("Standard Deviation: " + runTimeStddev);
       out.println("Process #\tCPU Time\tIO Blocking\tCPU Completed\tCPU Blocked");
       for (i = 0; i < processVector.size(); i++) {
         Process process = processVector.elementAt(i);
