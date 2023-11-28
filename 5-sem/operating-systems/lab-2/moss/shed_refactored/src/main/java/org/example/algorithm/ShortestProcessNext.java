@@ -1,7 +1,7 @@
 package org.example.algorithm;
 
 import org.example.process.Results;
-import org.example.process.sProcess;
+import org.example.process.Process;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class ShortestProcessNext implements Algorithm {
     @Override
     public Results run(int runtime, Vector processVector, Results result){
         int comptime = 0;
-        int currentProcess = 0;
+        int currentProcess;
         int size = processVector.size();
         int completed = 0;
         String resultsFile = "summary/Summary-Processes";
@@ -22,7 +22,7 @@ public class ShortestProcessNext implements Algorithm {
         try {
             PrintStream out = new PrintStream(new FileOutputStream(resultsFile));
             out.println("Current process              CPU time   IO blocking   CPU done   Estimated execution time");
-            sProcess process = getShortestProcess(processVector);
+            Process process = getShortestProcess(processVector);
 
             if (process == null) {
                 result.compuTime = comptime;
@@ -85,18 +85,21 @@ public class ShortestProcessNext implements Algorithm {
                 this.idleTime(processVector);
             }
             out.close();
-        } catch (IOException e) { /* Handle exceptions */ }
+        } catch (IOException e) {
+            System.out.println("Scheduling: error, read of " + resultsFile + " failed.");
+            System.exit(-1);
+        }
         result.compuTime = comptime;
         return result;
     }
 
-    private sProcess getShortestProcess(Vector processVector) {
+    private Process getShortestProcess(Vector<Process> processVector) {
 
-        sProcess shortestProcess;
+        Process shortestProcess;
         do {
             shortestProcess = null;
             for (int i = 0; i < processVector.size(); i++) {
-                sProcess process = (sProcess) processVector.elementAt(i);
+                Process process = processVector.elementAt(i);
                 if (process.isBlocked || process.cpudone == process.cputime) {
                     continue;
                 }
@@ -110,7 +113,7 @@ public class ShortestProcessNext implements Algorithm {
         } while (shortestProcess.isBlocked);
 
         if (processVector.indexOf(shortestProcess) == 0 && shortestProcess.isBlocked) {
-            var newVector = new Vector(processVector);
+            var newVector = new Vector<>(processVector);
             newVector.removeElementAt(0);
             return this.getShortestProcess(newVector);
         }
@@ -122,24 +125,24 @@ public class ShortestProcessNext implements Algorithm {
         return shortestProcess;
     }
 
-    private void idleTime(Vector processVector) {
+    private void idleTime(Vector<Process> processVector) {
         for (int i = 0; i < processVector.size(); i++) {
-            sProcess process = (sProcess) processVector.elementAt(i);
+            Process process = processVector.elementAt(i);
             if (process.isBlocked) {
                 process.tryUnblock();
             }
         }
     }
 
-    private void printProcessRegistered(PrintStream out, sProcess process, int currentProcess) {
+    private void printProcessRegistered(PrintStream out, Process process, int currentProcess) {
         out.println("Process: " + currentProcess + "  registered... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
     }
 
-    private void printProcessBlocked(PrintStream out, sProcess process, int currentProcess) {
+    private void printProcessBlocked(PrintStream out, Process process, int currentProcess) {
         out.println("Process: " + currentProcess + " I/O blocked... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
     }
 
-    private void printProcessCompleted(PrintStream out, sProcess process, int currentProcess) {
+    private void printProcessCompleted(PrintStream out, Process process, int currentProcess) {
         out.println("Process: " + currentProcess + "   completed... (          " + process.cputime + "          " + process.ioblocking + "           " + process.cpudone + "         " + process.estimatedExecutionTime + ")");
     }
 }
