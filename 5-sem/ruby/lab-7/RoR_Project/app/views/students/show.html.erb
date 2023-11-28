@@ -1,0 +1,33 @@
+<html>
+<div class="student-info">
+  <dl>
+    <dt>Name:</dt>
+    <dd><%= @student.name %></dd>
+
+    <dt>Age:</dt>
+    <dd><%= @student.age %></dd>
+
+    <dt>Dorm:</dt>
+    <dd><%= @student.dorm ? 'Yes' : 'No' %></dd>
+
+    <dt>Language:</dt>
+    <dd><%= @student.language %></dd>
+
+    <dt>Teacher:</dt>
+    <dd><%= @student.teacher ? 'Yes' : 'No' %></dd>
+
+    <dt>University:</dt>
+    <dd><%= @student.university %></dd>
+  </dl>
+  <div class="student-actions">
+    <%= link_to 'Edit', edit_student_path(@student), class: 'btn btn-edit' %>
+    <%= link_to 'Delete', student_path(@student), method: :delete, class: 'btn btn-delete' %>
+    <%= link_to 'Back', students_path, class: 'btn btn-back' %>
+  </div>
+</div>
+<!--
+  EDIT button
+  DELETE button
+  BACK to Index button
+-->
+</html>

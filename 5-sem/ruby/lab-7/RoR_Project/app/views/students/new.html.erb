@@ -1,0 +1,42 @@
+<html>
+  <div class="create">
+    <div class="container">
+      <h2>New student</h2>
+      <%= form_for @student do |form| %>
+        <div class="field">
+          <%= form.label :name %>
+          <%= form.text_field :name %>
+        </div>
+
+        <div class="field">
+          <%= form.label :age %>
+          <%= form.number_field :age %>
+        </div>
+        <div class="checkbox-group">
+          <div class="field">
+            <%= form.label :dorm %>
+            <%= form.check_box :dorm %>
+          </div>
+
+          <div class="field">
+            <%= form.label :teacher %>
+            <%= form.check_box :teacher %>
+          </div>
+        </div>
+        <div class="field">
+          <%= form.label :language %>
+          <%= form.text_field :language %>
+        </div>
+        <div class="field">
+          <%= form.label :university %>
+          <%= form.text_field :university %>
+        </div>
+        <div class="actions">
+          <%= form.submit "Create", class: 'btn-smpl btn-cr2' %>
+          <%= link_to 'Back', students_path, class: 'btn btn-back' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+</html>

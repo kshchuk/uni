@@ -1,0 +1,58 @@
+<html>
+<div class="create">
+  <div class="container">
+    <h2>Edit student</h2>
+
+    <%= form_for @student do |form| %>
+      <% if @student.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+          <ul>
+            <% @student.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div class="field">
+        <%= form.label :age %>
+        <%= form.number_field :age %>
+      </div>
+
+      <div class="checkbox-group">
+        <div class="field">
+          <%= form.label :dorm %>
+          <%= form.check_box :dorm %>
+        </div>
+
+        <div class="field">
+          <%= form.label :teacher %>
+          <%= form.check_box :teacher %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= form.label :language %>
+        <%= form.text_field :language %>
+      </div>
+
+      <div class="field">
+        <%= form.label :university %>
+        <%= form.text_field :university %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit 'Update Student', class: 'btn-smpl btn-cr2' %>
+        <%= link_to 'Back', student_path(@student), class: 'btn btn-back' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+</html>

@@ -1,0 +1,11 @@
+<html>
+<ul class="student-list">
+  <% @students.each do |s| %>
+    <li class="lib">
+      <span class="student-name"><%= s.name %></span>
+      <%= link_to 'Show', s, class: 'btn btn-show' %>
+    </li>
+  <% end %>
+</ul>
+<%= link_to 'Create New Student', new_student_path, class: 'btn btn-create' %>
+</html>
