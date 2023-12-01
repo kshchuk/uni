@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bbf0779-7975-454d-a0c5-9f301ec12b7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../OOP/labs/lab-2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../OOP/labs/lab-2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../numerical-analysis/lab-4/lab-4-interpolation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../numerical-analysis/lab-4/lab-4-interpolation.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2YcIZL5i1MoGqxtxHbrwE3qX5u1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,6 +27,7 @@
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "last_opened_file_path": "D:/uni/5-sem/operating-systems/lab-2/moss/shed_refactored",
     "vue.rearranger.settings.migration": "true"
@@ -38,6 +42,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700818495029</updated>
       <workItem from="1700818496021" duration="8000" />
+      <workItem from="1701426913815" duration="11000" />
     </task>
     <servers />
   </component>

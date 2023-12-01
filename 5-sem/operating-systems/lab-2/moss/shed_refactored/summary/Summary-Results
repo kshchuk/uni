@@ -1,10 +1,10 @@
 Scheduling Type: Interactive (Nonpreemptive)
 Scheduling Name: Shortest Process Next
-Simulation Run Time: 47
+Simulation Run Time: 36
 Mean: 10
 Standard Deviation: 4
 Process #	CPU Time	IO Blocking	CPU Completed	CPU Blocked
-0		10 (ms)		3 (ms)		10 (ms)		3 times
+0		6 (ms)		3 (ms)		6 (ms)		1 times
 1		10 (ms)		5 (ms)		10 (ms)		1 times
 2		10 (ms)		4 (ms)		10 (ms)		2 times
 3		10 (ms)		3 (ms)		10 (ms)		3 times

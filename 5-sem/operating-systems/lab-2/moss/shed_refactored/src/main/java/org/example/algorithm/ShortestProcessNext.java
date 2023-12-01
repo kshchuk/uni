@@ -103,7 +103,7 @@ public class ShortestProcessNext implements Algorithm {
                 if (process.isBlocked || process.cpudone == process.cputime) {
                     continue;
                 }
-                if (shortestProcess == null || process.cputime < shortestProcess.cputime) {
+                if (shortestProcess == null || process.estimatedExecutionTime < shortestProcess.estimatedExecutionTime) {
                     shortestProcess = process;
                 }
             }
