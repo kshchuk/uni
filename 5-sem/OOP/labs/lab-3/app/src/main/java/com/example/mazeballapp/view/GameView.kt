@@ -17,7 +17,7 @@ class GameView(context: Context) : View(context) {
 
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)!!
         gameMaze = GameMaze()
         gameSensorListener = GameSensorListener(this, gameMaze)
     }

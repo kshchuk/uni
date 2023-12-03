@@ -25,7 +25,7 @@ class GameMaze {
         T, R, B, L
     }
 
-    fun GameMaze() {
+    init {
         initMaze()
         SCORE = 0
         wall = Paint()
