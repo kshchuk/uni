@@ -1,4 +1,4 @@
-package com.example.mazeballapp.maze
+package com.example.mazeballapp.model
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,7 +8,7 @@ import java.util.Random
 import java.util.Stack
 
 
-class Maze {
+class GameMaze {
     private val COLS = 10
     private val ROWS = 10
     private var CELL_SIZE = 0
@@ -166,7 +166,7 @@ class Maze {
         }
     }
 
-    inner class Cell(x: Int, y: Int) {
+    inner class Cell(x: Int, y: Int)  {
         val point: Point
         var tWall = true
         var rWall = true
