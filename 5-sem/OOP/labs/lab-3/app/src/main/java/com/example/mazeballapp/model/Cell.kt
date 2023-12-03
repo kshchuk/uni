@@ -9,6 +9,7 @@ class Cell(x: Int, y: Int)  {
     var bWall = true
     var lWall = true
     var checked = false
+    var isMazePart = false
 
     init {
         point = Point(x, y)

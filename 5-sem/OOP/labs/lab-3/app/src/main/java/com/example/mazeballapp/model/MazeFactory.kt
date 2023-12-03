@@ -20,7 +20,10 @@ class MazeFactory(
                     maze[y][x] = Cell(x, y)
                 }
             }
-            currCell = maze[0][0]
+
+            // start from random cell
+            val random = Random()
+            currCell = maze[random.nextInt(COLS)][random.nextInt(ROWS)]
             currCell!!.checked = true
             do {
                 nextCell = getNeighbour(maze, currCell)
@@ -37,7 +40,53 @@ class MazeFactory(
             return maze
         }
 
-        private fun getNeighbour(maze: Array<Array<Cell?>>, cell: Cell?): Cell? {
+        fun createMazeByPrimAlgorithm(): Array<Array<Cell?>> {
+            var maze = Array(COLS) { arrayOfNulls<Cell?>(ROWS) }
+            val random = Random()
+            var currCell: Cell?
+            var nextCell: Cell?
+            for (y in 0 until COLS) {
+                for (x in 0 until ROWS) {
+                    maze[y][x] = Cell(x, y)
+                }
+            }
+
+            currCell = maze[random.nextInt(COLS)][random.nextInt(ROWS)]
+            currCell!!.checked = true
+            do {
+                nextCell = getNeighbour(maze, currCell)
+                if (nextCell != null) {
+                    clearWall(currCell, nextCell)
+                    currCell!!.isMazePart = true
+                    nextCell.isMazePart = true
+                    currCell = nextCell
+                    currCell.checked = true
+                } else {
+                    val mazeList = ArrayList<Cell?>()
+                    for (y in 0 until COLS) {
+                        for (x in 0 until ROWS) {
+                            if (maze[y][x]!!.isMazePart) {
+                                mazeList.add(maze[y][x])
+                            }
+                        }
+                    }
+                    currCell = mazeList[random.nextInt(mazeList.size)]
+                }
+            } while (!isAllChecked(maze))
+
+            return maze
+        }
+
+    private fun isAllChecked(maze: Array<Array<Cell?>>): Boolean {
+        for (y in 0 until COLS) {
+            for (x in 0 until ROWS) {
+                if (!maze[y][x]!!.checked) return false
+            }
+        }
+        return true
+    }
+
+    private fun getNeighbour(maze: Array<Array<Cell?>>, cell: Cell?): Cell? {
             val random = Random()
             val neighbours = ArrayList<Cell?>()
             if (cell!!.point.y > 0) {

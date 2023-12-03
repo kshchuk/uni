@@ -48,9 +48,21 @@ class GameMaze {
 
     private fun initMaze() {
         val mazeFactory = MazeFactory(COLS, ROWS)
-        maze = mazeFactory.createMazeByDepthFirstAlgorithm()
-        ballPoint = Point(0, 0)
-        endPoint = Point(COLS - 1, ROWS - 1)
+
+        val random = Random()
+        var isConnected = false
+        while (!isConnected) {
+            maze = mazeFactory.createMazeByDepthFirstAlgorithm()
+
+            // Set ball and end points in random connected positions
+            ballPoint = Point(random.nextInt(COLS), random.nextInt(ROWS))
+            endPoint = Point(random.nextInt(COLS), random.nextInt(ROWS))
+
+            isConnected = isConnected(
+                ballPoint!!,
+                endPoint!!
+            )
+        }
     }
 
     fun draw(canvas: Canvas) {
@@ -104,5 +116,39 @@ class GameMaze {
         if (ballPoint!!.x == endPoint!!.x && ballPoint!!.y == endPoint!!.y) {
             reset()
         }
+    }
+
+    /**
+     * depth-first search (DFS), used to check whether two points in the maze are connected
+     * or reachable from each other.
+     */
+    fun isConnected(point_1: Point, point_2: Point): Boolean {
+        val stack = Stack<Point>()
+        val visited = Array(COLS) { BooleanArray(ROWS) }
+        stack.push(point_1)
+        visited[point_1.x][point_1.y] = true
+        while (!stack.isEmpty()) {
+            val point = stack.pop()
+            if (point.x == point_2.x && point.y == point_2.y) {
+                return true
+            }
+            if (point.x > 0 && !maze[point.x][point.y]!!.lWall && !visited[point.x - 1][point.y]) {
+                stack.push(Point(point.x - 1, point.y))
+                visited[point.x - 1][point.y] = true
+            }
+            if (point.x < COLS - 1 && !maze[point.x][point.y]!!.rWall && !visited[point.x + 1][point.y]) {
+                stack.push(Point(point.x + 1, point.y))
+                visited[point.x + 1][point.y] = true
+            }
+            if (point.y > 0 && !maze[point.x][point.y]!!.tWall && !visited[point.x][point.y - 1]) {
+                stack.push(Point(point.x, point.y - 1))
+                visited[point.x][point.y - 1] = true
+            }
+            if (point.y < ROWS - 1 && !maze[point.x][point.y]!!.bWall && !visited[point.x][point.y + 1]) {
+                stack.push(Point(point.x, point.y + 1))
+                visited[point.x][point.y + 1] = true
+            }
+        }
+        return false
     }
 }
