@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.entity;
 
 public interface IId<T> {
     T getId();

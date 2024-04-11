@@ -1,35 +1,35 @@
-package org.example.model;
+package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.Period;
+import java.time.Duration;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class Request implements IId<UUID> {
-    private UUID id;
+    private UUID requestId;
     private UUID tenantId;
     private String workType;
     private String scopeOfWork;
-    private Period desiredTime;
+    private Duration desiredTime;
 
     public Request() {
-        this.id = UUID.randomUUID();
+        this.requestId = UUID.randomUUID();
         this.tenantId = null;
         this.workType = "";
         this.scopeOfWork = "";
-        this.desiredTime = Period.ZERO;
+        this.desiredTime = Duration.ZERO;
     }
 
     @Override
     public UUID getId() {
-        return id;
+        return requestId;
     }
 
     @Override
     public void setId(UUID id) {
-        this.id = id;
+        this.requestId = id;
     }
 }

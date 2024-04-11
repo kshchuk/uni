@@ -1,30 +1,28 @@
-package org.example.model;
+package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.Duration;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class WorkPlan implements IId<UUID> {
-    private UUID id;
-    private UUID teamId;
+    private UUID workPlanId;
     private String description;
+    private Duration duration;
 
     public WorkPlan() {
-        this.id = UUID.randomUUID();
-        this.teamId = null;
+        this.workPlanId = UUID.randomUUID();
         this.description = "";
     }
 
-    @Override
     public UUID getId() {
-        return id;
+        return workPlanId;
     }
 
-    @Override
     public void setId(UUID id) {
-        this.id = id;
+        this.workPlanId = id;
     }
 }

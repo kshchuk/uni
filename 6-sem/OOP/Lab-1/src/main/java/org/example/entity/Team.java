@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,23 +8,21 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Team implements IId<UUID> {
-    private UUID id;
+    private UUID teamId;
     private UUID dispatcherId;
     private UUID workPlanId;
 
     public Team() {
-        this.id = UUID.randomUUID();
+        this.teamId = UUID.randomUUID();
         this.dispatcherId = null;
         this.workPlanId = null;
     }
 
-    @Override
     public UUID getId() {
-        return id;
+        return teamId;
     }
 
-    @Override
     public void setId(UUID id) {
-        this.id = id;
+        this.teamId = id;
     }
 }
