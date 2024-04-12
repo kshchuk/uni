@@ -2,6 +2,7 @@ package org.example.dao;
 
 import org.example.dao.db.DAOManager;
 import org.example.entity.Request;
+import org.example.entity.Tenant;
 import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
@@ -31,6 +32,8 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
+        var tenant = new Tenant();
+        request.setTenant(tenant);
         request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
@@ -60,6 +63,7 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
+        request.setTenant(new Tenant());
         request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
@@ -84,6 +88,8 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
+        var tenant = new Tenant();
+        request.setTenant(tenant);
         request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
@@ -110,6 +116,8 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
+        var tenant = new Tenant();
+        request.setTenant(tenant);
         request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
@@ -147,5 +155,4 @@ public class RequestDBDaoTest {
         var manager = DAOManager.getInstance();
         manager.close();
     }
-
 }

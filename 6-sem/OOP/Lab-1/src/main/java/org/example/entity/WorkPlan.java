@@ -12,10 +12,12 @@ public class WorkPlan implements IId<UUID> {
     private UUID workPlanId;
     private String description;
     private Duration duration;
+    private Team team;
 
     public WorkPlan() {
         this.workPlanId = UUID.randomUUID();
         this.description = "";
+        this.team = null;
     }
 
     public UUID getId() {

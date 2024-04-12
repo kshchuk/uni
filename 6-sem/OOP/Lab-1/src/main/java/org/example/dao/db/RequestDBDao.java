@@ -2,11 +2,12 @@ package org.example.dao.db;
 
 import org.example.dao.RequestDao;
 import org.example.entity.Request;
+import org.example.entity.Tenant;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,20 +52,7 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
                                                  "scope_of_work, desired_time FROM request WHERE request_id = ?;");
         statement.setObject(1, uuid);
 
-        var resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            var request = new Request();
-            request.setRequestId((UUID) resultSet.getObject(1));
-            request.getTenant().setTenantId((UUID) resultSet.getObject(2));
-            request.setWorkType(resultSet.getString(3));
-            request.setScopeOfWork(resultSet.getString(4));
-            var pgInterval = (org.postgresql.util.PGInterval) resultSet.getObject(5);
-            var duration = pgIntervaltoDuration(pgInterval);
-            request.setDesiredTime(duration);
-
-            return request;
-        }
-        return null;
+        return getRequest(statement);
     }
 
     @Override
@@ -93,20 +81,61 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
         var statement = con.prepareStatement("SELECT request_id, tenant_id, work_type, " +
                                                  "scope_of_work, desired_time FROM request;");
 
+        return getRequests(statement);
+    }
+
+    @Override
+    public List<Request> findByTenantId(UUID tenantId) throws SQLException {
+        var statement = con.prepareStatement("SELECT request_id, tenant_id, work_type, " +
+                                                 "scope_of_work, desired_time FROM request WHERE tenant_id = ?;");
+
+        statement.setObject(1, tenantId);
+        return getRequests(statement);
+    }
+
+    @Override
+    public List<Request> findByDispatcherId(UUID dispatcherId) throws SQLException {
+        var statement = con.prepareStatement("SELECT request_id, tenant_id, work_type, " +
+                                                 "scope_of_work, desired_time FROM request " +
+                                                 "INNER JOIN work_plan ON request.request_id = work_plan.request_id " +
+                                                 "WHERE work_plan.dispatcher_id = ?;");
+
+        statement.setObject(1, dispatcherId);
+        return getRequests(statement);
+    }
+
+    private Request getRequest(PreparedStatement statement) throws SQLException {
+        var resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return getRequest(resultSet);
+        }
+        return null;
+    }
+
+    private List<Request> getRequests(PreparedStatement statement) throws SQLException {
         var resultSet = statement.executeQuery();
         var requests = new java.util.ArrayList<Request>();
         while (resultSet.next()) {
-            var request = new Request();
-            request.setRequestId((UUID) resultSet.getObject(1));
-            request.getTenant().setTenantId((UUID) resultSet.getObject(2));
-            request.setWorkType(resultSet.getString(3));
-            request.setScopeOfWork(resultSet.getString(4));
-            var pgInterval = (org.postgresql.util.PGInterval) resultSet.getObject(5);
-            var duration = pgIntervaltoDuration(pgInterval);
-            request.setDesiredTime(duration);
+            var request = getRequest(resultSet);
 
             requests.add(request);
         }
+
         return requests;
+    }
+
+    private Request getRequest(ResultSet resultSet) throws SQLException {
+        var request = new Request();
+        request.setRequestId((UUID) resultSet.getObject(1));
+        var tenant = new Tenant();
+        tenant.setTenantId((UUID) resultSet.getObject(2));
+        request.setTenant(tenant);
+        request.setWorkType(resultSet.getString(3));
+        request.setScopeOfWork(resultSet.getString(4));
+        var pgInterval = (org.postgresql.util.PGInterval) resultSet.getObject(5);
+        var duration = pgIntervaltoDuration(pgInterval);
+        request.setDesiredTime(duration);
+
+        return request;
     }
 }

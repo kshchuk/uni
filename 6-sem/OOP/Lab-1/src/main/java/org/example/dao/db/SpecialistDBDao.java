@@ -4,6 +4,8 @@ import org.example.dao.SpecialistDao;
 import org.example.entity.Specialist;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,20 +52,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
                 "FROM specialist WHERE specialist_id = ?;");
         statement.setObject(1, uuid);
 
-        var resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            var specialist = new Specialist();
-            specialist.setSpecialistId((UUID) resultSet.getObject(1));
-            specialist.setName(resultSet.getString(2));
-            specialist.setSpecializtion(resultSet.getString(3));
-            var team = resultSet.getObject(4);
-            if (team != null) {
-                specialist.getTeam().setTeamId((UUID) team);
-            }
-
-            return specialist;
-        }
-        return null;
+        return getSpecialist(statement);
     }
 
     @Override
@@ -96,20 +85,47 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
         var statement = con.prepareStatement("SELECT specialist_id, name, specialization, team_id " +
                                                  "FROM specialist;");
 
+        return getSpecialists(statement);
+    }
+
+    @Override
+    public List<Specialist> findByTeamId(UUID teamId) throws SQLException {
+        var statement = con.prepareStatement("SELECT specialist_id, name, specialization, team_id " +
+                                                 "FROM specialist WHERE team_id = ?;");
+        statement.setObject(1, teamId);
+
+        return getSpecialists(statement);
+    }
+
+    private Specialist getSpecialist(PreparedStatement statement) throws SQLException {
+        var resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return getSpecialist(resultSet);
+        }
+        return null;
+    }
+
+    private List<Specialist> getSpecialists(PreparedStatement statement) throws SQLException {
         var resultSet = statement.executeQuery();
         var specialists = new ArrayList<Specialist>();
         while (resultSet.next()) {
-            var specialist = new Specialist();
-            specialist.setSpecialistId((UUID) resultSet.getObject(1));
-            specialist.setName(resultSet.getString(2));
-            specialist.setSpecializtion(resultSet.getString(3));
-            var team = resultSet.getObject(4);
-            if (team != null) {
-                specialist.getTeam().setTeamId((UUID) team);
-            }
+            var specialist = getSpecialist(resultSet);
 
             specialists.add(specialist);
         }
         return specialists;
+    }
+
+    private Specialist getSpecialist(ResultSet resultSet) throws SQLException {
+        var specialist = new Specialist();
+        specialist.setSpecialistId((UUID) resultSet.getObject(1));
+        specialist.setName(resultSet.getString(2));
+        specialist.setSpecializtion(resultSet.getString(3));
+        var team = resultSet.getObject(4);
+        if (team != null) {
+            specialist.getTeam().setTeamId((UUID) team);
+        }
+
+        return specialist;
     }
 }

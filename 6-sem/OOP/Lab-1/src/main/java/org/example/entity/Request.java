@@ -17,7 +17,7 @@ public class Request implements IId<UUID> {
 
     public Request() {
         this.requestId = UUID.randomUUID();
-        this.tenant = new Tenant();
+        this.tenant = null;
         this.workType = "";
         this.scopeOfWork = "";
         this.desiredTime = Duration.ZERO;

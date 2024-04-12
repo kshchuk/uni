@@ -4,6 +4,8 @@ import org.example.dao.TenantDao;
 import org.example.entity.Tenant;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +43,7 @@ class TenantDBDao extends DBDao<Tenant, UUID> implements TenantDao {
                                                  "WHERE tenant_id = ?;");
         statement.setObject(1, uuid);
 
-        var resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            var tenant = new Tenant();
-            tenant.setTenantId((UUID) resultSet.getObject(1));
-            tenant.setName(resultSet.getString(2));
-            tenant.setAddress(resultSet.getString(3));
-
-            return tenant;
-        }
-        return null;
+        return getTenant(statement);
     }
 
     @Override
@@ -75,17 +68,35 @@ class TenantDBDao extends DBDao<Tenant, UUID> implements TenantDao {
     public List<Tenant> findAll() throws Exception {
         var statement = con.prepareStatement("SELECT tenant_id, name, address FROM tenant;");
 
-        var resultSet = statement.executeQuery();
-        var tenants = new ArrayList<Tenant>();
-        while (resultSet.next()) {
-            var tenant = new Tenant();
-            tenant.setTenantId((UUID) resultSet.getObject(1));
-            tenant.setName(resultSet.getString(2));
-            tenant.setAddress(resultSet.getString(3));
+        return getTenants(statement);
+    }
 
-            tenants.add(tenant);
+    private Tenant getTenant(PreparedStatement statement) throws SQLException {
+        var resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return getTenant(resultSet);
+        }
+        return null;
+    }
+
+    private List<Tenant> getTenants(PreparedStatement statement) throws SQLException {
+        var resultSet = statement.executeQuery();
+        var entities = new ArrayList<Tenant>();
+        while (resultSet.next()) {
+            var tenant = getTenant(resultSet);
+
+            entities.add(tenant);
         }
 
-        return tenants;
+        return entities;
+    }
+
+    private Tenant getTenant(ResultSet resultSet) throws SQLException {
+        var tenant = new Tenant();
+        tenant.setTenantId((UUID) resultSet.getObject(1));
+        tenant.setName(resultSet.getString(2));
+        tenant.setAddress(resultSet.getString(3));
+
+        return tenant;
     }
 }

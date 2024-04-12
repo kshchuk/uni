@@ -10,12 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WorkPlanDBDaoTest {
     private WorkPlanDao workPlanDBDao;
+    private TeamDao teamDBDao;
     private int dataBaseSize;
 
     @BeforeEach
     public void setUp() throws Exception {
         var manager = DAOManager.getInstance();
         workPlanDBDao = (WorkPlanDao) manager.getDAO(DAOManager.Table.WORKPLAN);
+        teamDBDao = (TeamDao) manager.getDAO(DAOManager.Table.TEAM);
         dataBaseSize = workPlanDBDao.findAll().size();
     }
 
@@ -24,8 +26,10 @@ public class WorkPlanDBDaoTest {
         var workPlan = new WorkPlan();
         var description = getRandString(10);
         var duration = getRandDuration();
+        var team = teamDBDao.findAll().get((int) (Math.random() * teamDBDao.findAll().size()));
         workPlan.setDescription(description);
         workPlan.setDuration(duration);
+        workPlan.setTeam(team);
         workPlanDBDao.create(workPlan);
 
         var workPlans = workPlanDBDao.findAll();
@@ -35,6 +39,7 @@ public class WorkPlanDBDaoTest {
             if (gotWorkPlan.getWorkPlanId() == workPlan.getWorkPlanId()) {
                 assertEquals(description, gotWorkPlan.getDescription());
                 assertEquals(duration, gotWorkPlan.getDuration());
+                assertEquals(team.getTeamId(), gotWorkPlan.getTeam().getTeamId());
             }
         }
         dataBaseSize++;
@@ -45,13 +50,18 @@ public class WorkPlanDBDaoTest {
         var workPlan = new WorkPlan();
         var description = getRandString(10);
         var duration = getRandDuration();
+        var team = teamDBDao.findAll().get((int) (Math.random() * teamDBDao.findAll().size()));
         workPlan.setDescription(description);
         workPlan.setDuration(duration);
+        workPlan.setTeam(team);
+
         workPlanDBDao.create(workPlan);
+        dataBaseSize++;
 
         var gotWorkPlan = workPlanDBDao.read(workPlan.getWorkPlanId());
         assertEquals(description, gotWorkPlan.getDescription());
         assertEquals(duration, gotWorkPlan.getDuration());
+        assertEquals(team.getTeamId(), gotWorkPlan.getTeam().getTeamId());
     }
 
     @Test
@@ -59,8 +69,11 @@ public class WorkPlanDBDaoTest {
         var workPlan = new WorkPlan();
         var description = getRandString(10);
         var duration = getRandDuration();
+        var team = teamDBDao.findAll().get((int) (Math.random() * teamDBDao.findAll().size()));
         workPlan.setDescription(description);
         workPlan.setDuration(duration);
+        workPlan.setTeam(team);
+
         workPlanDBDao.create(workPlan);
 
         var workPlans = workPlanDBDao.findAll();
@@ -69,13 +82,16 @@ public class WorkPlanDBDaoTest {
             if (gotWorkPlan.getWorkPlanId() == workPlan.getWorkPlanId()) {
                 assertEquals(description, gotWorkPlan.getDescription());
                 assertEquals(duration, gotWorkPlan.getDuration());
+                assertEquals(team.getTeamId(), gotWorkPlan.getTeam().getTeamId());
             }
         }
 
         var updatedDescription = getRandString(10);
         var updatedDuration = getRandDuration();
+        var updatedTeam = teamDBDao.findAll().get((int) (Math.random() * teamDBDao.findAll().size()));
         workPlan.setDescription(updatedDescription);
         workPlan.setDuration(updatedDuration);
+        workPlan.setTeam(updatedTeam);
         workPlanDBDao.update(workPlan);
 
         workPlans = workPlanDBDao.findAll();
@@ -84,6 +100,7 @@ public class WorkPlanDBDaoTest {
             if (gotWorkPlan.getWorkPlanId() == workPlan.getWorkPlanId()) {
                 assertEquals(updatedDescription, gotWorkPlan.getDescription());
                 assertEquals(updatedDuration, gotWorkPlan.getDuration());
+                assertEquals(updatedTeam.getTeamId(), gotWorkPlan.getTeam().getTeamId());
             }
         }
     }
@@ -93,8 +110,11 @@ public class WorkPlanDBDaoTest {
         var workPlan = new WorkPlan();
         var description = getRandString(10);
         var duration = getRandDuration();
+        var team = teamDBDao.findAll().get((int) (Math.random() * teamDBDao.findAll().size()));
         workPlan.setDescription(description);
         workPlan.setDuration(duration);
+        workPlan.setTeam(team);
+
         workPlanDBDao.create(workPlan);
 
         var workPlans = workPlanDBDao.findAll();
@@ -103,6 +123,7 @@ public class WorkPlanDBDaoTest {
             if (gotWorkPlan.getWorkPlanId() == workPlan.getWorkPlanId()) {
                 assertEquals(description, gotWorkPlan.getDescription());
                 assertEquals(duration, gotWorkPlan.getDuration());
+                assertEquals(team.getTeamId(), gotWorkPlan.getTeam().getTeamId());
             }
         }
 

@@ -1,9 +1,12 @@
 package org.example.dao.db;
 
 import org.example.dao.TeamDao;
+import org.example.entity.Specialist;
 import org.example.entity.Team;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +22,7 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
         var statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS team (" +
                 "team_id UUID PRIMARY KEY," +
                 "dispatcher_id UUID NOT NULL, " +
-                "work_plan_id UUID NOT NULL," +
-                "FOREIGN KEY (dispatcher_id) REFERENCES specialist(specialist_id)," +
-                "FOREIGN KEY (work_plan_id) REFERENCES work_plan(work_plan_id)" +
+                "FOREIGN KEY (dispatcher_id) REFERENCES specialist(specialist_id)" +
                 ");");
 
         statement.executeUpdate();
@@ -34,12 +35,11 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
 
     @Override
     public Team create(Team entity) throws Exception {
-        var statement = con.prepareStatement("INSERT INTO team (team_id, dispatcher_id, work_plan_id) " +
-                                                 "VALUES (?, ?, ?);");
+        var statement = con.prepareStatement("INSERT INTO team (team_id, dispatcher_id) " +
+                                                 "VALUES (?, ?);");
 
         statement.setObject(1, entity.getTeamId());
         statement.setObject(2, entity.getDispatcher().getSpecialistId());
-        statement.setObject(3, entity.getWorkPlan().getWorkPlanId());
 
         statement.executeUpdate();
         return entity;
@@ -47,29 +47,19 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
 
     @Override
     public Team read(UUID uuid) throws Exception {
-        var statement = con.prepareStatement("SELECT team_id, dispatcher_id, " +
-                                                 "work_plan_id FROM team WHERE team_id = ?;");
+        var statement = con.prepareStatement("SELECT team_id, dispatcher_id " +
+                                                 " FROM team WHERE team_id = ?;");
         statement.setObject(1, uuid);
 
-        var resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            var team = new Team();
-            team.setTeamId((UUID) resultSet.getObject(1));
-            team.getDispatcher().setSpecialistId((UUID) resultSet.getObject(2));
-            team.getWorkPlan().setWorkPlanId((UUID) resultSet.getObject(3));
-
-            return team;
-        }
-        return null;
+        return getTeam(statement);
     }
 
     @Override
     public void update(Team entity) throws Exception {
-        var statement = con.prepareStatement("UPDATE team SET dispatcher_id = ?, " +
-                                                 "work_plan_id = ? WHERE team_id = ?;");
+        var statement = con.prepareStatement("UPDATE team SET dispatcher_id = ? " +
+                                                 " WHERE team_id = ?;");
         statement.setObject(1, entity.getDispatcher().getSpecialistId());
-        statement.setObject(2, entity.getWorkPlan().getWorkPlanId());
-        statement.setObject(3, entity.getTeamId());
+        statement.setObject(2, entity.getTeamId());
 
         statement.executeUpdate();
     }
@@ -84,19 +74,38 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
 
     @Override
     public List<Team> findAll() throws Exception {
-        var statement = con.prepareStatement("SELECT team_id, dispatcher_id, " +
-                                                 "work_plan_id FROM team;");
+        var statement = con.prepareStatement("SELECT team_id, dispatcher_id " +
+                                                 " FROM team;");
 
+        return getTeams(statement);
+    }
+
+    private Team getTeam(PreparedStatement statement) throws SQLException {
         var resultSet = statement.executeQuery();
-        var teams = new ArrayList<Team>();
-        while (resultSet.next()) {
-            var team = new Team();
-            team.setTeamId((UUID) resultSet.getObject(1));
-            team.getDispatcher().setSpecialistId((UUID) resultSet.getObject(2));
-            team.getWorkPlan().setWorkPlanId((UUID) resultSet.getObject(3));
-
-            teams.add(team);
+        if (resultSet.next()) {
+            return getTeam(resultSet);
         }
-        return teams;
+        return null;
+    }
+
+    private List<Team> getTeams(PreparedStatement statement) throws SQLException {
+        var resultSet = statement.executeQuery();
+        var entities = new ArrayList<Team>();
+        while (resultSet.next()) {
+            var team = getTeam(resultSet);
+
+            entities.add(team);
+        }
+        return entities;
+    }
+
+    private Team getTeam(ResultSet resultSet) throws SQLException {
+        var team = new Team();
+        team.setTeamId((UUID) resultSet.getObject(1));
+        var dispatcher = new Specialist();
+        team.setDispatcher(dispatcher);
+        team.getDispatcher().setSpecialistId((UUID) resultSet.getObject(2));
+
+        return team;
     }
 }

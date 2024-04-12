@@ -12,15 +12,16 @@ import java.util.UUID;
 public class Team implements IId<UUID> {
     private UUID teamId;
     private Specialist dispatcher;
-    private WorkPlan workPlan;
 
     @LazyLoad
     private List<Specialist> specialists;
 
+    @LazyLoad
+    private List<WorkPlan> workPlans;
+
     public Team() {
         this.teamId = UUID.randomUUID();
-        this.dispatcher = new Specialist();
-        this.workPlan = new WorkPlan();
+        this.dispatcher = null;
     }
 
     public UUID getId() {
