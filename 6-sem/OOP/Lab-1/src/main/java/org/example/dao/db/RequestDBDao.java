@@ -36,7 +36,7 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
         var statement = con.prepareStatement("INSERT INTO request (request_id, tenant_id, work_type, scope_of_work, desired_time) " +
                                                  "VALUES (?, ?, ?, ?, CAST(? AS INTERVAL));");
         statement.setObject(1, entity.getRequestId());
-        statement.setObject(2, entity.getTenantId());
+        statement.setObject(2, entity.getTenant().getTenantId());
         statement.setString(3, entity.getWorkType());
         statement.setString(4, entity.getScopeOfWork());
         statement.setString(5, entity.getDesiredTime().toString());
@@ -55,7 +55,7 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
         if (resultSet.next()) {
             var request = new Request();
             request.setRequestId((UUID) resultSet.getObject(1));
-            request.setTenantId((UUID) resultSet.getObject(2));
+            request.getTenant().setTenantId((UUID) resultSet.getObject(2));
             request.setWorkType(resultSet.getString(3));
             request.setScopeOfWork(resultSet.getString(4));
             var pgInterval = (org.postgresql.util.PGInterval) resultSet.getObject(5);
@@ -71,7 +71,7 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
     public void update(Request entity) throws Exception {
         var statement = con.prepareStatement("UPDATE request SET tenant_id = ?, work_type = ?, " +
                                                  "scope_of_work = ?, desired_time = ? WHERE request_id = ?;");
-        statement.setObject(1, entity.getTenantId());
+        statement.setObject(1, entity.getTenant().getTenantId());
         statement.setString(2, entity.getWorkType());
         statement.setString(3, entity.getScopeOfWork());
         statement.setObject(4, entity.getDesiredTime());
@@ -98,7 +98,7 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
         while (resultSet.next()) {
             var request = new Request();
             request.setRequestId((UUID) resultSet.getObject(1));
-            request.setTenantId((UUID) resultSet.getObject(2));
+            request.getTenant().setTenantId((UUID) resultSet.getObject(2));
             request.setWorkType(resultSet.getString(3));
             request.setScopeOfWork(resultSet.getString(4));
             var pgInterval = (org.postgresql.util.PGInterval) resultSet.getObject(5);

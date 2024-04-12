@@ -10,14 +10,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Request implements IId<UUID> {
     private UUID requestId;
-    private UUID tenantId;
+    private Tenant tenant;
     private String workType;
     private String scopeOfWork;
     private Duration desiredTime;
 
     public Request() {
         this.requestId = UUID.randomUUID();
-        this.tenantId = null;
+        this.tenant = new Tenant();
         this.workType = "";
         this.scopeOfWork = "";
         this.desiredTime = Duration.ZERO;

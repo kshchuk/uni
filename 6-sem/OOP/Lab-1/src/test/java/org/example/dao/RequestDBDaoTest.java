@@ -31,7 +31,7 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
-        request.setTenantId(tenantId);
+        request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
         request.setDesiredTime(desiredTime);
@@ -43,7 +43,7 @@ public class RequestDBDaoTest {
         // get request with the set index
         for (var gotRequest : requests) {
             if (gotRequest.getRequestId() == request.getRequestId()) {
-                assertEquals(tenantId, gotRequest.getTenantId());
+                assertEquals(tenantId, gotRequest.getTenant().getTenantId());
                 assertEquals(workType, gotRequest.getWorkType());
                 assertEquals(scopeOfWork, gotRequest.getScopeOfWork());
                 assertEquals(desiredTime, gotRequest.getDesiredTime());
@@ -60,7 +60,7 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
-        request.setTenantId(tenantId);
+        request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
         request.setDesiredTime(desiredTime);
@@ -69,7 +69,7 @@ public class RequestDBDaoTest {
         var gotRequest = requestDBDao.read(request.getRequestId());
         assertNotNull(gotRequest);
         assertEquals(request.getRequestId(), gotRequest.getRequestId());
-        assertEquals(tenantId, gotRequest.getTenantId());
+        assertEquals(tenantId, gotRequest.getTenant().getTenantId());
         assertEquals(workType, gotRequest.getWorkType());
         assertEquals(scopeOfWork, gotRequest.getScopeOfWork());
         assertEquals(desiredTime, gotRequest.getDesiredTime());
@@ -84,7 +84,7 @@ public class RequestDBDaoTest {
         var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
-        request.setTenantId(tenantId);
+        request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
         request.setDesiredTime(desiredTime);
@@ -94,7 +94,7 @@ public class RequestDBDaoTest {
         assertEquals(dataBaseSize + 1, requests.size());
         for (var gotRequest : requests) {
             if (gotRequest.getRequestId() == request.getRequestId()) {
-                assertEquals(tenantId, gotRequest.getTenantId());
+                assertEquals(tenantId, gotRequest.getTenant().getTenantId());
                 assertEquals(workType, gotRequest.getWorkType());
                 assertEquals(scopeOfWork, gotRequest.getScopeOfWork());
                 assertEquals(desiredTime, gotRequest.getDesiredTime());
@@ -106,10 +106,11 @@ public class RequestDBDaoTest {
     public void testDelete() throws Exception {
         var request = new Request();
         var tenants = tenantDBDao.findAll();
-        var tenantId = tenants.get((int) (Math.random() * tenants.size())).getTenantId();        var workType = getRandString(10);
+        var tenantId = tenants.get((int) (Math.random() * tenants.size())).getTenantId();
+        var workType = getRandString(10);
         var scopeOfWork = getRandString(10);
         var desiredTime = getRandDuration();
-        request.setTenantId(tenantId);
+        request.getTenant().setTenantId(tenantId);
         request.setWorkType(workType);
         request.setScopeOfWork(scopeOfWork);
         request.setDesiredTime(desiredTime);
@@ -119,7 +120,7 @@ public class RequestDBDaoTest {
         assertEquals(dataBaseSize + 1, requests.size());
         for (var gotRequest : requests) {
             if (gotRequest.getRequestId() == request.getRequestId()) {
-                assertEquals(tenantId, gotRequest.getTenantId());
+                assertEquals(tenantId, gotRequest.getTenant().getTenantId());
                 assertEquals(workType, gotRequest.getWorkType());
                 assertEquals(scopeOfWork, gotRequest.getScopeOfWork());
                 assertEquals(desiredTime, gotRequest.getDesiredTime());

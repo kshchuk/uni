@@ -33,7 +33,12 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
         statement.setObject(1, entity.getSpecialistId());
         statement.setString(2, entity.getName());
         statement.setString(3, entity.getSpecializtion());
-        statement.setObject(4, entity.getTeamId());
+        var team = entity.getTeam();
+        if (team != null) {
+            statement.setObject(4, team.getTeamId());
+        } else {
+            statement.setObject(4, null);
+        }
 
         statement.executeUpdate();
         return entity;
@@ -51,7 +56,10 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
             specialist.setSpecialistId((UUID) resultSet.getObject(1));
             specialist.setName(resultSet.getString(2));
             specialist.setSpecializtion(resultSet.getString(3));
-            specialist.setTeamId((UUID) resultSet.getObject(4));
+            var team = resultSet.getObject(4);
+            if (team != null) {
+                specialist.getTeam().setTeamId((UUID) team);
+            }
 
             return specialist;
         }
@@ -64,7 +72,12 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
                                                  "WHERE specialist_id = ?;");
         statement.setString(1, entity.getName());
         statement.setString(2, entity.getSpecializtion());
-        statement.setObject(3, entity.getTeamId());
+        var team = entity.getTeam();
+        if (team != null) {
+            statement.setObject(3, team.getTeamId());
+        } else {
+            statement.setObject(3, null);
+        }
         statement.setObject(4, entity.getSpecialistId());
 
         statement.executeUpdate();
@@ -90,7 +103,10 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
             specialist.setSpecialistId((UUID) resultSet.getObject(1));
             specialist.setName(resultSet.getString(2));
             specialist.setSpecializtion(resultSet.getString(3));
-            specialist.setTeamId((UUID) resultSet.getObject(4));
+            var team = resultSet.getObject(4);
+            if (team != null) {
+                specialist.getTeam().setTeamId((UUID) team);
+            }
 
             specialists.add(specialist);
         }

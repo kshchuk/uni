@@ -25,7 +25,7 @@ public class DAOManager {
             } catch (SQLException e) {
                 try {
                     Connection conn = DriverManager.getConnection(
-                            this.DATABASE_URL,
+                            this.DATABASE_URL + "/",
                             this.DATABASE_USER_NAME,
                             this.DATABASE_USER_PASSWORD
                     );

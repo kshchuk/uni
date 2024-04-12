@@ -30,8 +30,8 @@ public class TeamDBDaoTest {
         var workPlans = workPlanDBDao.findAll();
         var specialistId = specialists.get((int) (Math.random() * specialists.size())).getSpecialistId();
         var workPlanId = workPlans.get((int) (Math.random() * workPlans.size())).getWorkPlanId();
-        team.setDispatcherId(specialistId);
-        team.setWorkPlanId(workPlanId);
+        team.getDispatcher().setSpecialistId(specialistId);
+        team.getWorkPlan().setWorkPlanId(workPlanId);
 
         teamDBDao.create(team);
         var teams = teamDBDao.findAll();
@@ -40,8 +40,8 @@ public class TeamDBDaoTest {
         // get team with the set index
         for (var gotTeam : teams) {
             if (gotTeam.getTeamId() == team.getTeamId()) {
-                assertEquals(specialistId, gotTeam.getDispatcherId());
-                assertEquals(workPlanId, gotTeam.getWorkPlanId());
+                assertEquals(specialistId, gotTeam.getDispatcher().getSpecialistId());
+                assertEquals(workPlanId, gotTeam.getWorkPlan().getWorkPlanId());
             }
         }
         dataBaseSize++;
@@ -54,13 +54,13 @@ public class TeamDBDaoTest {
         var workPlans = workPlanDBDao.findAll();
         var specialistId = specialists.get((int) (Math.random() * specialists.size())).getSpecialistId();
         var workPlanId = workPlans.get((int) (Math.random() * workPlans.size())).getWorkPlanId();
-        team.setDispatcherId(specialistId);
-        team.setWorkPlanId(workPlanId);
+        team.getDispatcher().setSpecialistId(specialistId);
+        team.getWorkPlan().setWorkPlanId(workPlanId);
 
         teamDBDao.create(team);
         var gotTeam = teamDBDao.read(team.getTeamId());
-        assertEquals(specialistId, gotTeam.getDispatcherId());
-        assertEquals(workPlanId, gotTeam.getWorkPlanId());
+        assertEquals(specialistId, gotTeam.getDispatcher().getSpecialistId());
+        assertEquals(workPlanId, gotTeam.getWorkPlan().getWorkPlanId());
     }
 
     @Test
@@ -70,23 +70,23 @@ public class TeamDBDaoTest {
         var workPlans = workPlanDBDao.findAll();
         var specialistId = specialists.get((int) (Math.random() * specialists.size())).getSpecialistId();
         var workPlanId = workPlans.get((int) (Math.random() * workPlans.size())).getWorkPlanId();
-        team.setDispatcherId(specialistId);
-        team.setWorkPlanId(workPlanId);
+        team.getDispatcher().setSpecialistId(specialistId);
+        team.getWorkPlan().setWorkPlanId(workPlanId);
 
         teamDBDao.create(team);
         var gotTeam = teamDBDao.read(team.getTeamId());
-        assertEquals(specialistId, gotTeam.getDispatcherId());
-        assertEquals(workPlanId, gotTeam.getWorkPlanId());
+        assertEquals(specialistId, gotTeam.getDispatcher().getSpecialistId());
+        assertEquals(workPlanId, gotTeam.getWorkPlan().getWorkPlanId());
 
         var updatedSpecialistId = specialists.get((int) (Math.random() * specialists.size())).getSpecialistId();
         var updatedWorkPlanId = workPlans.get((int) (Math.random() * workPlans.size())).getWorkPlanId();
-        gotTeam.setDispatcherId(updatedSpecialistId);
-        gotTeam.setWorkPlanId(updatedWorkPlanId);
+        gotTeam.getDispatcher().setSpecialistId(updatedSpecialistId);
+        gotTeam.getWorkPlan().setWorkPlanId(updatedWorkPlanId);
         teamDBDao.update(gotTeam);
 
         var updatedTeam = teamDBDao.read(gotTeam.getTeamId());
-        assertEquals(updatedSpecialistId, updatedTeam.getDispatcherId());
-        assertEquals(updatedWorkPlanId, updatedTeam.getWorkPlanId());
+        assertEquals(updatedSpecialistId, updatedTeam.getDispatcher().getSpecialistId());
+        assertEquals(updatedWorkPlanId, updatedTeam.getWorkPlan().getWorkPlanId());
     }
 
     @Test
@@ -96,16 +96,16 @@ public class TeamDBDaoTest {
         var workPlans = workPlanDBDao.findAll();
         var specialistId = specialists.get((int) (Math.random() * specialists.size())).getSpecialistId();
         var workPlanId = workPlans.get((int) (Math.random() * workPlans.size())).getWorkPlanId();
-        team.setDispatcherId(specialistId);
-        team.setWorkPlanId(workPlanId);
+        team.getDispatcher().setSpecialistId(specialistId);
+        team.getWorkPlan().setWorkPlanId(workPlanId);
 
         teamDBDao.create(team);
         var teams = teamDBDao.findAll();
         assertEquals(dataBaseSize + 1, teams.size());
         for (var gotTeam : teams) {
             if (gotTeam.getTeamId() == team.getTeamId()) {
-                assertEquals(specialistId, gotTeam.getDispatcherId());
-                assertEquals(workPlanId, gotTeam.getWorkPlanId());
+                assertEquals(specialistId, gotTeam.getDispatcher().getSpecialistId());
+                assertEquals(workPlanId, gotTeam.getWorkPlan().getWorkPlanId());
             }
         }
 
@@ -122,8 +122,8 @@ public class TeamDBDaoTest {
         var teams = teamDBDao.findAll();
         for (var team : teams) {
             assertNotNull(team.getTeamId());
-            assertNotNull(team.getDispatcherId());
-            assertNotNull(team.getWorkPlanId());
+            assertNotNull(team.getDispatcher().getSpecialistId());
+            assertNotNull(team.getWorkPlan().getWorkPlanId());
         }
     }
 

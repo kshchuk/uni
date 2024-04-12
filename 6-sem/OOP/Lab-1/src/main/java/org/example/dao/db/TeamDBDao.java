@@ -38,8 +38,8 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
                                                  "VALUES (?, ?, ?);");
 
         statement.setObject(1, entity.getTeamId());
-        statement.setObject(2, entity.getDispatcherId());
-        statement.setObject(3, entity.getWorkPlanId());
+        statement.setObject(2, entity.getDispatcher().getSpecialistId());
+        statement.setObject(3, entity.getWorkPlan().getWorkPlanId());
 
         statement.executeUpdate();
         return entity;
@@ -55,8 +55,8 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
         if (resultSet.next()) {
             var team = new Team();
             team.setTeamId((UUID) resultSet.getObject(1));
-            team.setDispatcherId((UUID) resultSet.getObject(2));
-            team.setWorkPlanId((UUID) resultSet.getObject(3));
+            team.getDispatcher().setSpecialistId((UUID) resultSet.getObject(2));
+            team.getWorkPlan().setWorkPlanId((UUID) resultSet.getObject(3));
 
             return team;
         }
@@ -67,8 +67,8 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
     public void update(Team entity) throws Exception {
         var statement = con.prepareStatement("UPDATE team SET dispatcher_id = ?, " +
                                                  "work_plan_id = ? WHERE team_id = ?;");
-        statement.setObject(1, entity.getDispatcherId());
-        statement.setObject(2, entity.getWorkPlanId());
+        statement.setObject(1, entity.getDispatcher().getSpecialistId());
+        statement.setObject(2, entity.getWorkPlan().getWorkPlanId());
         statement.setObject(3, entity.getTeamId());
 
         statement.executeUpdate();
@@ -92,8 +92,8 @@ public class TeamDBDao extends DBDao<Team, UUID> implements TeamDao {
         while (resultSet.next()) {
             var team = new Team();
             team.setTeamId((UUID) resultSet.getObject(1));
-            team.setDispatcherId((UUID) resultSet.getObject(2));
-            team.setWorkPlanId((UUID) resultSet.getObject(3));
+            team.getDispatcher().setSpecialistId((UUID) resultSet.getObject(2));
+            team.getWorkPlan().setWorkPlanId((UUID) resultSet.getObject(3));
 
             teams.add(team);
         }
