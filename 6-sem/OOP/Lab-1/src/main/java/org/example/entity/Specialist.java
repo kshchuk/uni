@@ -2,7 +2,6 @@ package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.example.annotation.LazyLoad;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,11 +14,7 @@ public class Specialist implements IId<UUID>{
     private String specializtion;
     private Team team;
 
-    @LazyLoad
     private List<WorkPlan> workPlans;
-
-    @LazyLoad
-    private List<Request> requests;
 
     public Specialist() {
         this.specialistId = UUID.randomUUID();
