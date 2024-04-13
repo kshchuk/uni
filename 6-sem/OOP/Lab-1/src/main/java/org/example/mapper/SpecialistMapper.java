@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 public interface SpecialistMapper {
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
 
-    @Mapping(source = "teamId", target = "team", qualifiedByName = "mapTeam")
-    @Mapping(source = "workPlanIds", target = "workPlans", qualifiedByName = "mapWorkPlans")
+    @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeam")
+    @Mapping(source = "workPlans", target = "workPlans", qualifiedByName = "mapWorkPlans")
     SpecialistDTO toDto(Specialist specialist);
 
-    @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeamId")
-    @Mapping(source = "workPlans", target = "workPlanIds", qualifiedByName = "mapWorkPlanIds")
+    @Mapping(target = "team", source = "teamId", qualifiedByName = "mapTeamId")
+    @Mapping(target = "workPlans", source = "workPlanIds", qualifiedByName = "mapWorkPlanIds")
     Specialist toEntity(SpecialistDTO specialistDTO);
 
     @Named("mapTeam")
