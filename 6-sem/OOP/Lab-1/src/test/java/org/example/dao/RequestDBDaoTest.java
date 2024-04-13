@@ -7,8 +7,7 @@ import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 
-import static org.example.Utils.getRandDuration;
-import static org.example.Utils.getRandString;
+import static org.example.Utils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RequestDBDaoTest {
@@ -148,6 +147,35 @@ public class RequestDBDaoTest {
     public void testFindAll() throws Exception {
         var requests = requestDBDao.findAll();
         assertEquals(dataBaseSize, requests.size());
+    }
+
+    @Test
+    public void findByTenantId() throws Exception {
+        var tenant = new Tenant();
+        var tenantAddress = getRandString(10);
+        var tenantName = getRandString(10);
+        tenant.setAddress(tenantAddress);
+        tenant.setName(tenantName);
+        tenantDBDao.create(tenant);
+
+        var request = new Request();
+        var workType = getRandString(10);
+        var scopeOfWork = getRandString(10);
+        var desiredTime = getRandDuration();
+        request.setTenant(tenant);
+        request.getTenant().setTenantId(tenant.getTenantId());
+        request.setWorkType(workType);
+        request.setScopeOfWork(scopeOfWork);
+        request.setDesiredTime(desiredTime);
+
+        requestDBDao.create(request);
+        dataBaseSize++;
+        var requests = requestDBDao.findByTenantId(tenant.getTenantId());
+        assertEquals(1, requests.size());
+        assertEquals(tenant.getTenantId(), requests.get(0).getTenant().getTenantId());
+        assertEquals(workType, requests.get(0).getWorkType());
+        assertEquals(scopeOfWork, requests.get(0).getScopeOfWork());
+        assertEquals(desiredTime, requests.get(0).getDesiredTime());
     }
 
     @AfterEach

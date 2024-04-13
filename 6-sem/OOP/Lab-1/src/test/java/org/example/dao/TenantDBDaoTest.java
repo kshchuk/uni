@@ -3,120 +3,99 @@ package org.example.dao;
 import org.example.dao.db.DAOManager;
 import org.example.entity.Tenant;
 import org.junit.jupiter.api.*;
-
 import static org.example.Utils.getRandString;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class TenantDBDaoTest {
-        private TenantDao tenantDBDao;
-        private int dataBaseSize;
+    private TenantDao tenantDBDao;
+    private int initialDatabaseSize;
 
-        @BeforeEach
-        public void setUp() throws Exception {
-            var manager = DAOManager.getInstance();
-            tenantDBDao = (TenantDao) manager.getDAO(DAOManager.Table.TENANT);
-            dataBaseSize = tenantDBDao.findAll().size();
-        }
+    @BeforeEach
+    public void setUp() throws Exception {
+        initializeDaoObjects();
+        initialDatabaseSize = tenantDBDao.findAll().size();
+    }
 
-        @Test
-        public void testCreate() throws Exception {
-            var tenant = new Tenant();
-            var name = getRandString(10);
-            var address = getRandString(10);
-            tenant.setName(name);
-            tenant.setAddress(address);
+    private void initializeDaoObjects() throws Exception {
+        var manager = DAOManager.getInstance();
+        tenantDBDao = (TenantDao) manager.getDAO(DAOManager.Table.TENANT);
+    }
 
-            tenantDBDao.create(tenant);
-            var tenants = tenantDBDao.findAll();
+    @Test
+    public void testCreate() throws Exception {
+        Tenant tenant = createTenant();
+        tenantDBDao.create(tenant);
+        verifyTenantCreation(tenant);
+        initialDatabaseSize++;
+    }
 
-            assertEquals(dataBaseSize + 1, tenants.size());
-            // get tenant with the set index
-            for (var gotTenant : tenants) {
-                if (gotTenant.getTenantId() == tenant.getTenantId()) {
-                    assertEquals(name, gotTenant.getName());
-                    assertEquals(address, gotTenant.getAddress());
-                }
-            }
-            dataBaseSize++;
-        }
+    private Tenant createTenant() {
+        Tenant tenant = new Tenant();
+        tenant.setName(getRandString(10));
+        tenant.setAddress(getRandString(10));
+        return tenant;
+    }
 
-        @Test
-        public void testUpdate() throws Exception {
-            var tenant = new Tenant();
-            var name = getRandString(10);
-            var address = getRandString(10);
-            tenant.setName(name);
-            tenant.setAddress(address);
+    private void verifyTenantCreation(Tenant tenant) throws Exception {
+        var tenants = tenantDBDao.findAll();
+        assertEquals(initialDatabaseSize + 1, tenants.size());
+        verifyTenantDetails(tenant, tenants);
+    }
 
-            tenantDBDao.create(tenant);
-            var tenants = tenantDBDao.findAll();
-            assertEquals(dataBaseSize + 1, tenants.size());
-            for (var gotTenant : tenants) {
-                if (gotTenant.getTenantId() == tenant.getTenantId()) {
-                    assertEquals(name, gotTenant.getName());
-                    assertEquals(address, gotTenant.getAddress());
-                }
-            }
-
-            var updatedName = getRandString(10);
-            var updatedAddress = getRandString(10);
-
-            tenant.setName(updatedName);
-            tenant.setAddress(updatedAddress);
-            tenantDBDao.update(tenant);
-
-            tenants = tenantDBDao.findAll();
-            assertEquals(dataBaseSize + 1, tenants.size());
-            for (var gotTenant : tenants) {
-                if (gotTenant.getTenantId() == tenant.getTenantId()) {
-                    assertEquals(updatedName, gotTenant.getName());
-                    assertEquals(updatedAddress, gotTenant.getAddress());
-                }
+    private void verifyTenantDetails(Tenant tenant, Iterable<Tenant> tenants) {
+        for (Tenant gotTenant : tenants) {
+            if (gotTenant.getTenantId() == tenant.getTenantId()) {
+                assertEquals(tenant.getName(), gotTenant.getName());
+                assertEquals(tenant.getAddress(), gotTenant.getAddress());
             }
         }
+    }
 
-        @Test
-        public void testDelete() throws Exception {
-            var tenant = new Tenant();
-            var name = getRandString(10);
-            var address = getRandString(10);
-            tenant.setName(name);
-            tenant.setAddress(address);
+    @Test
+    public void testUpdate() throws Exception {
+        Tenant tenant = createTenant();
+        tenantDBDao.create(tenant);
+        verifyTenantCreation(tenant);
 
-            tenantDBDao.create(tenant);
-            var tenants = tenantDBDao.findAll();
-            assertEquals(dataBaseSize + 1, tenants.size());
+        var updatedTenant = createTenant();
+        updatedTenant.setTenantId(tenant.getTenantId());
+        tenantDBDao.update(updatedTenant);
 
-            tenantDBDao.delete(tenant.getTenantId());
-            tenants = tenantDBDao.findAll();
-            assertEquals(dataBaseSize, tenants.size());
-        }
+        var tenants = tenantDBDao.findAll();
+        assertEquals(initialDatabaseSize + 1, tenants.size());
+        verifyTenantDetails(updatedTenant, tenants);
+    }
 
-        @Test
-        public void testFindAll() throws Exception {
-            var tenants = tenantDBDao.findAll();
-            assertEquals(dataBaseSize, tenants.size());
-        }
+    @Test
+    public void testDelete() throws Exception {
+        Tenant tenant = createTenant();
+        tenantDBDao.create(tenant);
+        verifyTenantCreation(tenant);
 
-        @Test
-        public void testRead() throws Exception {
-            var tenant = new Tenant();
-            var name = getRandString(10);
-            var address = getRandString(10);
-            tenant.setName(name);
-            tenant.setAddress(address);
+        tenantDBDao.delete(tenant.getTenantId());
+        var tenants = tenantDBDao.findAll();
+        assertEquals(initialDatabaseSize, tenants.size());
+    }
 
-            tenantDBDao.create(tenant);
-            var gotTenant = tenantDBDao.read(tenant.getTenantId());
-            assertNotNull(gotTenant);
-            assertEquals(name, gotTenant.getName());
-            assertEquals(address, gotTenant.getAddress());
-        }
+    @Test
+    public void testFindAll() throws Exception {
+        var tenants = tenantDBDao.findAll();
+        assertEquals(initialDatabaseSize, tenants.size());
+    }
 
-        @AfterAll
-        public static void tearDown() throws Exception {
-            var manager = DAOManager.getInstance();
-            manager.close();
-        }
+    @Test
+    public void testRead() throws Exception {
+        Tenant tenant = createTenant();
+        tenantDBDao.create(tenant);
+
+        var gotTenant = tenantDBDao.read(tenant.getTenantId());
+        assertNotNull(gotTenant);
+        assertEquals(tenant.getName(), gotTenant.getName());
+        assertEquals(tenant.getAddress(), gotTenant.getAddress());
+    }
+
+    @AfterAll
+    public static void tearDown() throws Exception {
+        DAOManager.getInstance().close();
+    }
 }

@@ -8,5 +8,4 @@ import java.util.UUID;
 
 public interface RequestDao extends CrudDao<Request, UUID> {
     List<Request> findByTenantId(UUID tenantId) throws SQLException;
-    List<Request> findByDispatcherId(UUID dispatcherId) throws SQLException;
 }

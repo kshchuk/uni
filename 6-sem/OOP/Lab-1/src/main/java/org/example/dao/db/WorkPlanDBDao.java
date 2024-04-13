@@ -98,7 +98,7 @@ public class WorkPlanDBDao extends DBDao<WorkPlan, UUID> implements WorkPlanDao 
 
     @Override
     public List<WorkPlan> findByDispatcherId(UUID dispatcherId) throws SQLException {
-        var statement = con.prepareStatement("SELECT work_plan_id, description, duration, team_id FROM work_plan " +
+        var statement = con.prepareStatement("SELECT work_plan.work_plan_id, work_plan.description, work_plan.duration, work_plan.team_id FROM work_plan " +
                                                  " INNER JOIN team on work_plan.team_id = team.team_id " +
                                                  " WHERE team.dispatcher_id = ?;");
         statement.setObject(1, dispatcherId);

@@ -93,17 +93,6 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
         return getRequests(statement);
     }
 
-    @Override
-    public List<Request> findByDispatcherId(UUID dispatcherId) throws SQLException {
-        var statement = con.prepareStatement("SELECT request_id, tenant_id, work_type, " +
-                                                 "scope_of_work, desired_time FROM request " +
-                                                 "INNER JOIN work_plan ON request.request_id = work_plan.request_id " +
-                                                 "WHERE work_plan.dispatcher_id = ?;");
-
-        statement.setObject(1, dispatcherId);
-        return getRequests(statement);
-    }
-
     private Request getRequest(PreparedStatement statement) throws SQLException {
         var resultSet = statement.executeQuery();
         if (resultSet.next()) {

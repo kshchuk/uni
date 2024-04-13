@@ -2,114 +2,107 @@ package org.example.dao;
 
 import org.example.dao.db.DAOManager;
 import org.example.entity.Specialist;
+import org.example.entity.Team;
 import org.junit.jupiter.api.*;
-
-import static org.example.Utils.getRandString;
+import java.util.List;
+import static org.example.Utils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SpecialistDBDaoTest {
     private SpecialistDao specialistDBDao;
+    private TeamDao teamDBDao;
     private int dataBaseSize;
 
     @BeforeEach
     public void setUp() throws Exception {
         var manager = DAOManager.getInstance();
         specialistDBDao = (SpecialistDao) manager.getDAO(DAOManager.Table.SPECIALIST);
+        teamDBDao = (TeamDao) manager.getDAO(DAOManager.Table.TEAM);
         dataBaseSize = specialistDBDao.findAll().size();
     }
 
     @Test
     public void testCreate() throws Exception {
-        var specialist = new Specialist();
-        var name = getRandString(10);
-        var specialization = getRandString(10);
-
-        specialist.setName(name);
-        specialist.setSpecializtion(specialization);
-
+        Specialist specialist = getRandomSpecialist(null);
         specialistDBDao.create(specialist);
-        var specialists = specialistDBDao.findAll();
+        verifySpecialistCreation(specialist);
+        dataBaseSize++;
+    }
 
+    private void verifySpecialistCreation(Specialist specialist) throws Exception {
+        List<Specialist> specialists = specialistDBDao.findAll();
         assertEquals(dataBaseSize + 1, specialists.size());
-        // get specialist with the set index
-        for (var gotSpecialist : specialists) {
+        verifySpecialistDetails(specialist, specialists);
+    }
+
+    private void verifySpecialistDetails(Specialist specialist, List<Specialist> specialists) {
+        for (Specialist gotSpecialist : specialists) {
             if (gotSpecialist.getSpecialistId() == specialist.getSpecialistId()) {
-                assertEquals(name, gotSpecialist.getName());
-                assertEquals(specialization, gotSpecialist.getSpecializtion());
+                assertEquals(specialist.getName(), gotSpecialist.getName());
+                assertEquals(specialist.getSpecializtion(), gotSpecialist.getSpecializtion());
             }
         }
-
-        dataBaseSize++;
     }
 
     @Test
     public void testRead() throws Exception {
-        var specialist = new Specialist();
-        var name = getRandString(10);
-        var specialization = getRandString(10);
-
-        specialist.setName(name);
-        specialist.setSpecializtion(specialization);
-
+        Specialist specialist = getRandomSpecialist(null);
         specialistDBDao.create(specialist);
-        var gotSpecialist = specialistDBDao.read(specialist.getSpecialistId());
-        assertEquals(name, gotSpecialist.getName());
-        assertEquals(specialization, gotSpecialist.getSpecializtion());
+        Specialist gotSpecialist = specialistDBDao.read(specialist.getSpecialistId());
+        assertEquals(specialist.getName(), gotSpecialist.getName());
+        assertEquals(specialist.getSpecializtion(), gotSpecialist.getSpecializtion());
     }
 
     @Test
     public void testUpdate() throws Exception {
-        var specialist = new Specialist();
-        var name = getRandString(10);
-        var specialization = getRandString(10);
-
-        specialist.setName(name);
-        specialist.setSpecializtion(specialization);
-
+        Specialist specialist = getRandomSpecialist(null);
         specialistDBDao.create(specialist);
-        var specialists = specialistDBDao.findAll();
-        assertEquals(dataBaseSize + 1, specialists.size());
-        for (var gotSpecialist : specialists) {
-            if (gotSpecialist.getSpecialistId() == specialist.getSpecialistId()) {
-                assertEquals(name, gotSpecialist.getName());
-                assertEquals(specialization, gotSpecialist.getSpecializtion());
-            }
-        }
+        verifySpecialistCreation(specialist);
         dataBaseSize++;
     }
 
     @Test
     public void testDelete() throws Exception {
-        var specialist = new Specialist();
-        var name = getRandString(10);
-        var specialization = getRandString(10);
-
-        specialist.setName(name);
-        specialist.setSpecializtion(specialization);
-
+        Specialist specialist = getRandomSpecialist(null);
         specialistDBDao.create(specialist);
-        var specialists = specialistDBDao.findAll();
-        assertEquals(dataBaseSize + 1, specialists.size());
-        for (var gotSpecialist : specialists) {
-            if (gotSpecialist.getSpecialistId() == specialist.getSpecialistId()) {
-                assertEquals(name, gotSpecialist.getName());
-                assertEquals(specialization, gotSpecialist.getSpecializtion());
-            }
-        }
-        dataBaseSize++;
+        verifySpecialistCreation(specialist);
 
         specialistDBDao.delete(specialist.getSpecialistId());
-        specialists = specialistDBDao.findAll();
-        assertEquals(dataBaseSize - 1, specialists.size());
-        for (var gotSpecialist : specialists) {
+        List<Specialist> specialists = specialistDBDao.findAll();
+        assertEquals(dataBaseSize, specialists.size());
+        assertSpecialistDeleted(specialist, specialists);
+    }
+
+    private void assertSpecialistDeleted(Specialist specialist, List<Specialist> specialists) {
+        for (Specialist gotSpecialist : specialists) {
             assertNotEquals(specialist.getSpecialistId(), gotSpecialist.getSpecialistId());
         }
-        dataBaseSize--;
+    }
+
+    @Test
+    public void testFindAll() throws Exception {
+        List<Specialist> specialists = specialistDBDao.findAll();
+        assertEquals(dataBaseSize, specialists.size());
+    }
+
+    @Test
+    public void testFindByTeamId() throws Exception {
+        Specialist dispatcher = getRandomSpecialist(null);
+        specialistDBDao.create(dispatcher);
+        Team team = getRandomTeam(dispatcher);
+        teamDBDao.create(team);
+        Specialist specialist = getRandomSpecialist(team);
+        specialistDBDao.create(specialist);
+        dataBaseSize += 2;
+
+        specialist.getTeam().setDispatcher(null);
+        List<Specialist> specialists = specialistDBDao.findByTeamId(team.getTeamId());
+        assertEquals(1, specialists.size());
+        assertEquals(specialist, specialists.get(0));
     }
 
     @AfterAll
     public static void tearDown() throws Exception {
-        var manager = DAOManager.getInstance();
-        manager.close();
+        DAOManager.getInstance().close();
     }
 }

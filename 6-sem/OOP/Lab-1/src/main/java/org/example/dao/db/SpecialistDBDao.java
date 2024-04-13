@@ -2,6 +2,7 @@ package org.example.dao.db;
 
 import org.example.dao.SpecialistDao;
 import org.example.entity.Specialist;
+import org.example.entity.Team;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -123,6 +124,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
         specialist.setSpecializtion(resultSet.getString(3));
         var team = resultSet.getObject(4);
         if (team != null) {
+            specialist.setTeam(new Team());
             specialist.getTeam().setTeamId((UUID) team);
         }
 
