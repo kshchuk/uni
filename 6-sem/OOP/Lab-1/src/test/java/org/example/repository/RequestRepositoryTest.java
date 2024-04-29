@@ -37,11 +37,11 @@ public class RequestRepositoryTest {
     public void testRead() throws Exception {
         Request request = new Request();
 
-        when(requestDao.read(request.getId())).thenReturn(request);
+        when(requestDao.read(request.getRequestId())).thenReturn(request);
 
-        requestRepository.read(request.getId());
+        requestRepository.read(request.getRequestId());
 
-        verify(requestDao, times(1)).read(request.getId());
+        verify(requestDao, times(1)).read(request.getRequestId());
     }
 
     @Test
@@ -56,9 +56,9 @@ public class RequestRepositoryTest {
     public void testDelete() throws Exception {
         Request request = new Request();
 
-        when(requestDao.read(request.getId())).thenReturn(request);
+        when(requestDao.read(request.getRequestId())).thenReturn(request);
 
-        requestRepository.delete(request.getId());
+        requestRepository.delete(request.getRequestId());
 
         verify(requestDao, times(1)).delete(request.getRequestId());
     }

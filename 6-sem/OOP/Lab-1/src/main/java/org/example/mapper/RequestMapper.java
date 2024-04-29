@@ -1,5 +1,6 @@
 package org.example.mapper;
 
+import org.example.config.MapperConfig;
 import org.example.dto.RequestDTO;
 import org.example.entity.Request;
 import org.example.entity.Tenant;
@@ -10,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.UUID;
 
-@Mapper
+@Mapper(config = MapperConfig.class, uses = {TenantMapper.class})
 public interface RequestMapper {
     RequestMapper INSTANCE = Mappers.getMapper(RequestMapper.class);
 
@@ -21,22 +22,22 @@ public interface RequestMapper {
     Request toEntity(RequestDTO requestDTO);
 
     @Named("mapTenantId")
-    default UUID mapTenantId(Tenant tenant) {
+    default String mapTenantId(Tenant tenant) {
         if (tenant == null) {
             return null;
         }
 
-        return tenant.getId();
+        return tenant.getTenantId().toString();
     }
 
     @Named("mapTenant")
-    default Tenant mapTenant(UUID tenantId) {
+    default Tenant mapTenant(String tenantId) {
         if (tenantId == null) {
             return null;
         }
 
         Tenant tenant = new Tenant();
-        tenant.setId(tenantId);
+        tenant.setTenantId(UUID.fromString(tenantId));
         return tenant;
     }
 }

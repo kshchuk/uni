@@ -35,7 +35,7 @@ public class TenantServiceImpl implements TenantService {
     public void removeRequest(UUID tenantId, UUID requestId) {
         var tenant = tenantRepository.read(tenantId);
         tenantRepository.readWithRequests(tenant);
-        tenant.getRequests().removeIf(request -> request.getId().equals(requestId));
+        tenant.getRequests().removeIf(request -> request.getRequestId().equals(requestId));
         tenantRepository.update(tenant);
     }
 
@@ -46,7 +46,7 @@ public class TenantServiceImpl implements TenantService {
         tenantRepository.readWithRequests(tenant);
         var requests = tenant.getRequests();
         for (int i = 0; i < requests.size(); i++) {
-            if (requests.get(i).getId().equals(request.getId())) {
+            if (requests.get(i).getRequestId().equals(request.getRequestId())) {
                 requests.set(i, request);
                 break;
             }

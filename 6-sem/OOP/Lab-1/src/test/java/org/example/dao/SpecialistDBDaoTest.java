@@ -39,7 +39,7 @@ public class SpecialistDBDaoTest {
         for (Specialist gotSpecialist : specialists) {
             if (gotSpecialist.getSpecialistId() == specialist.getSpecialistId()) {
                 assertEquals(specialist.getName(), gotSpecialist.getName());
-                assertEquals(specialist.getSpecializtion(), gotSpecialist.getSpecializtion());
+                assertEquals(specialist.getSpecialization(), gotSpecialist.getSpecialization());
             }
         }
     }
@@ -50,7 +50,7 @@ public class SpecialistDBDaoTest {
         specialistDBDao.create(specialist);
         Specialist gotSpecialist = specialistDBDao.read(specialist.getSpecialistId());
         assertEquals(specialist.getName(), gotSpecialist.getName());
-        assertEquals(specialist.getSpecializtion(), gotSpecialist.getSpecializtion());
+        assertEquals(specialist.getSpecialization(), gotSpecialist.getSpecialization());
     }
 
     @Test

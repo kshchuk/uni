@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Data
 public class WorkPlanDTO {
-    private UUID workPlanId;
+    private String workPlanId;
     private String description;
-    private Duration duration;
-    private UUID teamId;
+    private String duration;
+    private String teamId;
 }

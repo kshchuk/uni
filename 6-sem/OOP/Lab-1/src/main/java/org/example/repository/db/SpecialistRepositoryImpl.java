@@ -28,7 +28,7 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
         try {
             specialistDao.create(entity);
             if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getId());
+                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
                 if (dbTeam == null) {
                     teamDao.create(entity.getTeam());
                 } else if (!dbTeam.equals(entity.getTeam())) {
@@ -37,7 +37,7 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
             }
 
             for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getId());
+                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
                     workPlanDao.create(workPlan);
                 } else if (!dbWorkPlan.equals(workPlan)) {
@@ -62,7 +62,7 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
     @Override
     public Specialist readWithTeam(Specialist entity) {
         try {
-            var team = teamDao.read(entity.getTeam().getId());
+            var team = teamDao.read(entity.getTeam().getTeamId());
             entity.setTeam(team);
             return entity;
         } catch (Exception e) {
@@ -88,7 +88,7 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
         try {
             specialistDao.update(entity);
             if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getId());
+                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
                 if (dbTeam == null) {
                     teamDao.create(entity.getTeam());
                 } else if (!dbTeam.equals(entity.getTeam())) {
@@ -100,7 +100,7 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
                 return;
             }
             for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getId());
+                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
                     workPlanDao.create(workPlan);
                 } else if (!dbWorkPlan.equals(workPlan)) {

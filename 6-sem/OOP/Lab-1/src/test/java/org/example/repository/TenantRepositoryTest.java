@@ -41,7 +41,7 @@ public class TenantRepositoryTest {
         tenantRepository.create(tenant);
 
         verify(tenantDao, times(1)).create(tenant);
-        verify(requestDao, times(1)).read(request.getId());
+        verify(requestDao, times(1)).read(request.getRequestId());
         verify(requestDao, times(1)).create(request);
     }
 
@@ -49,14 +49,14 @@ public class TenantRepositoryTest {
     public void testRead() throws Exception {
         Tenant tenant = new Tenant();
 
-        when(tenantDao.read(tenant.getId())).thenReturn(tenant);
-        when(requestDao.findByTenantId(tenant.getId())).thenReturn(new ArrayList<>());
+        when(tenantDao.read(tenant.getTenantId())).thenReturn(tenant);
+        when(requestDao.findByTenantId(tenant.getTenantId())).thenReturn(new ArrayList<>());
 
-        tenant = tenantRepository.read(tenant.getId());
-        verify(tenantDao, times(1)).read(tenant.getId());
+        tenant = tenantRepository.read(tenant.getTenantId());
+        verify(tenantDao, times(1)).read(tenant.getTenantId());
 
         tenantRepository.readWithRequests(tenant);
-        verify(requestDao, times(1)).findByTenantId(tenant.getId());
+        verify(requestDao, times(1)).findByTenantId(tenant.getTenantId());
     }
 
     @Test
@@ -89,12 +89,12 @@ public class TenantRepositoryTest {
         tenant.setRequests(new ArrayList<>(1));
         tenant.getRequests().add(request);
 
-        when(requestDao.read(request.getId())).thenReturn(null);
+        when(requestDao.read(request.getRequestId())).thenReturn(null);
 
         tenantRepository.update(tenant);
 
         verify(tenantDao, times(1)).update(tenant);
-        verify(requestDao, times(1)).read(request.getId());
+        verify(requestDao, times(1)).read(request.getRequestId());
         verify(requestDao, times(1)).create(request);
     }
 
@@ -105,15 +105,15 @@ public class TenantRepositoryTest {
         Request request = new Request();
         tenant.getRequests().add(request);
 
-        when(requestDao.read(request.getId())).thenReturn(request);
-        when(requestDao.findByTenantId(tenant.getId())).thenReturn(tenant.getRequests());
+        when(requestDao.read(request.getRequestId())).thenReturn(request);
+        when(requestDao.findByTenantId(tenant.getTenantId())).thenReturn(tenant.getRequests());
 
         tenantRepository.update(tenant);
 
         verify(tenantDao, times(1)).update(tenant);
-        verify(requestDao, times(1)).read(request.getId());
+        verify(requestDao, times(1)).read(request.getRequestId());
         verify(requestDao, never()).create(request);
-        verify(requestDao, times(1)).findByTenantId(tenant.getId());
+        verify(requestDao, times(1)).findByTenantId(tenant.getTenantId());
     }
 
     @Test
@@ -123,10 +123,10 @@ public class TenantRepositoryTest {
         tenant.setRequests(new ArrayList<>(1));
         tenant.getRequests().add(request);
 
-        when(requestDao.read(request.getId())).thenReturn(request);
+        when(requestDao.read(request.getRequestId())).thenReturn(request);
 
         var updatedRequest = new Request();
-        updatedRequest.setId(request.getId());
+        updatedRequest.setRequestId(request.getRequestId());
         updatedRequest.setDesiredTime(getRandDuration());
         tenant.getRequests().remove(0);
         tenant.getRequests().add(updatedRequest);
@@ -134,7 +134,7 @@ public class TenantRepositoryTest {
         tenantRepository.update(tenant);
 
         verify(tenantDao, times(1)).update(tenant);
-        verify(requestDao, times(1)).read(request.getId());
+        verify(requestDao, times(1)).read(request.getRequestId());
         verify(requestDao, times(1)).update(updatedRequest);
     }
 
@@ -142,9 +142,9 @@ public class TenantRepositoryTest {
     public void testDelete() throws Exception {
         var tenant = new Tenant();
 
-        tenantRepository.delete(tenant.getId());
+        tenantRepository.delete(tenant.getTenantId());
 
-        verify(tenantDao, times(1)).delete(tenant.getId());
+        verify(tenantDao, times(1)).delete(tenant.getTenantId());
     }
 
     @Test

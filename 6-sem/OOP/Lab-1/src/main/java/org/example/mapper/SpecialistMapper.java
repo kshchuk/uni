@@ -1,5 +1,6 @@
 package org.example.mapper;
 
+import org.example.config.MapperConfig;
 import org.example.dto.SpecialistDTO;
 import org.example.entity.Specialist;
 import org.example.entity.Team;
@@ -13,61 +14,59 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(config = MapperConfig.class, uses = {TeamMapper.class, WorkPlanMapper.class})
 public interface SpecialistMapper {
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
 
-    @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeam")
-    @Mapping(source = "workPlans", target = "workPlans", qualifiedByName = "mapWorkPlans")
+    @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeamIdToString")
+    @Mapping(source = "workPlans", target = "workPlanIds", qualifiedByName = "mapWorkPlanListToStringList")
     SpecialistDTO toDto(Specialist specialist);
 
-    @Mapping(target = "team", source = "teamId", qualifiedByName = "mapTeamId")
-    @Mapping(target = "workPlans", source = "workPlanIds", qualifiedByName = "mapWorkPlanIds")
+    @Mapping(source = "teamId", target = "team", qualifiedByName = "mapStringToTeam")
+    @Mapping(source = "workPlanIds", target = "workPlans", qualifiedByName = "mapStringListToWorkPlanList")
     Specialist toEntity(SpecialistDTO specialistDTO);
 
-    @Named("mapTeam")
-    default Team mapTeam(UUID teamId) {
-        if (teamId == null) {
+    @Named("mapTeamIdToString")
+    default String mapTeamIdToString(Team team) {
+        if (team == null) {
             return null;
         }
-
-        Team team = new Team();
-        team.setId(teamId);
-        return team;
+        return team.getTeamId().toString();
     }
 
-    @Named("mapWorkPlans")
-    default List<WorkPlan> mapWorkPlans(List<UUID> workPlanIds) {
+    @Named("mapStringListToWorkPlanList")
+    default List<WorkPlan> mapStringListToWorkPlanList(List<String> workPlanIds) {
         if (workPlanIds == null) {
             return null;
         }
-
         return workPlanIds.stream()
                 .map(workPlanId -> {
                     WorkPlan workPlan = new WorkPlan();
-                    workPlan.setId(workPlanId);
+                    workPlan.setWorkPlanId(UUID.fromString(workPlanId));
                     return workPlan;
                 })
                 .collect(Collectors.toList());
     }
 
-    @Named("mapTeamId")
-    default UUID mapTeamId(Team team) {
-        if (team == null) {
+    @Named("mapStringToTeam")
+    default Team mapStringToTeam(String teamId) {
+        if (teamId == null) {
             return null;
         }
-
-        return team.getId();
+        Team team = new Team();
+        team.setTeamId(UUID.fromString(teamId));
+        return team;
     }
 
-    @Named("mapWorkPlanIds")
-    default List<UUID> mapWorkPlanIds(List<WorkPlan> workPlans) {
+    @Named("mapWorkPlanListToStringList")
+    default List<String> mapWorkPlanListToStringList(List<WorkPlan> workPlans) {
         if (workPlans == null) {
             return null;
         }
-
         return workPlans.stream()
-                .map(WorkPlan::getId)
+                .map(workPlan -> workPlan.getWorkPlanId().toString())
                 .collect(Collectors.toList());
     }
 }
+
+

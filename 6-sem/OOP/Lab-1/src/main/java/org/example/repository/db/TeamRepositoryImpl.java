@@ -27,7 +27,7 @@ public class TeamRepositoryImpl implements TeamRepository {
         try {
             teamDao.create(entity);
             for (Specialist specialist : entity.getSpecialists()) {
-                var dbSpecialist = specialistDao.read(specialist.getId());
+                var dbSpecialist = specialistDao.read(specialist.getSpecialistId());
                 if (dbSpecialist == null) {
                     specialistDao.create(specialist);
                 } else if (!dbSpecialist.equals(specialist)) {
@@ -35,7 +35,7 @@ public class TeamRepositoryImpl implements TeamRepository {
                 }
             }
             for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getId());
+                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
                     workPlanDao.create(workPlan);
                 } else if (!dbWorkPlan.equals(workPlan)) {
@@ -61,7 +61,7 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public Team readWithDispatcher(Team entity) {
         try {
-            var dbDispatcher = specialistDao.read(entity.getDispatcher().getId());
+            var dbDispatcher = specialistDao.read(entity.getDispatcher().getSpecialistId());
             entity.setDispatcher(dbDispatcher);
             return entity;
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public Team readWithSpecialists(Team entity) {
         try {
-            var dbSpecialists = specialistDao.findByTeamId(entity.getId());
+            var dbSpecialists = specialistDao.findByTeamId(entity.getTeamId());
             entity.setSpecialists(dbSpecialists);
             return entity;
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public Team readWithWorkPlans(Team entity) {
         try {
-            var dbWorkPlans = workPlanDao.findByTeamId(entity.getId());
+            var dbWorkPlans = workPlanDao.findByTeamId(entity.getTeamId());
             entity.setWorkPlans(dbWorkPlans);
             return entity;
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class TeamRepositoryImpl implements TeamRepository {
                 return;
             }
             for (Specialist specialist : entity.getSpecialists()) {
-                var dbSpecialist = specialistDao.read(specialist.getId());
+                var dbSpecialist = specialistDao.read(specialist.getSpecialistId());
                 if (dbSpecialist == null) {
                     specialistDao.create(specialist);
                 } else if (!dbSpecialist.equals(specialist)) {
@@ -110,10 +110,10 @@ public class TeamRepositoryImpl implements TeamRepository {
                 }
             }
             // remove specialists that are not in the updated entity
-            List<Specialist> dbSpecialists = specialistDao.findByTeamId(entity.getId());
+            List<Specialist> dbSpecialists = specialistDao.findByTeamId(entity.getTeamId());
             for (Specialist dbSpecialist : dbSpecialists) {
                 if (!entity.getSpecialists().contains(dbSpecialist)) {
-                    specialistDao.delete(dbSpecialist.getId());
+                    specialistDao.delete(dbSpecialist.getSpecialistId());
                 }
             }
 
@@ -121,7 +121,7 @@ public class TeamRepositoryImpl implements TeamRepository {
                 return;
             }
             for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getId());
+                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
                     workPlanDao.create(workPlan);
                 } else if (!dbWorkPlan.equals(workPlan)) {
@@ -130,10 +130,10 @@ public class TeamRepositoryImpl implements TeamRepository {
             }
 
             // remove work plans that are not in the updated entity
-            List<WorkPlan> dbWorkPlans = workPlanDao.findByTeamId(entity.getId());
+            List<WorkPlan> dbWorkPlans = workPlanDao.findByTeamId(entity.getTeamId());
             for (WorkPlan dbWorkPlan : dbWorkPlans) {
                 if (!entity.getWorkPlans().contains(dbWorkPlan)) {
-                    workPlanDao.delete(dbWorkPlan.getId());
+                    workPlanDao.delete(dbWorkPlan.getWorkPlanId());
                 }
             }
         } catch (Exception e) {

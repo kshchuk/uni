@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class WorkPlan implements IId<UUID> {
+public class WorkPlan {
     private UUID workPlanId;
     private String description;
     private Duration duration;
@@ -18,13 +18,5 @@ public class WorkPlan implements IId<UUID> {
         this.workPlanId = UUID.randomUUID();
         this.description = "";
         this.team = null;
-    }
-
-    public UUID getId() {
-        return workPlanId;
-    }
-
-    public void setId(UUID id) {
-        this.workPlanId = id;
     }
 }

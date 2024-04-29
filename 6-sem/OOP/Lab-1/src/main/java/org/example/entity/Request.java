@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Request implements IId<UUID> {
+public class Request {
     private UUID requestId;
     private Tenant tenant;
     private String workType;
@@ -21,15 +21,5 @@ public class Request implements IId<UUID> {
         this.workType = "";
         this.scopeOfWork = "";
         this.desiredTime = Duration.ZERO;
-    }
-
-    @Override
-    public UUID getId() {
-        return requestId;
-    }
-
-    @Override
-    public void setId(UUID id) {
-        this.requestId = id;
     }
 }

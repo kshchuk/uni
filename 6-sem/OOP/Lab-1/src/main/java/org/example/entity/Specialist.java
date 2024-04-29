@@ -8,10 +8,10 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Specialist implements IId<UUID>{
+public class Specialist {
     private UUID specialistId;
     private String name;
-    private String specializtion;
+    private String specialization;
     private Team team;
 
     private List<WorkPlan> workPlans;
@@ -19,17 +19,7 @@ public class Specialist implements IId<UUID>{
     public Specialist() {
         this.specialistId = UUID.randomUUID();
         this.name = "";
-        this.specializtion = "";
+        this.specialization = "";
         this.team = null;
-    }
-
-    @Override
-    public UUID getId() {
-        return specialistId;
-    }
-
-    @Override
-    public void setId(UUID id) {
-        this.specialistId = id;
     }
 }

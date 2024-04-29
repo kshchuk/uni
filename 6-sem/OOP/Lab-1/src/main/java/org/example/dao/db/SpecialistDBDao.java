@@ -35,7 +35,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
                 "VALUES (?, ?, ?, ?);");
         statement.setObject(1, entity.getSpecialistId());
         statement.setString(2, entity.getName());
-        statement.setString(3, entity.getSpecializtion());
+        statement.setString(3, entity.getSpecialization());
         var team = entity.getTeam();
         if (team != null) {
             statement.setObject(4, team.getTeamId());
@@ -61,7 +61,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
         var statement = con.prepareStatement("UPDATE specialist SET name = ?, specializtion = ?, team_id = ? " +
                                                  "WHERE specialist_id = ?;");
         statement.setString(1, entity.getName());
-        statement.setString(2, entity.getSpecializtion());
+        statement.setString(2, entity.getSpecialization());
         var team = entity.getTeam();
         if (team != null) {
             statement.setObject(3, team.getTeamId());
@@ -121,7 +121,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
         var specialist = new Specialist();
         specialist.setSpecialistId((UUID) resultSet.getObject(1));
         specialist.setName(resultSet.getString(2));
-        specialist.setSpecializtion(resultSet.getString(3));
+        specialist.setSpecialization(resultSet.getString(3));
         var team = resultSet.getObject(4);
         if (team != null) {
             specialist.setTeam(new Team());

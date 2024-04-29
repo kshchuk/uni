@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Data
 public class TenantDTO {
-    private UUID tenantId;
+    private String tenantId;
     private String name;
     private String address;
-    private List<UUID> requestIds;
+    private List<String> requestIds;
 }

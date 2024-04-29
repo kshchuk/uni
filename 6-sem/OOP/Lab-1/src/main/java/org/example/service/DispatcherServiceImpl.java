@@ -65,7 +65,7 @@ public class DispatcherServiceImpl implements DispatcherService {
         var team = teamRepository.read(teamId);
         team = teamRepository.readWithWorkPlans(team);
 
-        team.getWorkPlans().removeIf(workPlan -> workPlan.getId().equals(workPlanId));
+        team.getWorkPlans().removeIf(workPlan -> workPlan.getWorkPlanId().equals(workPlanId));
         teamRepository.update(team);
     }
 
@@ -74,7 +74,7 @@ public class DispatcherServiceImpl implements DispatcherService {
         var team = teamRepository.read(teamId);
         team = teamRepository.readWithWorkPlans(team);
 
-        team.getWorkPlans().removeIf(wp -> wp.getId().equals(workPlan.getId()));
+        team.getWorkPlans().removeIf(wp -> wp.getWorkPlanId().equals(workPlan.getWorkPlanId()));
         team.getWorkPlans().add(workPlan);
         teamRepository.update(team);
     }

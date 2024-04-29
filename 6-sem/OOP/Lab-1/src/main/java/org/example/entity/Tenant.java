@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Tenant implements IId<UUID> {
+public class Tenant {
     private UUID tenantId;
     private String name;
     private String address;
@@ -19,13 +19,5 @@ public class Tenant implements IId<UUID> {
         this.tenantId = UUID.randomUUID();
         this.name = "";
         this.address = "";
-    }
-
-    public UUID getId() {
-        return tenantId;
-    }
-
-    public void setId(UUID id) {
-        this.tenantId = id;
     }
 }

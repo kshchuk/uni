@@ -24,7 +24,7 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
         try {
             workPlanDao.create(entity);
             if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getId());
+                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
                 if (dbTeam == null) {
                     teamDao.create(entity.getTeam());
                 } else if (!dbTeam.equals(entity.getTeam())) {
@@ -40,7 +40,7 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
     public WorkPlan read(UUID uuid) {
         try {
             WorkPlan workPlan = workPlanDao.read(uuid);
-            var team = teamDao.read(workPlan.getTeam().getId());
+            var team = teamDao.read(workPlan.getTeam().getTeamId());
             workPlan.setTeam(team);
             return workPlan;
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
     @Override
     public WorkPlan readWithTeam(WorkPlan workPlan) {
         try {
-            var team = teamDao.read(workPlan.getTeam().getId());
+            var team = teamDao.read(workPlan.getTeam().getTeamId());
             workPlan.setTeam(team);
             return workPlan;
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
             if (entity.getTeam() == null) {
                 return;
             }
-            var dbTeam = teamDao.read(entity.getTeam().getId());
+            var dbTeam = teamDao.read(entity.getTeam().getTeamId());
             if (dbTeam == null) {
                 teamDao.create(entity.getTeam());
             } else if (!dbTeam.equals(entity.getTeam())) {
@@ -93,7 +93,7 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
         try {
             List<WorkPlan> workPlans = workPlanDao.findAll();
             for (WorkPlan workPlan : workPlans) {
-                var team = teamDao.read(workPlan.getTeam().getId());
+                var team = teamDao.read(workPlan.getTeam().getTeamId());
                 workPlan.setTeam(team);
             }
             return workPlans;

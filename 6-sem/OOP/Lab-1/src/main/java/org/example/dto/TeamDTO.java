@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Data
 public class TeamDTO {
-    private UUID teamId;
-    private UUID dispatcherId;
-    private List<UUID> specialistIds;
-    private List<UUID> workPlanIds;
+    private String teamId;
+    private String dispatcherId;
+    private List<String> specialistIds;
+    private List<String> workPlanIds;
 }

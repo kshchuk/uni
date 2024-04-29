@@ -45,8 +45,8 @@ public class WorkPlanRepositoryTest {
     public void testRead() throws Exception {
         WorkPlan workPlan = new WorkPlan();
 
-        workPlanRepository.read(workPlan.getId());
+        workPlanRepository.read(workPlan.getWorkPlanId());
 
-        verify(workPlanDao, times(1)).read(workPlan.getId());
+        verify(workPlanDao, times(1)).read(workPlan.getWorkPlanId());
     }
 }

@@ -25,7 +25,7 @@ public class TenantRepositoryImpl implements TenantRepository {
         try {
             tenantDao.create(entity);
             for (Request request : entity.getRequests()) {
-                var dbRequest = requestDao.read(request.getId());
+                var dbRequest = requestDao.read(request.getRequestId());
                 if (dbRequest == null) {
                     requestDao.create(request);
                 }
@@ -51,7 +51,7 @@ public class TenantRepositoryImpl implements TenantRepository {
     @Override
     public Tenant readWithRequests(Tenant tenant) {
         try {
-            List<Request> requests = requestDao.findByTenantId(tenant.getId());
+            List<Request> requests = requestDao.findByTenantId(tenant.getTenantId());
             tenant.setRequests(requests);
             return tenant;
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class TenantRepositoryImpl implements TenantRepository {
             else {
                 // Add new requests and update existing ones
                 for (Request request : entity.getRequests()) {
-                    var dbRequest = requestDao.read(request.getId());
+                    var dbRequest = requestDao.read(request.getRequestId());
                     if (dbRequest == null) {
                         requestDao.create(request);
                     }
@@ -80,10 +80,10 @@ public class TenantRepositoryImpl implements TenantRepository {
                 }
 
                 // remove requests that are not in the updated entity
-                List<Request> dbRequests = requestDao.findByTenantId(entity.getId());
+                List<Request> dbRequests = requestDao.findByTenantId(entity.getTenantId());
                 for (Request dbRequest : dbRequests) {
                     if (!entity.getRequests().contains(dbRequest)) {
-                        requestDao.delete(dbRequest.getId());
+                        requestDao.delete(dbRequest.getRequestId());
                     }
                 }
             }

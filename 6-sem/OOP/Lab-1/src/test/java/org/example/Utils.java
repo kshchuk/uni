@@ -46,7 +46,7 @@ public class Utils {
         var specialist = new Specialist();
         specialist.setTeam(team);
         specialist.setName(getRandString(10));
-        specialist.setSpecializtion(getRandString(10));
+        specialist.setSpecialization(getRandString(10));
 
         return specialist;
     }

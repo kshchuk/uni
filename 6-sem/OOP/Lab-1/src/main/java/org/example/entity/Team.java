@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Team implements IId<UUID> {
+public class Team {
     private UUID teamId;
     private Specialist dispatcher;
 
@@ -19,13 +19,5 @@ public class Team implements IId<UUID> {
     public Team() {
         this.teamId = UUID.randomUUID();
         this.dispatcher = null;
-    }
-
-    public UUID getId() {
-        return teamId;
-    }
-
-    public void setId(UUID id) {
-        this.teamId = id;
     }
 }
