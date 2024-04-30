@@ -3,6 +3,7 @@ package org.example.repository.db;
 import org.apache.log4j.Logger;
 import org.example.dao.TeamDao;
 import org.example.dao.WorkPlanDao;
+import org.example.dao.db.DAOManager;
 import org.example.entity.WorkPlan;
 import org.example.repository.WorkPlanRepository;
 
@@ -14,9 +15,14 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
     private WorkPlanDao workPlanDao;
     private TeamDao teamDao;
 
-    public WorkPlanRepositoryImpl(WorkPlanDao workPlanDao, TeamDao teamDao) {
-        this.workPlanDao = workPlanDao;
-        this.teamDao = teamDao;
+    public WorkPlanRepositoryImpl() {
+        DAOManager manager = DAOManager.getInstance();
+        try {
+            workPlanDao = (WorkPlanDao) manager.getDAO(DAOManager.Table.WORKPLAN);
+            teamDao = (TeamDao) manager.getDAO(DAOManager.Table.TEAM);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     @Override

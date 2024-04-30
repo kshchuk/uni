@@ -3,6 +3,7 @@ package org.example.repository.db;
 import org.apache.log4j.Logger;
 import org.example.dao.RequestDao;
 import org.example.dao.TenantDao;
+import org.example.dao.db.DAOManager;
 import org.example.entity.Request;
 import org.example.entity.Tenant;
 import org.example.repository.TenantRepository;
@@ -15,9 +16,14 @@ public class TenantRepositoryImpl implements TenantRepository {
     private TenantDao tenantDao;
     private RequestDao requestDao;
 
-    public TenantRepositoryImpl(TenantDao tenantDao, RequestDao requestDao) {
-        this.tenantDao = tenantDao;
-        this.requestDao = requestDao;
+    public TenantRepositoryImpl() {
+        DAOManager manager = DAOManager.getInstance();
+        try {
+            tenantDao = (TenantDao) manager.getDAO(DAOManager.Table.TENANT);
+            requestDao = (RequestDao) manager.getDAO(DAOManager.Table.REQUEST);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     @Override

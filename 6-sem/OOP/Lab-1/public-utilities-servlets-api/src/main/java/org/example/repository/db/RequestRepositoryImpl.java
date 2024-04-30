@@ -2,6 +2,7 @@ package org.example.repository.db;
 
 import org.apache.log4j.Logger;
 import org.example.dao.RequestDao;
+import org.example.dao.db.DAOManager;
 import org.example.entity.Request;
 import org.example.repository.RequestRepository;
 
@@ -12,8 +13,13 @@ public class RequestRepositoryImpl implements RequestRepository {
     private Logger logger = Logger.getLogger(RequestRepositoryImpl.class);
     private RequestDao requestDao;
 
-    public RequestRepositoryImpl(RequestDao requestDao) {
-        this.requestDao = requestDao;
+    public RequestRepositoryImpl() {
+        var manager = DAOManager.getInstance();
+        try {
+            requestDao = (RequestDao) manager.getDAO(DAOManager.Table.REQUEST);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     @Override

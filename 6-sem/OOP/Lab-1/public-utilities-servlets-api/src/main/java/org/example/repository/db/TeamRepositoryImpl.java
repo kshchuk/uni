@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.example.dao.SpecialistDao;
 import org.example.dao.TeamDao;
 import org.example.dao.WorkPlanDao;
+import org.example.dao.db.DAOManager;
 import org.example.entity.Specialist;
 import org.example.entity.Team;
 import org.example.entity.WorkPlan;
@@ -18,10 +19,15 @@ public class TeamRepositoryImpl implements TeamRepository {
     private SpecialistDao specialistDao;
     private WorkPlanDao workPlanDao;
 
-    public TeamRepositoryImpl(TeamDao teamDao, SpecialistDao specialistDao, WorkPlanDao workPlanDao) {
-        this.teamDao = teamDao;
-        this.specialistDao = specialistDao;
-        this.workPlanDao = workPlanDao;
+    public TeamRepositoryImpl() {
+        DAOManager manager = DAOManager.getInstance();
+        try {
+            teamDao = (TeamDao) manager.getDAO(DAOManager.Table.TEAM);
+            specialistDao = (SpecialistDao) manager.getDAO(DAOManager.Table.SPECIALIST);
+            workPlanDao = (WorkPlanDao) manager.getDAO(DAOManager.Table.WORKPLAN);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     @Override

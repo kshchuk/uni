@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE beans [
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (property*)>
+        <!ELEMENT property (#PCDATA)>
+
+        <!ATTLIST bean id ID #REQUIRED>
+        <!ATTLIST bean class CDATA #IMPLIED>
+        <!ATTLIST property name CDATA #IMPLIED>
+        <!ATTLIST property ref IDREF #IMPLIED>
+        ]>
+
+<beans>
+    <!-- Repository -->
+    <bean id="requestRepository" class="repository.db.RequestRepositoryImpl"/>
+    <bean id="specialistRepository" class="repository.db.SpecialistRepositoryImpl"/>
+    <bean id="teamRepository" class="repository.db.TeamRepositoryImpl"/>
+    <bean id="tenantRepository" class="repository.db.TenantRepositoryImpl"/>
+    <bean id="workPlanRepository" class="repository.db.WorkPlanRepositoryImpl"/>
+
+    <!-- service -->
+    <bean id="dispatcherService" class="service.DispatcherServiceImpl">
+        <property name="specialistRepository" ref="specialistRepository"/>
+        <property name="teamRepository" ref="teamRepository"/>
+        <property name="workPlanRepository" ref="workPlanRepository"/>
+    </bean>
+    <bean id="specialistService" class="service.SpecialistServiceImpl">
+        <property name="specialistRepository" ref="specialistRepository"/>
+    </bean>
+    <bean id="tenantService" class="service.TenantServiceImpl">
+        <property name="tenantRepository" ref="tenantRepository"/>
+    </bean>
+
+</beans>
