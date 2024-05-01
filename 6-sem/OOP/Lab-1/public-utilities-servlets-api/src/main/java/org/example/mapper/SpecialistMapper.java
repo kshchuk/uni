@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Mapper(config = MapperConfig.class, uses = {TeamMapper.class, WorkPlanMapper.class})
-public interface SpecialistMapper {
+public interface SpecialistMapper extends MapperBase<Specialist, SpecialistDTO>{
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
 
     @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeamIdToString")

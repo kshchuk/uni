@@ -4,7 +4,7 @@ import org.example.dao.RequestDao;
 import org.example.dao.TenantDao;
 import org.example.entity.Request;
 import org.example.entity.Tenant;
-import org.example.repository.db.TenantRepositoryImpl;
+import org.example.repository.impl.TenantRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

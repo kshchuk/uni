@@ -2,7 +2,7 @@ package org.example.repository;
 
 import org.example.dao.RequestDao;
 import org.example.entity.Request;
-import org.example.repository.db.RequestRepositoryImpl;
+import org.example.repository.impl.RequestRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

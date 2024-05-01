@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.UUID;
 
 @Mapper(config = MapperConfig.class, uses = {TeamMapper.class})
-public interface WorkPlanMapper {
+public interface WorkPlanMapper extends MapperBase<WorkPlan, WorkPlanDTO>{
     WorkPlanMapper INSTANCE = Mappers.getMapper(WorkPlanMapper.class);
 
     @Mapping(source = "team", target = "teamId", qualifiedByName = "mapTeamId")

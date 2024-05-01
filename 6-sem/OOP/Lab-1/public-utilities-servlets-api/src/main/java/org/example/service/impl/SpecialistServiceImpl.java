@@ -1,8 +1,9 @@
-package org.example.service;
+package org.example.service.impl;
 
 import org.example.entity.Specialist;
 import org.example.entity.WorkPlan;
 import org.example.repository.SpecialistRepository;
+import org.example.service.SpecialistService;
 
 import java.util.List;
 import java.util.UUID;

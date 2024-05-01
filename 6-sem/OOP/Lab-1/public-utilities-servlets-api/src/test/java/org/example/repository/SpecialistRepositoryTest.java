@@ -6,7 +6,7 @@ import org.example.dao.WorkPlanDao;
 import org.example.entity.Specialist;
 import org.example.entity.Team;
 import org.example.entity.WorkPlan;
-import org.example.repository.db.SpecialistRepositoryImpl;
+import org.example.repository.impl.SpecialistRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

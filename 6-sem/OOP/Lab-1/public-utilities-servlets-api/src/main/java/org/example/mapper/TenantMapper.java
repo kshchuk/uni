@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Mapper(config = MapperConfig.class, uses = {RequestMapper.class})
-public interface TenantMapper {
+public interface TenantMapper extends MapperBase<Tenant, TenantDTO>{
     TenantMapper INSTANCE = Mappers.getMapper(TenantMapper.class);
 
     @Mapping(source = "requests", target = "requestIds", qualifiedByName = "mapRequestIds")

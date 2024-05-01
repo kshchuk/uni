@@ -3,7 +3,7 @@ package org.example.repository;
 import org.example.dao.TeamDao;
 import org.example.dao.WorkPlanDao;
 import org.example.entity.WorkPlan;
-import org.example.repository.db.WorkPlanRepositoryImpl;
+import org.example.repository.impl.WorkPlanRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

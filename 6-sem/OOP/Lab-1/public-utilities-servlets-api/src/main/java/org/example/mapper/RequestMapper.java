@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.UUID;
 
 @Mapper(config = MapperConfig.class, uses = {TenantMapper.class})
-public interface RequestMapper {
+public interface RequestMapper extends MapperBase<Request, RequestDTO> {
     RequestMapper INSTANCE = Mappers.getMapper(RequestMapper.class);
 
     @Mapping(source = "tenant", target = "tenantId", qualifiedByName = "mapTenantId")

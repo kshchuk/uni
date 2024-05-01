@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.service.impl;
 
 import org.example.entity.Specialist;
 import org.example.entity.Team;
@@ -6,6 +6,7 @@ import org.example.entity.WorkPlan;
 import org.example.repository.SpecialistRepository;
 import org.example.repository.TeamRepository;
 import org.example.repository.WorkPlanRepository;
+import org.example.service.DispatcherService;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,8 +1,9 @@
-package org.example.service;
+package org.example.service.impl;
 
 import org.example.entity.Request;
 import org.example.entity.Tenant;
 import org.example.repository.TenantRepository;
+import org.example.service.TenantService;
 
 import java.util.List;
 import java.util.UUID;
