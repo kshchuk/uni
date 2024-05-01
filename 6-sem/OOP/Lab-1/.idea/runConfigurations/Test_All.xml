@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Test All" type="JUnit" factoryName="JUnit">
+    <module name="public-utilities-servlets-api" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="directory" />
+    <envs>
+      <env name="DATABASE_NAME" value="oop_lab_1_db" />
+      <env name="DATABASE_URL" value="jdbc:postgresql://localhost:5431" />
+      <env name="DATABASE_USER_NAME" value="admin" />
+      <env name="DATABASE_USER_PASSWORD" value="secret" />
+    </envs>
+    <dir value="$PROJECT_DIR$/public-utilities-servlets-api/src/test/java" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
