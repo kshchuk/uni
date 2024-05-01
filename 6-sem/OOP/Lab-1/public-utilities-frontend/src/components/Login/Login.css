@@ -1,0 +1,62 @@
+div {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the error message */
+.errmsg {
+    color: #d9534f;
+    margin-bottom: 10px;
+}
+
+/* Styles for the heading */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Styles for the form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styles for the form labels */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Styles for the form inputs */
+input[type="text"],
+input[type="password"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+/* Styles for the submit button */
+button {
+    padding: 10px 15px;
+    color: #000000;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-size: 20px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #549be6;
+}
+
+button:active {
+    background-color: #549be6;
+    transform: translateY(1px);
+}

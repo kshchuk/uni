@@ -1,0 +1,33 @@
+.unauthorized-page {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.unauthorized-page h1 {
+    font-size: 2em;
+    color: #333;
+}
+
+.unauthorized-page__description {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.unauthorized-page__button {
+    margin-top: 20px;
+}
+
+.unauthorized-page__button-text {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.unauthorized-page__button-text:hover {
+    background-color: #c82333;
+}

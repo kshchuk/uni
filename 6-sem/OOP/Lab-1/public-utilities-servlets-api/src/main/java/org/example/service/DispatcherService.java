@@ -17,6 +17,6 @@ public interface DispatcherService extends Service<Specialist, UUID> {
     void removeWorkPlan(UUID teamId, UUID workPlanId);
     void updateWorkPlan(UUID teamId, WorkPlan workPlan);
 
-    List<WorkPlan> getWorkPlans(UUID dispathcherId);
+    List<WorkPlan> getWorkPlans(UUID dispatcherId);
     List<WorkPlan> getWorkPlans();
 }

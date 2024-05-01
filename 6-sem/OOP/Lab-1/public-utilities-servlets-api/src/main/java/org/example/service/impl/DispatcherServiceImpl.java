@@ -81,8 +81,8 @@ public class DispatcherServiceImpl implements DispatcherService {
     }
 
     @Override
-    public List<WorkPlan> getWorkPlans(UUID dispathcherId) {
-        var dispatcher = specialistRepository.read(dispathcherId);
+    public List<WorkPlan> getWorkPlans(UUID dispathcherid) {
+        var dispatcher = specialistRepository.read(dispathcherid);
         dispatcher = specialistRepository.readWithWorkPlans(dispatcher);
         return dispatcher.getWorkPlans();
     }
