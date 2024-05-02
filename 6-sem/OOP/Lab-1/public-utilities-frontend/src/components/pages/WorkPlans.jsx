@@ -13,15 +13,23 @@ const WorkPlans = () => {
     const config = getHeaderConfig();
 
     const makeRequest = async (field, value) => {
-        const response = await axios.get(WORKPLAN_URL, {
-            params: {
-                field: field,
-                value: value
-            },
-            headers: config.headers
-        });
-        console.log(JSON.stringify(response?.data));
-        setData(response?.data);
+        console.log("Making request");
+        let url;
+        if (field === 'all' && value === 'all') {
+            url = `${WORKPLAN_URL}/all`;
+        } else {
+            url = `${WORKPLAN_URL}/?${field}=${value}`;
+        }
+
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            setData(response.data);
+        } catch (error) {
+            console.error("Error making request:", error.message);
+        }
     }
 
     return (

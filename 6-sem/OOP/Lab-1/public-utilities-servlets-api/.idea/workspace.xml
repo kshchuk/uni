@@ -10,44 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eabf4528-da2e-49bf-b141-4e3845d86e16" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/App.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/api/axios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Home.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Home.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Layout.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Login/Login.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Login/Login.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/RequireAuth.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Unauthorized.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/Unauthorized.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/CreateRequest.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/CreateTeam.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/CreateWorkPlan.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/DispatcherView.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/EditRequest.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/EditTeam.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/EditWorkPlan.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/admin_pages/TenantView.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/context/AuthProvider.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/hooks/Config.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/hooks/useAuth.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/Entity.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/Requests.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/Specialists.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/Tenants.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/View.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/WorkPlans.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/App.test.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/reportWebVitals.js" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/reportWebVitals.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/setupTests.js" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/setupTests.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/Teams.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/View.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../public-utilities-frontend/src/components/pages/View.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/DispatcherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/DispatcherService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/impl/DispatcherServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/impl/DispatcherServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +116,7 @@
       <workItem from="1714489686399" duration="994000" />
       <workItem from="1714549029411" duration="15013000" />
       <workItem from="1714567537238" duration="36000" />
-      <workItem from="1714590545038" duration="9061000" />
+      <workItem from="1714590545038" duration="11538000" />
     </task>
     <servers />
   </component>

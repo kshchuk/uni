@@ -19,9 +19,7 @@ const Home = () => {
             <h1>Home</h1>
             <p className="home-page__description">You are logged in!</p>
             <div className="home-page__links">
-                {/*<Link to="/view" className="home-page__link">Go to the Common page</Link>*/}
-                {/*<Link to="/dispatch_view" className="home-page__link">Go to the Dispatch page</Link>*/}
-                {/*<Link to="/admin_view" className="home-page__link">Go to the Admin page</Link>*/}
+                <Link to="/view" className="home-page__link">Go to the Common page</Link>
             </div>
             {/*<div className="home-page__button">*/}
             {/*    <button onClick={logout} className="home-page__button-text">Sign Out</button>*/}

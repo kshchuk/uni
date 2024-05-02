@@ -7,11 +7,11 @@ const View = () =>{
         <div className="home-page">
             <h2>Welcome to Viewing page</h2>
             <div className="home-page__links">
-                {/*<Link to="/crew_view" className="home-page__link">Query Crew data</Link>*/}
-                {/*<Link to="/brigade_view" className="home-page__link">Query Brigade data</Link>*/}
-                {/*<Link to="/planes_view" className="home-page__link">Query Planes data</Link>*/}
-                {/*<Link to="/races_view" className="home-page__link">Query Races data</Link>*/}
-                {/* <Link to="/flights_view" className="home-page__link">Query WorkPlan data</Link> */}
+                {<Link to="/view_requests" className="home-page__link">View Requests</Link>}
+                {<Link to="/view_specialists" className="home-page__link">View Specialists</Link>}
+                {<Link to="/view_teams" className="home-page__link">View Teams</Link>}
+                {<Link to="/view_work_plans" className="home-page__link">View Work Plans</Link>}
+                {<Link to="/view_tenants" className="home-page__link">View Tenants</Link>}
             </div>
             <div className="home-page__button">
                 <Link to="/home">Back</Link>

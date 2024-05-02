@@ -34,6 +34,10 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -103,6 +107,10 @@ public class SpecialistServlet extends HttpServlet {
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 
@@ -127,6 +135,10 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String pathInfo = request.getPathInfo();
 
@@ -152,6 +164,10 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 

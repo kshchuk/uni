@@ -1,10 +1,10 @@
 const getHeaderConfig = () => {
-    const token = JSON.parse(window.localStorage.getItem("Token")).token;
+    // const token = JSON.parse(window.localStorage.getItem("Token")).token;
 
     return {
         headers: {
             'Content-Type': 'application/json',
-            'access-token': token
+            'access-token': "mockToken",
         }
     };
 }
