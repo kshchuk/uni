@@ -29,7 +29,10 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public Specialist get(UUID uuid) {
-        return specialistRepository.read(uuid);
+        Specialist specialist = specialistRepository.read(uuid);
+        specialist = specialistRepository.readWithTeam(specialist);
+        specialist = specialistRepository.readWithWorkPlans(specialist);
+        return specialist;
     }
 
     @Override
@@ -46,6 +49,11 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public List<Specialist> getAll() {
-        return specialistRepository.findAll();
+        List<Specialist> specialists = specialistRepository.findAll();
+        for (Specialist specialist : specialists) {
+            specialist = specialistRepository.readWithTeam(specialist);
+            specialist = specialistRepository.readWithWorkPlans(specialist);
+        }
+        return specialists;
     }
 }

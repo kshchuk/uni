@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "dispatcherServlet", value = "/dispatcher/*")
+@WebServlet(name = "dispatcherServlet", value = "/dispatcher*")
 public class DispatcherServlet extends HttpServlet {
     Logger logger = Logger.getLogger(SpecialistServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
@@ -38,10 +38,6 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 

@@ -2,13 +2,16 @@ import { Link } from "react-router-dom"
 import "./Entity.css"
 import "../Home.css"
 import axios from "../../api/axios"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import getHeaderConfig from "../hooks/Config"
 const TEAM_URL = "/team";
 
 const Teams = () => {
     const [data, setData] = useState([]);
     const [id, setID] = useState('');
+    const [specialists, setSpecialists] = useState([]);
+    const [workplans, setWorkplans] = useState([]);
+    const [dispatcher, setDispatcher] = useState('');
 
     const config = getHeaderConfig();
 
@@ -31,6 +34,40 @@ const Teams = () => {
             console.error("Error making request:", error.message);
         }
     }
+
+    const getSpecialists = async (teamId) => {
+        console.log("Getting specialists");
+        let url = `${TEAM_URL}/specialists?id=${teamId}`;
+
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            setSpecialists(response.data);
+        } catch (error) {
+            console.error("Error getting specialists:", error.message);
+        }
+    }
+
+    const getWorkPlans = async (teamId) => {
+        console.log("Getting work plans");
+        let url = `${TEAM_URL}/workplans?id=${teamId}`;
+
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            setWorkplans(response.data);
+        } catch (error) {
+            console.error("Error getting work plans:", error.message);
+        }
+    }
+
+    useEffect(() => {
+        makeRequest("all", "all");
+    }, []);
 
     return (
         <section>

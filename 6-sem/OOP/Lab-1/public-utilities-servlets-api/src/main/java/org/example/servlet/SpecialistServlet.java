@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "specialistServlet", value = "/specialist/*")
+@WebServlet(name = "specialistServlet", value = "/specialist*")
 public class SpecialistServlet extends HttpServlet {
     Logger logger = Logger.getLogger(SpecialistServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
@@ -34,10 +34,6 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -52,13 +48,13 @@ public class SpecialistServlet extends HttpServlet {
                         .map(SpecialistMapper.INSTANCE::toDto)
                         .toList();
 
-                String jsonResponse = objectMapper.writeValueAsString(specialists);
+                String jsonResponse = objectMapper.writeValueAsString(specialistDTOs);
                 out.write(jsonResponse);
 
                 response.setStatus(HttpServletResponse.SC_OK);
             }
 
-            // Handle the case for GET /specialist/workplans?id=...
+            // Handle the case for GET /specialist/workplans/?id=...
             else if (pathInfo.startsWith("/workplans")) {
                 String id = request.getParameter("id");
 
@@ -83,7 +79,7 @@ public class SpecialistServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
 
-            // Handle the case for GET /specialist?id=...
+            // Handle the case for GET /specialist/?id=...
             else {
                 String id = request.getParameter("id");
                 Specialist specialist = specialistService.get(UUID.fromString(id));
@@ -107,10 +103,6 @@ public class SpecialistServlet extends HttpServlet {
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 
@@ -135,28 +127,24 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String pathInfo = request.getPathInfo();
 
         logger.info("DELETE request to SpecialistServlet" + pathInfo);
 
         if (pathInfo != null) {
-                String id = request.getParameter("id");
-                if (id == null) {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    return;
-                }
+            String id = request.getParameter("id");
+            if (id == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-                boolean isDeleted = specialistService.delete(UUID.fromString(id));
-                if (isDeleted) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                } else {
-                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                }
+            boolean isDeleted = specialistService.delete(UUID.fromString(id));
+            if (isDeleted) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
         }
         else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -164,10 +152,6 @@ public class SpecialistServlet extends HttpServlet {
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 

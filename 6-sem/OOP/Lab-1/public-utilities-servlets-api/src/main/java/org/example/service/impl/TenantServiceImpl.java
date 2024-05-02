@@ -61,7 +61,9 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public Tenant get(UUID uuid) {
-        return tenantRepository.read(uuid);
+        Tenant tenant = tenantRepository.read(uuid);
+        tenantRepository.readWithRequests(tenant);
+        return tenant;
     }
 
     @Override
@@ -78,6 +80,10 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public List<Tenant> getAll() {
-        return tenantRepository.findAll();
+        List<Tenant> tenants = tenantRepository.findAll();
+        for (Tenant tenant : tenants) {
+            tenantRepository.readWithRequests(tenant);
+        }
+        return tenants;
     }
 }

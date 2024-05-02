@@ -2,9 +2,15 @@ package org.example.servlet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.dto.SpecialistDTO;
 import org.example.dto.TeamDTO;
+import org.example.dto.WorkPlanDTO;
+import org.example.entity.Specialist;
 import org.example.entity.Team;
+import org.example.entity.WorkPlan;
+import org.example.mapper.SpecialistMapper;
 import org.example.mapper.TeamMapper;
+import org.example.mapper.WorkPlanMapper;
 import org.example.repository.TeamRepository;
 import org.example.repository.impl.TeamRepositoryImpl;
 import org.example.service.TeamService;
@@ -20,7 +26,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "teamServlet", value = "/team/*")
+@WebServlet(name = "teamServlet", value = "/team*")
 public class TeamServlet extends HttpServlet {
     Logger logger = Logger.getLogger(TeamServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
@@ -32,10 +38,6 @@ public class TeamServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -51,6 +53,44 @@ public class TeamServlet extends HttpServlet {
                         .toList();
 
                 String jsonResponse = objectMapper.writeValueAsString(teamDTOs);
+                out.write(jsonResponse);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+
+            else if (pathInfo.equals("/specialists")) {
+                String id = request.getParameter("id");
+
+                if (id == null) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    return;
+                }
+
+                List<Specialist> specialists = teamService.getSpecialists(UUID.fromString(id));
+                List<SpecialistDTO> specialistDTOs = specialists.stream()
+                        .map(SpecialistMapper.INSTANCE::toDto)
+                        .toList();
+
+                String jsonResponse = objectMapper.writeValueAsString(specialistDTOs);
+                out.write(jsonResponse);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+
+            else if (pathInfo.equals("/workplans")) {
+                String id = request.getParameter("id");
+
+                if (id == null) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    return;
+                }
+
+                List<WorkPlan> workPlans = teamService.getWorkPlans(UUID.fromString(id));
+                List<WorkPlanDTO> workPlanDTOs = workPlans.stream()
+                        .map(WorkPlanMapper.INSTANCE::toDto)
+                        .toList();
+
+                String jsonResponse = objectMapper.writeValueAsString(workPlanDTOs);
                 out.write(jsonResponse);
 
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -85,10 +125,6 @@ public class TeamServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 
@@ -113,10 +149,6 @@ public class TeamServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String pathInfo = request.getPathInfo();
 
@@ -142,10 +174,6 @@ public class TeamServlet extends HttpServlet {
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 

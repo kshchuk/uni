@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet(name = "TenantServlet", value = "/tenant/*")
+@WebServlet(name = "TenantServlet", value = "/tenant*")
 public class TenantServlet extends HttpServlet {
     Logger logger = Logger.getLogger(TenantServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
@@ -34,10 +34,6 @@ public class TenantServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -111,10 +107,6 @@ public class TenantServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 
@@ -139,10 +131,6 @@ public class TenantServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String pathInfo = request.getPathInfo();
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
@@ -170,10 +158,6 @@ public class TenantServlet extends HttpServlet {
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.setHeader("Access-Control-Max-Age", "3600");
         response.setContentType("application/json");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 

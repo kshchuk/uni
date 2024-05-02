@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tomcat 9.0.87" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.87" ALTERNATIVE_JRE_ENABLED="false">
     <deployment>
-      <artifact name="public-utilities-servlets-api:war exploded">
+      <artifact name="api">
         <settings>
-          <option name="CONTEXT_PATH" value="/public_utilities_servlets_api_war_exploded" />
+          <option name="CONTEXT_PATH" value="/api" />
         </settings>
       </artifact>
     </deployment>
@@ -161,7 +161,7 @@
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="public-utilities-servlets-api:war exploded" />
+        <artifact name="api" />
       </option>
     </method>
   </configuration>

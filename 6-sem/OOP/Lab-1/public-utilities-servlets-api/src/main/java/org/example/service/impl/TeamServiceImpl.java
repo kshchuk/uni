@@ -1,6 +1,8 @@
 package org.example.service.impl;
 
+import org.example.entity.Specialist;
 import org.example.entity.Team;
+import org.example.entity.WorkPlan;
 import org.example.repository.TeamRepository;
 import org.example.service.TeamService;
 
@@ -21,7 +23,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team get(UUID uuid) {
-        return teamRepository.read(uuid);
+        Team team = teamRepository.read(uuid);
+        team = teamRepository.readWithDispatcher(team);
+        team = teamRepository.readWithSpecialists(team);
+        team = teamRepository.readWithWorkPlans(team);
+        return team;
     }
 
     @Override
@@ -37,6 +43,26 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Team> getAll() {
-        return teamRepository.findAll();
+        List<Team> teams = teamRepository.findAll();
+        for (Team team : teams) {
+            team = teamRepository.readWithDispatcher(team);
+            team = teamRepository.readWithSpecialists(team);
+            team = teamRepository.readWithWorkPlans(team);
+        }
+        return teams;
+    }
+
+    @Override
+    public List<Specialist> getSpecialists(UUID teamId) {
+        Team team = teamRepository.read(teamId);
+        team = teamRepository.readWithSpecialists(team);
+        return team.getSpecialists();
+    }
+
+    @Override
+    public List<WorkPlan> getWorkPlans(UUID teamId) {
+        Team team = teamRepository.read(teamId);
+        team = teamRepository.readWithWorkPlans(team);
+        return team.getWorkPlans();
     }
 }

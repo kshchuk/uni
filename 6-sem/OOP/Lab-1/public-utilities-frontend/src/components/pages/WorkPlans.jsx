@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import "./Entity.css"
 import "../Home.css"
 import axios from "../../api/axios"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import getHeaderConfig from "../hooks/Config"
 const WORKPLAN_URL = "/workplan";
 
@@ -31,6 +31,10 @@ const WorkPlans = () => {
             console.error("Error making request:", error.message);
         }
     }
+
+    useEffect(() => {
+        makeRequest("all", "all");
+    }, []);
 
     return (
         <section>

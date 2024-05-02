@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import "./Entity.css"
 import "../Home.css"
 import axios from "../../api/axios"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import getHeaderConfig from "../hooks/Config"
 const REQUEST_URL = "/request";
 
@@ -26,10 +26,38 @@ const Requests = () => {
                 headers: config.headers
             });
             console.log(JSON.stringify(response.data));
-            setData(response.data);
+            if (Array.isArray(response.data)) {
+                setData(response.data);
+            } else {
+                setData([response.data]);
+            }
         } catch (error) {
             console.error("Error making request:", error.message);
         }
+    }
+
+    useEffect(() => {
+        makeRequest("all", "all");
+    }, []);
+
+    // format time to hour minute (for ex PT32H is 32 hours, PT1H30M is 1 hour 30 minutes
+    const formatDuration = (time) => {
+        let hours = 0;
+        let minutes = 0;
+        if (time.includes("H")) {
+            hours = parseInt(time.split("H")[0].substring(2));
+        }
+        if (time.includes("M")) {
+            minutes = parseInt(time.split("M")[0].split("H")[1].substring(2));
+        }
+        let result = "";
+        if (hours > 0) {
+            result += hours + " hours ";
+        }
+        if (minutes > 0) {
+            result += minutes + " minutes";
+        }
+        return result;
     }
 
 
@@ -52,11 +80,11 @@ const Requests = () => {
                     <tbody>
                     {data?.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.id}</td>
+                            <td>{item.requestId}</td>
                             <td>{item.tenantId}</td>
                             <td>{item.workType}</td>
                             <td>{item.scopeOfWork}</td>
-                            <td>{item.desiredTime}</td>
+                            <td>{formatDuration(item.desiredTime)}</td>
                         </tr>
                     ))}
                     </tbody>

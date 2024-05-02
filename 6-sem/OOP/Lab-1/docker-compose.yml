@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  backend:
+    build:
+        context: ./public-utilities-servlets-api
+        dockerfile: ./backend.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_NAME=oop_lab_1_db
+      - DATABASE_URL=jdbc:postgresql://db:5432/oop_lab_1_db
+      - DATABASE_USER=admin
+      - DATABASE_USER_PASSWORD=secret
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=oop_lab_1_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"

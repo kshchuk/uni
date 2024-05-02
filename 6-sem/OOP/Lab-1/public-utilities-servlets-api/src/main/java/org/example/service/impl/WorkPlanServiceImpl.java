@@ -21,7 +21,9 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
     @Override
     public WorkPlan get(UUID uuid) {
-        return workPlanRepository.read(uuid);
+        WorkPlan workPlan = workPlanRepository.read(uuid);
+        workPlan = workPlanRepository.readWithTeam(workPlan);
+        return workPlan;
     }
 
     @Override
@@ -37,6 +39,10 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
     @Override
     public List<WorkPlan> getAll() {
-        return workPlanRepository.findAll();
+        List<WorkPlan> workPlans = workPlanRepository.findAll();
+        for (WorkPlan workPlan : workPlans) {
+            workPlan = workPlanRepository.readWithTeam(workPlan);
+        }
+        return workPlans;
     }
 }
