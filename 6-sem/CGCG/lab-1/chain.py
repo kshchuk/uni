@@ -13,28 +13,31 @@ class Chain(Graph):
         chains = []
         chain = Chain()
         for i in range(0, len(graph.vertices) - 1):
-            v1 = graph.vertices[i]
-            v1.hasImmutableKey = True  # mark to save the order of vertices
-            v2 = v1.mostLeftOutVertex()
+            vertex = graph.vertices[i]
+            vertex.hasImmutableKey = True  # mark to save the order of vertices
 
-            while v2 is not None:
-                v1 = v2
-                v2 = v1.mostLeftOutVertex()
-                if v2 is not None:
+            while vertex.WoutWeightSum() != 0:
+                v1 = vertex
+                v2 = vertex.mostLeftOutVertex()
+                while v2 is not None:
                     v2.hasImmutableKey = True
                     chain.addEdge(v1, v2)
-                    newWeight = --graph.edges[(v1, v2)].weight
+                    newWeight = graph.edges[(v1, v2)].weight - 1
+                    graph.edges[(v1, v2)].weight = newWeight
                     v1.modifyOutWeight(v2, newWeight)
                     v2.modifyInWeight(v1, newWeight)
-                else:
-                    chain.addVertex(v1)
-                    chains.append(chain)
-                    chain = Chain()
+
+                    v1 = v2
+                    v2 = v1.mostLeftOutVertex()
+                    if v2 is None:
+                        chains.append(chain)
+                        chain = Chain()
+                        graph.visualize()
 
         return chains
 
     @staticmethod
-    def localizePoint(chains: list['Chain'], point: Point, mid_index = 0) -> tuple['Chain', 'Chain']:
+    def localizePoint(chains: list['Chain'], point: Point, mid_index=0) -> tuple['Chain', 'Chain']:
         """
         Localize the point in the chains using Binary Search
         :param chains: chains to localize the point
@@ -57,7 +60,7 @@ class Chain(Graph):
             return mid_chain, mid_chain
 
         if side == Chain._Side.LEFT:
-            return Chain.localizePoint(chains[:mid_index], point, len(chains[:mid_index]) // 2)
+            return Chain.localizePoint(chains[:mid_index + 1], point, len(chains[:mid_index + 1]) // 2)
         else:
             return Chain.localizePoint(chains[mid_index:], point, len(chains[mid_index:]) // 2)
 

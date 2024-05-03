@@ -18,7 +18,9 @@ class Balancer:
                 newWeight = win - vout + 1
                 d1.weight = newWeight
                 v1.modifyInWeight(vertex, newWeight)
-                vertex.modifyOutWeight(d1, newWeight)
+                vertex.modifyOutWeight(v1, newWeight)
+
+        graph.visualize()
 
         for i in range(len(graph.vertices) - 2, 0, -1):
             vertex = graph.vertices[i]
@@ -30,6 +32,6 @@ class Balancer:
                 newWeight = wout - win + d2.weight
                 d2.weight = newWeight
                 v2.modifyOutWeight(vertex, newWeight)
-                vertex.modifyInWeight(d2, newWeight)
+                vertex.modifyInWeight(v2, newWeight)
 
         return graph

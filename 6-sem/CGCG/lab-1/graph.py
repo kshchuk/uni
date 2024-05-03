@@ -38,10 +38,29 @@ class Graph:
             self.addEdge(edge.v1, edge.v2, edge.weight)
 
     def checkRegularity(self) -> bool:
-        for vertex in self.vertices:
+        for i in range(1, len(self.vertices) - 1):
+            vertex = self.vertices[i]
             if len(vertex.inVertices) == 0 or len(vertex.outVertices) == 0:
                 return False
         return True
+
+    def regularize(self) -> None:
+        for i in range(1, len(self.vertices) - 1):
+            vertex = self.vertices[i]
+            if len(vertex.inVertices) == 0:
+                v1 = vertex
+                v2 = vertex.mostLeftOutVertex()
+                while v2 is not None:
+                    self.addEdge(v1, v2)
+                    v1 = v2
+                    v2 = v1.mostLeftOutVertex()
+            if len(vertex.outVertices) == 0:
+                v1 = vertex
+                v2 = vertex.mostLeftInVertex()
+                while v2 is not None:
+                    self.addEdge(v2, v1)
+                    v1 = v2
+                    v2 = v1.mostLeftInVertex()
 
     def save_to_file(self, filename: str) -> None:
         graph_dict = {
@@ -56,10 +75,10 @@ class Graph:
             graph_dict = json.load(f)
         vertices = [Vertex(location=Point(x, y)) for x, y in graph_dict["vertices"]]
         edges = [Edge(vertices[i], vertices[j], 1) for i, j in graph_dict["edges"]]
-        # self.addVertices(vertices)
+        self.addVertices(vertices)
         self.addEdges(edges)
 
-    def visualize(self):
+    def visualize(self, point: Point = None):
         G = nx.DiGraph()
         labels = {}
         edge_labels = {}
@@ -72,8 +91,12 @@ class Graph:
             G.add_edge(edge.v1.key, edge.v2.key)
             edge_labels[(edge.v1.key, edge.v2.key)] = str(edge.weight)
 
+        if point is not None:
+            G.add_node('Point', pos=(point.x, point.y))
+            labels['Point'] = 'p'
+
         pos = nx.get_node_attributes(G, 'pos')
-        nx.draw(G, pos, labels=labels, with_labels=True, node_size=1000, node_color='skyblue')
+        nx.draw(G, pos, labels=labels, with_labels=True, node_size=500, node_color='skyblue')
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
         plt.show()
 

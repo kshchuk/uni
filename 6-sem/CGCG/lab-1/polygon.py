@@ -15,7 +15,14 @@ class Polygon(Graph):
 
         :param chain_1: the first chain
         :param chain_2: the second chain"""
-        common_edges = set(chain_1.edges.keys()).intersection(chain_2.edges.keys())
-        for edge in common_edges:
-            v1, v2 = edge.v1, edge.v2
-            self.addEdge(v1, v2, chain_1.edges[edge].weight)
+        non_common_edges = []
+        for edge in chain_1.edges:
+            if edge not in chain_2.edges:
+                non_common_edges.append(edge)
+        for edge in chain_2.edges:
+            if edge not in chain_1.edges:
+                non_common_edges.append(edge)
+
+        for edge in non_common_edges:
+            self.addEdge(edge[0], edge[1])
+

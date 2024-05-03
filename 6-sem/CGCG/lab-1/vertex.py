@@ -19,17 +19,19 @@ class Vertex:
         self._outWeights = {}  # Weights of the connections
 
     def addInVertex(self, other, weight: int = 1) -> None:
-        self._inVertices.append(other)
-        self._inWeights[other] = weight
+        if other not in self._inVertices:
+            self._inVertices.append(other)
+            self._inWeights[other] = weight
 
-    def modifyInWeight(self, other, weight: int) -> None:
+    def modifyInWeight(self, other: 'Vertex', weight: int) -> None:
         self._inWeights[other] = weight
 
     def addOutVertex(self, other, weight: int = 1) -> None:
-        self._outVertices.append(other)
-        self._outWeights[other] = weight
+        if other not in self._outVertices:
+            self._outVertices.append(other)
+            self._outWeights[other] = weight
 
-    def modifyOutWeight(self, other, weight: int) -> None:
+    def modifyOutWeight(self, other: 'Vertex', weight: int) -> None:
         self._outWeights[other] = weight
 
     def WinWeightSum(self) -> int:
@@ -51,14 +53,16 @@ class Vertex:
         upperLeftVertices = [x for x in upperVertices if x.location.x <= self._location.x]
         if upperLeftVertices:
             tgs = self._calculateTgs(upperLeftVertices)
-            smallestTgIndex = tgs.index(min(tgs))
+            atgs = [abs(x) for x in tgs]
+            smallestTgIndex = atgs.index(min(atgs))
             return upperLeftVertices[smallestTgIndex]
 
         # Get all connected from this vertex that are above this vertex and to the right of this vertex.
         upperRightVertices = [x for x in upperVertices if x.location.x >= self._location.x]
         if upperRightVertices:
             tgs = self._calculateTgs(upperRightVertices)
-            largestTgIndex = tgs.index(max(tgs))
+            atgs = [abs(x) for x in tgs]
+            largestTgIndex = atgs.index(max(atgs))
             return upperRightVertices[largestTgIndex]
         else:
             return None
@@ -73,14 +77,16 @@ class Vertex:
         upperLeftVertices = [x for x in upperVertices if x.location.x <= self._location.x]
         if upperLeftVertices:
             tgs = self._calculateTgs(upperLeftVertices)
-            smallestTgIndex = tgs.index(min(tgs))
+            atgs = [abs(x) for x in tgs]
+            smallestTgIndex = atgs.index(min(atgs))
             return upperLeftVertices[smallestTgIndex]
 
         # Get all connected to this vertex that are above this vertex and to the right of this vertex
         upperRightVertices = [x for x in upperVertices if x.location.x >= self._location.x]
         if upperRightVertices:
             tgs = self._calculateTgs(upperRightVertices)
-            largestTgIndex = tgs.index(max(tgs))
+            atgs = [abs(x) for x in tgs]
+            largestTgIndex = atgs.index(max(atgs))
             return upperRightVertices[largestTgIndex]
 
     @property
@@ -126,8 +132,8 @@ class Vertex:
         return [dy[i] / dx[i] for i in range(len(dy))]
 
     def __str__(self):
-        return (f"{self._key} Connected to: {[x.id for x in self._inVertices]}\n "
-                f"Connected by: {[x.id for x in self._outVertices]}")
+        return (f"{self._key} Connected to: {[x.id for x in self._outVertices]} "
+                f"Connected by: {[x.id for x in self._inVertices]}")
 
     def __eq__(self, other):
         return self._location.x == other.location.x and self._location.y == other.location.y
