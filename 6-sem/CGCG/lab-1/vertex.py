@@ -43,7 +43,7 @@ class Vertex:
     def mostLeftOutVertex(self) -> 'Vertex' or None:
         # Get all connected from this vertex that are above this vertex. Also, the weight of the
         # connection should be > 0 in order to be considered.
-        upperVertices = [x for x in self._outVertices if x.location.y <= self._location.y and self._outWeights[x] > 0]
+        upperVertices = [x for x in self._outVertices if x.location.y >= self._location.y and self._outWeights[x] > 0]
         if not upperVertices:
             return None
 
@@ -111,6 +111,10 @@ class Vertex:
     def hasImmutableKey(self) -> bool:
         return self._immutableKey
 
+    @property
+    def key(self) -> int:
+        return self._key
+
     @hasImmutableKey.setter
     def hasImmutableKey(self, value: bool):
         self._immutableKey = value
@@ -132,3 +136,6 @@ class Vertex:
         if self._location.y == other.location.y:
             return self._location.x < other.location.x
         return self._location.y < other.location.y
+
+    def __hash__(self):
+        return hash((self._location.x, self._location.y))
