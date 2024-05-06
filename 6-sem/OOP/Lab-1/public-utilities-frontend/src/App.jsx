@@ -10,6 +10,7 @@ import Teams from "./components/pages/Teams";
 import Layout from "./components/Layout";
 import View from "./components/pages/View";
 import EditRequests from "./components/admin_pages/EditRequests";
+import EditTeams from "./components/admin_pages/EditTeams";
 
 function App() {
     return (
@@ -46,7 +47,9 @@ function App() {
                     <Route path='/view_teams' element={<Teams />} />
                     <Route path="/admin_view" element={<DispatcherView />} />
                     <Route path="/tenant_view" element={<TenantView />} />
+                    <Route path="/dispatcher_view" element={<DispatcherView />} />
                     <Route path="/edit_requests" element={<EditRequests />} />
+                    <Route path='/edit_teams' element={<EditTeams />} />
                     <Route path='/view' element={<View />} />
                     <Route path='/home' element={<Home />} />
                 </Route>

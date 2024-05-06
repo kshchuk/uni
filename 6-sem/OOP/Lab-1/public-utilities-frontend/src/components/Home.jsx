@@ -24,6 +24,9 @@ const Home = () => {
             <div className="home-page__links">
                 <Link to="/tenant_view" className="home-page__link">Tenant View</Link>
             </div>
+            <div className="home-page__links">
+                <Link to="/dispatcher_view" className="home-page__link">Dispatcher View</Link>
+            </div>
             {/*<div className="home-page__button">*/}
             {/*    <button onClick={logout} className="home-page__button-text">Sign Out</button>*/}
             {/*</div>*/}
