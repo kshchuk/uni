@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "specialistServlet", value = "/specialist*")
+@WebServlet(name = "specialistServlet", value = "/specialist/*")
 public class SpecialistServlet extends HttpServlet {
     Logger logger = Logger.getLogger(SpecialistServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();

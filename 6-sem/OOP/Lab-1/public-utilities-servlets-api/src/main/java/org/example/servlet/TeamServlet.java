@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "teamServlet", value = "/team*")
+@WebServlet(name = "teamServlet", value = "/team/*")
 public class TeamServlet extends HttpServlet {
     Logger logger = Logger.getLogger(TeamServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();

@@ -10,10 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eabf4528-da2e-49bf-b141-4e3845d86e16" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend.Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/runConfigurations/Tomcat_9_0_87.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/runConfigurations/Tomcat_9_0_87.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servlet/RequestServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servlet/RequestServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dao/RequestDBDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dao/SpecialistDBDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dao/TeamDBDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dao/TenantDBDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dao/WorkPlanDBDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/repository/RequestRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/repository/SpecialistRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/repository/TeamRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/repository/TenantRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/repository/WorkPlanRepositoryTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +67,7 @@
     &quot;JUnit.RequestDBDaoTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.Test All.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 9.0.87.executor&quot;: &quot;Debug&quot;,
+    &quot;Tomcat Server.Tomcat 9.0.87.executor&quot;: &quot;Run&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -120,6 +129,8 @@
       <workItem from="1714644703453" duration="19000" />
       <workItem from="1714644871527" duration="278000" />
       <workItem from="1714645157769" duration="1379000" />
+      <workItem from="1714859075530" duration="86000" />
+      <workItem from="1714859174142" duration="832000" />
     </task>
     <servers />
   </component>

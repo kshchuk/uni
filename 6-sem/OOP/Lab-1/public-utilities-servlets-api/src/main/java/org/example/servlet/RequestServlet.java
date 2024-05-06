@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "RequestServlet", value = "/request*")
+@WebServlet(name = "RequestServlet", value = "/request/*")
 public class RequestServlet extends HttpServlet {
     Logger logger = Logger.getLogger(SpecialistServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();

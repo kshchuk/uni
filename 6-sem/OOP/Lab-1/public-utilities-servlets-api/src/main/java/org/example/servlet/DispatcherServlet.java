@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@WebServlet(name = "dispatcherServlet", value = "/dispatcher*")
+@WebServlet(name = "dispatcherServlet", value = "/dispatcher/*")
 public class DispatcherServlet extends HttpServlet {
     Logger logger = Logger.getLogger(SpecialistServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();

@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet(name = "TenantServlet", value = "/tenant*")
+@WebServlet(name = "TenantServlet", value = "/tenant/*")
 public class TenantServlet extends HttpServlet {
     Logger logger = Logger.getLogger(TenantServlet.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
