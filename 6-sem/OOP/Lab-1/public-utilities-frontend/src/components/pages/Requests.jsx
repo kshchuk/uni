@@ -5,10 +5,12 @@ import axios from "../../api/axios"
 import {useEffect, useState} from "react"
 import getHeaderConfig from "../hooks/Config"
 const REQUEST_URL = "/request";
+const TENANT_URL = "/tenant";
 
 const Requests = () => {
     const [data, setData] = useState([]);
     const [id, setID] = useState('');
+    const [tenant, setTenant] = useState({});
 
     const config = getHeaderConfig();
 
@@ -33,6 +35,21 @@ const Requests = () => {
             }
         } catch (error) {
             console.error("Error making request:", error.message);
+        }
+    }
+
+    const getTenant = async (tenantId) => {
+        console.log("Getting tenant");
+        let url = `${TENANT_URL}/?id=${tenantId}`;
+
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            setTenant(response.data);
+        } catch (error) {
+            console.error("Error getting tenant:", error.message);
         }
     }
 
@@ -75,6 +92,7 @@ const Requests = () => {
                         <th>Work Type</th>
                         <th>Scope of Work</th>
                         <th>Desired Time</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -85,6 +103,9 @@ const Requests = () => {
                             <td>{item.workType}</td>
                             <td>{item.scopeOfWork}</td>
                             <td>{formatDuration(item.desiredTime)}</td>
+                            <td>
+                                <button onClick={() => getTenant(item.tenantId)}>Get Tenant</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -93,7 +114,7 @@ const Requests = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by ID</label>
-                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id} />
+                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id}/>
                     <button onClick={() => makeRequest("id", id)}>Execute Query</button>
                 </div>
                 <div>
@@ -103,6 +124,27 @@ const Requests = () => {
             </div>
             <div className="home-page__button">
                 <Link to="/view">Back</Link>
+            </div>
+            <div className="container">
+                <h2>Data Table</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Tenant ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Request IDs</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{tenant.tenantId}</td>
+                        <td>{tenant.name}</td>
+                        <td>{tenant.address}</td>
+                        <td>{tenant.requestIds ? tenant.requestIds.join(", ") : "None"}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     )

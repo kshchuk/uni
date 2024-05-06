@@ -44,6 +44,26 @@ const Tenants = () => {
         setRequests(response?.data);
     }
 
+    // format time to hour minute (for ex PT32H is 32 hours, PT1H30M is 1 hour 30 minutes
+    const formatDuration = (time) => {
+        let hours = 0;
+        let minutes = 0;
+        if (time.includes("H")) {
+            hours = parseInt(time.split("H")[0].substring(2));
+        }
+        if (time.includes("M")) {
+            minutes = parseInt(time.split("M")[0].split("H")[1].substring(2));
+        }
+        let result = "";
+        if (hours > 0) {
+            result += hours + " hours ";
+        }
+        if (minutes > 0) {
+            result += minutes + " minutes";
+        }
+        return result;
+    }
+
     useEffect(() => {
         makeRequest("all", "all");
     }, []);
@@ -66,12 +86,14 @@ const Tenants = () => {
                     </thead>
                     <tbody>
                     {data?.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
+                        <tr key={item.tenantId}>
+                            <td>{item.tenantId}</td>
                             <td>{item.name}</td>
                             <td>{item.address}</td>
-                            <td>{item.requestIds.join(", ")}</td>
-                            <td><button onClick={() => getRequests(item.tenantId)}>Get Requests</button></td>
+                            <td>{item.requestIds ? item.requestIds.length : 0}</td>
+                            <td>
+                                <button onClick={() => getRequests(item.tenantId)}>Get Requests</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -80,20 +102,37 @@ const Tenants = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by ID</label>
-                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id} />
+                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id}/>
                     <button onClick={() => makeRequest("id", id)}>Execute Query</button>
                 </div>
             </div>
             <div className="home-page__button">
                 <Link to="/view">Back</Link>
             </div>
-            <div>
-                <h2>Requests</h2>
-                <ul>
-                    {requests?.map((request, index) => (
-                        <li key={index}>{request.requestId}: {request.workType}, {request.scopeOfWork}, {request.desiredTime}</li>
+            <div className="container">
+                <h2>Tenant Requests</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Tenant ID</th>
+                        <th>Work Type</th>
+                        <th>Scope of Work</th>
+                        <th>Desired Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {requests?.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.requestId}</td>
+                            <td>{item.tenantId}</td>
+                            <td>{item.workType}</td>
+                            <td>{item.scopeOfWork}</td>
+                            <td>{formatDuration(item.desiredTime)}</td>
+                        </tr>
                     ))}
-                </ul>
+                    </tbody>
+                </table>
             </div>
         </section>
     )

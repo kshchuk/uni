@@ -5,6 +5,7 @@ import axios from "../../api/axios"
 import { useState, useEffect } from "react"
 import getHeaderConfig from "../hooks/Config"
 const SPECIALIST_URL = "/specialist";
+const TEAM_URL = "/team"
 
 const Specialists = () => {
     const [data, setData] = useState([]);
@@ -36,7 +37,7 @@ const Specialists = () => {
 
     const getWorkPlans = async (specialistId) => {
         console.log("Getting work plans");
-        let url = `${SPECIALIST_URL}/workplans/?id=${specialistId}`;
+        let url = `${SPECIALIST_URL}/workplans?id=${specialistId}`;
 
         try {
             const response = await axios.get(url, {
@@ -54,7 +55,7 @@ const Specialists = () => {
             return;
         }
         console.log("Getting team");
-        let url = `$/team/?id=${teamId}`;
+        let url = `${TEAM_URL}/?id=${teamId}`;
 
         try {
             const response = await axios.get(url, {
@@ -86,6 +87,7 @@ const Specialists = () => {
                         <th>Specialization</th>
                         <th>Team ID</th>
                         <th>Work Plan IDs</th>
+                        <th colSpan={2}>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -110,7 +112,7 @@ const Specialists = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by ID</label>
-                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id} />
+                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id}/>
                     <button onClick={() => makeRequest("id", id)}>Execute Query</button>
                 </div>
             </div>
@@ -120,31 +122,47 @@ const Specialists = () => {
             <div>
                 <h2>Specialist Work Plans</h2>
                 <p>Get work plans for a specialist</p>
-                <ul>
-                    <div>
-                        {workplans?.map((workplan, index) => (
-                            <div key={index}>
-                                <h3>Work Plan ID: {workplan.workPlanId}</h3>
-                                <p>Description: {workplan.description}</p>
-                                <p>Duration: {workplan.duration}</p>
-                                <p>Team ID: {workplan.teamId}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div>
-                        <h2>Team</h2>
-                        <ul>
-                            {team?.map((item, index) => (
-                                <li key={index}>
-                                    <p>Team ID: {item.teamId}</p>
-                                    <p>Dispatcher ID: {item.dispatcherId}</p>
-                                    <p>Specialist IDs: {item.specialistIds.join(", ")}</p>
-                                    <p>Work Plan IDs: {item.workPlanIds.join(", ")}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </ul>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Work Plan ID</th>
+                        <th>Description</th>
+                        <th>Duration</th>
+                        <th>Team ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {workplans?.map((workplan, index) => (
+                        <tr key={index}>
+                            <td>{workplan.workPlanId}</td>
+                            <td>{workplan.description}</td>
+                            <td>{workplan.duration}</td>
+                            <td>{workplan.teamId}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                <div>
+                    <h2>Team</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Team ID</th>
+                            <th>Dispatcher ID</th>
+                            <th>Specialist IDs</th>
+                            <th>Work Plan IDs</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{team.teamId}</td>
+                                <td>{team.dispatcherId}</td>
+                                <td>{team.specialistIds ? team.specialistIds.join(", ") : "None"}</td>
+                                <td>{team.workPlanIds ? team.workPlanIds.join(", ") : "None"}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     )
