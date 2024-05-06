@@ -7,10 +7,7 @@ const TenantView = () => {
         <div className="home-page">
             <h2>Welcome to Tenant page</h2>
             <div className="home-page__links">
-                {<Link to="/create_request" className="home-page__link">Create Request</Link>}
-                {<Link to="/view_request" className="home-page__link">View Request</Link>}
-                {<Link to="/view_requests" className="home-page__link">View My Requests</Link>}
-                {<Link to="/update_request" className="home-page__link">Update Request</Link>}
+                {<Link to="/edit_requests"  className="home-page__link">Edit Requests</Link>}
             </div>
             <div className="home-page__button">
                 <Link to="/home">Back</Link>

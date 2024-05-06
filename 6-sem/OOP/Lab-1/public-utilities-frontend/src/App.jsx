@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import TenantView from "./components/admin_pages/TenantView";
 import DispatcherView from "./components/admin_pages/DispatcherView";
-import CreateRequest from "./components/admin_pages/CreateRequest";
 import Tenants from "./components/pages/Tenants";
 import Requests from "./components/pages/Requests";
 import Specialists from "./components/pages/Specialists";
@@ -10,6 +9,7 @@ import WorkPlans from "./components/pages/WorkPlans";
 import Teams from "./components/pages/Teams";
 import Layout from "./components/Layout";
 import View from "./components/pages/View";
+import EditRequests from "./components/admin_pages/EditRequests";
 
 function App() {
     return (
@@ -44,6 +44,9 @@ function App() {
                     <Route path='/view_specialists' element={<Specialists />} />
                     <Route path='/view_work_plans' element={<WorkPlans />} />
                     <Route path='/view_teams' element={<Teams />} />
+                    <Route path="/admin_view" element={<DispatcherView />} />
+                    <Route path="/tenant_view" element={<TenantView />} />
+                    <Route path="/edit_requests" element={<EditRequests />} />
                     <Route path='/view' element={<View />} />
                     <Route path='/home' element={<Home />} />
                 </Route>
