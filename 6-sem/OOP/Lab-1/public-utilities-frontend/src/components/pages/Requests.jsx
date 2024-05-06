@@ -14,7 +14,25 @@ const Requests = () => {
 
     const config = getHeaderConfig();
 
+    const makeRequest = async (field, value) => {
+        console.log("Making request");
+        let url;
+        if (field === 'all' && value === 'all') {
+            url = `${REQUEST_URL}/all`;
+        } else {
+            url = `${REQUEST_URL}?${field}=${value}`;
+        }
 
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            setData(response.data);
+        } catch (error) {
+            console.error("Error making request:", error.message);
+        }
+    }
 
     const getTenant = async (tenantId) => {
         console.log("Getting tenant");
@@ -32,7 +50,7 @@ const Requests = () => {
     }
 
     useEffect(() => {
-      //  makeRequest("all", "all");
+        makeRequest("all", "all");
     }, []);
 
     // format time to hour minute (for ex PT32H is 32 hours, PT1H30M is 1 hour 30 minutes
@@ -96,6 +114,7 @@ const Requests = () => {
                 </div>
                 <div>
                     <label htmlFor="all">Query All</label>
+                    <button onClick={() => makeRequest("all", "all")}>All</button>
                 </div>
             </div>
             <div className="home-page__button">

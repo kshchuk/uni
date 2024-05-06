@@ -58,11 +58,11 @@ public class RequestDBDao extends DBDao<Request, UUID> implements RequestDao {
     @Override
     public void update(Request entity) throws Exception {
         var statement = con.prepareStatement("UPDATE request SET tenant_id = ?, work_type = ?, " +
-                                                 "scope_of_work = ?, desired_time = ? WHERE request_id = ?;");
+                                                 "scope_of_work = ?, desired_time = CAST(? AS INTERVAL) WHERE request_id = ?;");
         statement.setObject(1, entity.getTenant().getTenantId());
         statement.setString(2, entity.getWorkType());
         statement.setString(3, entity.getScopeOfWork());
-        statement.setObject(4, entity.getDesiredTime());
+        statement.setString(4, entity.getDesiredTime().toString());
         statement.setObject(5, entity.getRequestId());
 
         statement.executeUpdate();

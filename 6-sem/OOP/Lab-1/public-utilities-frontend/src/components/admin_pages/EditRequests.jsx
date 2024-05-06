@@ -8,8 +8,7 @@ import getHeaderConfig from "../hooks/Config"
 const TENANT_URL = "/tenant"
 const REQUEST_URL = "/request"
 
-const EditRequests = async () => {
-
+const EditRequests = () => {
     const [data, setData] = useState([]);
 
     const [tenantId, setTenantId] = useState('');
@@ -41,12 +40,17 @@ const EditRequests = async () => {
 
     const makeEdit = async (id) => {
         const editItem = data.find((item) => item.requestId === id);
-        const response = await axios.put(REQUEST_URL, JSON.stringify(editItem), config);
-        setData((prevData) => prevData.map(item => item.requestId === id ? response.data : item));
+        const response = await axios.put(REQUEST_URL, JSON.stringify({
+            requestId: editItem.requestId,
+            tenantId: editItem.tenantId,
+            workType: editItem.workType,
+            scopeOfWork: editItem.scopeOfWork,
+            desiredTime: editItem.desiredTime
+        }), config);
     };
 
     const makeDelete = async (id) => {
-        let url = `${REQUEST_URL}/?${id}`;
+        let url = `${REQUEST_URL}/?id=${id}`;
         const response = await axios.delete(url, config);
         if (response.status !== 200) {
             console.error("Error deleting item");
@@ -56,17 +60,18 @@ const EditRequests = async () => {
     };
 
     const makeCreate = async () => {
-        const response = await axios.post(TENANT_URL, JSON.stringify({
+        const response = await axios.post(REQUEST_URL, JSON.stringify({
             tenantId: tenantId,
             workType: workType,
             scopeOfWork: scopeOfWork,
             desiredTime: desiredTime
         }), config);
-        setData((prevData) => [...prevData, response.data]);
         setTenantId("");
         setWorkType("");
         setScopeOfWork("");
         setDesiredTime("");
+
+        makeRequest("id", tenantId);
     };
 
     useEffect(() => {
@@ -79,8 +84,7 @@ const EditRequests = async () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by Tenant ID</label>
-                    <input type="text" id="byID" onChange={(e) => setTenantId(e.target.value)} value={tenantId} />
-                    <button onClick={() => makeRequest("id", tenantId)}>Execute Query</button>
+                    <input type="text" id="byID" onChange={(e) => setTenantId(e.target.value.trimEnd())} value={tenantId} />
                 </div>
             </div>
             <p>You can edit data about requests</p>
@@ -144,7 +148,7 @@ const EditRequests = async () => {
                 </table>
             </div>
             <div className="home-page__button">
-                <Link to="/dispatch_view">Back</Link>
+                <Link to="/home">Back</Link>
             </div>
         </section>
     )
