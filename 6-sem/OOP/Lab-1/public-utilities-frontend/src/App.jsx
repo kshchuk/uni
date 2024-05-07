@@ -11,6 +11,7 @@ import Layout from "./components/Layout";
 import View from "./components/pages/View";
 import EditRequests from "./components/admin_pages/EditRequests";
 import EditTeams from "./components/admin_pages/EditTeams";
+import EditWorkPlans from "./components/admin_pages/EditWorkPlans";
 
 function App() {
     return (
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/dispatcher_view" element={<DispatcherView />} />
                     <Route path="/edit_requests" element={<EditRequests />} />
                     <Route path='/edit_teams' element={<EditTeams />} />
+                    <Route path='/edit_workplans' element={<EditWorkPlans />} />
                     <Route path='/view' element={<View />} />
                     <Route path='/home' element={<Home />} />
                 </Route>

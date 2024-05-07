@@ -70,13 +70,13 @@ public class WorkPlanDBDao extends DBDao<WorkPlan, UUID> implements WorkPlanDao 
                                                  "WHERE work_plan_id = ?;");
         statement.setString(1, entity.getDescription());
         statement.setString(2, entity.getDuration().toString());
-        statement.setObject(3, entity.getWorkPlanId());
         var team = entity.getTeam();
         if (team != null) {
-            statement.setObject(4, team.getTeamId());
+            statement.setObject(3, team.getTeamId());
         } else {
             throw new IllegalArgumentException("Team cannot be null");
         }
+        statement.setObject(4, entity.getWorkPlanId());
 
         statement.executeUpdate();
     }

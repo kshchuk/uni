@@ -94,7 +94,7 @@ public class WorkPlanServlet extends HttpServlet {
 
         WorkPlanDTO workPlanDTO;
         try {
-            workPlanDTO = objectMapper.readValue(request.getReader(), WorkPlanDTO.class);
+            workPlanDTO = objectMapper.readValue(body, WorkPlanDTO.class);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;

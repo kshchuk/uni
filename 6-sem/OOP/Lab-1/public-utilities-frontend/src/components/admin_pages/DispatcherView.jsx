@@ -14,6 +14,7 @@ const DispatcherView = () =>{
             <h2>Welcome to Dispatcher page</h2>
             <div className="home-page__links">
                 {<Link to="/edit_teams" className="home-page__link">Manage Teams</Link>}
+                {<Link to="/edit_workplans" className="home-page__link">Manage WorkPlans</Link>}
             </div>
             <div className="home-page__button">
                 <Link to="/home">Back</Link>
