@@ -13,7 +13,10 @@ const EditTeams = () => {
     const [specialists, setSpecialists] = useState([]);
 
     const [dispatcherId, setDispatcherId] = useState('');
-    const [selectedSpecialistId, setSelectedSpecialistId] = useState('');
+    const [selectedAddSpecialistId, setSelectedAddSpecialistId] = useState('');
+    const [selectedRemoveSpecialistId, setSelectedRemoveSpecialistId] = useState('');
+
+    const [reload, setReload] = useState(false);
 
     const config = getHeaderConfig();
 
@@ -53,12 +56,7 @@ const EditTeams = () => {
         } catch (error) {
             console.error("Error fetching specialists:", error.message);
         }
-    };
-
-    const makeEdit = async (id) => {
-        const editItem = data.find((item) => item.teamId === id);
-        const response = await axios.put(TEAM_URL, JSON.stringify(editItem), config);
-    };
+    }
 
     const makeDelete = async (id) => {
         let url = `${TEAM_URL}/?id=${id}`;
@@ -71,7 +69,12 @@ const EditTeams = () => {
     };
 
     const makeCreate = async () => {
-        const response = await axios.post(TEAM_URL, JSON.stringify({
+        if (dispatcherId === '') {
+            console.error("Dispatcher ID must be set");
+            return;
+        }
+
+        await axios.post(TEAM_URL, JSON.stringify({
             dispatcherId: dispatcherId,
             specialistIds: [],
             workPlanIds: []
@@ -81,30 +84,39 @@ const EditTeams = () => {
 
     const addSpecialist = async (teamId) => {
         const team = data.find((item) => item.teamId === teamId);
-        if (!team.specialistIds.includes(selectedSpecialistId)) {
-            team.specialistIds.push(selectedSpecialistId);
-            const response = await axios.put(TEAM_URL, JSON.stringify(team), config);
-            // Update the specialist's teamId
-            const specialist = specialists.find((item) => item.specialistId === selectedSpecialistId);
-            specialist.teamId = teamId;
-            await axios.put(SPECIALIST_URL, JSON.stringify(specialist), config);
+        if (!team.specialistIds.includes(selectedAddSpecialistId)) {
+            team.specialistIds.push(selectedAddSpecialistId);
+            const response = await axios.put(TEAM_URL, JSON.stringify({
+                teamId: team.teamId,
+                dispatcherId: team.dispatcherId,
+                specialistIds: team.specialistIds,
+                workPlanIds: team.workPlanIds
+            }), config);
         }
+
+        setReload(!reload)
     };
 
-    const removeSpecialist = async (teamId, specialistId) => {
+    const removeSpecialist = async (teamId) => {
         const team = data.find((item) => item.teamId === teamId);
-        team.specialistIds = team.specialistIds.filter(id => id !== specialistId);
-        const response = await axios.put(TEAM_URL, JSON.stringify(team), config);
-        // Update the specialist's teamId
-        const specialist = specialists.find((item) => item.specialistId === specialistId);
-        specialist.teamId = null;
-        await axios.put(SPECIALIST_URL, JSON.stringify(specialist), config);
+        if (selectedRemoveSpecialistId.length === 0 || selectedRemoveSpecialistId.length === 1) {
+            setSelectedRemoveSpecialistId(team.specialistIds[0]);
+        }
+        team.specialistIds = team.specialistIds.filter(id => id !== selectedRemoveSpecialistId);
+        const response = await axios.put(TEAM_URL, JSON.stringify({
+            teamId: team.teamId,
+            dispatcherId: team.dispatcherId,
+            specialistIds: team.specialistIds,
+            workPlanIds: team.workPlanIds
+        }), config);
+
+        setReload(!reload)
     };
 
     useEffect(() => {
         makeRequest("all", "all"); // Fetch data when page loads
         fetchSpecialists(); // Fetch specialists when page loads
-    }, []);
+    }, [reload]);
 
     return (
         <section>
@@ -130,24 +142,54 @@ const EditTeams = () => {
                     <tbody>
                     <tr>
                         <td>Create new:</td>
-                        <td>{dispatcherId}</td>
-                        <td><select onChange={(e) => setSelectedSpecialistId(e.target.value)}>
-                            {specialists.map((specialist) => (
-                                <option value={specialist.specialistId}>{specialist.name}</option>
-                            ))}
-                        </select></td>
+                        <td></td>
+                        <td></td>
                         <td><button onClick={() => makeCreate()}>Create</button></td>
                     </tr>
                     {data?.map((item) => (
                         <tr key={item.teamId}>
                             <td>{item.teamId}</td>
                             <td>{item.dispatcherId}</td>
-                            <td>{item.specialistIds.join(", ")}</td>
                             <td>
-                                <button onClick={() => makeEdit(item.teamId)}>Edit</button>
+                                {item.specialistIds.map((id) => (
+                                    specialists.map((specialist) => {
+                                        if (specialist.specialistId === id) {
+                                            return <p>{specialist.name}</p>
+                                        }
+                                    }
+                                )))}
+                                <div>
+                                    <div>
+                                    <label htmlFor="add">Add Specialist</label>
+                                    <select onChange={(e) => setSelectedAddSpecialistId(e.target.value)}>
+                                        {specialists.map((specialist) => (
+                                            <option value={specialist.specialistId}>{specialist.name}</option>
+                                        ))}
+                                    </select>
+                                    <button onClick={() => addSpecialist(item.teamId)}>Add Specialist</button>
+                                        </div>
+                                    <div>
+                                    <label htmlFor="remove">Remove Specialist</label>
+                                    <select onChange={(e) => setSelectedRemoveSpecialistId(e.target.value)}>
+                                        {
+                                            item.specialistIds.map((id) => (
+                                                specialists.map((specialist) => {
+                                                    if (specialist.specialistId === id) {
+                                                        return <option value={specialist.specialistId}>{specialist.name}</option>
+                                                    }
+                                                }
+                                            ))
+                                        )}
+                                    </select>
+                                    <button
+                                        onClick={() => removeSpecialist(item.teamId)}>Remove
+                                        Specialist
+                                    </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
                                 <button onClick={() => makeDelete(item.teamId)}>Delete</button>
-                                <button onClick={() => addSpecialist(item.teamId)}>Add Specialist</button>
-                                <button onClick={() => removeSpecialist(item.teamId, selectedSpecialistId)}>Remove Specialist</button>
                             </td>
                         </tr>
                     ))}
@@ -155,7 +197,7 @@ const EditTeams = () => {
                 </table>
             </div>
             <div className="home-page__button">
-                <Link to="/home">Back</Link>
+            <Link to="/home">Back</Link>
             </div>
         </section>
     )

@@ -37,17 +37,22 @@ public class TeamRepositoryImpl implements TeamRepository {
             for (Specialist specialist : entity.getSpecialists()) {
                 var dbSpecialist = specialistDao.read(specialist.getSpecialistId());
                 if (dbSpecialist == null) {
-                    specialistDao.create(specialist);
-                } else if (!dbSpecialist.equals(specialist)) {
-                    specialistDao.update(specialist);
+                    logger.info("Specialist" + specialist.getName() + " not found in the database.");
+                }
+                else {
+                    dbSpecialist.setTeam(entity);
+                    specialistDao.update(dbSpecialist);
                 }
             }
+
+
             for (WorkPlan workPlan : entity.getWorkPlans()) {
                 var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
-                    workPlanDao.create(workPlan);
+                    logger.info("WorkPlan" + workPlan.getWorkPlanId() + " not found in the database.");
                 } else if (!dbWorkPlan.equals(workPlan)) {
-                    workPlanDao.update(workPlan);
+                    dbWorkPlan.setTeam(entity);
+                    workPlanDao.update(dbWorkPlan);
                 }
             }
         } catch (Exception e) {
@@ -112,16 +117,21 @@ public class TeamRepositoryImpl implements TeamRepository {
             for (Specialist specialist : entity.getSpecialists()) {
                 var dbSpecialist = specialistDao.read(specialist.getSpecialistId());
                 if (dbSpecialist == null) {
-                    specialistDao.create(specialist);
-                } else if (!dbSpecialist.equals(specialist)) {
-                    specialistDao.update(specialist);
+                    logger.info("Specialist" + specialist.getName() + " not found in the database.");
+                }
+                else {
+                    dbSpecialist.setTeam(entity);
+                    specialistDao.update(dbSpecialist);
                 }
             }
-            // remove specialists that are not in the updated entity
-            List<Specialist> dbSpecialists = specialistDao.findByTeamId(entity.getTeamId());
-            for (Specialist dbSpecialist : dbSpecialists) {
-                if (!entity.getSpecialists().contains(dbSpecialist)) {
-                    specialistDao.delete(dbSpecialist.getSpecialistId());
+            // remove team from specialist that are not in the updated entity
+            List<UUID> dbSpecialistsIds = specialistDao.findByTeamId(entity.getTeamId()).stream().map(Specialist::getSpecialistId).toList();
+            List<UUID> updatedSpecialistIds = entity.getSpecialists().stream().map(Specialist::getSpecialistId).toList();
+            for (UUID dbSpecialistId : dbSpecialistsIds) {
+                if (!updatedSpecialistIds.contains(dbSpecialistId)) {
+                    var dbSpecialist = specialistDao.read(dbSpecialistId);
+                    dbSpecialist.setTeam(null);
+                    specialistDao.update(dbSpecialist);
                 }
             }
 
@@ -131,17 +141,21 @@ public class TeamRepositoryImpl implements TeamRepository {
             for (WorkPlan workPlan : entity.getWorkPlans()) {
                 var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
                 if (dbWorkPlan == null) {
-                    workPlanDao.create(workPlan);
-                } else if (!dbWorkPlan.equals(workPlan)) {
-                    workPlanDao.update(workPlan);
+                    logger.info("WorkPlan" + workPlan.getWorkPlanId() + " not found in the database.");
+                } else {
+                    dbWorkPlan.setTeam(entity);
+                    workPlanDao.update(dbWorkPlan);
                 }
             }
 
-            // remove work plans that are not in the updated entity
-            List<WorkPlan> dbWorkPlans = workPlanDao.findByTeamId(entity.getTeamId());
-            for (WorkPlan dbWorkPlan : dbWorkPlans) {
-                if (!entity.getWorkPlans().contains(dbWorkPlan)) {
-                    workPlanDao.delete(dbWorkPlan.getWorkPlanId());
+            // remove team from workPlans that are not in the updated entity
+            List<UUID> dbWorkPlansIds = workPlanDao.findByTeamId(entity.getTeamId()).stream().map(WorkPlan::getWorkPlanId).toList();
+            List<UUID> updatedWorkPlanIds = entity.getWorkPlans().stream().map(WorkPlan::getWorkPlanId).toList();
+            for (UUID dbWorkPlanId : dbWorkPlansIds) {
+                if (!updatedWorkPlanIds.contains(dbWorkPlanId)) {
+                    var dbWorkPlan = workPlanDao.read(dbWorkPlanId);
+                    dbWorkPlan.setTeam(null);
+                    workPlanDao.update(dbWorkPlan);
                 }
             }
         } catch (Exception e) {

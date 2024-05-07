@@ -29,14 +29,6 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
     public void create(WorkPlan entity) {
         try {
             workPlanDao.create(entity);
-            if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
-                if (dbTeam == null) {
-                    teamDao.create(entity.getTeam());
-                } else if (!dbTeam.equals(entity.getTeam())) {
-                    teamDao.update(entity.getTeam());
-                }
-            }
         } catch (Exception e) {
             logger.error(e);
         }
@@ -71,15 +63,6 @@ public class WorkPlanRepositoryImpl implements WorkPlanRepository {
     public void update(WorkPlan entity) {
         try {
             workPlanDao.update(entity);
-            if (entity.getTeam() == null) {
-                return;
-            }
-            var dbTeam = teamDao.read(entity.getTeam().getTeamId());
-            if (dbTeam == null) {
-                teamDao.create(entity.getTeam());
-            } else if (!dbTeam.equals(entity.getTeam())) {
-                teamDao.update(entity.getTeam());
-            }
         } catch (Exception e) {
             logger.error(e);
         }

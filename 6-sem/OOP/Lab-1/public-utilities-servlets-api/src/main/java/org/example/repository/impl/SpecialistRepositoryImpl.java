@@ -33,23 +33,6 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
     public void create(Specialist entity) {
         try {
             specialistDao.create(entity);
-            if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
-                if (dbTeam == null) {
-                    teamDao.create(entity.getTeam());
-                } else if (!dbTeam.equals(entity.getTeam())) {
-                    teamDao.update(entity.getTeam());
-                }
-            }
-
-            for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
-                if (dbWorkPlan == null) {
-                    workPlanDao.create(workPlan);
-                } else if (!dbWorkPlan.equals(workPlan)) {
-                    workPlanDao.update(workPlan);
-                }
-            }
         } catch (Exception e) {
             logger.error(e);
         }
@@ -93,26 +76,6 @@ public class SpecialistRepositoryImpl implements SpecialistRepository {
     public void update(Specialist entity) {
         try {
             specialistDao.update(entity);
-            if (entity.getTeam() != null) {
-                var dbTeam = teamDao.read(entity.getTeam().getTeamId());
-                if (dbTeam == null) {
-                    teamDao.create(entity.getTeam());
-                } else if (!dbTeam.equals(entity.getTeam())) {
-                    teamDao.update(entity.getTeam());
-                }
-            }
-
-            if (entity.getWorkPlans() == null) {
-                return;
-            }
-            for (WorkPlan workPlan : entity.getWorkPlans()) {
-                var dbWorkPlan = workPlanDao.read(workPlan.getWorkPlanId());
-                if (dbWorkPlan == null) {
-                    workPlanDao.create(workPlan);
-                } else if (!dbWorkPlan.equals(workPlan)) {
-                    workPlanDao.update(workPlan);
-                }
-            }
         } catch (Exception e) {
             logger.error(e);
         }

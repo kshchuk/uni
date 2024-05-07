@@ -35,8 +35,8 @@ public class TenantRepositoryImpl implements TenantRepository {
                 if (dbRequest == null) {
                     requestDao.create(request);
                 }
-                else if (!dbRequest.equals(request)) {
-                    requestDao.update(request);
+                else {
+                    logger.info("Request with id " + request.getRequestId() + " already exists in the database.");
                 }
             }
         } catch (Exception e) {
@@ -80,18 +80,18 @@ public class TenantRepositoryImpl implements TenantRepository {
                     if (dbRequest == null) {
                         requestDao.create(request);
                     }
-                    else if (!dbRequest.equals(request)) {
+                    else {
                         requestDao.update(request);
                     }
                 }
 
-                // remove requests that are not in the updated entity
-                List<Request> dbRequests = requestDao.findByTenantId(entity.getTenantId());
-                for (Request dbRequest : dbRequests) {
-                    if (!entity.getRequests().contains(dbRequest)) {
-                        requestDao.delete(dbRequest.getRequestId());
-                    }
-                }
+//                // remove requests that are not in the updated entity
+//                List<Request> dbRequests = requestDao.findByTenantId(entity.getTenantId());
+//                for (Request dbRequest : dbRequests) {
+//                    if (!entity.getRequests().contains(dbRequest)) {
+//                        requestDao.delete(dbRequest.getRequestId());
+//                    }
+//                }
             }
         } catch (Exception e) {
             logger.error(e);

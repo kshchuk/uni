@@ -58,7 +58,7 @@ public class SpecialistDBDao extends DBDao<Specialist, UUID> implements Speciali
 
     @Override
     public void update(Specialist entity) throws Exception {
-        var statement = con.prepareStatement("UPDATE specialist SET name = ?, specializtion = ?, team_id = ? " +
+        var statement = con.prepareStatement("UPDATE specialist SET name = ?, specialization = ?, team_id = ? " +
                                                  "WHERE specialist_id = ?;");
         statement.setString(1, entity.getName());
         statement.setString(2, entity.getSpecialization());
