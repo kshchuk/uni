@@ -11,12 +11,6 @@ const RequireAuth = ({ children, allowedRoles }) => {
 
     if (allowedRoles && !allowedRoles.some(role => auth.roles.includes(role))) {
         return <Navigate to="/unauthorized" />;
-    } else {
-        if (allowedRoles && allowedRoles.includes('admin')) {
-            if (!auth.hasRealmRole('admin')) {
-                return <Navigate to="/unauthorized" />;
-            }
-        }
     }
 
     return children;

@@ -18,6 +18,7 @@ import AdminView from "./components/admin_pages/AdminView";
 import { AuthProvider } from './components/context/AuthProvider';
 import Login from "./components/Login";
 import ROLES from "./components/hooks/useAuth";
+import Unauthorized from "./components/Unauthorized";
 
 function App() {
     return (
@@ -25,7 +26,6 @@ function App() {
                 <Router>
                     <Routes>
                     <Route path='/' element={<Layout />}>
-                        <Route path='/' element={<Login />} />
                         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
                             <Route path="/admin_view" element={<AdminView />} />
                             <Route path='/view_tenants' element={<Tenants />} />
@@ -47,6 +47,7 @@ function App() {
                             <Route path='/edit_workplans' element={<EditWorkPlans />} />
                         </Route>
                         <Route path='/home' element={<Home />} />
+                        <Route path='/unauthorized' element={<Unauthorized />} />
                     </Route>
                 </Routes>
             </Router>

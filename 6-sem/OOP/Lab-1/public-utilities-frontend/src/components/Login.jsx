@@ -5,7 +5,7 @@ function Login() {
     const auth = useContext(AuthContext);
 
     useEffect(() => {
-        if (!auth.isAuthenticated) {
+        if (auth && !auth.isAuthenticated) {
             auth.login();
         }
     }, [auth]);

@@ -7,19 +7,12 @@ const Home = () => {
     const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // const logout = async () => {
-    //     // if used in more components, this should be in context
-    //     // axios to /logout endpoint
-    //     setAuth({});
-    //     navigate('/');
-    // }
-
     return (
         <section className="home-page">
             <h1>Home</h1>
             <p className="home-page__description">You are logged in!</p>
             <div className="home-page__links">
-                <Link to="/view" className="home-page__link">Go to the Common page</Link>
+                <Link to="/admin_view" className="home-page__link">Admin View</Link>
             </div>
             <div className="home-page__links">
                 <Link to="/tenant_view" className="home-page__link">Tenant View</Link>

@@ -7,6 +7,7 @@ export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState({});
 
     useEffect(() => {
+        console.log(kc.authenticated)
         if (kc.authenticated) {
             setAuth({
                 isAuthenticated: kc.authenticated,
@@ -19,7 +20,7 @@ export const AuthProvider = ({children}) => {
                 hasResourceRole: kc.hasResourceRole,
             });
         }
-    }, []);
+    }, [kc.authenticated]);
 
     return (
         <AuthContext.Provider value={auth}>
