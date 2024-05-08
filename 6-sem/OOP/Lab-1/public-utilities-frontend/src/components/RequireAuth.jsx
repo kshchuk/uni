@@ -1,17 +1,25 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
-import { jwtDecode } from "jwt-decode";
+import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import AuthContext from './context/AuthProvider';
 
-const RequireAuth = ({ allowedRoles }) =>{
-    const auth = jwtDecode(window.localStorage.getItem("Token"));
-    const location = useLocation();
-    console.log(allowedRoles)
-    console.log(auth.role)
-    return(
-        allowedRoles?.includes(auth?.role)
-        ? <Outlet/>
-        : <Navigate to="unauthorized" state={{from: location}} replace/>
-    );
-}
+const RequireAuth = ({ children, allowedRoles }) => {
+    const auth = useContext(AuthContext);
+
+    if (!auth.isAuthenticated) {
+        return <Navigate to="/" />;
+    }
+
+    if (allowedRoles && !allowedRoles.some(role => auth.roles.includes(role))) {
+        return <Navigate to="/unauthorized" />;
+    } else {
+        if (allowedRoles && allowedRoles.includes('admin')) {
+            if (!auth.hasRealmRole('admin')) {
+                return <Navigate to="/unauthorized" />;
+            }
+        }
+    }
+
+    return children;
+};
 
 export default RequireAuth;
