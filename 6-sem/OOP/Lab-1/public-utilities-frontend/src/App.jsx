@@ -12,6 +12,7 @@ import View from "./components/pages/View";
 import EditRequests from "./components/admin_pages/EditRequests";
 import EditTeams from "./components/admin_pages/EditTeams";
 import EditWorkPlans from "./components/admin_pages/EditWorkPlans";
+import ViewRequests from "./components/admin_pages/ViewRequests";
 
 function App() {
     return (
@@ -46,10 +47,10 @@ function App() {
                     <Route path='/view_specialists' element={<Specialists />} />
                     <Route path='/view_work_plans' element={<WorkPlans />} />
                     <Route path='/view_teams' element={<Teams />} />
-                    <Route path="/admin_view" element={<DispatcherView />} />
                     <Route path="/tenant_view" element={<TenantView />} />
-                    <Route path="/dispatcher_view" element={<DispatcherView />} />
                     <Route path="/edit_requests" element={<EditRequests />} />
+                    <Route path="/dispatcher_view" element={<DispatcherView />} />
+                    <Route path='/view_drequests' element={<ViewRequests />} />
                     <Route path='/edit_teams' element={<EditTeams />} />
                     <Route path='/edit_workplans' element={<EditWorkPlans />} />
                     <Route path='/view' element={<View />} />

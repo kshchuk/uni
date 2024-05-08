@@ -5,7 +5,7 @@ const View = () =>{
 
     return (
         <div className="home-page">
-            <h2>Welcome to Viewing page</h2>
+            <h2>Welcome to Admin page</h2>
             <div className="home-page__links">
                 {<Link to="/view_requests" className="home-page__link">View Requests</Link>}
                 {<Link to="/view_specialists" className="home-page__link">View Specialists</Link>}

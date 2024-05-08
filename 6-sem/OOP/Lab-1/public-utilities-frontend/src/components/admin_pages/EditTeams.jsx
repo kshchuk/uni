@@ -10,7 +10,8 @@ const SPECIALIST_URL = "/specialist"
 
 const EditTeams = () => {
     const [data, setData] = useState([]);
-    const [specialists, setSpecialists] = useState([]);
+    const [specialists, setSpecialists] = useState([]); // all specialists
+    const [workplans, setWorkplans] = useState([]); // workplans of a team
 
     const [dispatcherId, setDispatcherId] = useState('');
     const [selectedAddSpecialistId, setSelectedAddSpecialistId] = useState('');
@@ -55,6 +56,25 @@ const EditTeams = () => {
             }
         } catch (error) {
             console.error("Error fetching specialists:", error.message);
+        }
+    }
+
+    const getWorkPlans = async (teamId) => {
+        console.log("Getting work plans");
+        let url = `${TEAM_URL}/workplans?id=${teamId}`;
+
+        try {
+            const response = await axios.get(url, {
+                headers: config.headers
+            });
+            console.log(JSON.stringify(response.data));
+            if (Array.isArray(response.data)) {
+                setWorkplans(response.data);
+            } else {
+                setWorkplans([response.data]);
+            }
+        } catch (error) {
+            console.error("Error getting work plans:", error.message);
         }
     }
 
@@ -124,7 +144,7 @@ const EditTeams = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Set Dispatcher ID</label>
-                    <input type="text" id="byID" onChange={(e) => setDispatcherId(e.target.value.trimEnd())} />
+                    <input type="text" id="byID" onChange={(e) => setDispatcherId(e.target.value.trimEnd())}/>
                 </div>
             </div>
             <p>You can edit data about teams</p>
@@ -136,7 +156,8 @@ const EditTeams = () => {
                         <th>Team ID</th>
                         <th>Dispatcher ID</th>
                         <th>Specialist IDs</th>
-                        <th>Actions</th>
+                        <th>Work Plan IDs</th>
+                        <th colSpan={2}>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -144,7 +165,9 @@ const EditTeams = () => {
                         <td>Create new:</td>
                         <td></td>
                         <td></td>
-                        <td><button onClick={() => makeCreate()}>Create</button></td>
+                        <td>
+                            <button onClick={() => makeCreate()}>Create</button>
+                        </td>
                     </tr>
                     {data?.map((item) => (
                         <tr key={item.teamId}>
@@ -153,43 +176,48 @@ const EditTeams = () => {
                             <td>
                                 {item.specialistIds.map((id) => (
                                     specialists.map((specialist) => {
-                                        if (specialist.specialistId === id) {
-                                            return <p>{specialist.name}</p>
+                                            if (specialist.specialistId === id) {
+                                                return <p>{specialist.name}</p>
+                                            }
                                         }
-                                    }
-                                )))}
+                                    )))}
                                 <div>
                                     <div>
-                                    <label htmlFor="add">Add Specialist</label>
-                                    <select onChange={(e) => setSelectedAddSpecialistId(e.target.value)}>
-                                        {specialists.map((specialist) => (
-                                            <option value={specialist.specialistId}>{specialist.name}</option>
-                                        ))}
-                                    </select>
-                                    <button onClick={() => addSpecialist(item.teamId)}>Add Specialist</button>
-                                        </div>
+                                        <label htmlFor="add">Add Specialist</label>
+                                        <select onChange={(e) => setSelectedAddSpecialistId(e.target.value)}>
+                                            {specialists.map((specialist) => (
+                                                <option value={specialist.specialistId}>{specialist.name}</option>
+                                            ))}
+                                        </select>
+                                        <button onClick={() => addSpecialist(item.teamId)}>Add Specialist</button>
+                                    </div>
                                     <div>
-                                    <label htmlFor="remove">Remove Specialist</label>
-                                    <select onChange={(e) => setSelectedRemoveSpecialistId(e.target.value)}>
-                                        {
-                                            item.specialistIds.map((id) => (
-                                                specialists.map((specialist) => {
-                                                    if (specialist.specialistId === id) {
-                                                        return <option value={specialist.specialistId}>{specialist.name}</option>
-                                                    }
-                                                }
-                                            ))
-                                        )}
-                                    </select>
-                                    <button
-                                        onClick={() => removeSpecialist(item.teamId)}>Remove
-                                        Specialist
-                                    </button>
+                                        <label htmlFor="remove">Remove Specialist</label>
+                                        <select onChange={(e) => setSelectedRemoveSpecialistId(e.target.value)}>
+                                            {
+                                                item.specialistIds.map((id) => (
+                                                    specialists.map((specialist) => {
+                                                            if (specialist.specialistId === id) {
+                                                                return <option
+                                                                    value={specialist.specialistId}>{specialist.name}</option>
+                                                            }
+                                                        }
+                                                    ))
+                                                )}
+                                        </select>
+                                        <button
+                                            onClick={() => removeSpecialist(item.teamId)}>Remove
+                                            Specialist
+                                        </button>
                                     </div>
                                 </div>
                             </td>
+                            <td>{item.workPlanIds ? item.workPlanIds.length : 0}</td>
                             <td>
                                 <button onClick={() => makeDelete(item.teamId)}>Delete</button>
+                            </td>
+                            <td>
+                                <button onClick={() => getWorkPlans(item.teamId)}>Get Work Plans</button>
                             </td>
                         </tr>
                     ))}
@@ -197,7 +225,32 @@ const EditTeams = () => {
                 </table>
             </div>
             <div className="home-page__button">
-            <Link to="/home">Back</Link>
+                <Link to="/home">Back</Link>
+            </div>
+            <div className="container">
+                <h2>Team WorkPlans</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Work Plan ID</th>
+                        <th>Description</th>
+                        <th>Duration</th>
+                        <th>Team ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        workplans?.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.workPlanId}</td>
+                                <td>{item.description}</td>
+                                <td>{item.duration}</td>
+                                <td>{item.teamId}</td>
+                            </tr>
+                        ))
+                    }
+                    </tbody>
+                </table>
             </div>
         </section>
     )
