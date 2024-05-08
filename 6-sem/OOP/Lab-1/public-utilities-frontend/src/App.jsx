@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from './components/context/AuthProvider';
+import RequireAuth from "./components/RequireAuth";
 import Home from "./components/Home";
 import TenantView from "./components/admin_pages/TenantView";
 import DispatcherView from "./components/admin_pages/DispatcherView";
@@ -13,21 +15,18 @@ import EditRequests from "./components/admin_pages/EditRequests";
 import EditTeams from "./components/admin_pages/EditTeams";
 import EditWorkPlans from "./components/admin_pages/EditWorkPlans";
 import ViewRequests from "./components/admin_pages/ViewRequests";
-import RequireAuth from "./components/RequireAuth";
 import AdminView from "./components/admin_pages/AdminView";
-import { AuthProvider } from './components/context/AuthProvider';
-import Login from "./components/Login";
 import ROLES from "./components/hooks/useAuth";
 import Unauthorized from "./components/Unauthorized";
 
 function App() {
     return (
-            <AuthProvider>
-                <Router>
-                    <Routes>
+        <AuthProvider>
+            <Router>
+                <Routes>
                     <Route path='/' element={<Layout />}>
-                        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                            <Route path="/admin_view" element={<AdminView />} />
+                        <Route path='admin' element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                            <Route path="/view" element={<AdminView />} />
                             <Route path='/view_tenants' element={<Tenants />} />
                             <Route path='/view_requests' element={<Requests />} />
                             <Route path='/view_specialists' element={<Specialists />} />
@@ -35,13 +34,13 @@ function App() {
                             <Route path='/view_teams' element={<Teams />} />
                         </Route>
 
-                        <Route element={<RequireAuth allowedRoles={[ROLES.Tenant]} />}>
-                            <Route path="/tenant_view" element={<TenantView />} />
+                        <Route path='tenant' element={<RequireAuth allowedRoles={[ROLES.Tenant]} />}>
+                            <Route path="/view" element={<TenantView />} />
                             <Route path="/edit_requests" element={<EditRequests />} />
                         </Route>
 
-                        <Route element={<RequireAuth allowedRoles={[ROLES.Dispatcher]} />}>
-                            <Route path="/dispatcher_view" element={<DispatcherView />} />
+                        <Route path='dispatcher' element={<RequireAuth allowedRoles={[ROLES.Dispatcher]} />}>
+                            <Route path="/view" element={<DispatcherView />} />
                             <Route path='/view_drequests' element={<ViewRequests />} />
                             <Route path='/edit_teams' element={<EditTeams />} />
                             <Route path='/edit_workplans' element={<EditWorkPlans />} />

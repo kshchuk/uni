@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from './context/AuthProvider';
+import { Outlet } from 'react-router-dom';
 
-const RequireAuth = ({ children, allowedRoles }) => {
+const RequireAuth = ({ allowedRoles }) => {
     const auth = useContext(AuthContext);
 
     if (!auth.isAuthenticated) {
@@ -13,7 +14,7 @@ const RequireAuth = ({ children, allowedRoles }) => {
         return <Navigate to="/unauthorized" />;
     }
 
-    return children;
+    return <Outlet />;
 };
 
 export default RequireAuth;

@@ -9,20 +9,18 @@ let initOptions = {
 
 let kc = new Keycloak(initOptions);
 
-kc.init({
+let auth = await kc.init({
     onLoad: 'login-required',
     checkLoginIframe: true,
     pkceMethod: 'S256'
-}).then((auth) => {
-    if (!auth) {
-        window.location.reload();
-    } else {
-        console.info("Authenticated");
-        setToken('Bearer ' + kc.token)
-    }
-}, () => {
-    console.error("Authentication Failed");
-});
+})
+
+if (!auth) {
+    window.location.reload();
+} else {
+    console.info("Authenticated");
+    setToken('Bearer ' + kc.token)
+}
 
 export default kc;
 
