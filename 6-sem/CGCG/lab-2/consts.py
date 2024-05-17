@@ -1,0 +1,4 @@
+MIN_X = 0
+MAX_X = 7
+MIN_Y = 0
+MAX_Y = 7
