@@ -16,7 +16,7 @@ import (
 
 // TestSign() verifies the correct function of Sign()
 func TestSign(t *testing.T) {
-	Curve := btcec.S256(
+	Curve := btcec.S256()
 	// Curve := elliptic.P256()
 	// N := Curve.Params().N
 	testCases := []struct {
