@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="api" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d6bd3016-0239-49dd-9d1c-daa654c7c090" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Lab-1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Test_All.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Tomcat_9_0_87.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend.Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keycloak_imports/realm.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/App.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/App.test.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/api/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Home.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Layout.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Login.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/RequireAuth.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Unauthorized.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/Unauthorized.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/AdminView.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/DispatcherView.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditRequests.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditTeams.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditWorkPlans.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/TenantView.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/ViewRequests.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/context/AuthProvider.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/hooks/Auth.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/hooks/Config.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/hooks/useAuth.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/Entity.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/Requests.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/Specialists.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/Teams.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/Tenants.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/View.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/components/pages/WorkPlans.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/reportWebVitals.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-frontend/src/setupTests.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/runConfigurations/Test_All.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/runConfigurations/Tomcat_9_0_87.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/backend.Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/config/MapperConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/CrudDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/RequestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/SpecialistDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/TeamDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/TenantDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/WorkPlanDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/DAOManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/DBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/RequestDBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/SpecialistDBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/TeamDBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/TenantDBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dao/db/WorkPlanDBDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/IDResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/RequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/SpecialistDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/TeamDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/TenantDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/dto/WorkPlanDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/entity/Request.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/entity/Specialist.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/entity/Team.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/entity/Tenant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/entity/WorkPlan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/filters/CORSInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/ioc/BeanFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/ioc/ClassPathXmlApplicationContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/MapperBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/RequestMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/SpecialistMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/TeamMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/TenantMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/mapper/WorkPlanMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/CrudRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/RequestRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/SpecialistRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/TeamRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/TenantRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/WorkPlanRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/impl/RequestRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/impl/SpecialistRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/impl/TeamRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/impl/TenantRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/repository/impl/WorkPlanRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/DispatcherService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/RequestService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/Service.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/SpecialistService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/TeamService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/TenantService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/WorkPlanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/DispatcherServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/RequestServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/SpecialistServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/TeamServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/TenantServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/service/impl/WorkPlanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/DispatcherServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/RequestServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/SpecialistServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/TeamServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/TenantServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/WorkPlanServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/utils/TimeUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/resources/META-INF/beans.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/resources/META-INF/persistence.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/resources/applicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/resources/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/webapp/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public-utilities-servlets-api/src/main/webapp/web/WEB-INF/web.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2frmLw4DxPYjaIPCT4MQo93L6Ku" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.docker-compose.yml.backend: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.db: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.keycloak: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.keycloak_db: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "JUnit.Test All.executor": "Run",
+    "JUnit.Unnamed.executor": "Run",
+    "JavaScript Debug.Debug Application.executor": "Debug",
+    "Node.js.App.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Tomcat Server.Tomcat 9.0.87.executor": "Run",
+    "Tomcat Server.Tomcat 9AA.executor": "Run",
+    "dart.analysis.tool.window.visible": "false",
+    "database.data.extractors.current.export.id": "CSV-Groovy.csv.groovy",
+    "database.data.extractors.current.id": "CSV-Groovy.csv.groovy",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/yaroslav/study/uni/6-sem/OOP/public-utilities-app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/yaroslav/.nvm/versions/node/v20.12.2/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "npm.start.executor": "Run",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3087886",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "/snap/intellij-idea-ultimate/493/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/utils" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public-utilities-frontend/src" />
+      <recent name="$PROJECT_DIR$/.idea" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public-utilities-servlets-api" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.start">
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.backend: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="backend" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.keycloak: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="keycloak" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.keycloak_db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="keycloak_db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/public-utilities-frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.docker-compose.yml.keycloak: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.keycloak_db: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.backend: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      <item itemvalue="JavaScript Debug.Debug Application" />
+      <item itemvalue="JUnit.Test All" />
+      <item itemvalue="npm.start" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.87" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.keycloak: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.keycloak_db: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.backend: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d6bd3016-0239-49dd-9d1c-daa654c7c090" name="Changes" comment="" />
+      <created>1714567519391</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714567519391</updated>
+      <workItem from="1714567520960" duration="15000" />
+      <workItem from="1714567574143" duration="1831000" />
+      <workItem from="1714574814409" duration="3217000" />
+      <workItem from="1714579326483" duration="89000" />
+      <workItem from="1714579425900" duration="28316000" />
+      <workItem from="1714645159906" duration="3352000" />
+      <workItem from="1714653369520" duration="9839000" />
+      <workItem from="1714663219281" duration="960000" />
+      <workItem from="1714854149268" duration="2376000" />
+      <workItem from="1714856694183" duration="1271000" />
+      <workItem from="1714858205817" duration="78000" />
+      <workItem from="1714858338624" duration="735000" />
+      <workItem from="1714972702975" duration="14771000" />
+      <workItem from="1714995973634" duration="6983000" />
+      <workItem from="1715017138525" duration="1654000" />
+      <workItem from="1715021106372" duration="2935000" />
+      <workItem from="1715025380604" duration="2230000" />
+      <workItem from="1715033362211" duration="4686000" />
+      <workItem from="1715077266330" duration="30225000" />
+      <workItem from="1715146319792" duration="2568000" />
+      <workItem from="1715149149529" duration="6859000" />
+      <workItem from="1715180491452" duration="2000" />
+      <workItem from="1715358669731" duration="23000" />
+      <workItem from="1716285900080" duration="129000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/pages/WorkPlans.jsx</url>
+          <line>18</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditTeams.jsx</url>
+          <line>57</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditTeams.jsx</url>
+          <line>96</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditTeams.jsx</url>
+          <line>120</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditTeams.jsx</url>
+          <line>105</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/admin_pages/EditWorkPlans.jsx</url>
+          <line>59</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/hooks/useAuth.jsx</url>
+          <line>13</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/context/AuthProvider.jsx</url>
+          <line>25</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/context/AuthProvider.jsx</url>
+          <line>23</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/context/AuthProvider.jsx</url>
+          <line>6</line>
+          <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public-utilities-frontend/src/components/context/AuthProvider.jsx</url>
+          <line>3</line>
+          <option name="timeStamp" value="111" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/TeamServlet.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/SpecialistServlet.java</url>
+          <line>154</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/WorkPlanServlet.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/public-utilities-servlets-api/src/main/java/org/example/servlet/WorkPlanServlet.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

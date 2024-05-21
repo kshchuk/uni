@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Lab-1.iml" filepath="$PROJECT_DIR$/.idea/Lab-1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/public-utilities-app.iml" filepath="$PROJECT_DIR$/.idea/public-utilities-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/public-utilities-frontend.iml" filepath="$PROJECT_DIR$/public-utilities-frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/public-utilities-react-frontend.iml" filepath="$PROJECT_DIR$/public-utilities-react-frontend.iml" />
     </modules>
