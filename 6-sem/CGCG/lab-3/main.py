@@ -1,3 +1,5 @@
+# Найближча пара множини точок на площині – метод «розділяй і владарюй».
+
 import matplotlib.pyplot as plt
 from point import Point
 from closest_points import findClosestPair
