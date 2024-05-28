@@ -22,10 +22,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) ->
-                authz.requestMatchers(HttpMethod.GET, "/request/**").hasRole(TENANT)
+                authz   .requestMatchers(HttpMethod.GET, "/**").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/request/**").hasRole(TENANT)
                         .requestMatchers(HttpMethod.GET, "/tenant/**").hasRole(TENANT)
                         .requestMatchers(HttpMethod.GET, "/team/**").hasAnyRole(DISPATCHER, TENANT)
-                        .requestMatchers(HttpMethod.GET, "/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/specialist/**").hasRole(DISPATCHER)
                         .anyRequest().authenticated());
 

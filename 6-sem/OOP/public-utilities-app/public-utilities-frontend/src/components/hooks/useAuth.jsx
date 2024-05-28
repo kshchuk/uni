@@ -6,7 +6,7 @@ const ROLES = {
     Admin: 'admin',
     Dispatcher: 'dispatcher',
     Tenant: 'tenant',
-}
+};
 
 const RequireAuth = ({ children, allowedRoles }) => {
     const auth = useContext(AuthContext);
@@ -23,3 +23,4 @@ const RequireAuth = ({ children, allowedRoles }) => {
 };
 
 export default RequireAuth;
+export { ROLES };

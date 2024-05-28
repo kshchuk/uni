@@ -29,6 +29,11 @@ public class RequestController {
         return requestMapper.toDto(requestService.findById(id).orElseThrow());
     }
 
+    @GetMapping("/tenant/{tenantId}")
+    public List<RequestDto> getRequestsByTenantId(@PathVariable UUID tenantId) {
+        return requestService.findRequestsByTenantId(tenantId).stream().map(requestMapper::toDto).collect(Collectors.toList());
+    }
+
     @PostMapping("/create")
     public RequestDto createRequest(@RequestBody RequestDto requestDto) {
         Request request = requestMapper.toEntity(requestDto);

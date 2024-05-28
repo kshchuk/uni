@@ -1,71 +1,55 @@
-import { Link } from "react-router-dom"
-import "./Entity.css"
-import "../Home.css"
-import axios from "../../api/axios"
-import { useState, useEffect } from "react"
-import getHeaderConfig from "../hooks/Config"
+import { Link } from "react-router-dom";
+import "./Entity.css";
+import "../Home.css";
+import axios from "../../api/axios";
+import { useState, useEffect } from "react";
+import getHeaderConfig from "../hooks/Config";
+
 const TENANT_URL = "/tenant";
+const REQUEST_URL = "/request";
 
 const Tenants = () => {
     const [data, setData] = useState([]);
     const [id, setID] = useState('');
     const [requests, setRequests] = useState([]);
-
     const config = getHeaderConfig();
 
-    const makeRequest = async (field, value) => {
+    const makeRequest = async (endpoint) => {
         console.log("Making request");
-        let url;
-        if (field === 'all' && value === 'all') {
-            url = `${TENANT_URL}/all`;
-        } else {
-            url = `${TENANT_URL}/?${field}=${value}`;
-        }
+        const url = `${TENANT_URL}/${endpoint}`;
 
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
             setData(response.data);
         } catch (error) {
             console.error("Error making request:", error.message);
         }
-    }
+    };
 
     const getRequests = async (tenantId) => {
-        const response = await axios.get(`${TENANT_URL}/requests`, {
-            params: {
-                id: tenantId
-            },
-            headers: config.headers
-        });
-        console.log(JSON.stringify(response?.data));
-        setRequests(response?.data);
-    }
+        const url = `${REQUEST_URL}/tenant/${tenantId}`;
 
-    // format time to hour minute (for ex PT32H is 32 hours, PT1H30M is 1 hour 30 minutes
-    const formatDuration = (time) => {
-        let hours = 0;
-        let minutes = 0;
-        if (time.includes("H")) {
-            hours = parseInt(time.split("H")[0].substring(2));
+        try {
+            const response = await axios.get(url, { headers: config.headers });
+            if (!response?.data) {
+                console.error("Error getting requests");
+                return;
+            }
+            console.log(JSON.stringify(response.data));
+            setRequests(response.data);
+        } catch (error) {
+            console.error("Error getting requests:", error.message);
         }
-        if (time.includes("M")) {
-            minutes = parseInt(time.split("M")[0].split("H")[1].substring(2));
-        }
-        let result = "";
-        if (hours > 0) {
-            result += hours + " hours ";
-        }
-        if (minutes > 0) {
-            result += minutes + " minutes";
-        }
-        return result;
-    }
+    };
+
+    const formatDuration = (duration) => {
+        const { hours, minutes } = duration;
+        return `${hours}h ${minutes}m`;
+    };
 
     useEffect(() => {
-        makeRequest("all", "all");
+        makeRequest("all");
     }, []);
 
     return (
@@ -85,14 +69,14 @@ const Tenants = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {data?.map((item) => (
-                        <tr key={item.tenantId}>
-                            <td>{item.tenantId}</td>
+                    {data.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.address}</td>
                             <td>{item.requestIds ? item.requestIds.length : 0}</td>
                             <td>
-                                <button onClick={() => getRequests(item.tenantId)}>Get Requests</button>
+                                <button onClick={() => getRequests(item.id)}>Get Requests</button>
                             </td>
                         </tr>
                     ))}
@@ -102,8 +86,13 @@ const Tenants = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by ID</label>
-                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id}/>
-                    <button onClick={() => makeRequest("id", id)}>Execute Query</button>
+                    <input
+                        type="text"
+                        id="byID"
+                        onChange={(e) => setID(e.target.value)}
+                        value={id}
+                    />
+                    <button onClick={() => makeRequest(id)}>Execute Query</button>
                 </div>
             </div>
             <div className="home-page__button">
@@ -122,10 +111,10 @@ const Tenants = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {requests?.map((item) => (
+                    {requests.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.requestId}</td>
-                            <td>{item.tenantId}</td>
+                            <td>{item.id}</td>
+                            <td>{item.tenant.id}</td>
                             <td>{item.workType}</td>
                             <td>{item.scopeOfWork}</td>
                             <td>{formatDuration(item.desiredTime)}</td>
@@ -135,7 +124,7 @@ const Tenants = () => {
                 </table>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Tenants
+export default Tenants;
