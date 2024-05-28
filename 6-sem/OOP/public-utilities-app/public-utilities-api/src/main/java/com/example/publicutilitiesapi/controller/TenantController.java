@@ -25,6 +25,6 @@ public class TenantController {
 
     @GetMapping("/all")
     public List<TenantDto> getAllTenants() {
-        return tenantRepository.findAll().stream().map(tenantMapper::toEntity).collect(Collectors.toList());
+        return tenantRepository.findAll().stream().map(tenantMapper::toDto).collect(Collectors.toList());
     }
 }

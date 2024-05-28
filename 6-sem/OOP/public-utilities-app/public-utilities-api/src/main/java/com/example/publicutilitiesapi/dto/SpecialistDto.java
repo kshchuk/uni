@@ -3,7 +3,6 @@ package com.example.publicutilitiesapi.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Value;
-import org.example.dto.TeamDTO;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -20,5 +19,5 @@ public class SpecialistDto implements Serializable {
     @NotNull
     @Size(max = 100)
     String specialization;
-    TeamDTO team;
+    TeamDto team;
 }

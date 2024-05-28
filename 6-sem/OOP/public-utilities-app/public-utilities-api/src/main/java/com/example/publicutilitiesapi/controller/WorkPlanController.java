@@ -25,6 +25,6 @@ public class WorkPlanController {
 
     @GetMapping("/all")
     public List<WorkPlanDto> getAllWorkPlans() {
-        return workPlanRepository.findAll().stream().map(workPlanMapper::toEntity).collect(Collectors.toList());
+        return workPlanRepository.findAll().stream().map(workPlanMapper::toDto).collect(Collectors.toList());
     }
 }

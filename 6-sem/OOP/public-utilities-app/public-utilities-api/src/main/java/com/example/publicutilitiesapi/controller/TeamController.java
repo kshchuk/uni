@@ -24,17 +24,17 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public TeamDto getTeamById(@PathVariable UUID id) {
-        return teamMapper.toEntity(teamRepository.findById(id).orElseThrow());
+        return teamMapper.toDto(teamRepository.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public TeamDto createTeam(@RequestBody TeamDto teamDto) {
-        return teamMapper.toEntity(teamRepository.save(teamMapper.toDto(teamDto)));
+        return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
     }
 
     @PutMapping("/update")
     public TeamDto updateTeam(@RequestBody TeamDto teamDto) {
-        return teamMapper.toEntity(teamRepository.save(teamMapper.toDto(teamDto)));
+        return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +44,6 @@ public class TeamController {
 
     @GetMapping("/all")
     public List<TeamDto> getAllTeams() {
-        return teamRepository.findAll().stream().map(teamMapper::toEntity).collect(Collectors.toList());
+        return teamRepository.findAll().stream().map(teamMapper::toDto).collect(Collectors.toList());
     }
 }

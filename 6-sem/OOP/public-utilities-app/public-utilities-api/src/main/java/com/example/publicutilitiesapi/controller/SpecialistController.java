@@ -24,17 +24,17 @@ public class SpecialistController {
 
     @GetMapping("/{id}")
     public SpecialistDto getSpecialistById(@PathVariable UUID id) {
-        return specialistMapper.toEntity(specialistRepository.findById(id).orElseThrow());
+        return specialistMapper.toDto(specialistRepository.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public SpecialistDto createSpecialist(@RequestBody SpecialistDto specialistDto) {
-        return specialistMapper.toEntity(specialistRepository.save(specialistMapper.toDto(specialistDto)));
+        return specialistMapper.toDto(specialistRepository.save(specialistMapper.toEntity(specialistDto)));
     }
 
     @PutMapping("/update")
     public SpecialistDto updateSpecialist(@RequestBody SpecialistDto specialistDto) {
-        return specialistMapper.toEntity(specialistRepository.save(specialistMapper.toDto(specialistDto)));
+        return specialistMapper.toDto(specialistRepository.save(specialistMapper.toEntity(specialistDto)));
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +44,6 @@ public class SpecialistController {
 
     @GetMapping("/all")
     public List<SpecialistDto> getAllSpecialists() {
-        return specialistRepository.findAll().stream().map(specialistMapper::toEntity).collect(Collectors.toList());
+        return specialistRepository.findAll().stream().map(specialistMapper::toDto).collect(Collectors.toList());
     }
 }

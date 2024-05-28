@@ -5,7 +5,7 @@ import com.example.publicutilitiesapi.entity.Request;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
-public interface RequestMapper extends org.example.mapper.MapperBase<RequestDto, Request> {
+public interface RequestMapper extends MapperBase<RequestDto, Request> {
     Request toEntity(RequestDto requestDto);
 
     RequestDto toDto(Request request);

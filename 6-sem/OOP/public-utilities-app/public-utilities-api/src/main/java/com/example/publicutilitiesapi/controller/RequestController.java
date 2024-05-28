@@ -24,17 +24,17 @@ public class RequestController {
 
     @GetMapping("/{id}")
     public RequestDto getRequestById(@PathVariable UUID id) {
-        return requestMapper.toEntity(requestRepository.findById(id).orElseThrow());
+        return requestMapper.toDto(requestRepository.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public RequestDto createRequest(@RequestBody RequestDto requestDto) {
-        return requestMapper.toEntity(requestRepository.save(requestMapper.toDto(requestDto)));
+        return requestMapper.toDto(requestRepository.save(requestMapper.toEntity(requestDto)));
     }
 
     @PutMapping("/update")
     public RequestDto updateRequest(@RequestBody RequestDto requestDto) {
-        return requestMapper.toEntity(requestRepository.save(requestMapper.toDto(requestDto)));
+        return requestMapper.toDto(requestRepository.save(requestMapper.toEntity(requestDto)));
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +44,6 @@ public class RequestController {
 
     @GetMapping("/all")
     public List<RequestDto> getAllRequests() {
-        return requestRepository.findAll().stream().map(requestMapper::toEntity).collect(Collectors.toList());
+        return requestRepository.findAll().stream().map(requestMapper::toDto).collect(Collectors.toList());
     }
 }
