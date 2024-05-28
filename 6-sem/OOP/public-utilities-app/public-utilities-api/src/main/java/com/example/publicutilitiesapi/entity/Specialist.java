@@ -29,11 +29,11 @@ public class Specialist {
     @Column(name = "specialization", nullable = false, length = 100)
     private String specialization;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "dispatcher")
+    @OneToMany(mappedBy = "dispatcher", fetch = FetchType.LAZY)
     private Set<Team> teams = new LinkedHashSet<>();
 
 }

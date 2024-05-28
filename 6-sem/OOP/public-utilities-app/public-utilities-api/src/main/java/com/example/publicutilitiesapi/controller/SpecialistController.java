@@ -1,8 +1,10 @@
 package com.example.publicutilitiesapi.controller;
 
 import com.example.publicutilitiesapi.dto.SpecialistDto;
+import com.example.publicutilitiesapi.entity.Specialist;
 import com.example.publicutilitiesapi.mapper.SpecialistMapper;
-import com.example.publicutilitiesapi.repository.SpecialistRepository;
+import com.example.publicutilitiesapi.service.SpecialistService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,37 +15,39 @@ import java.util.stream.Collectors;
 @RequestMapping("/specialist/")
 public class SpecialistController {
 
-    private final SpecialistRepository specialistRepository;
+    private final SpecialistService specialistService;
     private final SpecialistMapper specialistMapper;
 
-    public SpecialistController(SpecialistRepository specialistRepository,
-                                SpecialistMapper specialistMapper) {
-        this.specialistRepository = specialistRepository;
+    @Autowired
+    public SpecialistController(SpecialistService specialistService, SpecialistMapper specialistMapper) {
+        this.specialistService = specialistService;
         this.specialistMapper = specialistMapper;
     }
 
     @GetMapping("/{id}")
     public SpecialistDto getSpecialistById(@PathVariable UUID id) {
-        return specialistMapper.toDto(specialistRepository.findById(id).orElseThrow());
+        return specialistMapper.toDto(specialistService.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public SpecialistDto createSpecialist(@RequestBody SpecialistDto specialistDto) {
-        return specialistMapper.toDto(specialistRepository.save(specialistMapper.toEntity(specialistDto)));
+        Specialist specialist = specialistMapper.toEntity(specialistDto);
+        return specialistMapper.toDto(specialistService.save(specialist));
     }
 
     @PutMapping("/update")
     public SpecialistDto updateSpecialist(@RequestBody SpecialistDto specialistDto) {
-        return specialistMapper.toDto(specialistRepository.save(specialistMapper.toEntity(specialistDto)));
+        Specialist specialist = specialistMapper.toEntity(specialistDto);
+        return specialistMapper.toDto(specialistService.save(specialist));
     }
 
     @DeleteMapping("/{id}")
     public void deleteSpecialist(@PathVariable UUID id) {
-        specialistRepository.deleteById(id);
+        specialistService.deleteById(id);
     }
 
     @GetMapping("/all")
     public List<SpecialistDto> getAllSpecialists() {
-        return specialistRepository.findAll().stream().map(specialistMapper::toDto).collect(Collectors.toList());
+        return specialistService.findAll().stream().map(specialistMapper::toDto).collect(Collectors.toList());
     }
 }

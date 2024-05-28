@@ -29,7 +29,7 @@ public class Tenant {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "tenant")
+    @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
     private Set<Request> requests = new LinkedHashSet<>();
 
 }

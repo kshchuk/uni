@@ -26,7 +26,7 @@ public class WorkPlan {
     private Object duration;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 

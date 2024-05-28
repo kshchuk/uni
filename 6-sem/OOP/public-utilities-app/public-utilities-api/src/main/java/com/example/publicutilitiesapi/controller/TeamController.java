@@ -1,8 +1,10 @@
 package com.example.publicutilitiesapi.controller;
 
 import com.example.publicutilitiesapi.dto.TeamDto;
+import com.example.publicutilitiesapi.entity.Team;
 import com.example.publicutilitiesapi.mapper.TeamMapper;
-import com.example.publicutilitiesapi.repository.TeamRepository;
+import com.example.publicutilitiesapi.service.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,37 +15,39 @@ import java.util.stream.Collectors;
 @RequestMapping("/team/")
 public class TeamController {
 
-    private final TeamRepository teamRepository;
+    private final TeamService teamService;
     private final TeamMapper teamMapper;
 
-    public TeamController(TeamRepository teamRepository,
-                          TeamMapper teamMapper) {
-        this.teamRepository = teamRepository;
+    @Autowired
+    public TeamController(TeamService teamService, TeamMapper teamMapper) {
+        this.teamService = teamService;
         this.teamMapper = teamMapper;
     }
 
     @GetMapping("/{id}")
     public TeamDto getTeamById(@PathVariable UUID id) {
-        return teamMapper.toDto(teamRepository.findById(id).orElseThrow());
+        return teamMapper.toDto(teamService.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public TeamDto createTeam(@RequestBody TeamDto teamDto) {
-        return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
+        Team team = teamMapper.toEntity(teamDto);
+        return teamMapper.toDto(teamService.save(team));
     }
 
     @PutMapping("/update")
     public TeamDto updateTeam(@RequestBody TeamDto teamDto) {
-        return teamMapper.toDto(teamRepository.save(teamMapper.toEntity(teamDto)));
+        Team team = teamMapper.toEntity(teamDto);
+        return teamMapper.toDto(teamService.save(team));
     }
 
     @DeleteMapping("/{id}")
     public void deleteTeam(@PathVariable UUID id) {
-        teamRepository.deleteById(id);
+        teamService.deleteById(id);
     }
 
     @GetMapping("/all")
     public List<TeamDto> getAllTeams() {
-        return teamRepository.findAll().stream().map(teamMapper::toDto).collect(Collectors.toList());
+        return teamService.findAll().stream().map(teamMapper::toDto).collect(Collectors.toList());
     }
 }

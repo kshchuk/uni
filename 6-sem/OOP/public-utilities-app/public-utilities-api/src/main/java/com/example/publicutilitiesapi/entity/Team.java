@@ -19,14 +19,14 @@ public class Team {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "dispatcher_id", nullable = false)
     private Specialist dispatcher;
 
     @OneToMany(mappedBy = "team")
     private Set<Specialist> specialists = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     private Set<WorkPlan> workPlans = new LinkedHashSet<>();
 
 }

@@ -1,8 +1,10 @@
 package com.example.publicutilitiesapi.controller;
 
 import com.example.publicutilitiesapi.dto.RequestDto;
-import com.example.publicutilitiesapi.repository.RequestRepository;
+import com.example.publicutilitiesapi.entity.Request;
 import com.example.publicutilitiesapi.mapper.RequestMapper;
+import com.example.publicutilitiesapi.service.RequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,37 +15,39 @@ import java.util.stream.Collectors;
 @RequestMapping("/request/")
 public class RequestController {
 
-    private final RequestRepository requestRepository;
+    private final RequestService requestService;
     private final RequestMapper requestMapper;
 
-    public RequestController(RequestRepository requestRepository,
-                             RequestMapper requestMapper) {
-        this.requestRepository = requestRepository;
+    @Autowired
+    public RequestController(RequestService requestService, RequestMapper requestMapper) {
+        this.requestService = requestService;
         this.requestMapper = requestMapper;
     }
 
     @GetMapping("/{id}")
     public RequestDto getRequestById(@PathVariable UUID id) {
-        return requestMapper.toDto(requestRepository.findById(id).orElseThrow());
+        return requestMapper.toDto(requestService.findById(id).orElseThrow());
     }
 
     @PostMapping("/create")
     public RequestDto createRequest(@RequestBody RequestDto requestDto) {
-        return requestMapper.toDto(requestRepository.save(requestMapper.toEntity(requestDto)));
+        Request request = requestMapper.toEntity(requestDto);
+        return requestMapper.toDto(requestService.save(request));
     }
 
     @PutMapping("/update")
     public RequestDto updateRequest(@RequestBody RequestDto requestDto) {
-        return requestMapper.toDto(requestRepository.save(requestMapper.toEntity(requestDto)));
+        Request request = requestMapper.toEntity(requestDto);
+        return requestMapper.toDto(requestService.save(request));
     }
 
     @DeleteMapping("/{id}")
     public void deleteRequest(@PathVariable UUID id) {
-        requestRepository.deleteById(id);
+        requestService.deleteById(id);
     }
 
     @GetMapping("/all")
     public List<RequestDto> getAllRequests() {
-        return requestRepository.findAll().stream().map(requestMapper::toDto).collect(Collectors.toList());
+        return requestService.findAll().stream().map(requestMapper::toDto).collect(Collectors.toList());
     }
 }
