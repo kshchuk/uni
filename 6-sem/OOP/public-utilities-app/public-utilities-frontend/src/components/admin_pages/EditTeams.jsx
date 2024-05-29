@@ -1,152 +1,104 @@
-import { Link } from "react-router-dom"
-import "../pages/Entity.css"
-import "../Home.css"
-import axios from "../../api/axios"
-import {useEffect, useState} from "react"
-import getHeaderConfig from "../hooks/Config"
+import { Link } from "react-router-dom";
+import "../pages/Entity.css";
+import "../Home.css";
+import axios from "../../api/axios";
+import { useEffect, useState } from "react";
+import getHeaderConfig from "../hooks/Config";
 
-const TEAM_URL = "/team"
-const SPECIALIST_URL = "/specialist"
+const TEAM_URL = "/team";
+const SPECIALIST_URL = "/specialist";
+const WORKPLAN_URL = "/workplan";
 
 const EditTeams = () => {
     const [data, setData] = useState([]);
-    const [specialists, setSpecialists] = useState([]); // all specialists
-    const [workplans, setWorkplans] = useState([]); // workplans of a team
-
+    const [specialists, setSpecialists] = useState([]);
+    const [workplans, setWorkplans] = useState([]);
     const [dispatcherId, setDispatcherId] = useState('');
     const [selectedAddSpecialistId, setSelectedAddSpecialistId] = useState('');
     const [selectedRemoveSpecialistId, setSelectedRemoveSpecialistId] = useState('');
-
     const [reload, setReload] = useState(false);
 
     const config = getHeaderConfig();
 
-    const makeRequest = async (field, value) => {
+    const makeRequest = async (endpoint) => {
         console.log("Making request");
-        let url;
-        if (field === 'all' && value === 'all') {
-            url = `${TEAM_URL}/all`;
-        } else {
-            url = `${TEAM_URL}/?${field}=${value}`;
-        }
-
+        const url = `${TEAM_URL}/${endpoint}`;
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
             setData(response.data);
         } catch (error) {
             console.error("Error making request:", error.message);
         }
-    }
+    };
 
     const fetchSpecialists = async () => {
-        let url = `${SPECIALIST_URL}/all`;
-
+        const url = `${SPECIALIST_URL}/all`;
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
-            if (Array.isArray(response.data)) {
-                setSpecialists(response.data);
-            } else {
-                setSpecialists([response.data]);
-            }
+            setSpecialists(Array.isArray(response.data) ? response.data : [response.data]);
         } catch (error) {
             console.error("Error fetching specialists:", error.message);
         }
-    }
+    };
 
-    const getWorkPlans = async (teamId) => {
+    const getWorkPlans = async (id) => {
         console.log("Getting work plans");
-        let url = `${TEAM_URL}/workplans?id=${teamId}`;
-
+        const url = `${WORKPLAN_URL}/team/${id}`;
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
-            if (Array.isArray(response.data)) {
-                setWorkplans(response.data);
-            } else {
-                setWorkplans([response.data]);
-            }
+            setWorkplans(Array.isArray(response.data) ? response.data : [response.data]);
         } catch (error) {
             console.error("Error getting work plans:", error.message);
         }
-    }
+    };
 
     const makeDelete = async (id) => {
-        let url = `${TEAM_URL}/?id=${id}`;
+        const url = `${TEAM_URL}/${id}`;
         const response = await axios.delete(url, config);
         if (response.status !== 200) {
             console.error("Error deleting item");
             return;
         }
-        setData((prevData) => prevData.filter(item => item.teamId !== id));
+        setData((prevData) => prevData.filter(item => item.id !== id));
     };
 
     const makeCreate = async () => {
-        if (dispatcherId === '') {
+        if (!dispatcherId) {
             console.error("Dispatcher ID must be set");
             return;
         }
-
-        await axios.post(TEAM_URL, JSON.stringify({
-            dispatcherId: dispatcherId,
-            specialistIds: [],
-            workPlanIds: []
-        }), config);
-        makeRequest("all", "all");
+        const url = `${TEAM_URL}/create`;
+        await axios.post(url, JSON.stringify({ dispatcherId, specialistIds: [], workPlanIds: [] }), config);
+        makeRequest("all");
     };
 
-    const addSpecialist = async (teamId) => {
-        const team = data.find((item) => item.teamId === teamId);
+    const addSpecialist = async (id) => {
+        const team = data.find((item) => item.id === id);
         if (!team.specialistIds.includes(selectedAddSpecialistId)) {
             team.specialistIds.push(selectedAddSpecialistId);
-            const response = await axios.put(TEAM_URL, JSON.stringify({
-                teamId: team.teamId,
-                dispatcherId: team.dispatcherId,
-                specialistIds: team.specialistIds,
-                workPlanIds: team.workPlanIds
-            }), config);
+            await axios.put(TEAM_URL, JSON.stringify(team), config);
         }
-
-        setReload(!reload)
+        setReload(!reload);
     };
 
-    const removeSpecialist = async (teamId) => {
-        const team = data.find((item) => item.teamId === teamId);
-        if (selectedRemoveSpecialistId.length === 0 || selectedRemoveSpecialistId.length === 1) {
-            setSelectedRemoveSpecialistId(team.specialistIds[0]);
-        }
-        team.specialistIds = team.specialistIds.filter(id => id !== selectedRemoveSpecialistId);
-        const response = await axios.put(TEAM_URL, JSON.stringify({
-            teamId: team.teamId,
-            dispatcherId: team.dispatcherId,
-            specialistIds: team.specialistIds,
-            workPlanIds: team.workPlanIds
-        }), config);
-
-        setReload(!reload)
+    const removeSpecialist = async (id) => {
+        const team = data.find((item) => item.id === id);
+        team.specialistIds = team.specialistIds.filter(sid => sid !== selectedRemoveSpecialistId);
+        await axios.put(TEAM_URL, JSON.stringify(team), config);
+        setReload(!reload);
     };
 
     useEffect(() => {
-        makeRequest("all", "all"); // Fetch data when page loads
-        fetchSpecialists(); // Fetch specialists when page loads
+        makeRequest("all");
+        fetchSpecialists();
     }, [reload]);
 
     return (
         <section>
             <h2>Teams</h2>
-            <div className="queries">
-                <div>
-                    <label htmlFor="byID">Set Dispatcher ID</label>
-                    <input type="text" id="byID" onChange={(e) => setDispatcherId(e.target.value.trimEnd())}/>
-                </div>
-            </div>
             <p>You can edit data about teams</p>
             <div className="container">
                 <h2>Data Table</h2>
@@ -157,67 +109,58 @@ const EditTeams = () => {
                         <th>Dispatcher ID</th>
                         <th>Specialist IDs</th>
                         <th>Work Plan IDs</th>
-                        <th colSpan={2}>Actions</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>Create new:</td>
-                        <td></td>
-                        <td></td>
                         <td>
-                            <button onClick={() => makeCreate()}>Create</button>
+                            <input type="text" onChange={(e) => setDispatcherId(e.target.value.trimEnd())} />
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td><button onClick={makeCreate}>Create</button></td>
                     </tr>
-                    {data?.map((item) => (
-                        <tr key={item.teamId}>
-                            <td>{item.teamId}</td>
+                    {data && data.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
                             <td>{item.dispatcherId}</td>
                             <td>
-                                {item.specialistIds.map((id) => (
-                                    specialists.map((specialist) => {
-                                            if (specialist.specialistId === id) {
-                                                return <p>{specialist.name}</p>
-                                            }
-                                        }
-                                    )))}
+                                {item.specialistIds && item.specialistIds.map((id) => {
+                                    const specialist = specialists.find(spec => spec.specialistId === id);
+                                    return specialist ? <p key={id}>{specialist.name}</p> : null;
+                                })}
                                 <div>
-                                    <div>
-                                        <label htmlFor="add">Add Specialist</label>
-                                        <select onChange={(e) => setSelectedAddSpecialistId(e.target.value)}>
-                                            {specialists.map((specialist) => (
-                                                <option value={specialist.specialistId}>{specialist.name}</option>
-                                            ))}
-                                        </select>
-                                        <button onClick={() => addSpecialist(item.teamId)}>Add Specialist</button>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="remove">Remove Specialist</label>
-                                        <select onChange={(e) => setSelectedRemoveSpecialistId(e.target.value)}>
-                                            {
-                                                item.specialistIds.map((id) => (
-                                                    specialists.map((specialist) => {
-                                                            if (specialist.specialistId === id) {
-                                                                return <option
-                                                                    value={specialist.specialistId}>{specialist.name}</option>
-                                                            }
-                                                        }
-                                                    ))
-                                                )}
-                                        </select>
-                                        <button
-                                            onClick={() => removeSpecialist(item.teamId)}>Remove
-                                            Specialist
-                                        </button>
-                                    </div>
+                                    <label>Add Specialist</label>
+                                    <select onChange={(e) => setSelectedAddSpecialistId(e.target.value)}>
+                                        {specialists.map((specialist) => (
+                                            <option key={specialist.specialistId} value={specialist.specialistId}>
+                                                {specialist.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <button onClick={() => addSpecialist(item.id)}>Add</button>
+                                </div>
+                                <div>
+                                    <label>Remove Specialist</label>
+                                    <select onChange={(e) => setSelectedRemoveSpecialistId(e.target.value)}>
+                                        {item.specialistIds && item.specialistIds.map((id) => {
+                                            const specialist = specialists.find(spec => spec.specialistId === id);
+                                            return specialist ? (
+                                                <option key={id} value={specialist.specialistId}>
+                                                    {specialist.name}
+                                                </option>
+                                            ) : null;
+                                        })}
+                                    </select>
+                                    <button onClick={() => removeSpecialist(item.id)}>Remove</button>
                                 </div>
                             </td>
                             <td>{item.workPlanIds ? item.workPlanIds.length : 0}</td>
                             <td>
-                                <button onClick={() => makeDelete(item.teamId)}>Delete</button>
-                            </td>
-                            <td>
-                                <button onClick={() => getWorkPlans(item.teamId)}>Get Work Plans</button>
+                                <button onClick={() => makeDelete(item.id)}>Delete</button>
+                                <button onClick={() => getWorkPlans(item.id)}>Get Work Plans</button>
                             </td>
                         </tr>
                     ))}
@@ -239,21 +182,19 @@ const EditTeams = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {
-                        workplans?.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.workPlanId}</td>
-                                <td>{item.description}</td>
-                                <td>{item.duration}</td>
-                                <td>{item.teamId}</td>
-                            </tr>
-                        ))
-                    }
+                    {workplans && workplans.map((item, index) => (
+                        <tr key={index}>
+                            <td>{item.id}</td>
+                            <td>{item.description}</td>
+                            <td>{item.duration}</td>
+                            <td>{item.team.id}</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default EditTeams
+export default EditTeams;

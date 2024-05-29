@@ -1,7 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import '../Home.css';
 
 const AdminView = () => {
+    
+
     return (
         <div className="home-page">
             <h2>Welcome to Admin page</h2>

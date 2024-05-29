@@ -32,6 +32,7 @@ public class TeamController {
     @PostMapping("/create")
     public TeamDto createTeam(@RequestBody TeamDto teamDto) {
         Team team = teamMapper.toEntity(teamDto);
+        team.setId(UUID.randomUUID());
         return teamMapper.toDto(teamService.save(team));
     }
 

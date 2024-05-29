@@ -7,6 +7,7 @@ import com.example.publicutilitiesapi.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,12 +44,16 @@ public class RequestController {
     @PostMapping("/create")
     public RequestDto createRequest(@RequestBody RequestDto requestDto) {
         Request request = requestMapper.toEntity(requestDto);
+        request.setDesiredTime(Duration.ZERO);
+        request.setId(UUID.randomUUID());
         return requestMapper.toDto(requestService.save(request));
     }
 
     @PutMapping("/update")
     public RequestDto updateRequest(@RequestBody RequestDto requestDto) {
         Request request = requestMapper.toEntity(requestDto);
+//        request.setDesiredTime(Duration.ZERO);
+        request.setId(UUID.randomUUID());
         return requestMapper.toDto(requestService.save(request));
     }
 

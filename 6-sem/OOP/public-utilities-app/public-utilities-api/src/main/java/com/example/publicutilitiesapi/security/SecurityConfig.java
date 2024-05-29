@@ -25,10 +25,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) ->
                 authz   .requestMatchers(HttpMethod.GET, "api/**").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.GET, "api/request/**").hasRole(TENANT)
-                        .requestMatchers(HttpMethod.GET, "api/tenant/**").hasRole(TENANT)
+                        .requestMatchers(HttpMethod.GET, "api/request/**").hasAnyRole(DISPATCHER, TENANT)
+                        .requestMatchers(HttpMethod.GET, "api/tenant/**").hasAnyRole(DISPATCHER, TENANT)
                         .requestMatchers(HttpMethod.GET, "api/team/**").hasAnyRole(DISPATCHER, TENANT)
                         .requestMatchers(HttpMethod.GET, "api/specialist/**").hasRole(DISPATCHER)
+                        .requestMatchers(HttpMethod.GET, "api/work-plan/**").hasRole(DISPATCHER)
                         .anyRequest().authenticated());
 
         http.sessionManagement(sess -> sess.sessionCreationPolicy(
@@ -52,4 +53,3 @@ public class SecurityConfig {
         };
     }
 }
-A

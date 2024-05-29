@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import '../Home.css';
 
 /*
@@ -13,13 +13,14 @@ const DispatcherView = () =>{
         <div className="home-page">
             <h2>Welcome to Dispatcher page</h2>
             <div className="home-page__links">
-                <Link to={"/view_drequests"} className="home-page__link">View Requests</Link>
-                {<Link to="/edit_teams" className="home-page__link">Manage Teams</Link>}
-                {<Link to="/edit_workplans" className="home-page__link">Manage WorkPlans</Link>}
+                <Link to="view_drequests" className="home-page__link">View Requests</Link>
+                {<Link to="edit_teams" className="home-page__link">Manage Teams</Link>}
+                {<Link to="edit_workplans" className="home-page__link">Manage WorkPlans</Link>}
             </div>
             <div className="home-page__button">
                 <Link to="/home">Back</Link>
             </div>
+            <Outlet /> {/* This is where nested routes will be rendered */}
         </div>
     );
 }

@@ -32,6 +32,7 @@ public class SpecialistController {
     @PostMapping("/create")
     public SpecialistDto createSpecialist(@RequestBody SpecialistDto specialistDto) {
         Specialist specialist = specialistMapper.toEntity(specialistDto);
+        specialist.setId(UUID.randomUUID());
         return specialistMapper.toDto(specialistService.save(specialist));
     }
 

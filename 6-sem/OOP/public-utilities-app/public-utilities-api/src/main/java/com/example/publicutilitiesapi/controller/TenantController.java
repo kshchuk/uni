@@ -32,6 +32,7 @@ public class TenantController {
     @PostMapping("/create")
     public TenantDto createTenant(@RequestBody TenantDto tenantDto) {
         Tenant tenant = tenantMapper.toEntity(tenantDto);
+        tenant.setId(UUID.randomUUID());
         return tenantMapper.toDto(tenantService.save(tenant));
     }
 

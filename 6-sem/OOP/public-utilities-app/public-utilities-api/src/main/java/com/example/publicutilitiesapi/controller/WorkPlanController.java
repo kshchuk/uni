@@ -7,6 +7,7 @@ import com.example.publicutilitiesapi.service.WorkPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,12 +33,15 @@ public class WorkPlanController {
     @PostMapping("/create")
     public WorkPlanDto createWorkPlan(@RequestBody WorkPlanDto workPlanDto) {
         WorkPlan workPlan = workPlanMapper.toEntity(workPlanDto);
+        workPlan.setId(UUID.randomUUID());
+//        workPlan.setDuration(Duration.ZERO);
         return workPlanMapper.toDto(workPlanService.save(workPlan));
     }
 
     @PutMapping("/update")
     public WorkPlanDto updateWorkPlan(@RequestBody WorkPlanDto workPlanDto) {
         WorkPlan workPlan = workPlanMapper.toEntity(workPlanDto);
+        workPlan.setDuration(null);
         return workPlanMapper.toDto(workPlanService.save(workPlan));
     }
 
