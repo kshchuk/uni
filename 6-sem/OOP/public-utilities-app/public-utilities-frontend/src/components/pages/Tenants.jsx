@@ -12,10 +12,12 @@ const Tenants = () => {
     const [data, setData] = useState([]);
     const [id, setID] = useState('');
     const [requests, setRequests] = useState([]);
+    const [requestCounts, setRequestCounts] = useState({});
     const config = getHeaderConfig();
 
     const makeRequest = async (endpoint) => {
         console.log("Making request");
+        console.log(config.headers);
         const url = `${TENANT_URL}/${endpoint}`;
 
         try {
@@ -43,6 +45,22 @@ const Tenants = () => {
         }
     };
 
+    const getRequestsCount = async (tenantId) => {
+        const url = `${REQUEST_URL}/tenant/${tenantId}/count`;
+
+        try {
+            const response = await axios.get(url, {headers: config.headers});
+            if (!response?.data) {
+                console.error("Error getting requests count");
+                return;
+            }
+            console.log(JSON.stringify(response.data));
+            setRequestCounts(prevCounts => ({...prevCounts, [tenantId]: response.data}));
+        } catch (error) {
+            console.error("Error getting requests count:", error.message);
+        }
+    }
+
     const formatDuration = (duration) => {
         const { hours, minutes } = duration;
         return `${hours}h ${minutes}m`;
@@ -50,7 +68,10 @@ const Tenants = () => {
 
     useEffect(() => {
         makeRequest("all");
-    }, []);
+        data.forEach(item => {
+            getRequestsCount(item.id);
+        });
+    }, [data]);
 
     return (
         <section>
@@ -74,7 +95,7 @@ const Tenants = () => {
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.address}</td>
-                            <td>{item.requestIds ? item.requestIds.length : 0}</td>
+                            <td>{requestCounts[item.id] || 0}</td>
                             <td>
                                 <button onClick={() => getRequests(item.id)}>Get Requests</button>
                             </td>
@@ -96,7 +117,7 @@ const Tenants = () => {
                 </div>
             </div>
             <div className="home-page__button">
-                <Link to="/view">Back</Link>
+                <Link to="/">Back</Link>
             </div>
             <div className="container">
                 <h2>Tenant Requests</h2>

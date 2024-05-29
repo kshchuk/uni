@@ -1,17 +1,16 @@
-let token = ""
+import {useContext} from "react";
+import AuthContext from "../context/AuthProvider";
 
 const getHeaderConfig = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const auth = useContext(AuthContext);
+
     return {
         headers: {
             'Content-Type': 'application/json',
-            'access-token': token,
+            'Authorization': 'Bearer ' + auth.token,
         }
     };
 }
 
-const setToken = (newToken) => {
-    token = newToken;
-}
-
 export default getHeaderConfig;
-export { setToken };

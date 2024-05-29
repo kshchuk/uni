@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @RequiredArgsConstructor
 @Configuration
@@ -22,11 +24,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) ->
-                authz   .requestMatchers(HttpMethod.GET, "/**").hasRole(ADMIN)
-                        .requestMatchers(HttpMethod.GET, "/request/**").hasRole(TENANT)
-                        .requestMatchers(HttpMethod.GET, "/tenant/**").hasRole(TENANT)
-                        .requestMatchers(HttpMethod.GET, "/team/**").hasAnyRole(DISPATCHER, TENANT)
-                        .requestMatchers(HttpMethod.GET, "/specialist/**").hasRole(DISPATCHER)
+                authz   .requestMatchers(HttpMethod.GET, "api/**").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "api/request/**").hasRole(TENANT)
+                        .requestMatchers(HttpMethod.GET, "api/tenant/**").hasRole(TENANT)
+                        .requestMatchers(HttpMethod.GET, "api/team/**").hasAnyRole(DISPATCHER, TENANT)
+                        .requestMatchers(HttpMethod.GET, "api/specialist/**").hasRole(DISPATCHER)
                         .anyRequest().authenticated());
 
         http.sessionManagement(sess -> sess.sessionCreationPolicy(
@@ -35,4 +37,19 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }
+A

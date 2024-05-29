@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/specialist/")
+@RequestMapping("api/specialist/")
 public class SpecialistController {
 
     private final SpecialistService specialistService;
@@ -49,5 +49,16 @@ public class SpecialistController {
     @GetMapping("/all")
     public List<SpecialistDto> getAllSpecialists() {
         return specialistService.findAll().stream().map(specialistMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/team/{teamId}")
+    public List<SpecialistDto> getAllSpecialistsByTeamId(@PathVariable UUID teamId) {
+        List<Specialist> specialists = specialistService.findAllByTeamId(teamId);
+        return specialists.stream().map(specialistMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/team/{teamId}/count")
+    public Long countSpecialistsByTeamId(@PathVariable UUID teamId) {
+        return specialistService.countSpecialistsByTeamId(teamId);
     }
 }

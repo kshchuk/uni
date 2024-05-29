@@ -10,7 +10,7 @@ const RequireAuth = ({ allowedRoles }) => {
         return <Navigate to="/" />;
     }
 
-    if (allowedRoles && !allowedRoles.some(role => auth.roles.includes(role))) {
+    if (allowedRoles && !allowedRoles.some(role => auth.hasRole(role))) {
         return <Navigate to="/unauthorized" />;
     }
 

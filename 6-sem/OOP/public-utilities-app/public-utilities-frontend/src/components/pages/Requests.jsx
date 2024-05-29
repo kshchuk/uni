@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
-import "./Entity.css"
-import "../Home.css"
-import axios from "../../api/axios"
-import {useEffect, useState} from "react"
-import getHeaderConfig from "../hooks/Config"
+import { Link } from "react-router-dom";
+import "./Entity.css";
+import "../Home.css";
+import axios from "../../api/axios";
+import { useState, useEffect } from "react";
+import getHeaderConfig from "../hooks/Config";
+
 const REQUEST_URL = "/request";
 const TENANT_URL = "/tenant";
 
@@ -11,68 +12,68 @@ const Requests = () => {
     const [data, setData] = useState([]);
     const [id, setID] = useState('');
     const [tenant, setTenant] = useState({});
-
     const config = getHeaderConfig();
+    const [requestCounts, setRequestCounts] = useState({});
 
-    const makeRequest = async (field, value) => {
+    const makeRequest = async (endpoint) => {
         console.log("Making request");
-        let url;
-        if (field === 'all' && value === 'all') {
-            url = `${REQUEST_URL}/all`;
-        } else {
-            url = `${REQUEST_URL}?${field}=${value}`;
-        }
+        console.log(config.headers);
+        const url = `${REQUEST_URL}/${endpoint}`;
 
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
             setData(response.data);
         } catch (error) {
             console.error("Error making request:", error.message);
         }
-    }
+    };
 
     const getTenant = async (tenantId) => {
         console.log("Getting tenant");
-        let url = `${TENANT_URL}/?id=${tenantId}`;
+        const url = `${TENANT_URL}/${tenantId}`;
+
+        console.log(url);
 
         try {
-            const response = await axios.get(url, {
-                headers: config.headers
-            });
+            const response = await axios.get(url, { headers: config.headers });
             console.log(JSON.stringify(response.data));
             setTenant(response.data);
         } catch (error) {
             console.error("Error getting tenant:", error.message);
         }
+    };
+
+    const getRequestsCount = async (tenantId) => {
+        const url = `${REQUEST_URL}/tenant/${tenantId}/count`;
+
+        try {
+            const response = await axios.get(url, {headers: config.headers});
+            if (!response?.data) {
+                console.error("Error getting requests count");
+                return;
+            }
+            console.log(JSON.stringify(response.data));
+            setRequestCounts(prevCounts => ({...prevCounts, [tenantId]: response.data}));
+        } catch (error) {
+            console.error("Error getting requests count:", error.message);
+        }
     }
 
     useEffect(() => {
-        makeRequest("all", "all");
+        makeRequest("all");
     }, []);
 
-    // format time to hour minute (for ex PT32H is 32 hours, PT1H30M is 1 hour 30 minutes
-    const formatDuration = (time) => {
-        let hours = 0;
-        let minutes = 0;
-        if (time.includes("H")) {
-            hours = parseInt(time.split("H")[0].substring(2));
+    useEffect(() => {
+        if (tenant.id) {
+            getRequestsCount(tenant.id);
         }
-        if (time.includes("M")) {
-            minutes = parseInt(time.split("M")[0].split("H")[1].substring(2));
-        }
-        let result = "";
-        if (hours > 0) {
-            result += hours + " hours ";
-        }
-        if (minutes > 0) {
-            result += minutes + " minutes";
-        }
-        return result;
-    }
+    }, [tenant]);
 
+    const formatDuration = (duration) => {
+        const { hours, minutes } = duration;
+        return `${hours}h ${minutes}m`;
+    };
 
     return (
         <section>
@@ -94,13 +95,13 @@ const Requests = () => {
                     <tbody>
                     {data?.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.requestId}</td>
-                            <td>{item.tenantId}</td>
+                            <td>{item.id}</td>
+                            <td>{item.tenant.id}</td>
                             <td>{item.workType}</td>
                             <td>{item.scopeOfWork}</td>
                             <td>{formatDuration(item.desiredTime)}</td>
                             <td>
-                                <button onClick={() => getTenant(item.tenantId)}>Get Tenant</button>
+                                <button onClick={() => getTenant(item.tenant.id)}>Get Tenant</button>
                             </td>
                         </tr>
                     ))}
@@ -110,18 +111,19 @@ const Requests = () => {
             <div className="queries">
                 <div>
                     <label htmlFor="byID">Query by ID</label>
-                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id}/>
+                    <input type="text" id="byID" onChange={(e) => setID(e.target.value)} value={id} />
+                    <button onClick={() => makeRequest(id)}>Execute Query</button>
                 </div>
                 <div>
                     <label htmlFor="all">Query All</label>
-                    <button onClick={() => makeRequest("all", "all")}>All</button>
+                    <button onClick={() => makeRequest("all")}>All</button>
                 </div>
             </div>
             <div className="home-page__button">
-                <Link to="/view">Back</Link>
+                <Link to="/">Back</Link>
             </div>
             <div className="container">
-                <h2>Data Table</h2>
+                <h2>Tenant Details</h2>
                 <table>
                     <thead>
                     <tr>
@@ -133,16 +135,16 @@ const Requests = () => {
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{tenant.tenantId}</td>
+                        <td>{tenant.id}</td>
                         <td>{tenant.name}</td>
                         <td>{tenant.address}</td>
-                        <td>{tenant.requestIds ? tenant.requestIds.join(", ") : "None"}</td>
+                        <td>{requestCounts[tenant.id]}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Requests
+export default Requests;

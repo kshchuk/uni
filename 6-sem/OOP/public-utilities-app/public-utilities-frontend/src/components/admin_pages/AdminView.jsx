@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import '../Home.css';
 
-const AdminView = () =>{
-
+const AdminView = () => {
     return (
         <div className="home-page">
             <h2>Welcome to Admin page</h2>
             <div className="home-page__links">
-                {<Link to="/view_requests" className="home-page__link">View Requests</Link>}
-                {<Link to="/view_specialists" className="home-page__link">View Specialists</Link>}
-                {<Link to="/view_teams" className="home-page__link">View Teams</Link>}
-                {<Link to="/view_work_plans" className="home-page__link">View Work Plans</Link>}
-                {<Link to="/view_tenants" className="home-page__link">View Tenants</Link>}
+                <Link to="view_requests" className="home-page__link">View Requests</Link>
+                <Link to="view_specialists" className="home-page__link">View Specialists</Link>
+                <Link to="view_teams" className="home-page__link">View Teams</Link>
+                <Link to="view_work_plans" className="home-page__link">View Work Plans</Link>
+                <Link to="view_tenants" className="home-page__link">View Tenants</Link>
             </div>
             <div className="home-page__button">
                 <Link to="/home">Back</Link>
             </div>
+            <Outlet /> {/* This is where nested routes will be rendered */}
         </div>
     );
 }
 
-export default AdminView
+export default AdminView;

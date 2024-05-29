@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/tenant/")
+@RequestMapping("api/tenant/")
 public class TenantController {
 
     private final TenantService tenantService;

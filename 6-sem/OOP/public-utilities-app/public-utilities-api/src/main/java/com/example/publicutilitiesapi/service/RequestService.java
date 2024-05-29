@@ -27,4 +27,8 @@ public class RequestService extends CrudService<Request, UUID> {
     public List<Request> findRequestsByTenantId(UUID tenantId) {
         return requestRepository.findRequestsByTenantId(tenantId);
     }
+
+    public Long countRequestsByTenantId(UUID tenantId) {
+        return requestRepository.countRequestsByTenantId(tenantId);
+    }
 }

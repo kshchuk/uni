@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/work-plan/")
+@RequestMapping("api/work-plan/")
 public class WorkPlanController {
 
     private final WorkPlanService workPlanService;
@@ -48,6 +48,24 @@ public class WorkPlanController {
 
     @GetMapping("/all")
     public List<WorkPlanDto> getAllWorkPlans() {
-        return workPlanService.findAll().stream().map(workPlanMapper::toDto).collect(Collectors.toList());
+        List<WorkPlan> workPlans = workPlanService.findAll();
+        return workPlans.stream().map(workPlanMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/dispatcher/{dispatcherId}")
+    public List<WorkPlanDto> getAllWorkPlansByDispatcherId(@PathVariable UUID dispatcherId) {
+        List<WorkPlan> workPlans = workPlanService.findAllByDispatcherId(dispatcherId);
+        return workPlans.stream().map(workPlanMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/team/{teamId}")
+    public List<WorkPlanDto> getAllWorkPlansByTeamId(@PathVariable UUID teamId) {
+        List<WorkPlan> workPlans = workPlanService.findAllByTeamId(teamId);
+        return workPlans.stream().map(workPlanMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/team/{teamId}/count")
+    public Long countWorkPlansByTeamId(@PathVariable UUID teamId) {
+        return workPlanService.countWorkPlansByTeamId(teamId);
     }
 }

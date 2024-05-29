@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/team/")
+@RequestMapping("api/team/")
 public class TeamController {
 
     private final TeamService teamService;

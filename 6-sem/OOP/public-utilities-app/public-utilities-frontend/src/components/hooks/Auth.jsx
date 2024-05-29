@@ -18,7 +18,6 @@ if (!auth) {
     window.location.reload();
 } else {
     console.info("Authenticated");
-    setToken('Bearer ' + kc.token)
 }
 
 export {kc};

@@ -23,7 +23,7 @@ public class Team {
     @JoinColumn(name = "dispatcher_id", nullable = false)
     private Specialist dispatcher;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team" , fetch = FetchType.LAZY)
     private Set<Specialist> specialists = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)

@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/request/")
+@RequestMapping("api/request/")
 public class RequestController {
 
     private final RequestService requestService;
@@ -32,6 +32,12 @@ public class RequestController {
     @GetMapping("/tenant/{tenantId}")
     public List<RequestDto> getRequestsByTenantId(@PathVariable UUID tenantId) {
         return requestService.findRequestsByTenantId(tenantId).stream().map(requestMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/tenant/{tenantId}/count")
+    public Long getRequestsCountByTenantId(@PathVariable UUID tenantId) {
+        Long count = requestService.countRequestsByTenantId(tenantId);
+        return count;
     }
 
     @PostMapping("/create")

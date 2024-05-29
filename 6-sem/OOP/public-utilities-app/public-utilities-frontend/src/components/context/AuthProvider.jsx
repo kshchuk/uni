@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
                     setAuth({
                         isAuthenticated: kc.authenticated,
                         token: kc.token,
-                        roles: kc.realmAccess.roles || [],
+                        hasRole: kc.hasResourceRole,
                         login: kc.login,
                         logout: kc.logout,
                         updateToken: kc.updateToken,

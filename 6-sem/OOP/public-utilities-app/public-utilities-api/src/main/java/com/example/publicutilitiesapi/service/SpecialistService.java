@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,5 +22,13 @@ public class SpecialistService extends CrudService<Specialist, UUID> {
     @Override
     protected JpaRepository<Specialist, UUID> getRepository() {
         return specialistRepository;
+    }
+
+    public List<Specialist> findAllByTeamId(UUID teamId) {
+        return specialistRepository.findAllByTeamId(teamId);
+    }
+
+    public Long countSpecialistsByTeamId(UUID teamId) {
+        return specialistRepository.countSpecialistsByTeamId(teamId);
     }
 }
