@@ -206,6 +206,7 @@ def is_point_left(chain_point_1, chain_point_2, point):
     return ((chain_point_2.x - chain_point_1.x) * (point.y - chain_point_1.y) - (chain_point_2.y - chain_point_1.y) * (
             point.x - chain_point_1.x)) > 0
 
+
 class ConvexHullTree:
     def __init__(self):
         self.TNULL = Node(NodeData())
@@ -415,6 +416,7 @@ class ConvexHullTree:
         self.get_root().graph_viz(self.TNULL, wrapper)
 
         return wrapper[0] + "}\n"
+
 
 class DynamicConvexHull:
     def __init__(self):
