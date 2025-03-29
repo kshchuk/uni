@@ -1,0 +1,115 @@
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping https://www.icann.org/
+ping: https://www.icann.org/: Name or service not known
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping https://www.icann.org
+ping: https://www.icann.org: Name or service not known
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping www.icann.org
+PING www.icann.org(2606:4700::6812:25d (2606:4700::6812:25d)) 56 data bytes
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=1 ttl=63 time=11.7 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=2 ttl=63 time=5.53 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=3 ttl=63 time=13.5 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=4 ttl=63 time=5.45 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=5 ttl=63 time=9.61 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=6 ttl=63 time=12.6 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=7 ttl=63 time=12.9 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=8 ttl=63 time=5.87 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=9 ttl=63 time=6.16 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=11 ttl=63 time=11.4 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=12 ttl=63 time=10.5 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=13 ttl=63 time=9.77 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=14 ttl=63 time=7.53 ms
+64 bytes from 2606:4700::6812:25d (2606:4700::6812:25d): icmp_seq=15 ttl=63 time=5.82 ms
+^C
+--- www.icann.org ping statistics ---
+15 packets transmitted, 14 received, 6.66667% packet loss, time 14061ms
+rtt min/avg/max/mdev = 5.446/9.175/13.495/2.925 ms
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping www.icann.org -4
+PING  (104.18.3.93) 56(84) bytes of data.
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=1 ttl=63 time=9.60 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=2 ttl=63 time=5.31 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=3 ttl=63 time=9.08 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=4 ttl=63 time=8.70 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=5 ttl=63 time=6.01 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=6 ttl=63 time=5.50 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=7 ttl=63 time=4.95 ms
+64 bytes from 104.18.3.93 (104.18.3.93): icmp_seq=8 ttl=63 time=9.02 ms
+^C
+---  ping statistics ---
+8 packets transmitted, 8 received, 0% packet loss, time 7011ms
+rtt min/avg/max/mdev = 4.953/7.271/9.601/1.862 ms
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping 104.18.3.93
+PING 104.18.3.93 (104.18.3.93) 56(84) bytes of data.
+64 bytes from 104.18.3.93: icmp_seq=1 ttl=63 time=25.4 ms
+64 bytes from 104.18.3.93: icmp_seq=2 ttl=63 time=16.0 ms
+64 bytes from 104.18.3.93: icmp_seq=3 ttl=63 time=5.47 ms
+64 bytes from 104.18.3.93: icmp_seq=4 ttl=63 time=10.7 ms
+^C
+--- 104.18.3.93 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 5.468/14.401/25.447/7.387 ms
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping 11000000.00000000.00100000.00000111
+ping: 11000000.00000000.00100000.00000111: Name or service not known
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping www.cisco.com.
+PING www.cisco.com.(g2a02-26f0-d200-048e-0000-0000-0000-0b33.deploy.static.akamaitechnologies.com (2a02:26f0:d200:48e::b33)) 56 data bytes
+64 bytes from g2a02-26f0-d200-048e-0000-0000-0000-0b33.deploy.static.akamaitechnologies.com (2a02:26f0:d200:48e::b33): icmp_seq=1 ttl=58 time=43.5 ms
+64 bytes from g2a02-26f0-d200-048e-0000-0000-0000-0b33.deploy.static.akamaitechnologies.com (2a02:26f0:d200:48e::b33): icmp_seq=2 ttl=58 time=23.3 ms
+64 bytes from g2a02-26f0-d200-048e-0000-0000-0000-0b33.deploy.static.akamaitechnologies.com (2a02:26f0:d200:48e::b33): icmp_seq=3 ttl=58 time=18.9 ms
+64 bytes from g2a02-26f0-d200-048e-0000-0000-0000-0b33.deploy.static.akamaitechnologies.com (2a02:26f0:d200:48e::b33): icmp_seq=4 ttl=58 time=21.3 ms
+^C
+--- www.cisco.com. ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 18.923/26.763/43.460/9.765 ms
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ ping www.cisco.com -4
+PING  (23.58.100.121) 56(84) bytes of data.
+64 bytes from a23-58-100-121.deploy.static.akamaitechnologies.com (23.58.100.121): icmp_seq=1 ttl=55 time=402 ms
+64 bytes from a23-58-100-121.deploy.static.akamaitechnologies.com (23.58.100.121): icmp_seq=2 ttl=55 time=98.3 ms
+64 bytes from a23-58-100-121.deploy.static.akamaitechnologies.com (23.58.100.121): icmp_seq=3 ttl=55 time=127 ms
+64 bytes from a23-58-100-121.deploy.static.akamaitechnologies.com (23.58.100.121): icmp_seq=4 ttl=55 time=61.4 ms
+64 bytes from a23-58-100-121.deploy.static.akamaitechnologies.com (23.58.100.121): icmp_seq=5 ttl=55 time=82.5 ms
+^C
+---  ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4006ms
+rtt min/avg/max/mdev = 61.394/154.320/401.977/125.687 ms
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ nslookup
+> www.cisco.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+www.cisco.com	canonical name = www.cisco.com.akadns.net.
+www.cisco.com.akadns.net	canonical name = wwwds.cisco.com.edgekey.net.
+wwwds.cisco.com.edgekey.net	canonical name = wwwds.cisco.com.edgekey.net.globalredir.akadns.net.
+wwwds.cisco.com.edgekey.net.globalredir.akadns.net	canonical name = e2867.dsca.akamaiedge.net.
+Name:	e2867.dsca.akamaiedge.net
+Address: 104.91.49.38
+Name:	e2867.dsca.akamaiedge.net
+Address: 2a02:26f0:d200:480::b33
+Name:	e2867.dsca.akamaiedge.net
+Address: 2a02:26f0:d200:48e::b33
+(base) yaroslav@yaroslav-IdeaPad-Flex-5-14ARE05:~$ nslookup
+> www.google.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	www.google.com
+Address: 172.217.16.36
+Name:	www.google.com
+Address: 2a00:1450:401b:808::2004
+> 172.217.16.36
+36.16.217.172.in-addr.arpa	name = muc03s08-in-f36.1e100.net.
+36.16.217.172.in-addr.arpa	name = waw02s14-in-f4.1e100.net.
+
+Authoritative answers can be found from:
+> set type=mx
+> cisco.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+cisco.com	mail exchanger = 20 rcdn-mx-01.cisco.com.
+cisco.com	mail exchanger = 30 aer-mx-01.cisco.com.
+cisco.com	mail exchanger = 10 alln-mx-01.cisco.com.
+
+Authoritative answers can be found from:
+
+
