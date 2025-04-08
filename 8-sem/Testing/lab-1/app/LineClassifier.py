@@ -1,5 +1,5 @@
 # Клас для класифікації взаємного розташування трьох прямих
-from utils import compute_intersection, is_zero
+from utils import compute_intersection, is_zero, normalize_point
 
 
 class LineClassifier:
@@ -16,9 +16,9 @@ class LineClassifier:
             self.line3.get_coefficients()
         ]
 
-        # Перевірка на співпадання: якщо для хоча б однієї пари коефіцієнти пропорційні
-        if self._are_coincident(coeffs[0], coeffs[1]) or \
-           self._are_coincident(coeffs[0], coeffs[2]) or \
+        # Перевірка на співпадання: якщо всі коефіцієнти пропорційні
+        if self._are_coincident(coeffs[0], coeffs[1]) and \
+           self._are_coincident(coeffs[0], coeffs[2]) and \
            self._are_coincident(coeffs[1], coeffs[2]):
             return "Прямі співпадають"
 
@@ -40,13 +40,17 @@ class LineClassifier:
         if num_points == 0:
             return "Прямі не перетинаються"
         elif num_points == 1:
-            x, y = unique_points[0]
-            return f"Прямі перетинаються в одній точці ({x:.6f}, {y:.6f})"
+            point_str = normalize_point(unique_points[0])
+            return f"Прямі перетинаються в одній точці ({point_str})"
         elif num_points == 2:
-            (x1, y1), (x2, y2) = unique_points
-            return f"Прямі перетинаються в двох точках ({x1:.6f}, {y1:.6f}) та ({x2:.6f}, {y2:.6f})"
+            point1_str = normalize_point(unique_points[0])
+            point2_str = normalize_point(unique_points[1])
+            return f"Прямі перетинаються в двох точках ({point1_str}) та ({point2_str})"
         elif num_points == 3:
-            s = ", ".join(f"({x:.6f}, {y:.6f})" for x, y in unique_points)
+            point1_str = normalize_point(unique_points[0])
+            point2_str = normalize_point(unique_points[1])
+            point3_str = normalize_point(unique_points[2])
+            s = f"({point1_str}), ({point2_str}), ({point3_str})"
             return f"Прямі перетинаються в трьох точках {s}"
         else:
             return f"Прямі перетинаються в {num_points} точках"
