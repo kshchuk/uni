@@ -54,7 +54,10 @@ class LinesApp:
                 print("Завершення роботи програми.")
                 sys.exit(0)
             try:
-                return float(user_input)
+                value = float(user_input)
+                if value < -126 or value > 126:
+                    raise ValueError("Значення повинно бути в межах від -126 до 126.")
+                return value
             except ValueError:
                 print("Некоректний формат вводу. Спробуйте ще раз.")
 

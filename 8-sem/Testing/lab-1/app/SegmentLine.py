@@ -7,6 +7,9 @@ class SegmentLine(Line):
         if is_zero(a) or is_zero(b):
             raise InvalidLineException \
                 ("Для відрізкового представлення прямої параметри a та b не можуть бути нульовими.")
+        # Перевірка на допустимість значень a та b
+        if a < -126 or a > 126 or b < -126 or b > 126:
+            raise InvalidLineException("Значення a та b повинні бути в межах від -126 до 126.")
         self.a = a
         self.b = b
 

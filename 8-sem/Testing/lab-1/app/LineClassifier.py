@@ -1,5 +1,4 @@
-# Клас для класифікації взаємного розташування трьох прямих
-from utils import compute_intersection, is_zero, normalize_point
+from utils import compute_intersection, is_zero, normalize_point, InvalidLineException
 
 
 class LineClassifier:
@@ -20,7 +19,15 @@ class LineClassifier:
         if self._are_coincident(coeffs[0], coeffs[1]) and \
            self._are_coincident(coeffs[0], coeffs[2]) and \
            self._are_coincident(coeffs[1], coeffs[2]):
-            return "Прямі співпадають"
+            raise InvalidLineException("Усі 3 прямі не можуть співпадати")
+
+        # Перевіряємо, чи є прямі з однаковими коефіцієнтами
+        if coeffs[0] == coeffs[1]:
+            raise InvalidLineException("Прямі 1 і 2 не можуть бути однаковими.")
+        if coeffs[0] == coeffs[2]:
+            raise InvalidLineException("Прямі 1 і 3 не можуть бути однаковими.")
+        if coeffs[1] == coeffs[2]:
+            raise InvalidLineException("Прямі 2 і 3 не можуть бути однаковими.")
 
         # Обчислюємо точки перетину для кожної пари (якщо існують)
         intersections = []

@@ -8,6 +8,10 @@ class SlopeInterceptLine(Line):
         # За умовою роботи b не може бути нульовим
         if is_zero(b):
             raise InvalidLineException("Для прямої з кутовим коефіцієнтом параметр b не може бути нульовим.")
+        # Перевірка на допустимість значень k та b
+        if k < -126 or k > 126 or b < -126 or b > 126:
+            raise InvalidLineException("Значення k та b повинні бути в межах від -126 до 126.")
+
         self.k = k
         self.b = b
 

@@ -1,50 +1,13 @@
 import pytest
 import SegmentLine, SlopeInterceptLine, LineClassifier
+from app import LinesApp
 from utils import InvalidLineException
 
 ###############################################################################
 # Тести для допустимих класів ситуацій (коректні дані)
 ###############################################################################
 
-@pytest.mark.parametrize("a1,b1,a2,b2,k3,b3", [
-    # Test 1: Граничний випадок з великими від'ємними значеннями
-    (-126, -126, -68, -68, -1, -124),
-
-    # Test 2: Граничний випадок з великими позитивними значеннями
-    (126, 126, 125, 125, -1, 124),
-
-    # Test 3: Типовий випадок – перші дві прямі співпадають, і третя (кутове представлення) дає таке ж саме рівняння.
-    (2, 3, 2, 3, 1, 5),
-
-    # Test 4: Спеціальний випадок – перша пряма задається через більші значення, друга через менші, але обидві співпадають,
-    # а кутове представлення (L3) перетворюється до того ж рівняння.
-    (4, 6, 2, 3, -1.5, 6),
-
-    # Test 5: Спеціальний випадок – друга і третя прямі співпадають за своїм рівнянням.
-    (2, 7, 5, 5, -1, 5),
-
-    # Test 6: Граничний випадок – перші дві прямі задані однаково (з від'ємними значеннями),
-    # третя пряма отримує значення, що забезпечують співпадання.
-    (-4, 6, -4, 6, 1, 1),
-])
-def test_coinciding(a1, b1, a2, b2, k3, b3):
-    """
-    Тести для класу 1: Прямі співпадають.
-
-    У цих тестах усі три прямі повинні співпадати.
-    Очікується, що результат містить ключову фразу "Прямі співпадають".
-    """
-    line1 = SegmentLine(a1, b1)
-    line2 = SegmentLine(a2, b2)
-    line3 = SlopeInterceptLine(k3, b3)
-    classifier = LineClassifier(line1, line2, line3)
-    result = classifier.classify()
-
-    expected_str = "Прямі співпадають"
-    assert expected_str in result, f"Результат '{result}' не містить '{expected_str}'"
-
-
-# Клас 2: Прямі не перетинаються (усі три паралельні, але не співпадають (можуть співпасти тільки дві))
+#  Прямі не перетинаються (усі три паралельні, але не співпадають (можуть співпасти тільки дві))
 @pytest.mark.parametrize("a1,b1,a2,b2,k3,b3", [
     (-126, -126, -125, -125, -1, -125),
     (-120, -120, -118, -118, -1, -119),
@@ -67,7 +30,7 @@ def test_parallel(a1, b1, a2, b2, k3, b3):
     assert result == "Прямі не перетинаються"
 
 
-# Клас 3: Прямі перетинаються в одній точці (конкурентні прямі)
+# Прямі перетинаються в одній точці (конкурентні прямі)
 @pytest.mark.parametrize("a1, b1, a2, b2, k3, b3, common_point", [
     # Test 1 (Граничний нижній): використання значень, близьких до -126
     (-126, 10, -125, 10, -126, 10, (0, 10)),
@@ -101,7 +64,7 @@ def test_concurrent(a1, b1, a2, b2, k3, b3, common_point):
     assert common_str in result, f"Спільна точка '{common_str}' не знайдена в результаті '{result}'"
 
 
-# Клас 4: Прямі перетинаються в двох точках
+# Прямі перетинаються в двох точках
 @pytest.mark.parametrize("a1,b1,a2,b2,k3,b3,expected", [
     # Test 1: Граничний випадок з великими від'ємними значеннями
     (-126, -126, -125, -125, 0, 50, ((-176.000000, 50.000000), (-175.000000, 50.000000))),
@@ -138,7 +101,7 @@ def test_two_intersections(a1, b1, a2, b2, k3, b3, expected):
     common_str2 = f"({point2[0]:.6f}, {point2[1]:.6f})"
     assert common_str2 in result, f"Спільна точка '{common_str2}' не знайдена в результаті '{result}'"
 
-
+# Прямі перетинаються в трьох точках
 @pytest.mark.parametrize("a1,b1,a2,b2,k3,b3,expected", [
     # Test 1: Граничний випадок з великими від'ємними значеннями
     (-126, -126, -125, -124, 1, -50,
@@ -205,44 +168,208 @@ def test_three_intersections(a1, b1, a2, b2, k3, b3, expected):
     common_str3 = f"({point3[0]:.6f}, {point3[1]:.6f})"
     assert common_str3 in result, f"Спільна точка '{common_str3}' не знайдена в результаті '{result}'"
 
+def test_exit_program_most_left(monkeypatch):
+    """
+    Тест для перевірки виходу з програми при введенні перших двох чисел -126 та виходу.
+    Імітуємо ввід: "-126", "-126", "e"
+    """
+    inputs = iter(['-126', '-126', 'e'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    with pytest.raises(SystemExit):
+        app = LinesApp.LinesApp()
+        app.run()
+
+
+def test_exit_program_left(monkeypatch):
+    """
+    Тест для перевірки виходу з програми при введенні чисел: "-100", "-100", "-120", "-99" та команди виходу "e".
+    """
+    inputs = iter(['-100', '-100', '-120', '-99', 'e'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    with pytest.raises(SystemExit):
+        app = LinesApp.LinesApp()
+        app.run()
+
+
+def test_exit_program_average(monkeypatch):
+    """
+    Тест для перевірки виходу з програми при введенні чисел: "-10", "-10", "10", "-9" та команди виходу "e".
+    """
+    inputs = iter(['-10', '-10', '10', '-9', 'e'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    with pytest.raises(SystemExit):
+        app = LinesApp.LinesApp()
+        app.run()
+
+def test_exit_program_right(monkeypatch):
+    """
+
+    """
+    inputs = iter(['120', '120', 'e'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    with pytest.raises(SystemExit):
+        app = LinesApp.LinesApp()
+        app.run()
+
+
+def test_exit_program_most_right(monkeypatch):
+    """
+    """
+    inputs = iter(['126', '126', 'e'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    with pytest.raises(SystemExit):
+        app = LinesApp.LinesApp()
+        app.run()
+
 ###############################################################################
-# Тести для некоректного вводу (неприпустимі дані)
+# Група 1. Тести для відсутності вхідного значення або пустого поля
 ###############################################################################
 
-def test_invalid_SegmentLine_a_zero():
+# Симуляція вводу користувача методом _input_number із застосуванням monkeypatch.
+@pytest.mark.parametrize("inputs, expected", [
+    (["", "50"], 50.0),           # порожній рядок, потім типове значення
+    (["   ", "10"], 10.0),         # лише пробіли, потім "10"
+    (["", "126"], 126.0),          # граничне значення з правої межі
+    (["", "-126"], -126.0),        # граничне значення з лівої межі
+    (["", "0"], 0.0),             # нульове значення — допустиме (якщо це дозволено)
+    (["", "100"], 100.0)          # типове значення
+])
+def test_empty_input(monkeypatch, inputs, expected):
     """
-    Якщо a = 0 для представлення прямої виду x/a + y/b = 1, має бути викликаний виняток.
+    Перевіряє, що при відсутності вводу (порожній рядок, пробіли) система повторює запит і
+    врешті дає коректне числове значення.
+    """
+    inputs_iter = iter(inputs)
+    monkeypatch.setattr("builtins.input", lambda prompt: next(inputs_iter))
+    app = LinesApp.LinesApp()
+    val = app._input_number("Введіть значення:")
+    assert val == expected
+
+# Тести для некоректного формату вводу (нечислові значення)
+@pytest.mark.parametrize("inputs", [
+    ["abc", "50"],              # текст замість числа
+    ["!@#$", "100"],
+    ["ten", "10"],
+    ["12.34.56", "20"],
+    ["", "abc", "30"],          # спочатку порожній, потім некоректний текст, потім валідне значення
+    ["   ", "not a number", "126"]
+])
+def test_invalid_format(monkeypatch, inputs):
+    """
+    Перевіряє, що якщо користувач вводить некоректний формат (нечислове значення),
+    функція _input_number продовжує запит, поки не буде отримано число.
+    """
+    inputs_iter = iter(inputs)
+    monkeypatch.setattr("builtins.input", lambda prompt: next(inputs_iter))
+    app = LinesApp.LinesApp()
+    val = app._input_number("Введіть значення:")
+    # Перевіряємо, що отримане значення є числом
+    assert isinstance(val, float)
+
+###############################################################################
+# Група 2. Тести для числових значень, що не входять до проміжку [-126;126]
+###############################################################################
+
+# Припускаємо, що конструктори класів перевіряють, що значення має бути у проміжку [-126;126] та
+# кидати ValueError, якщо це не так.
+
+@pytest.mark.parametrize("a, b", [
+    (130, 10),      # a більше верхньої межі
+    (-130, 10),     # a нижче нижньої межі
+    (10, 130),      # b більше верхньої межі
+    (10, -130),     # b нижче нижньої межі
+    (127, 0.5),     # a трохи перевищує
+    (-127, -1)      # a трохи нижче допустимого
+])
+def test_segmentline_out_of_range(a, b):
+    with pytest.raises(InvalidLineException):
+        SegmentLine.SegmentLine(a, b)
+
+@pytest.mark.parametrize("k, b", [
+    (130, 10),      # k перевищує верхню межу
+    (-130, 10),     # k нижче нижньої межі
+    (10, 130),      # b перевищує верхню межу (для SlopeInterceptLine параметр b перевіряємо окремо)
+    (10, -130),     # b нижче нижньої межі
+    (127, 0.5),     # k трохи перевищує
+    (-127, -1)      # k трохи нижче
+])
+def test_slopeinterceptline_out_of_range(k, b):
+    with pytest.raises(InvalidLineException):
+        SlopeInterceptLine.SlopeInterceptLine(k, b)
+
+###############################################################################
+# Група 3. Тести для некоректного задання прямої: a=0 або b=0 (для рівняння x/a + y/b = 1)
+###############################################################################
+
+@pytest.mark.parametrize("a, b", [
+    (0, 10),    # a нульовий
+    (0, -10),
+    (10, 0),    # b нульовий
+    (-10, 0),
+    (0, 126),
+    (126, 0)
+])
+def test_segmentline_zero_parameters(a, b):
+    with pytest.raises(InvalidLineException):
+        SegmentLine.SegmentLine(a, b)
+
+###############################################################################
+# 4. Тести для некоректного визначення прямих (необчислювані коефіцієнти)
+###############################################################################
+
+def test_segmentline_both_zero():
+    """
+    Якщо для прямої виду x/a + y/b = 1 задано a=0 та b=0,
+    коефіцієнти розрахувати неможливо – має бути викликаний InvalidLineException.
     """
     with pytest.raises(InvalidLineException):
-        SegmentLine.SegmentLine(0, 1)
+        SegmentLine.SegmentLine(0, 0)
 
-def test_invalid_SegmentLine_b_zero():
+def test_slopeinterceptline_b_zero():
     """
-    Якщо b = 0 для представлення прямої виду x/a + y/b = 1, має бути викликаний виняток.
-    """
-    with pytest.raises(InvalidLineException):
-        SegmentLine.SegmentLine(4, 0)
-
-def test_invalid_SlopeInterceptLine_b_zero():
-    """
-    Для прямої виду y = kx + b параметр b не може бути нульовим.
+    Для прямої виду y = kx + b параметр b не може бути 0.
     """
     with pytest.raises(InvalidLineException):
         SlopeInterceptLine.SlopeInterceptLine(1, 0)
 
-###############################################################################
-# Тести для чисел, що виходять за межі проміжку [-126;126]
-###############################################################################
-# Припустимо, що в конструкторах класів додано перевірку на допустимість (abs(x) > 126)
-def test_out_of_bound_a():
-    with pytest.raises(ValueError):
-        # Наприклад, якщо значення a більше 126, то має бути ValueError
-        SegmentLine.SegmentLine(130, 10)
 
-def test_out_of_bound_b():
-    with pytest.raises(ValueError):
-        SegmentLine.SegmentLine(10, 130)
+###############################################################################
+# 5. Тест для ситуації, коли всі 3 прямі співпадають
+###############################################################################
 
-def test_out_of_bound_slopeintercept():
-    with pytest.raises(ValueError):
-        SlopeInterceptLine.SlopeInterceptLine(1, 130)
+def test_all_three_lines_coincide():
+    """
+    Якщо всі три прямі задані однаковими параметрами, система вважає це некоректним.
+    Припускаємо, що в такому випадку створення класифікатора або виклик classify() кине виняток
+    з повідомленням, що "Усі 3 прямі не можуть співпадати".
+    """
+    with pytest.raises(InvalidLineException, match="Усі 3 прямі не можуть співпадати"):
+        line1 = SegmentLine.SegmentLine(-100, -100)
+        line2 = SegmentLine.SegmentLine(-100, -100)
+        line3 = SlopeInterceptLine.SlopeInterceptLine(-1, -100)
+        classifier = LineClassifier.LineClassifier(line1, line2, line3)
+        classifier.classify()
+
+
+###############################################################################
+# 6. Тести для ситуації, коли дві прямі задані однаковими точками
+###############################################################################
+
+@pytest.mark.parametrize("x1,y1,x2,y2", [
+    (10, 20, 10, 20),
+    (-50, 60, -50, 60),
+    (126, -126, 126, -126),
+    (15, 15, 15, 15),
+    (-30, 40, -30, 40)
+])
+def test_line_by_points_identical(x1, y1, x2, y2):
+    """
+    Якщо дві прямі задано однаковими, має бути кинутий InvalidLineException.
+    Очікується повідомлення, яке містить інформацію про те, що точки співпадають.
+    """
+    with pytest.raises(InvalidLineException, match=".*однаковими.*"):
+        line1 = SegmentLine.SegmentLine(x1, y1)
+        line2 = SegmentLine.SegmentLine(x2, y2)
+        line3 = SlopeInterceptLine.SlopeInterceptLine(1, 10)
+        classifier = LineClassifier.LineClassifier(line1, line2, line3)
+        classifier.classify()
