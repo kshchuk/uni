@@ -1,0 +1,61 @@
+@startuml TechMarket_Sequence_OLTP_Order
+title TechMarket — Sequence: Оформити замовлення
+autonumber
+
+actor "Клієнт" as Customer
+boundary "Веб/Мобільний UI" as UI
+control "Order API" as API
+database "MySQL (OLTP)" as DB
+entity "Платіжна система (PSP)" as PSP
+collections "Аудит/Логи" as LOG
+boundary "Notifier (Email/SMS)" as Notif
+
+Customer -> UI: Обрати товари, заповнити дані
+UI -> API: POST /orders {region, items} + Authorization: Bearer <token>
+activate API
+
+API -> LOG: create_order(request)
+API -> API: Хешувати токен (SHA-256)
+API -> DB: SELECT user_id, expires_at, revoked FROM auth_tokens WHERE token_hash=:sha256 LIMIT 1
+DB --> API: токен знайдено/не знайдено
+
+alt Невалідний/прострочений/відкликаний токен
+  API -> LOG: auth_failed(reason)
+  API --> UI: 401 Unauthorized
+  deactivate API
+  return
+end
+
+API -> DB: SELECT повʼязаного клієнта/співробітника за user_id
+API -> DB: BEGIN
+API -> DB: INSERT orders(status='new', customer_id, employee_id?, region_id, order_date, total_amount=0)
+DB --> API: order_id
+
+loop Для кожної позиції
+  API -> DB: INSERT order_items(order_id, product_id, quantity, unit_price, discount)
+end
+
+API -> DB: SELECT SUM(quantity*unit_price - COALESCE(discount,0)) FROM order_items WHERE order_id=:order_id
+DB --> API: total_amount
+API -> DB: UPDATE orders SET total_amount=:total_amount WHERE id=:order_id
+API -> DB: COMMIT
+
+API -> PSP: Створити/авторизувати платіж(order_id, amount=total_amount)
+
+alt Платіж успішний
+  PSP --> API: success(auth_code)
+  API -> DB: INSERT payments(order_id, method, paid_at, amount)
+  API -> DB: UPDATE orders SET status='paid' WHERE id=:order_id
+  API -> LOG: order_paid(order_id, amount)
+  API -> Notif: Надіслати підтвердження замовлення клієнту
+  API --> UI: 201 Created {order_id, status='paid'}
+else Відмова у платежі
+  PSP --> API: failure(reason)
+  API -> DB: UPDATE orders SET status='cancelled' WHERE id=:order_id
+  API -> LOG: order_failed(order_id, reason)
+  API --> UI: 402 Payment Required {reason}
+end
+
+deactivate API
+
+@enduml

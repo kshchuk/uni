@@ -1,0 +1,73 @@
+@startuml TechMarket_Deployment
+title TechMarket — Deployment Diagram
+skinparam componentStyle rectangle
+skinparam wrapWidth 200
+left to right direction
+
+cloud "Internet" as INTERNET {
+  actor "Клієнт" as USER
+  node "Платіжна система (PSP)" as PSP
+  node "Email/SMS Provider" as NOTIFIER
+  node "BI Desktop / Service\n(Power BI / Tableau)" as BI_TOOL
+}
+
+node "App Tier (DMZ/VPC)" as APP {
+  node "API Server" as API_HOST {
+    component "Order API\n(Flask/FastAPI)" as ORDER_API
+    component "Auth Module\n(bcrypt + Bearer)" as AUTH
+  }
+}
+
+node "Data Eng Tier" as DATA_ENG {
+  node "Scheduler\n(Cron / Airflow)" as SCHED
+  component "ETL Runner\n(Python 3.11 + SQLAlchemy)\n(pandas, psycopg2, PyMySQL)" as ETL
+  component "DQ Checks" as DQ
+  component "Logging / Monitoring" as LOG
+}
+
+node "Data Tier (VPC)" as DATA_TIER {
+  database "MySQL 8 (OLTP)\n[customers, orders, order_items, payments,\nauth_users, auth_credentials, auth_tokens, roles, user_roles]" as MYSQL
+  database "PostgreSQL 15 (DWH)\nSchemas: stg, dwh" as POSTGRES
+}
+
+component "Secrets\n(.env local / Secret Manager)" as SECRETS
+
+' ==== Flows: App / Auth ====
+USER --> ORDER_API : HTTPS
+ORDER_API --> AUTH : вхід/перевірка (bcrypt)
+AUTH --> MYSQL : SQL (паролі/токени)
+note right of AUTH
+password_hash: bcrypt (salt усередині)
+Bearer токени: зберігаємо SHA-256(token)
+end note
+
+ORDER_API --> MYSQL : SQL (3306)
+ORDER_API --> PSP : HTTPS (платежі)
+ORDER_API --> NOTIFIER : HTTPS/SMTP (нотифікації)
+ORDER_API --> LOG : app logs / audit
+ORDER_API --> SECRETS : читання конфіг/креденшалів
+
+' ==== Flows: BI ====
+BI_TOOL --> POSTGRES : Read-only (5432)\nDirectQuery/Live або Import
+note right of POSTGRES
+Ролі/доступ: окрема read-only роль для BI
+RLS у BI або через VIEW/політики у БД
+end note
+
+' ==== Flows: ETL/DWH ====
+SCHED --> ETL : trigger (cron/airflow)
+ETL --> SECRETS : DSN/паролі
+ETL --> MYSQL : Extract (mysql+pymysql)
+ETL --> POSTGRES : Load/Transform (psycopg2)\nCOPY → stg, upsert → dwh
+ETL --> DQ : запустити перевірки (унікальність, not null, домени)
+ETL --> LOG : audit run / метрики
+ETL ..> POSTGRES : advisory lock, watermarks
+
+' ==== Notes ====
+note bottom of DATA_TIER
+Backup/HA: регулярні бекапи, реплікація/партиціювання за датою (DWH)
+Індекси: ключі вимірів, date_key; вʼюшки/матеріалізовані вітрини
+end note
+
+@enduml
+

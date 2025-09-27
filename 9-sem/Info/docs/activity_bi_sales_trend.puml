@@ -1,0 +1,66 @@
+@startuml TechMarket_Activity_BI_SalesTrend
+title TechMarket — Activity: Перегляд динаміки продажів у BI
+
+start
+
+partition "Користувач BI" {
+  :Відкрити BI застосунок;
+  :Увійти (SSO/логін);
+}
+
+partition "BI (Power BI / Tableau)" {
+  :Перевірити роль та RLS;
+}
+
+if (Доступ дозволено?) then (так)
+  partition "Користувач BI" {
+    :Обрати звіт "Динаміка продажів";
+    :Встановити фільтри
+    (регіон, категорія, діапазон дат);
+  }
+
+  partition "BI (Power BI / Tableau)" {
+    :Завантажити модель/візуали;
+    if (Тип підключення?) then (Import)
+      if (Кеш актуальний?) then (так)
+        :Зчитати дані з кешу датасету;
+      else (ні)
+        partition "DWH (PostgreSQL)" {
+          :Виконати запити для оновлення датасету;
+        }
+        :Оновити кеш (refresh);
+      endif
+    else (DirectQuery/Live)
+      partition "DWH (PostgreSQL)" {
+        :Виконати SQL з фільтрами
+        (агрегації по даті/регіону/категорії);
+      }
+    endif
+
+    :Рендер графіків/таблиць/KPI;
+  }
+
+  partition "Користувач BI" {
+    :Переглянути, виконати drill-down / drill-through;
+  }
+
+  if (Експорт або підписка?) then (так)
+    partition "Користувач BI" {
+      :Надіслати запит на експорт
+      (PDF/Excel) або створити підписку;
+    }
+    partition "BI (Power BI / Tableau)" {
+      :Сформувати файл / налаштувати підписку;
+    }
+  endif
+
+  stop
+else (ні)
+  partition "BI (Power BI / Tableau)" {
+    :Показати повідомлення про відсутність доступу (RLS);
+  }
+  stop
+endif
+
+@enduml
+

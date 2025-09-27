@@ -1,0 +1,101 @@
+// TechMarket — DWH star schema (PostgreSQL target)
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// Призначення: схема `dwh` у PostgreSQL
+
+Table dim_date {
+  date_key int [primary key, note: 'Формат YYYYMMDD']
+  date date
+  year int
+  quarter int
+  month int
+  day int
+  day_of_week int
+  is_weekend boolean
+}
+
+Table dim_region {
+  region_key int [primary key, increment]
+  region_id uuid [note: 'Business key з OLTP']
+  name varchar
+  code varchar
+  updated_at timestamp
+
+  Indexes {
+    (code) [unique]
+  }
+}
+
+Table dim_category {
+  category_key int [primary key, increment]
+  category_id uuid
+  name varchar
+  parent_category_key int [ref: > dim_category.category_key, note: 'Nullable']
+  updated_at timestamp
+}
+
+Table dim_product {
+  product_key int [primary key, increment]
+  product_id uuid
+  name varchar
+  sku varchar
+  category_key int [ref: > dim_category.category_key]
+  updated_at timestamp
+
+  Indexes {
+    (sku) [unique]
+  }
+}
+
+Table dim_customer {
+  customer_key int [primary key, increment]
+  customer_id uuid
+  first_name varchar
+  last_name varchar
+  email varchar
+  region_key int [ref: > dim_region.region_key]
+  updated_at timestamp
+
+  Indexes {
+    (customer_id) [unique]
+  }
+}
+
+Table dim_employee {
+  employee_key int [primary key, increment]
+  employee_id uuid
+  first_name varchar
+  last_name varchar
+  email varchar
+  region_key int [ref: > dim_region.region_key]
+  updated_at timestamp
+
+  Indexes {
+    (employee_id) [unique]
+  }
+}
+
+Table fact_sales {
+  sales_key bigint [primary key, increment]
+  order_id uuid
+  order_item_id uuid
+  date_key int [ref: > dim_date.date_key]
+  product_key int [ref: > dim_product.product_key]
+  customer_key int [ref: > dim_customer.customer_key]
+  employee_key int [ref: > dim_employee.employee_key]
+  region_key int [ref: > dim_region.region_key]
+  quantity int
+  revenue decimal
+  discount_amount decimal
+  cost decimal
+  margin decimal
+
+  Indexes {
+    (date_key)
+    (product_key)
+    (customer_key)
+    (employee_key)
+    (region_key)
+  }
+}
+

@@ -1,0 +1,40 @@
+@startuml TechMarket_Overview
+title TechMarket — Огляд use case'ів
+left to right direction
+
+actor "Керівництво" as Exec
+actor "BI Аналітик" as BI
+actor "Data Engineer" as DE
+actor "DBA / Адміністратор" as DBA
+actor "Планувальник ETL (Cron/Airflow)" as Sched
+actor "OLTP (MySQL)" as OLTP
+
+rectangle "TechMarket Data Platform" as SYS {
+  usecase "Проєктувати схеми OLTP/DWH" as UC_Design
+  usecase "Налаштувати підключення та доступ" as UC_Access
+  usecase "Запустити щоденний конвеєр ETL" as UC_DailyETL
+  usecase "Валідація якості даних" as UC_DQ
+  usecase "Побудувати дашборди і звіти" as UC_BI
+  usecase "Керувати користувачами/ролями\nі токенами (bcrypt + Bearer)" as UC_Auth
+
+  usecase "Динаміка продажів\nза регіонами/категоріями" as UC_SalesTrend
+  usecase "Ефективність менеджерів" as UC_ManagersPerf
+  usecase "Топ/Антитоп товарів" as UC_TopProducts
+  usecase "Середній чек" as UC_AOV
+}
+
+UC_BI ..> UC_SalesTrend : <<include>>
+UC_BI ..> UC_ManagersPerf : <<include>>
+UC_BI ..> UC_TopProducts : <<include>>
+UC_BI ..> UC_AOV : <<include>>
+UC_DailyETL ..> UC_DQ : <<include>>
+
+DE -- UC_Design
+DBA -- UC_Access
+DBA -- UC_Auth
+Sched -- UC_DailyETL
+BI -- UC_BI
+Exec -- UC_BI : перегляд
+OLTP -- UC_DailyETL : джерело даних
+
+@enduml

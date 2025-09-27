@@ -1,0 +1,44 @@
+@startuml TechMarket_OLTP
+title TechMarket — OLTP (операційна БД)
+left to right direction
+
+actor "Менеджер з продажів" as Sales
+actor "Клієнт (онлайн-магазин)" as Customer
+actor "Платіжна система" as PSP
+
+rectangle "Система замовлень (MySQL)" {
+  usecase "Зареєструвати клієнта" as U1
+  usecase "Керувати каталогом товарів\nі категоріями" as U2
+  usecase "Оформити замовлення" as U3
+  usecase "Додати позиції до замовлення" as U3a
+  usecase "Застосувати знижку" as U3b
+  usecase "Прийняти оплату" as U4
+  usecase "Призначити відповідального менеджера\nта регіон" as U5
+
+  ' Auth use cases (bcrypt + Bearer)
+  usecase "Реєстрація користувача" as UA1
+  usecase "Увійти (bcrypt перевірка)" as UA2
+  usecase "Видати Bearer токен" as UA3
+  usecase "Перевірити авторизацію (Bearer)" as UA4
+  usecase "Вийти / відкликати токен" as UA5
+  usecase "Скинути пароль" as UA6
+}
+
+U3 ..> U3a : <<include>>
+U3 ..> U3b : <<include>>
+U3 ..> U4 : <<include>>
+U3 ..> UA4 : <<include>>
+
+Sales -- U2
+Sales -- U3
+Sales -- U5
+Customer -- U3 : ініціює
+PSP -- U4 : авторизація платежу
+
+Customer -- UA1
+Customer -- UA2
+Sales -- UA2
+Customer -- UA5
+Customer -- UA6
+
+@enduml

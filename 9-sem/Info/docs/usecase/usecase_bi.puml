@@ -1,0 +1,48 @@
+@startuml TechMarket_BI
+title TechMarket — BI / Звіти
+left to right direction
+
+actor "BI Аналітик" as BI
+actor "Керівництво" as Exec
+actor "Регіональний менеджер" as RM
+
+rectangle "BI (Power BI / Tableau)" {
+  usecase "Побудувати модель даних\nз DWH" as B1
+  usecase "Створити дашборд" as B2
+  usecase "Опублікувати звіт" as B3
+  usecase "Налаштувати доступ (RLS/ролі)" as B4
+  usecase "Переглянути динаміку продажів\nза регіонами/категоріями" as B5
+  usecase "Оцінити ефективність менеджерів" as B6
+  usecase "Проаналізувати топ/антитоп товарів" as B7
+  usecase "Розрахувати середній чек" as B8
+  usecase "Експорт/розсилка звітів" as B9
+  
+  ' Auth use cases (bcrypt + Bearer)
+  usecase "Увійти (bcrypt перевірка)" as BA1
+  usecase "Видати Bearer токен" as BA2
+  usecase "Перевірити авторизацію (Bearer/RLS)" as BA3
+}
+
+B2 ..> B5 : <<include>>
+B2 ..> B6 : <<include>>
+B2 ..> B7 : <<include>>
+B2 ..> B8 : <<include>>
+B3 ..> B4 : <<include>>
+B2 ..> BA3 : <<include>>
+B5 ..> BA3 : <<include>>
+B6 ..> BA3 : <<include>>
+B7 ..> BA3 : <<include>>
+B8 ..> BA3 : <<include>>
+
+BI -- B1
+BI -- B2
+BI -- B3
+BI -- B4
+BI -- BA1
+BI -- BA2
+BI -- BA3
+Exec -- B2 : перегляд
+RM -- B2 : перегляд (свій регіон)
+Exec -- B9
+
+@enduml
