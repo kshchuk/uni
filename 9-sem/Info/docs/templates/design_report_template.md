@@ -103,6 +103,13 @@
 - Секрети: .env локально або Secret Manager у проді; BI підключається read‑only.
 - Інтеграції: PSP/Notifier через HTTPS; моніторинг/логи централізовано.
 
+## Deployment — Спрощено
+{{PUML docs/deployment_simple.puml}}
+
+Коментарі:
+- Узагальнена схема без портів і конкретних інструментів.
+- Показано лише ключові блоки та потоки: Клієнт → Edge → Мікросервіси → MySQL; ETL/BI ↔ DWH; спостережуваність узагальнена.
+
 ---
 
 ## Схеми даних і нормалізація
@@ -134,6 +141,20 @@ Payment Service
 - Виміри: `dim_product`, `dim_customer`, `dim_employee`, `dim_region`, `dim_date`, `dim_category` (ієрархія).
 - SCD‑1: перезапис атрибутів у вимірах; історію можна розширити до SCD‑2 за потреби.
 - Продуктивність: індекси по foreign keys, `date_key`; матеріалізовані вітрини для популярних зрізів.
+
+## ER — Спрощено (OLTP)
+{{PUML docs/er/er_simple_oltp.puml}}
+
+Коментарі:
+- Лише сутності та зв’язки: Customer — Order — OrderItem — Product — Payment.
+- Без детальних атрибутів, типів та індексів.
+
+## ER — Спрощено (DWH)
+{{PUML docs/er/er_simple_dwh.puml}}
+
+Коментарі:
+- Зоряна схема: fact_sales з ключовими вимірами (date, product, customer, employee, region).
+- Без переліку полів і технічних колонок.
 
 ---
 

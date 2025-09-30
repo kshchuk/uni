@@ -2,27 +2,26 @@
 title ER — Catalog Service (MySQL)
 
 entity "categories" as CAT {
-  + id : uuid
+  + id
   --
-  name : varchar (unique)
-  parent_category_id : uuid (nullable)
+  name (unique)
+  parent_category_id (nullable)
 }
 
 entity "products" as P {
-  + id : uuid
+  + id
   --
-  name : varchar
-  sku : varchar (unique)
-  category_id : uuid
-  price : decimal
-  cost : decimal
-  status : varchar
-  created_at : datetime
-  updated_at : datetime
+  name
+  sku (unique)
+  category_id
+  price
+  cost
+  status
+  created_at
+  updated_at
 }
 
 CAT ||--o{ CAT : "parent : children"
 CAT ||--o{ P   : "1 : N"
 
 @enduml
-

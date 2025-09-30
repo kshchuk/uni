@@ -1,0 +1,19 @@
+@startuml ER_OLTP_Simple
+title ER — OLTP (Спрощено)
+
+left to right direction
+
+entity "Customer" as CUSTOMER
+entity "Order" as ORDER
+entity "OrderItem" as ORDER_ITEM
+entity "Product" as PRODUCT
+entity "Payment" as PAYMENT
+
+' Відносини без технічних деталей
+CUSTOMER ||--o{ ORDER : "розміщує"
+ORDER ||--o{ ORDER_ITEM : "містить"
+PRODUCT ||--o{ ORDER_ITEM : "товар"
+PAYMENT }o--|| ORDER : "оплата"
+
+@enduml
+

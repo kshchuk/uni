@@ -1,0 +1,21 @@
+@startuml ER_DWH_Simple
+title ER — DWH (Спрощено)
+
+left to right direction
+
+entity "dim_date" as DDATE
+entity "dim_product" as DPROD
+entity "dim_customer" as DCUST
+entity "dim_employee" as DEMP
+entity "dim_region" as DREG
+entity "fact_sales" as FSALES
+
+' Зв’язки зоряної схеми без атрибутів
+DDATE ||--o{ FSALES : "1 : N"
+DPROD ||--o{ FSALES : "1 : N"
+DCUST ||--o{ FSALES : "1 : N"
+DEMP  ||--o{ FSALES : "1 : N"
+DREG  ||--o{ FSALES : "1 : N"
+
+@enduml
+

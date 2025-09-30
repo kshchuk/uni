@@ -2,48 +2,48 @@
 title ER — Auth Service (MySQL)
 
 entity "auth_users" as AU {
-  + id : uuid
+  + id
   --
-  email : varchar (unique)
-  status : varchar
-  created_at : datetime
-  updated_at : datetime
+  email (unique)
+  status
+  created_at
+  updated_at
 }
 
 entity "auth_credentials" as AC {
-  + id : uuid
+  + id
   --
-  user_id : uuid (unique)
-  password_hash : varchar
-  algo : varchar
-  password_updated_at : datetime
-  updated_at : datetime
+  user_id (unique)
+  password_hash
+  algo
+  password_updated_at
+  updated_at
 }
 
 entity "auth_tokens" as AT {
-  + id : uuid
+  + id
   --
-  user_id : uuid
-  token_hash : varchar (unique)
-  issued_at : datetime
-  expires_at : datetime
-  revoked : boolean
-  last_used_at : datetime
-  user_agent : varchar
-  ip : varchar
-  scopes : varchar
+  user_id
+  token_hash (unique)
+  issued_at
+  expires_at
+  revoked
+  last_used_at
+  user_agent
+  ip
+  scopes
 }
 
 entity "roles" as R {
-  + id : uuid
+  + id
   --
-  name : varchar (unique)
-  comment : varchar
+  name (unique)
+  comment
 }
 
 entity "user_roles" as UR {
-  user_id : uuid
-  role_id : uuid
+  user_id
+  role_id
 }
 
 AU ||--|| AC : "1 : 1"
@@ -52,4 +52,3 @@ AU ||--o{ UR : "1 : N"
 R  ||--o{ UR : "1 : N"
 
 @enduml
-

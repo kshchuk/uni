@@ -1,0 +1,110 @@
+@startuml TechMarket_Deployment_Overview
+title TechMarket — Deployment (Огляд)
+skinparam componentStyle rectangle
+skinparam wrapWidth 220
+skinparam nodesep 40
+skinparam ranksep 60
+skinparam linetype ortho
+left to right direction
+
+cloud "Internet" as INTERNET {
+  actor "Клієнт" as USER
+  node "Платіжний провайдер" as PSP
+  node "Email/SMS Provider" as MAIL
+  node "BI Service\n(Power BI / Tableau)" as BI_SERVICE
+}
+
+node "App Tier\n(K8s / Docker Swarm)" as APP {
+  node "Edge" as EDGE {
+    component "Nginx\n:443 → :80" as NGINX
+    component "API Gateway\n:8080" as GATEWAY
+  }
+
+  node "Auth Pod" as AUTH_NODE {
+    component "Auth Service\n:7001" as AUTH_SVC
+    database "Auth DB\nMySQL 8\n:3306" as AUTH_DB
+  }
+
+  node "Order Pod" as ORDER_NODE {
+    component "Order Service\n:7002" as ORDER_SVC
+    database "Orders DB\nMySQL 8\n:3306" as ORDER_DB
+  }
+
+  node "Catalog Pod" as CATALOG_NODE {
+    component "Catalog Service\n:7003" as CATALOG_SVC
+    database "Catalog DB\nMySQL 8\n:3306" as CATALOG_DB
+  }
+
+  node "Payment Pod" as PAYMENT_NODE {
+    component "Payment Service\n:7004" as PAYMENT_SVC
+    database "Payments DB\nMySQL 8\n:3306" as PAYMENT_DB
+  }
+
+  node "Notification Pod" as NOTIF_NODE {
+    component "Notification Service\n:7005" as NOTIF_SVC
+  }
+}
+
+node "Data Platform" as PLATFORM {
+  node "Orchestration" as ORCH {
+    component "Scheduler\n(Airflow / Cron)" as SCHED
+    component "ETL Worker\n(Python + SQLAlchemy)" as ETL
+    component "Data Quality Checks" as DQ
+  }
+  component "Event Broker\nKafka / RabbitMQ\n:9092" as BROKER
+  component "Observability Stack\nPrometheus + Grafana\nLog Collector" as OBS
+  component "Secrets Store\n(Secret Manager / Vault)" as SECRETS
+}
+
+node "Data Tier" as DATA {
+  database "PostgreSQL DWH\nSchemas: stg, dwh\n:5432" as DWH
+}
+
+' ==== Edge & App access ====
+USER --> NGINX : HTTPS 443
+NGINX --> GATEWAY : HTTP 8080
+GATEWAY --> AUTH_SVC : REST/gRPC
+GATEWAY --> ORDER_SVC : REST/gRPC
+GATEWAY --> CATALOG_SVC : REST/gRPC
+GATEWAY --> PAYMENT_SVC : REST/gRPC
+GATEWAY --> NOTIF_SVC : callbacks
+
+' ==== Service to database ====
+AUTH_SVC --> AUTH_DB : CRUD
+ORDER_SVC --> ORDER_DB : CRUD
+CATALOG_SVC --> CATALOG_DB : CRUD
+PAYMENT_SVC --> PAYMENT_DB : CRUD
+
+' ==== External integrations ====
+PAYMENT_SVC --> PSP : HTTPS API
+NOTIF_SVC --> MAIL : HTTPS / SMTP
+
+' ==== Eventing ====
+ORDER_SVC --> BROKER : publish OrderCreated / OrderPaid
+BROKER --> NOTIF_SVC : subscribe OrderPaid
+
+' ==== Platform services ====
+SCHED --> ETL : trigger jobs
+ETL --> AUTH_DB
+ETL --> ORDER_DB
+ETL --> CATALOG_DB
+ETL --> PAYMENT_DB
+ETL --> DWH
+ETL --> DQ
+DQ --> DWH
+
+' ==== Observability & secrets ====
+APP --> OBS : logs / metrics
+ETL --> OBS : job telemetry
+
+APP --> SECRETS : конфіг / креденшали
+ETL --> SECRETS : DSN / токени
+
+note right of OBS
+Єдиний стек спостережуваності для сервісів та ETL.
+end note
+
+' ==== BI access ====
+BI_SERVICE --> DWH : read-only extracts / live
+
+@enduml

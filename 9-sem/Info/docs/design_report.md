@@ -37,11 +37,20 @@
 ## Deployment — Розгортання
 ![deployment](images/deployment.png)
 
+## Deployment — Спрощено
+![deployment_simple](images/deployment_simple.png)
+
 ## Схема даних — OLTP (з DBML)
 ![oltp_mysql_er](images/oltp_mysql_er.png)
 
 ## Схема даних — DWH (з DBML)
 ![dwh_postgres_er](images/dwh_postgres_er.png)
+
+## ER — Спрощено (OLTP)
+![er_simple_oltp](images/er_simple_oltp.png)
+
+## ER — Спрощено (DWH)
+![er_simple_dwh](images/er_simple_dwh.png)
 
 ---
 Примітка: Зображення генеруються скриптом на основі вихідних .puml та .dbml файлів.

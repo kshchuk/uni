@@ -66,15 +66,15 @@ TechMarket розгортається як платформа на базі Dock
 - Авторизація та RLS у BI, вибір звіту, застосування фільтрів (регіон/категорія/дати).
 - Import: оновлення кешу датасету з DWH; DirectQuery/Live: отримання агрегованих даних із DWH з урахуванням фільтрів. Рендер графіків, drill‑down/drill‑through, експорт/підписки.
 
-### 2.8 Deployment
-![Deployment Diagram](images/TechMarket_Deployment.png)
+### 2.8 Deployment (огляд)
+![Deployment Diagram](images/TechMarket_Deployment_Overview.png)
 
 Опис:
-- Internet: зовнішні провайдери (PSP, Email/SMS, BI) та користувач та BI Service (Power BI Service / Tableau Server) для Live/Extract підключень.
-- App Tier: Nginx (443 -> 80) перед API Gateway (8080). Кожен сервіс розгортається поруч із власною БД (MySQL:3306): Auth (7001), Order (7002), Catalog (7003), Payment (7004), Notification (7005). 
-- ETL / Observability: Scheduler, ETL, DQ, Message Broker (9092), Logging (9200), Prometheus (9090), Grafana (3000), Secrets.
-- Data Tier: DWH PostgreSQL (5432, схеми stg/dwh).
-- Потоки: Gateway -> сервіси (gRPC/HTTP із портами), сервіси -> власні БД (MySQL 3306), Payment -> PSP (HTTPS 443), Notification -> Email/SMS (HTTPS/SMTP 443/587), Order -> Broker (події OrderCreated/OrderPaid), Prometheus <- /metrics із кожного сервісу, Grafana -> Prometheus, ETL -> DWH та RO‑доступ до сервісних БД.
+- Internet: зовнішні інтеграції (платіжний провайдер, Email/SMS, BI Service) та кінцевий користувач.
+- App Tier: Nginx (443 -> 80) і API Gateway (8080) у DMZ, за ними мікросервіси (Auth 7001, Order 7002, Catalog 7003, Payment 7004, Notification 7005) у власних pod/контейнерах, кожен із приватною MySQL (3306).
+- Data Platform: Scheduler/Airflow тригерять ETL, який читає MySQL (RO), вантажить у DWH, запускає DQ; Event Broker (Kafka/RabbitMQ) стоїть між Order і Notification; Observability stack (Prometheus, Grafana, лог-колектор) та Secrets Manager обслуговують сервіси.
+- Data Tier: PostgreSQL DWH (5432, `stg`/`dwh`) для аналітики.
+- Потоки: клієнт -> Nginx -> Gateway; Gateway маршрутизує до сервісів; Payment інтегрується з PSP; Notification надсилає Email/SMS; Order публікує події у Broker, Notification споживає; BI Service читає DWH; усі сервіси віддають метрики/логи в Observability та тягнуть секрети з Secrets Manager.
 
 ## 3. Дані та схеми
 - DB‑per‑service: кожен сервіс володіє своєю схемою/БД; міжсервісні посилання - ідентифікаторами (без міжбазових FK).
@@ -101,7 +101,7 @@ Payment Service (MySQL)
 
 ### 3.2 ER‑діаграма (DWH)
 
-DWH (PostgreSQL, зоряна схема)
+DWH (PostgreSQL, зоряна схема — без типів даних)
 ![DWH ER](images/DWH_ER.png)
 
 ## 4. Спостережуваність та експлуатація

@@ -2,13 +2,12 @@
 title ER — Payment Service (MySQL)
 
 entity "payments" as PAY {
-  + id : uuid
+  + id
   --
-  order_id : uuid (external)
-  method : varchar
-  paid_at : datetime
-  amount : decimal
+  order_id (external)
+  method
+  paid_at
+  amount
 }
 
 @enduml
-
