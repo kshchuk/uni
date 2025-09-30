@@ -1,0 +1,76 @@
+@startuml DWH_ER
+title ER — DWH (PostgreSQL, Star Schema)
+
+entity "dim_date" as DDATE {
+  + date_key : int
+  --
+  date : date
+  year : int
+  quarter : int
+  month : int
+  day : int
+}
+
+entity "dim_product" as DPROD {
+  + product_key : int
+  --
+  product_id : uuid
+  sku : varchar
+  name : varchar
+  category_key : int
+}
+
+entity "dim_customer" as DCUST {
+  + customer_key : int
+  --
+  customer_id : uuid
+  full_name : varchar
+  region_key : int
+}
+
+entity "dim_employee" as DEMP {
+  + employee_key : int
+  --
+  employee_id : uuid
+  full_name : varchar
+  region_key : int
+}
+
+entity "dim_region" as DREG {
+  + region_key : int
+  --
+  region_name : varchar
+}
+
+entity "dim_category" as DCAT {
+  + category_key : int
+  --
+  category_name : varchar
+  parent_category_key : int (nullable)
+}
+
+entity "fact_sales" as FSALES {
+  + order_item_id : uuid
+  --
+  date_key : int
+  product_key : int
+  customer_key : int
+  employee_key : int
+  region_key : int
+  category_key : int
+  quantity : int
+  revenue : decimal
+  discount_amount : decimal
+  cost : decimal
+  margin : decimal
+}
+
+DDATE ||--o{ FSALES : "1 : N"
+DPROD ||--o{ FSALES : "1 : N"
+DCUST ||--o{ FSALES : "1 : N"
+DEMP  ||--o{ FSALES : "1 : N"
+DREG  ||--o{ FSALES : "1 : N"
+DCAT  ||--o{ FSALES : "1 : N"
+
+@enduml
+

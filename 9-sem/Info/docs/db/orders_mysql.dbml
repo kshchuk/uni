@@ -1,0 +1,62 @@
+// TechMarket — Orders Service DB (MySQL)
+// DB-per-service: замовлення, довідники клієнтів/співробітників/регіонів
+
+Table customers {
+  id uuid [primary key]
+  first_name varchar
+  last_name varchar
+  email varchar [unique]
+  phone varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table regions {
+  id uuid [primary key]
+  name varchar
+  code varchar [unique, note: 'Код регіону']
+}
+
+Table employees {
+  id uuid [primary key]
+  first_name varchar
+  last_name varchar
+  email varchar [unique]
+  hired_at date
+  is_manager boolean [note: 'Флаг керівника']
+  region_id uuid [ref: > regions.id, note: 'Регіон відповідальності']
+}
+
+Table orders {
+  id uuid [primary key]
+  customer_id uuid [ref: > customers.id]
+  employee_id uuid [ref: > employees.id]
+  region_id uuid [ref: > regions.id]
+  order_date datetime
+  status varchar [note: 'new, paid, shipped, cancelled']
+  total_amount decimal
+  created_at datetime
+  updated_at datetime
+
+  Indexes {
+    (customer_id) [name: 'order_customer_idx']
+    (employee_id) [name: 'order_employee_idx']
+    (region_id) [name: 'order_region_idx']
+    (order_date) [name: 'order_date_idx']
+  }
+}
+
+Table order_items {
+  id uuid [primary key]
+  order_id uuid [ref: > orders.id]
+  product_id uuid [note: 'Ref: Catalog DB (products.id), без FK між БД']
+  quantity integer
+  unit_price decimal
+  discount decimal [note: 'Знижка на позицію (грошима або часткою)']
+
+  Indexes {
+    (order_id) [name: 'oi_order_idx']
+    (product_id) [name: 'oi_product_idx']
+  }
+}
+

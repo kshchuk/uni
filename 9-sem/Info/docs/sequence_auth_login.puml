@@ -1,20 +1,23 @@
 @startuml TechMarket_Sequence_Auth_Login
-title TechMarket — Sequence: Вхід і видача Bearer токена (bcrypt)
+title TechMarket — Sequence: Вхід користувача (Microservices)
 autonumber
 
 actor "Користувач" as User
 boundary "Веб/Мобільний UI" as UI
-control "Auth API" as API
-database "MySQL (OLTP)" as DB
+boundary "API Gateway" as GW
+control "Auth Service" as AUTH
+database "Auth DB" as DB_AUTH
 collections "Аудит/Логи" as LOG
 
 User -> UI: Ввести email + пароль
-UI -> API: POST /auth/login {email, password}
-activate API
+UI -> GW: POST /auth/login {email, password}
+activate GW
+GW -> AUTH: login(email, password)
+activate AUTH
 
-API -> LOG: login_attempt(email)
-API -> DB: SELECT au.id, ac.password_hash, au.status FROM auth_users au JOIN auth_credentials ac ON ac.user_id=au.id WHERE au.email=:email
-DB --> API: user(опційно)
+AUTH -> LOG: login_attempt(email)
+AUTH -> DB_AUTH: Отримати користувача за email
+DB_AUTH --> AUTH: user(опційно)
 
 alt Користувача не знайдено або status!=active
   API -> LOG: login_failed(email, reason)
@@ -23,21 +26,20 @@ alt Користувача не знайдено або status!=active
   return
 end
 
-API -> API: Перевірити пароль (bcrypt.verify)
+AUTH -> AUTH: Перевірити пароль
 alt Пароль невірний
   API -> LOG: login_failed(email, reason='bad_password')
   API --> UI: 401 Unauthorized
   deactivate API
   return
 else ОК
-  API -> API: Згенерувати випадковий Bearer токен
-  API -> API: Обчислити SHA-256(token) -> token_hash
-  API -> DB: INSERT INTO auth_tokens(user_id, token_hash, issued_at, expires_at, revoked=false)
-  API -> LOG: login_success(user_id)
-  API --> UI: 200 OK { access_token: "Bearer <token>", expires_at }
+  AUTH -> AUTH: Створити сесію/токен доступу
+  AUTH -> DB_AUTH: Зберегти сесію/токен доступу
+  AUTH -> LOG: login_success(user_id)
+  AUTH --> GW: 200 OK { access_token, expires_at }
 end
-
-deactivate API
+deactivate AUTH
+GW --> UI: 200 OK { access_token, expires_at }
+deactivate GW
 
 @enduml
-

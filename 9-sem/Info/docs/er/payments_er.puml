@@ -1,0 +1,14 @@
+@startuml Payments_ER
+title ER — Payment Service (MySQL)
+
+entity "payments" as PAY {
+  + id : uuid
+  --
+  order_id : uuid (external)
+  method : varchar
+  paid_at : datetime
+  amount : decimal
+}
+
+@enduml
+

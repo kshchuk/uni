@@ -1,0 +1,55 @@
+@startuml Auth_ER
+title ER — Auth Service (MySQL)
+
+entity "auth_users" as AU {
+  + id : uuid
+  --
+  email : varchar (unique)
+  status : varchar
+  created_at : datetime
+  updated_at : datetime
+}
+
+entity "auth_credentials" as AC {
+  + id : uuid
+  --
+  user_id : uuid (unique)
+  password_hash : varchar
+  algo : varchar
+  password_updated_at : datetime
+  updated_at : datetime
+}
+
+entity "auth_tokens" as AT {
+  + id : uuid
+  --
+  user_id : uuid
+  token_hash : varchar (unique)
+  issued_at : datetime
+  expires_at : datetime
+  revoked : boolean
+  last_used_at : datetime
+  user_agent : varchar
+  ip : varchar
+  scopes : varchar
+}
+
+entity "roles" as R {
+  + id : uuid
+  --
+  name : varchar (unique)
+  comment : varchar
+}
+
+entity "user_roles" as UR {
+  user_id : uuid
+  role_id : uuid
+}
+
+AU ||--|| AC : "1 : 1"
+AU ||--o{ AT : "1 : N"
+AU ||--o{ UR : "1 : N"
+R  ||--o{ UR : "1 : N"
+
+@enduml
+

@@ -1,0 +1,29 @@
+// TechMarket — Catalog Service DB (MySQL)
+// DB-per-service: категорії та товари
+
+Table categories {
+  id uuid [primary key]
+  name varchar
+  parent_category_id uuid [ref: > categories.id, note: 'Nullable; ієрархія категорій']
+
+  Indexes {
+    (name) [unique]
+  }
+}
+
+Table products {
+  id uuid [primary key]
+  name varchar
+  sku varchar [unique, note: 'Артикул']
+  category_id uuid [ref: > categories.id]
+  price decimal [note: 'Ціна продажу']
+  cost decimal [note: 'Собівартість']
+  status varchar [note: 'active/inactive']
+  created_at datetime
+  updated_at datetime
+
+  Indexes {
+    (category_id)
+  }
+}
+

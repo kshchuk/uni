@@ -1,5 +1,5 @@
 @startuml TechMarket_Deployment
-title TechMarket — Deployment Diagram
+title TechMarket — Deployment Diagram (Microservices)
 skinparam componentStyle rectangle
 skinparam wrapWidth 200
 left to right direction
@@ -8,66 +8,129 @@ cloud "Internet" as INTERNET {
   actor "Клієнт" as USER
   node "Платіжна система (PSP)" as PSP
   node "Email/SMS Provider" as NOTIFIER
-  node "BI Desktop / Service\n(Power BI / Tableau)" as BI_TOOL
+  node "BI Service\n(Power BI Service / Tableau Server)" as BI_SERVICE
 }
 
 node "App Tier (DMZ/VPC)" as APP {
-  node "API Server" as API_HOST {
-    component "Order API\n(Flask/FastAPI)" as ORDER_API
-    component "Auth Module\n(bcrypt + Bearer)" as AUTH
+  component "Nginx (Reverse Proxy)\n:443 → :80" as NGINX
+  component "API Gateway / BFF\n:8080" as GATEWAY
+
+  node "Auth Service (Docker)" as AUTH_NODE {
+    component "Auth Service\n:7001" as AUTH_SVC
+    database "Auth DB\n:3306" as DB_AUTH
+    AUTH_SVC --> DB_AUTH : MySQL 3306 R/W
+  }
+
+  node "Order Service (Docker)" as ORDER_NODE {
+    component "Order Service\n:7002" as ORDER_SVC
+    database "Orders DB\n:3306" as DB_ORDERS
+    ORDER_SVC --> DB_ORDERS : MySQL 3306 R/W
+  }
+
+  node "Catalog Service (Docker)" as CATALOG_NODE {
+    component "Catalog Service\n:7003" as CATALOG_SVC
+    database "Catalog DB\n:3306" as DB_CATALOG
+    CATALOG_SVC --> DB_CATALOG : MySQL 3306 R/W
+  }
+
+  node "Payment Service (Docker)" as PAYMENT_NODE {
+    component "Payment Service\n:7004" as PAYMENT_SVC
+    database "Payments DB\n:3306" as DB_PAYMENTS
+    PAYMENT_SVC --> DB_PAYMENTS : MySQL 3306 R/W
+  }
+
+  node "Notification Service (Docker)" as NOTIF_NODE {
+    component "Notification Service\n:7005" as NOTIF_SVC
   }
 }
 
-node "Data Eng Tier" as DATA_ENG {
+node "Data Eng / Platform" as DATA_ENG {
   node "Scheduler\n(Cron / Airflow)" as SCHED
-  component "ETL Runner\n(Python 3.11 + SQLAlchemy)\n(pandas, psycopg2, PyMySQL)" as ETL
-  component "DQ Checks" as DQ
-  component "Logging / Monitoring" as LOG
+  component "ETL Runner\n:7100\n(Python 3.11 + SQLAlchemy)\n(pandas, psycopg2, PyMySQL)" as ETL
+  component "DQ Checks\n:7101" as DQ
+  component "Logging\n:9200" as LOG
+  component "Message Broker\n(Kafka / RabbitMQ)\n:9092" as BROKER
+  component "Prometheus\n:9090" as PROM
+  component "Grafana\n:3000" as GRAF
 }
 
 node "Data Tier (VPC)" as DATA_TIER {
-  database "MySQL 8 (OLTP)\n[customers, orders, order_items, payments,\nauth_users, auth_credentials, auth_tokens, roles, user_roles]" as MYSQL
-  database "PostgreSQL 15 (DWH)\nSchemas: stg, dwh" as POSTGRES
+  database "PostgreSQL 15 (DWH)\n:5432\nSchemas: stg, dwh" as POSTGRES
 }
 
 component "Secrets\n(.env local / Secret Manager)" as SECRETS
 
-' ==== Flows: App / Auth ====
-USER --> ORDER_API : HTTPS
-ORDER_API --> AUTH : вхід/перевірка (bcrypt)
-AUTH --> MYSQL : SQL (паролі/токени)
-note right of AUTH
-password_hash: bcrypt (salt усередині)
-Bearer токени: зберігаємо SHA-256(token)
-end note
+' ==== Flows: Edge / Gateway ====
+USER --> NGINX : HTTPS 443
+NGINX --> GATEWAY : HTTP 8080
+GATEWAY --> AUTH_SVC : gRPC 7001 /auth
+GATEWAY --> ORDER_SVC : gRPC 7002 /orders
+GATEWAY --> CATALOG_SVC : gRPC 7003 /catalog
+GATEWAY --> NOTIF_SVC : HTTP 7005 callbacks
+GATEWAY --> LOG : Log shipper TCP 9200
 
-ORDER_API --> MYSQL : SQL (3306)
-ORDER_API --> PSP : HTTPS (платежі)
-ORDER_API --> NOTIFIER : HTTPS/SMTP (нотифікації)
-ORDER_API --> LOG : app logs / audit
-ORDER_API --> SECRETS : читання конфіг/креденшалів
+' ==== Flows: Auth Service ====
+AUTH_SVC --> SECRETS : читання секретів/конфіг
+
+' ==== Flows: Order Service ====
+ORDER_SVC --> CATALOG_SVC : get product/prices
+ORDER_SVC --> PAYMENT_SVC : gRPC 7004 payments
+ORDER_SVC --> AUTH_SVC : gRPC 7001 identity
+ORDER_SVC --> BROKER : Kafka 9092 publish OrderCreated/OrderPaid
+ORDER_SVC --> LOG : Log shipper TCP 9200
+ORDER_SVC --> SECRETS : читання конфіг/креденшалів
+
+' ==== Flows: Catalog Service ====
+CATALOG_SVC --> LOG : Log shipper TCP 9200
+
+' ==== Flows: Payment Service ====
+PAYMENT_SVC --> PSP : HTTPS 443 (платежі)
+PAYMENT_SVC --> ORDER_SVC : gRPC 7002 payment status
+PAYMENT_SVC --> LOG : Log shipper TCP 9200
+
+' ==== Flows: Notification Service ====
+NOTIF_SVC --> BROKER : Kafka 9092 subscribe OrderPaid
+NOTIF_SVC --> NOTIFIER : HTTPS/SMTP 443/587 (email/sms)
+NOTIF_SVC --> LOG : Log shipper TCP 9200
+
+' ==== Flows: Observability ====
+PROM <-- AUTH_SVC : HTTP 7001 /metrics
+PROM <-- ORDER_SVC : HTTP 7002 /metrics
+PROM <-- CATALOG_SVC : HTTP 7003 /metrics
+PROM <-- PAYMENT_SVC : HTTP 7004 /metrics
+PROM <-- NOTIF_SVC : HTTP 7005 /metrics
+GRAF --> PROM : HTTP 9090 queries
 
 ' ==== Flows: BI ====
-BI_TOOL --> POSTGRES : Read-only (5432)\nDirectQuery/Live або Import
+BI_SERVICE --> POSTGRES : Read-only 5432\nLive / Scheduled extracts
 note right of POSTGRES
 Ролі/доступ: окрема read-only роль для BI
 RLS у BI або через VIEW/політики у БД
 end note
 
 ' ==== Flows: ETL/DWH ====
-SCHED --> ETL : trigger (cron/airflow)
+SCHED --> ETL : Trigger 7100
 ETL --> SECRETS : DSN/паролі
-ETL --> MYSQL : Extract (mysql+pymysql)
-ETL --> POSTGRES : Load/Transform (psycopg2)\nCOPY → stg, upsert → dwh
-ETL --> DQ : запустити перевірки (унікальність, not null, домени)
-ETL --> LOG : audit run / метрики
+ETL --> DB_AUTH : MySQL 3306 (RO)
+ETL --> DB_ORDERS : MySQL 3306 (RO)
+ETL --> DB_CATALOG : MySQL 3306 (RO)
+ETL --> DB_PAYMENTS : MySQL 3306 (RO)
+ETL --> POSTGRES : PostgreSQL 5432\nCOPY → stg, upsert → dwh
+ETL --> DQ : HTTP 7101 rules
+ETL --> LOG : Log shipper TCP 9200
 ETL ..> POSTGRES : advisory lock, watermarks
 
 ' ==== Notes ====
-note bottom of DATA_TIER
-Backup/HA: регулярні бекапи, реплікація/партиціювання за датою (DWH)
-Індекси: ключі вимірів, date_key; вʼюшки/матеріалізовані вітрини
+note right of APP
+DB per service: кожен сервіс розгортається разом зі своєю БД (MySQL :3306)
+end note
+
+note top of APP
+Усі сервіси в Docker контейнерах (docker-compose/Swarm/K8s)
+end note
+
+note right of DATA_ENG
+Спостережуваність: Prometheus (scrape), Grafana (дашборди), централізовані логи
 end note
 
 @enduml
-

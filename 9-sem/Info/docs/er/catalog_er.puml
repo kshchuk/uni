@@ -1,0 +1,28 @@
+@startuml Catalog_ER
+title ER — Catalog Service (MySQL)
+
+entity "categories" as CAT {
+  + id : uuid
+  --
+  name : varchar (unique)
+  parent_category_id : uuid (nullable)
+}
+
+entity "products" as P {
+  + id : uuid
+  --
+  name : varchar
+  sku : varchar (unique)
+  category_id : uuid
+  price : decimal
+  cost : decimal
+  status : varchar
+  created_at : datetime
+  updated_at : datetime
+}
+
+CAT ||--o{ CAT : "parent : children"
+CAT ||--o{ P   : "1 : N"
+
+@enduml
+

@@ -1,0 +1,57 @@
+// TechMarket — Auth Service DB (MySQL)
+// DB-per-service: тільки auth_* та role таблиці
+
+Table auth_users {
+  id uuid [primary key]
+  email varchar [unique, note: 'Логін користувача']
+  status varchar [note: 'active, disabled, blocked']
+  created_at datetime
+  updated_at datetime
+  // Опціональні зовнішні привʼязки (без FK між БД)
+  customer_id uuid [note: 'Ref: Orders DB (customers.id), без FK']
+  employee_id uuid [note: 'Ref: Orders DB (employees.id), без FK']
+}
+
+Table auth_credentials {
+  id uuid [primary key]
+  user_id uuid [unique, ref: > auth_users.id]
+  password_hash varchar [note: 'hash з сіллю у форматі PHC']
+  algo varchar [note: 'алгоритм хешування']
+  password_updated_at datetime
+  updated_at datetime
+}
+
+Table auth_tokens {
+  id uuid [primary key]
+  user_id uuid [ref: > auth_users.id]
+  token_hash varchar [note: 'хеш токена доступу']
+  issued_at datetime
+  expires_at datetime
+  revoked boolean
+  last_used_at datetime
+  user_agent varchar
+  ip varchar
+  scopes varchar [note: 'Опціонально: перелік scope через кому']
+
+  Indexes {
+    (user_id)
+    (token_hash) [unique]
+    (expires_at)
+  }
+}
+
+Table roles {
+  id uuid [primary key]
+  name varchar [unique, note: 'ADMIN, SALES, CUSTOMER, BI_VIEWER']
+  comment varchar
+}
+
+Table user_roles {
+  user_id uuid [ref: > auth_users.id]
+  role_id uuid [ref: > roles.id]
+
+  Indexes {
+    (user_id, role_id) [unique]
+    (role_id)
+  }
+}

@@ -2,9 +2,8 @@
 title TechMarket — ETL / DWH (PostgreSQL)
 left to right direction
 
-actor "Data Engineer" as DE
 actor "Планувальник ETL (Cron/Airflow)" as Sched
-actor "OLTP (MySQL)" as OLTP
+actor "Операційні БД (MySQL, DB‑per‑service)" as OLTP
 
 rectangle "DWH (PostgreSQL)" as DWH {
   usecase "Виконати Extract з MySQL" as E1
@@ -15,9 +14,9 @@ rectangle "DWH (PostgreSQL)" as DWH {
   usecase "Перевірити якість даних (DQ)" as E6
   usecase "Логування та аудит завантажень" as E7
   
-  ' Service auth use cases (Bearer)
-  usecase "Аутентифікація сервісу (Bearer)" as SA1
-  usecase "Перевірити токен сервісу" as SA2
+  ' Service auth use cases (узагальнено)
+  usecase "Аутентифікація сервісу" as SA1
+  usecase "Перевірити доступ сервісу" as SA2
 }
 
 usecase "Запустити щоденний pipeline ETL" as PIPE
@@ -30,9 +29,7 @@ PIPE ..> E7 : <<include>>
 PIPE ..> SA2 : <<include>>
 E5 ..|> PIPE : <<extend>>
 
-DE -- PIPE
 Sched -- PIPE
-DE -- SA1
 Sched -- SA1
 OLTP -- E1 : джерело
 

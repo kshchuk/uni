@@ -17,10 +17,9 @@ rectangle "BI (Power BI / Tableau)" {
   usecase "Розрахувати середній чек" as B8
   usecase "Експорт/розсилка звітів" as B9
   
-  ' Auth use cases (bcrypt + Bearer)
-  usecase "Увійти (bcrypt перевірка)" as BA1
-  usecase "Видати Bearer токен" as BA2
-  usecase "Перевірити авторизацію (Bearer/RLS)" as BA3
+  ' Auth use cases (узагальнено)
+  usecase "Увійти" as BA1
+  usecase "Перевірити доступ" as BA3
 }
 
 B2 ..> B5 : <<include>>
@@ -39,7 +38,6 @@ BI -- B2
 BI -- B3
 BI -- B4
 BI -- BA1
-BI -- BA2
 BI -- BA3
 Exec -- B2 : перегляд
 RM -- B2 : перегляд (свій регіон)

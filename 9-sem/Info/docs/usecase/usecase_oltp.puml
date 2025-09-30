@@ -6,7 +6,7 @@ actor "Менеджер з продажів" as Sales
 actor "Клієнт (онлайн-магазин)" as Customer
 actor "Платіжна система" as PSP
 
-rectangle "Система замовлень (MySQL)" {
+rectangle "Операційні сервіси (мікросервіси)" {
   usecase "Зареєструвати клієнта" as U1
   usecase "Керувати каталогом товарів\nі категоріями" as U2
   usecase "Оформити замовлення" as U3
@@ -15,12 +15,11 @@ rectangle "Система замовлень (MySQL)" {
   usecase "Прийняти оплату" as U4
   usecase "Призначити відповідального менеджера\nта регіон" as U5
 
-  ' Auth use cases (bcrypt + Bearer)
+  ' Auth use cases (узагальнено)
   usecase "Реєстрація користувача" as UA1
-  usecase "Увійти (bcrypt перевірка)" as UA2
-  usecase "Видати Bearer токен" as UA3
-  usecase "Перевірити авторизацію (Bearer)" as UA4
-  usecase "Вийти / відкликати токен" as UA5
+  usecase "Увійти" as UA2
+  usecase "Перевірити доступ" as UA4
+  usecase "Вийти" as UA5
   usecase "Скинути пароль" as UA6
 }
 

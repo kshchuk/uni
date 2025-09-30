@@ -4,7 +4,7 @@
 Мета: побудувати повний ланцюг роботи з даними для бізнес‑аналітики продажів — від транзакційної БД до аналітичних звітів. Обрано підхід «OLTP → ETL → DWH → BI» із MySQL як транзакційною БД, PostgreSQL як аналітичним сховищем, Python (SQLAlchemy [PyAlchemy] + pandas; драйвер psycopg2) для ETL та Power BI для візуалізації.
 
 ## Архітектура даних (огляд)
-- Джерело даних (OLTP): MySQL — операційна система обліку замовлень, клієнтів, товарів.
+- Джерела операційних даних: мікросервіси (Auth, Order, Catalog, Payment) з підходом DB‑per‑service на MySQL (окремі схеми/БД; read‑only для ETL/BI).
 - Сховище (DWH): PostgreSQL — зоряна схема для аналітики (факт продажів + виміри).
 - ETL/ELT: Python 3.11, `SQLAlchemy` (керування підключеннями/ORM), `pandas` (трансформації), драйвери: `psycopg2` (PostgreSQL), `PyMySQL` (MySQL).
 - BI: Power BI (рекомендовано) або Tableau — підключення напряму до PostgreSQL (read‑only).
@@ -19,6 +19,15 @@
   - PyMySQL ≥ 1.0 (для MySQL через SQLAlchemy)
   - python-dotenv (керування секретами через `.env`)
 - BI: Power BI Desktop (альтернатива — Tableau Desktop).
+
+## Прикладний рівень (мікросервіси)
+- API Gateway / BFF — вхідна точка для клієнтів.
+- Auth Service — керування користувачами, сесіями/токенами; своя БД.
+- Order Service — замовлення/позиції, статуси, взаємодія з Payment/Catalog; своя БД.
+- Catalog Service — довідники товарів/категорій; своя БД.
+- Payment Service — інтеграція з PSP, облік платежів; своя БД.
+- Notification Service — розсилка повідомлень (email/SMS), підписка на події через брокер.
+- Message Broker — Kafka/RabbitMQ для подій (OrderPaid тощо) й відв’язаної обробки.
 
 Примітка: Використовуємо SQLAlchemy як основний шар підключень: `postgresql+psycopg2://...` та `mysql+pymysql://...`. За потреби допускається експорт у CSV (`SELECT ... INTO OUTFILE`/`mysqldump`) як fallback.
 

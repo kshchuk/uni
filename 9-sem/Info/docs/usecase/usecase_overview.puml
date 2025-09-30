@@ -4,10 +4,9 @@ left to right direction
 
 actor "Керівництво" as Exec
 actor "BI Аналітик" as BI
-actor "Data Engineer" as DE
 actor "DBA / Адміністратор" as DBA
 actor "Планувальник ETL (Cron/Airflow)" as Sched
-actor "OLTP (MySQL)" as OLTP
+actor "Операційні БД (MySQL, DB‑per‑service)" as OLTP
 
 rectangle "TechMarket Data Platform" as SYS {
   usecase "Проєктувати схеми OLTP/DWH" as UC_Design
@@ -15,7 +14,7 @@ rectangle "TechMarket Data Platform" as SYS {
   usecase "Запустити щоденний конвеєр ETL" as UC_DailyETL
   usecase "Валідація якості даних" as UC_DQ
   usecase "Побудувати дашборди і звіти" as UC_BI
-  usecase "Керувати користувачами/ролями\nі токенами (bcrypt + Bearer)" as UC_Auth
+  usecase "Керувати користувачами/ролями\nі доступом" as UC_Auth
 
   usecase "Динаміка продажів\nза регіонами/категоріями" as UC_SalesTrend
   usecase "Ефективність менеджерів" as UC_ManagersPerf
@@ -29,7 +28,6 @@ UC_BI ..> UC_TopProducts : <<include>>
 UC_BI ..> UC_AOV : <<include>>
 UC_DailyETL ..> UC_DQ : <<include>>
 
-DE -- UC_Design
 DBA -- UC_Access
 DBA -- UC_Auth
 Sched -- UC_DailyETL

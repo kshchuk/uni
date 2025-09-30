@@ -1,61 +1,77 @@
 @startuml TechMarket_Sequence_OLTP_Order
-title TechMarket — Sequence: Оформити замовлення
+title TechMarket — Sequence: Оформити замовлення (Microservices)
 autonumber
 
 actor "Клієнт" as Customer
 boundary "Веб/Мобільний UI" as UI
-control "Order API" as API
-database "MySQL (OLTP)" as DB
+boundary "API Gateway" as GW
+control "Auth Service" as AUTH
+control "Order Service" as ORDER
+control "Catalog Service" as CATALOG
+control "Payment Service" as PAYMENT
+database "Orders DB" as DB_ORDERS
+database "Catalog DB" as DB_CATALOG
 entity "Платіжна система (PSP)" as PSP
+collections "Message Broker" as BROKER
 collections "Аудит/Логи" as LOG
-boundary "Notifier (Email/SMS)" as Notif
+boundary "Notification Service" as NOTIF
 
 Customer -> UI: Обрати товари, заповнити дані
-UI -> API: POST /orders {region, items} + Authorization: Bearer <token>
-activate API
+UI -> GW: POST /orders {region, items} + Authorization: <token>
+activate GW
 
-API -> LOG: create_order(request)
-API -> API: Хешувати токен (SHA-256)
-API -> DB: SELECT user_id, expires_at, revoked FROM auth_tokens WHERE token_hash=:sha256 LIMIT 1
-DB --> API: токен знайдено/не знайдено
-
-alt Невалідний/прострочений/відкликаний токен
-  API -> LOG: auth_failed(reason)
-  API --> UI: 401 Unauthorized
-  deactivate API
+GW -> AUTH: validate(token)
+AUTH --> GW: claims(valid|invalid)
+alt Невалідний токен
+  GW -> LOG: auth_failed(reason)
+  GW --> UI: 401 Unauthorized
+  deactivate GW
   return
 end
 
-API -> DB: SELECT повʼязаного клієнта/співробітника за user_id
-API -> DB: BEGIN
-API -> DB: INSERT orders(status='new', customer_id, employee_id?, region_id, order_date, total_amount=0)
-DB --> API: order_id
+GW -> ORDER: create_order(request, claims)
+activate ORDER
+ORDER -> LOG: create_order(request)
+ORDER -> CATALOG: get product details/prices
+activate CATALOG
+CATALOG -> DB_CATALOG: Отримати товари/ціни
+DB_CATALOG --> CATALOG: products/prices
+deactivate CATALOG
 
+ORDER -> DB_ORDERS: Створити замовлення
+DB_ORDERS --> ORDER: order_id
 loop Для кожної позиції
-  API -> DB: INSERT order_items(order_id, product_id, quantity, unit_price, discount)
+  ORDER -> DB_ORDERS: Додати позицію
 end
+ORDER -> DB_ORDERS: Розрахувати/оновити суму замовлення
 
-API -> DB: SELECT SUM(quantity*unit_price - COALESCE(discount,0)) FROM order_items WHERE order_id=:order_id
-DB --> API: total_amount
-API -> DB: UPDATE orders SET total_amount=:total_amount WHERE id=:order_id
-API -> DB: COMMIT
-
-API -> PSP: Створити/авторизувати платіж(order_id, amount=total_amount)
+ORDER -> PAYMENT: initiate_payment(order_id, amount)
+activate PAYMENT
+PAYMENT -> PSP: Авторизація/списання
 
 alt Платіж успішний
-  PSP --> API: success(auth_code)
-  API -> DB: INSERT payments(order_id, method, paid_at, amount)
-  API -> DB: UPDATE orders SET status='paid' WHERE id=:order_id
-  API -> LOG: order_paid(order_id, amount)
-  API -> Notif: Надіслати підтвердження замовлення клієнту
-  API --> UI: 201 Created {order_id, status='paid'}
+  PSP --> PAYMENT: success(auth_code)
+  PAYMENT --> ORDER: payment_success(order_id, amount)
+  ORDER -> DB_ORDERS: Оновити статус: paid
+  ORDER -> BROKER: Publish OrderPaid(order_id)
+  ORDER -> LOG: order_paid(order_id, amount)
+  ORDER --> GW: 201 Created {order_id, status='paid'}
 else Відмова у платежі
-  PSP --> API: failure(reason)
-  API -> DB: UPDATE orders SET status='cancelled' WHERE id=:order_id
-  API -> LOG: order_failed(order_id, reason)
-  API --> UI: 402 Payment Required {reason}
+  PSP --> PAYMENT: failure(reason)
+  PAYMENT --> ORDER: payment_failed(order_id, reason)
+  ORDER -> DB_ORDERS: Оновити статус: cancelled
+  ORDER -> LOG: order_failed(order_id, reason)
+  ORDER --> GW: 402 Payment Required {reason}
 end
 
-deactivate API
+deactivate PAYMENT
+deactivate ORDER
+
+BROKER --> NOTIF: OrderPaid(order_id)
+NOTIF -> LOG: send_confirmation(order_id)
+NOTIF --> UI: (асинхронно) лист/повідомлення клієнту
+
+GW --> UI: Response
+deactivate GW
 
 @enduml

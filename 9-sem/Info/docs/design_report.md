@@ -3,10 +3,12 @@
 Цей звіт охоплює основні артефакти етапу проєктування: use case діаграми, послідовності, activity, deployment та ER‑схеми OLTP/DWH.
 
 ## Архітектурний огляд
-- OLTP: MySQL 8 (замовлення, клієнти, товари, оплати, auth_*).
+- Мікросервіси прикладного рівня: API Gateway / BFF; Auth, Order, Catalog, Payment, Notification.
+- База даних — підхід DB‑per‑service (MySQL): окремі схеми/БД для Auth/Orders/Catalog/Payments (read‑only доступ для ETL/BI).
 - DWH: PostgreSQL 15 (stg, dwh; зоряна схема fact_sales + dim_*).
+- Шина повідомлень: Kafka/RabbitMQ для подій (OrderPaid тощо) й нотифікацій.
 - ETL: Python + SQLAlchemy (pandas, psycopg2, PyMySQL), інкременти за watermark.
-- Безпека: bcrypt (паролі), Bearer токени (зберігається SHA‑256 хеш), RLS у BI.
+- Безпека: хешовані паролі, токени доступу, RLS у BI.
 
 ## Use Case — Огляд
 ![usecase_overview](images/usecase_overview.png)
