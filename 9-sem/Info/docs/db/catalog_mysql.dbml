@@ -2,9 +2,9 @@
 // DB-per-service: категорії та товари
 
 Table categories {
-  id uuid [primary key]
-  name varchar
-  parent_category_id uuid [ref: > categories.id, note: 'Nullable; ієрархія категорій']
+  id char(36) [primary key]
+  name varchar(255)
+  parent_category_id char(36) [ref: > categories.id, note: 'Nullable; ієрархія категорій']
 
   Indexes {
     (name) [unique]
@@ -12,13 +12,13 @@ Table categories {
 }
 
 Table products {
-  id uuid [primary key]
-  name varchar
-  sku varchar [unique, note: 'Артикул']
-  category_id uuid [ref: > categories.id]
-  price decimal [note: 'Ціна продажу']
-  cost decimal [note: 'Собівартість']
-  status varchar [note: 'active/inactive']
+  id char(36) [primary key]
+  name varchar(255)
+  sku varchar(100) [unique, note: 'Артикул']
+  category_id char(36) [ref: > categories.id]
+  price decimal(10,2) [note: 'Ціна продажу']
+  cost decimal(10,2) [note: 'Собівартість']
+  status varchar(20) [note: 'active/inactive']
   created_at datetime
   updated_at datetime
 

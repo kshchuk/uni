@@ -2,39 +2,39 @@
 // DB-per-service: замовлення, довідники клієнтів/співробітників/регіонів
 
 Table customers {
-  id uuid [primary key]
-  first_name varchar
-  last_name varchar
-  email varchar [unique]
-  phone varchar
+  id char(36) [primary key]
+  first_name varchar(100)
+  last_name varchar(100)
+  email varchar(255) [unique]
+  phone varchar(50)
   created_at datetime
   updated_at datetime
 }
 
 Table regions {
-  id uuid [primary key]
-  name varchar
-  code varchar [unique, note: 'Код регіону']
+  id char(36) [primary key]
+  name varchar(100)
+  code varchar(10) [unique, note: 'Код регіону']
 }
 
 Table employees {
-  id uuid [primary key]
-  first_name varchar
-  last_name varchar
-  email varchar [unique]
+  id char(36) [primary key]
+  first_name varchar(100)
+  last_name varchar(100)
+  email varchar(255) [unique]
   hired_at date
   is_manager boolean [note: 'Флаг керівника']
-  region_id uuid [ref: > regions.id, note: 'Регіон відповідальності']
+  region_id char(36) [ref: > regions.id, note: 'Регіон відповідальності']
 }
 
 Table orders {
-  id uuid [primary key]
-  customer_id uuid [ref: > customers.id]
-  employee_id uuid [ref: > employees.id]
-  region_id uuid [ref: > regions.id]
+  id char(36) [primary key]
+  customer_id char(36) [ref: > customers.id]
+  employee_id char(36) [ref: > employees.id]
+  region_id char(36) [ref: > regions.id]
   order_date datetime
-  status varchar [note: 'new, paid, shipped, cancelled']
-  total_amount decimal
+  status varchar(20) [note: 'new, paid, shipped, cancelled']
+  total_amount decimal(10,2)
   created_at datetime
   updated_at datetime
 
@@ -47,12 +47,12 @@ Table orders {
 }
 
 Table order_items {
-  id uuid [primary key]
-  order_id uuid [ref: > orders.id]
-  product_id uuid [note: 'Ref: Catalog DB (products.id), без FK між БД']
+  id char(36) [primary key]
+  order_id char(36) [ref: > orders.id]
+  product_id char(36) [note: 'Ref: Catalog DB (products.id), без FK між БД']
   quantity integer
-  unit_price decimal
-  discount decimal [note: 'Знижка на позицію (грошима або часткою)']
+  unit_price decimal(10,2)
+  discount decimal(10,2) [note: 'Знижка на позицію (грошима або часткою)']
 
   Indexes {
     (order_id) [name: 'oi_order_idx']

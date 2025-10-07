@@ -2,11 +2,11 @@
 // DB-per-service: платежі; посилання на замовлення — без FK між БД
 
 Table payments {
-  id uuid [primary key]
-  order_id uuid [note: 'Ref: Orders DB (orders.id), без FK між БД']
-  method varchar [note: 'card, paypal, etc.']
+  id char(36) [primary key]
+  order_id char(36) [note: 'Ref: Orders DB (orders.id), без FK між БД']
+  method varchar(50) [note: 'card, paypal, etc.']
   paid_at datetime
-  amount decimal
+  amount decimal(10,2)
 
   Indexes {
     (order_id)

@@ -16,9 +16,9 @@ Table dim_date {
 
 Table dim_region {
   region_key int [primary key, increment]
-  region_id uuid [note: 'Business key з OLTP']
-  name varchar
-  code varchar
+  region_id char(36) [note: 'Business key з OLTP']
+  name varchar(100)
+  code varchar(10)
   updated_at timestamp
 
   Indexes {
@@ -28,17 +28,17 @@ Table dim_region {
 
 Table dim_category {
   category_key int [primary key, increment]
-  category_id uuid
-  name varchar
+  category_id char(36)
+  name varchar(255)
   parent_category_key int [ref: > dim_category.category_key, note: 'Nullable']
   updated_at timestamp
 }
 
 Table dim_product {
   product_key int [primary key, increment]
-  product_id uuid
-  name varchar
-  sku varchar
+  product_id char(36)
+  name varchar(255)
+  sku varchar(100)
   category_key int [ref: > dim_category.category_key]
   updated_at timestamp
 
@@ -49,10 +49,10 @@ Table dim_product {
 
 Table dim_customer {
   customer_key int [primary key, increment]
-  customer_id uuid
-  first_name varchar
-  last_name varchar
-  email varchar
+  customer_id char(36)
+  first_name varchar(100)
+  last_name varchar(100)
+  email varchar(255)
   region_key int [ref: > dim_region.region_key]
   updated_at timestamp
 
@@ -63,10 +63,10 @@ Table dim_customer {
 
 Table dim_employee {
   employee_key int [primary key, increment]
-  employee_id uuid
-  first_name varchar
-  last_name varchar
-  email varchar
+  employee_id char(36)
+  first_name varchar(100)
+  last_name varchar(100)
+  email varchar(255)
   region_key int [ref: > dim_region.region_key]
   updated_at timestamp
 
@@ -77,18 +77,18 @@ Table dim_employee {
 
 Table fact_sales {
   sales_key bigint [primary key, increment]
-  order_id uuid
-  order_item_id uuid
+  order_id char(36)
+  order_item_id char(36)
   date_key int [ref: > dim_date.date_key]
   product_key int [ref: > dim_product.product_key]
   customer_key int [ref: > dim_customer.customer_key]
   employee_key int [ref: > dim_employee.employee_key]
   region_key int [ref: > dim_region.region_key]
   quantity int
-  revenue decimal
-  discount_amount decimal
-  cost decimal
-  margin decimal
+  revenue decimal(10,2)
+  discount_amount decimal(10,2)
+  cost decimal(10,2)
+  margin decimal(10,2)
 
   Indexes {
     (date_key)
