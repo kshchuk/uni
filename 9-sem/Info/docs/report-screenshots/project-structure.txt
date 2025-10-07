@@ -1,0 +1,101 @@
+.
+├── database
+│   ├── data
+│   │   ├── generate_test_data.py
+│   │   └── requirements.txt
+│   └── init
+│       ├── 01_auth_schema.sql
+│       ├── 02_catalog_schema.sql
+│       ├── 03_orders_schema.sql
+│       ├── 04_payments_schema.sql
+│       └── 05_dwh_schema.sql
+├── DATABASE_README.md
+├── docker-compose.yml
+├── docs
+│   ├── activity_bi_sales_trend.puml
+│   ├── db
+│   │   ├── auth_mysql.dbml
+│   │   ├── catalog_mysql.dbml
+│   │   ├── dbml-error.log
+│   │   ├── dwh_postgres.dbml
+│   │   ├── orders_mysql.dbml
+│   │   └── payments_mysql.dbml
+│   ├── deployment_simple.puml
+│   ├── design_report.md
+│   ├── er
+│   │   ├── auth_er.puml
+│   │   ├── catalog_er.puml
+│   │   ├── dwh_er.puml
+│   │   ├── er_simple_dwh.puml
+│   │   ├── er_simple_oltp.puml
+│   │   ├── orders_er.puml
+│   │   └── payments_er.puml
+│   ├── images
+│   │   ├── Auth_ER.png
+│   │   ├── Catalog_ER.png
+│   │   ├── DWH_ER.png
+│   │   ├── ER_DWH_Simple.png
+│   │   ├── ER_OLTP_Simple.png
+│   │   ├── Orders_ER.png
+│   │   ├── Payments_ER.png
+│   │   ├── TechMarket_Activity_BI_SalesTrend.png
+│   │   ├── TechMarket_BI.png
+│   │   ├── TechMarket_Deployment_Overview.png
+│   │   ├── TechMarket_Deployment.png
+│   │   ├── TechMarket_Deployment_Simple.png
+│   │   ├── TechMarket_ETL_DWH.png
+│   │   ├── TechMarket_OLTP.png
+│   │   ├── TechMarket_Overview.png
+│   │   ├── TechMarket_Sequence_Auth_Login.png
+│   │   └── TechMarket_Sequence_OLTP_Order.png
+│   ├── report-screenshots
+│   │   ├── auth-tables.txt
+│   │   ├── catalog-tables.txt
+│   │   ├── data-stats.txt
+│   │   ├── docker-compose-status.txt
+│   │   ├── docker-volumes.txt
+│   │   ├── dwh-tables.txt
+│   │   ├── k8s-all.txt
+│   │   ├── k8s-pods.txt
+│   │   ├── k8s-pvc.txt
+│   │   ├── k8s-services.txt
+│   │   ├── managers.txt
+│   │   ├── orders-tables.txt
+│   │   ├── payments-tables.txt
+│   │   ├── project-structure.txt
+│   │   └── top-customers.txt
+│   ├── sequence_auth_login.puml
+│   ├── sequence_oltp_place_order.puml
+│   ├── templates
+│   │   └── design_report_template.md
+│   ├── usecase
+│   │   ├── usecase_bi.puml
+│   │   ├── usecase_etl_dwh.puml
+│   │   ├── usecase_oltp.puml
+│   │   └── usecase_overview.puml
+│   ├── Yaroslav_Kischuk_LAB1_REPORT.md
+│   └── Yaroslav_Kischuk_LAB1_REPORT.pdf
+├── generate-report-data.sh
+├── k8s
+│   ├── 00-namespace-secrets.yaml
+│   ├── configmaps
+│   ├── create-configmaps.sh
+│   ├── mysql
+│   │   ├── 01-auth-db.yaml
+│   │   ├── 02-catalog-db.yaml
+│   │   ├── 03-orders-db.yaml
+│   │   └── 04-payments-db.yaml
+│   └── postgres
+│       └── 05-dwh-db.yaml
+├── KUBERNETES_README.md
+├── LAB_REPORT.md
+├── main.py
+├── Makefile
+├── scripts
+│   └── generate_design_report.py
+├── setup_databases.sh
+├── tech-stack.md
+└── tools
+    └── plantuml.jar
+
+16 directories, 82 files

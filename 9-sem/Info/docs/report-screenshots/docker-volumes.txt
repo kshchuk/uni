@@ -1,0 +1,5 @@
+local     techmarket-auth-db-data
+local     techmarket-catalog-db-data
+local     techmarket-dwh-db-data
+local     techmarket-orders-db-data
+local     techmarket-payments-db-data

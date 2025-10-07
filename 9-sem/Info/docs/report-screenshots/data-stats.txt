@@ -1,0 +1,5 @@
+table_name	count
+customers	50
+employees	10
+orders	600
+order_items	1818

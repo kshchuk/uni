@@ -1,0 +1,6 @@
+Tables_in_auth_db
+auth_credentials
+auth_tokens
+auth_users
+roles
+user_roles

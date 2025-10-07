@@ -1,0 +1,3 @@
+Tables_in_catalog_db
+categories
+products

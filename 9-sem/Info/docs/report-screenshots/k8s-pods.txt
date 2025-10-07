@@ -1,0 +1,6 @@
+NAME            READY   STATUS    RESTARTS   AGE   IP           NODE             NOMINATED NODE   READINESS GATES
+auth-db-0       1/1     Running   0          48m   10.1.0.148   docker-desktop   <none>           <none>
+catalog-db-0    1/1     Running   0          48m   10.1.0.149   docker-desktop   <none>           <none>
+dwh-db-0        1/1     Running   0          32m   10.1.0.152   docker-desktop   <none>           <none>
+orders-db-0     1/1     Running   0          48m   10.1.0.151   docker-desktop   <none>           <none>
+payments-db-0   1/1     Running   0          48m   10.1.0.150   docker-desktop   <none>           <none>

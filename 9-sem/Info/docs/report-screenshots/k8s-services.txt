@@ -1,0 +1,6 @@
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+auth-db       ClusterIP   10.102.222.1     <none>        3306/TCP   50m
+catalog-db    ClusterIP   10.108.244.202   <none>        3306/TCP   50m
+dwh-db        ClusterIP   10.110.66.102    <none>        5432/TCP   32m
+orders-db     ClusterIP   10.109.141.77    <none>        3306/TCP   50m
+payments-db   ClusterIP   10.107.162.101   <none>        3306/TCP   50m

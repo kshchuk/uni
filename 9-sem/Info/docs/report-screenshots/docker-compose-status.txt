@@ -1,0 +1,8 @@
+         Name                       Command                  State                     Ports              
+----------------------------------------------------------------------------------------------------------
+techmarket-adminer       entrypoint.sh docker-php-e ...   Up             0.0.0.0:8080->8080/tcp           
+techmarket-auth-db       docker-entrypoint.sh mysqld      Up (healthy)   0.0.0.0:3306->3306/tcp, 33060/tcp
+techmarket-catalog-db    docker-entrypoint.sh mysqld      Up (healthy)   0.0.0.0:3307->3306/tcp, 33060/tcp
+techmarket-dwh-db        docker-entrypoint.sh postgres    Up (healthy)   0.0.0.0:5432->5432/tcp           
+techmarket-orders-db     docker-entrypoint.sh mysqld      Up (healthy)   0.0.0.0:3308->3306/tcp, 33060/tcp
+techmarket-payments-db   docker-entrypoint.sh mysqld      Up (healthy)   0.0.0.0:3309->3306/tcp, 33060/tcp

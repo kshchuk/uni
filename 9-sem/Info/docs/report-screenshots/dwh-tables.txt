@@ -1,0 +1,12 @@
+            List of relations
+ Schema |     Name     | Type  |  Owner   
+--------+--------------+-------+----------
+ public | dim_category | table | dwh_user
+ public | dim_customer | table | dwh_user
+ public | dim_date     | table | dwh_user
+ public | dim_employee | table | dwh_user
+ public | dim_product  | table | dwh_user
+ public | dim_region   | table | dwh_user
+ public | fact_sales   | table | dwh_user
+(7 rows)
+

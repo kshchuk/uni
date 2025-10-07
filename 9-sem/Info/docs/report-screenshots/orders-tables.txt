@@ -1,0 +1,6 @@
+Tables_in_orders_db
+customers
+employees
+order_items
+orders
+regions

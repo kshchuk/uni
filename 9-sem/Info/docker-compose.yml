@@ -1,0 +1,155 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # MySQL Databases (OLTP Microservices)
+  # ============================================
+  
+  auth-db:
+    image: mysql:8.0
+    container_name: techmarket-auth-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: auth_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - auth-db-data:/var/lib/mysql
+      - ./database/init/01_auth_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    networks:
+      - techmarket-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  catalog-db:
+    image: mysql:8.0
+    container_name: techmarket-catalog-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: catalog_db
+      MYSQL_USER: catalog_user
+      MYSQL_PASSWORD: catalog_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - catalog-db-data:/var/lib/mysql
+      - ./database/init/02_catalog_schema.sql:/docker-entrypoint-initdb.d/02_schema.sql:ro
+    networks:
+      - techmarket-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orders-db:
+    image: mysql:8.0
+    container_name: techmarket-orders-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: orders_db
+      MYSQL_USER: orders_user
+      MYSQL_PASSWORD: orders_pass
+    ports:
+      - "3308:3306"
+    volumes:
+      - orders-db-data:/var/lib/mysql
+      - ./database/init/03_orders_schema.sql:/docker-entrypoint-initdb.d/03_schema.sql:ro
+    networks:
+      - techmarket-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  payments-db:
+    image: mysql:8.0
+    container_name: techmarket-payments-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: payments_db
+      MYSQL_USER: payments_user
+      MYSQL_PASSWORD: payments_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - payments-db-data:/var/lib/mysql
+      - ./database/init/04_payments_schema.sql:/docker-entrypoint-initdb.d/04_schema.sql:ro
+    networks:
+      - techmarket-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # PostgreSQL Database (DWH)
+  # ============================================
+  
+  dwh-db:
+    image: postgres:15-alpine
+    container_name: techmarket-dwh-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dwh_user
+      POSTGRES_PASSWORD: dwh_pass
+      POSTGRES_DB: dwh_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - dwh-db-data:/var/lib/postgresql/data
+      - ./database/init/05_dwh_schema.sql:/docker-entrypoint-initdb.d/05_schema.sql:ro
+    networks:
+      - techmarket-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dwh_user -d dwh_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Database Management Tools
+  # ============================================
+  
+  adminer:
+    image: adminer:latest
+    container_name: techmarket-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - techmarket-network
+    depends_on:
+      - auth-db
+      - catalog-db
+      - orders-db
+      - payments-db
+      - dwh-db
+
+networks:
+  techmarket-network:
+    driver: bridge
+    name: techmarket-network
+
+volumes:
+  auth-db-data:
+    name: techmarket-auth-db-data
+  catalog-db-data:
+    name: techmarket-catalog-db-data
+  orders-db-data:
+    name: techmarket-orders-db-data
+  payments-db-data:
+    name: techmarket-payments-db-data
+  dwh-db-data:
+    name: techmarket-dwh-db-data

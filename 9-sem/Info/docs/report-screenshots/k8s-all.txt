@@ -1,0 +1,20 @@
+NAME                READY   STATUS    RESTARTS   AGE
+pod/auth-db-0       1/1     Running   0          48m
+pod/catalog-db-0    1/1     Running   0          48m
+pod/dwh-db-0        1/1     Running   0          32m
+pod/orders-db-0     1/1     Running   0          48m
+pod/payments-db-0   1/1     Running   0          48m
+
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/auth-db       ClusterIP   10.102.222.1     <none>        3306/TCP   50m
+service/catalog-db    ClusterIP   10.108.244.202   <none>        3306/TCP   50m
+service/dwh-db        ClusterIP   10.110.66.102    <none>        5432/TCP   32m
+service/orders-db     ClusterIP   10.109.141.77    <none>        3306/TCP   50m
+service/payments-db   ClusterIP   10.107.162.101   <none>        3306/TCP   50m
+
+NAME                           READY   AGE
+statefulset.apps/auth-db       1/1     48m
+statefulset.apps/catalog-db    1/1     48m
+statefulset.apps/dwh-db        1/1     32m
+statefulset.apps/orders-db     1/1     48m
+statefulset.apps/payments-db   1/1     48m

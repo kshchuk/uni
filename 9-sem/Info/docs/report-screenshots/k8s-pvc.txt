@@ -1,0 +1,6 @@
+NAME              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+auth-db-pvc       Bound    pvc-f869d668-02d4-46f4-a5b7-2034d41bfa74   5Gi        RWO            hostpath       <unset>                 48m
+catalog-db-pvc    Bound    pvc-b3047196-0d7b-4ce2-8d58-f577003c3f6e   5Gi        RWO            hostpath       <unset>                 48m
+dwh-db-pvc        Bound    pvc-2ab22cf0-c199-4716-96e3-c8401343bbf3   5Gi        RWO            hostpath       <unset>                 32m
+orders-db-pvc     Bound    pvc-3e019782-1784-4c24-9b7f-a99cf5a5f50f   10Gi       RWO            hostpath       <unset>                 48m
+payments-db-pvc   Bound    pvc-37e89800-624f-47c4-ba0e-337a72f69fdf   5Gi        RWO            hostpath       <unset>                 48m
