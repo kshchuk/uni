@@ -1,0 +1,16 @@
+# Ignore all log files
+*.log
+
+# Ignore all temporary files
+*.tmp
+
+# Ignore all backup files
+*.bak
+
+# Ignore all compiled files
+*.o
+*.so
+*.exe
+
+# Ignore all environment files
+.env/
