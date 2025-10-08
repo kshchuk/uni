@@ -1,134 +1,136 @@
-"""Line search routines for gradient descent."""
+"""Line-search conditions and backtracking routines.
+
+The Goldstein inequalities are given by
+
+.. math::
+   f(x) + (1 - c)t\phi'(0) \le f(x + t p) \le f(x) + c t \phi'(0),
+
+where :math:`p` is a descent direction, :math:`\phi(t) = f(x + t p)`
+and :math:`\phi'(0) = \nabla f(x)^\top p`.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Dict, Optional
 
 import numpy as np
 
-from .objective import ArrayLike
-
-Vector = np.ndarray
-ObjectiveFn = Callable[[ArrayLike], float]
-GradientFn = Callable[[ArrayLike], Vector]
-LineSearch = Callable[[ObjectiveFn, GradientFn, Vector, Vector], "LineSearchResult"]
+ObjectiveFn = Callable[[np.ndarray], float]
+GradientFn = Callable[[np.ndarray], np.ndarray]
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True)
 class LineSearchResult:
+    """Container describing the chosen step size."""
+
     step: float
-    iterations: int
-    success: bool
+    evaluations: int
 
 
-def simple_backtracking(
-    f: ObjectiveFn,
-    x: Vector,
-    direction: Vector,
-    *,
-    t0: float = 1.0,
-    beta: float = 0.5,
-    max_iter: int = 50,
-) -> LineSearchResult:
-    """Back-tracking with monotonic decrease of ``f``."""
-    fx = f(x)
-    t = float(t0)
-    iters = 0
-
-    for iters in range(1, max_iter + 1):
-        candidate = x + t * direction
-        if f(candidate) < fx:
-            return LineSearchResult(step=t, iterations=iters, success=True)
-        t *= beta
-
-    return LineSearchResult(step=t, iterations=iters, success=False)
-
-
-def goldstein_backtracking(
-    f: ObjectiveFn,
-    grad_f: GradientFn,
-    x: Vector,
-    direction: Vector,
-    *,
-    t0: float = 1.0,
-    beta: float = 0.5,
-    c: float = 0.1,
-    max_iter: int = 60,
-) -> LineSearchResult:
-    """Goldstein line search using expand-then-shrink strategy."""
-    if not (0.0 < c < 0.5):
-        raise ValueError("Goldstein parameter 'c' must lie in (0, 0.5).")
-
-    fx = f(x)
-    grad_x = grad_f(x)
-    directional_derivative = float(np.dot(grad_x, direction))
-    if directional_derivative >= 0.0:
-        raise ValueError("Direction is not a descent direction under Goldstein rule.")
-
-    t = float(t0)
-    expand = 1.0 / beta
-    if expand <= 1.0:
-        raise ValueError("'beta' must be in (0,1) for Goldstein line search.")
-
-    iterations = 0
-
-    for _ in range(max_iter):
-        iterations += 1
-        trial = x + t * direction
-        if f(trial) >= fx + (1.0 - c) * t * directional_derivative:
-            break
-        t *= expand
-    else:
-        return LineSearchResult(step=t, iterations=iterations, success=False)
-
-    for _ in range(max_iter):
-        iterations += 1
-        trial = x + t * direction
-        if f(trial) <= fx + c * t * directional_derivative:
-            return LineSearchResult(step=t, iterations=iterations, success=True)
-        t *= beta
-
-    return LineSearchResult(step=t, iterations=iterations, success=False)
-
-
-def simple_rule(*, t0: float = 1.0, beta: float = 0.5, max_iter: int = 50) -> LineSearch:
-    """Factory producing a callable compatible with :func:`~lab_gd.gradient_descent`."""
-
-    def _rule(f: ObjectiveFn, _grad: GradientFn, x: Vector, direction: Vector) -> LineSearchResult:
-        return simple_backtracking(f, x, direction, t0=t0, beta=beta, max_iter=max_iter)
-
-    return _rule
-
-
-def goldstein_rule(
-    *,
-    t0: float = 1.0,
-    beta: float = 0.5,
-    c: float = 0.1,
-    max_iter: int = 60,
-) -> LineSearch:
-    """Factory producing the Goldstein line search callable."""
-
-    def _rule(f: ObjectiveFn, grad: GradientFn, x: Vector, direction: Vector) -> LineSearchResult:
-        return goldstein_backtracking(
-            f,
-            grad,
-            x,
-            direction,
-            t0=t0,
-            beta=beta,
-            c=c,
-            max_iter=max_iter,
-        )
-
-    return _rule
-
-
-__all__ = [
-    "LineSearch",
-    "LineSearchResult",
-    "simple_backtracking",
-    "goldstein_backtracking",
-    "simple_rule",
-    "goldstein_rule",
+ConditionFn = Callable[
+    [ObjectiveFn, GradientFn, np.ndarray, np.ndarray, float, float, float],
+    bool,
 ]
+
+
+def simple_decrease_condition(
+    func: ObjectiveFn,
+    grad: GradientFn,
+    x: np.ndarray,
+    direction: np.ndarray,
+    step: float,
+    fx: float,
+    phi0: float,
+    **_: Dict[str, float],
+) -> bool:
+    """Armijo-free decrease condition :math:`f(x + t p) < f(x)`."""
+    trial = func(x + step * direction)
+    return trial < fx
+
+
+def goldstein_condition(
+    func: ObjectiveFn,
+    grad: GradientFn,
+    x: np.ndarray,
+    direction: np.ndarray,
+    step: float,
+    fx: float,
+    phi0: float,
+    *,
+    c: float = 0.1,
+) -> bool:
+    """Goldstein bracketing inequalities.
+
+    Parameters
+    ----------
+    c
+        Parameter in :math:`(0, 0.5)` controlling the acceptance interval.
+    """
+    if not (0.0 < c < 0.5):
+        raise ValueError("Goldstein parameter c must lie in (0, 0.5)")
+
+    trial = func(x + step * direction)
+    lower = fx + (1.0 - c) * step * phi0
+    upper = fx + c * step * phi0
+    return lower <= trial <= upper
+
+
+def backtracking(
+    func: ObjectiveFn,
+    grad: GradientFn,
+    x: np.ndarray,
+    direction: np.ndarray,
+    *,
+    condition: ConditionFn = simple_decrease_condition,
+    initial_step: float = 1.0,
+    contraction: float = 0.5,
+    max_iterations: int = 50,
+    condition_kwargs: Optional[Dict[str, float]] = None,
+) -> LineSearchResult:
+    """Backtracking line search satisfying a user-provided condition.
+
+    The routine tests the sequence :math:`t, \beta t, \beta^2 t, \ldots`
+    with :math:`\beta =` ``contraction`` until the condition is met.
+    When ``condition`` is :func:`goldstein_condition`, the first phase
+    expands the step to ensure the left inequality holds before shrinking
+    it back into the acceptable interval.
+    """
+    if not (0.0 < contraction < 1.0):
+        raise ValueError("contraction must lie in (0, 1)")
+
+    direction = np.asarray(direction, dtype=float)
+    if direction.shape != x.shape:
+        raise ValueError("direction must match shape of x")
+
+    step = float(initial_step)
+    fx = float(func(x))
+    grad_x = grad(x)
+    phi0 = float(np.dot(grad_x, direction))
+    if phi0 >= 0:
+        raise ValueError("direction is not a descent direction: grad^T p >= 0")
+
+    kwargs = dict(condition_kwargs or {})
+    evaluations = 0
+
+    if condition is goldstein_condition:
+        c = kwargs.get("c", 0.1)
+        # Phase A: ensure left inequality holds by expanding the step.
+        for _ in range(max_iterations):
+            trial_val = func(x + step * direction)
+            evaluations += 1
+            if trial_val >= fx + (1.0 - c) * step * phi0:
+                break
+            step /= contraction
+        # Phase B: contract until the right inequality is satisfied.
+        for _ in range(max_iterations):
+            if condition(func, grad, x, direction, step, fx, phi0, **kwargs):
+                return LineSearchResult(step=step, evaluations=evaluations)
+            step *= contraction
+        raise RuntimeError("Goldstein backtracking failed to satisfy inequalities")
+
+    for _ in range(max_iterations):
+        if condition(func, grad, x, direction, step, fx, phi0, **kwargs):
+            return LineSearchResult(step=step, evaluations=evaluations)
+        step *= contraction
+    raise RuntimeError("Backtracking failed to satisfy condition within max_iterations")

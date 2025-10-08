@@ -1,74 +1,29 @@
-"""Variant 9 gradient descent laboratory module."""
-from __future__ import annotations
+"""Reusable toolkit for the Variant 9 gradient-descent laboratory."""
 
-from importlib import import_module
-from typing import Any
-
-from .objective import ArrayLike, gradient, hessian, objective
-from .line_search import (
-    LineSearch,
-    LineSearchResult,
-    goldstein_backtracking,
-    goldstein_rule,
-    simple_backtracking,
-    simple_rule,
-)
-from .gradient_descent import (
-    OptimizationHistory,
-    OptimizationResult,
+from .descent import (
+    DescentHistory,
+    euclidean_norm,
     gradient_descent,
+    goldstein_condition,
+    simple_decrease_condition,
 )
+from .line_search import LineSearchResult, backtracking
+from .problem import CONSTANT_TERM, Q, gradient, minimiser, minimum_value, objective
 
 __all__ = [
-    "ArrayLike",
+    "CONSTANT_TERM",
+    "Q",
     "objective",
     "gradient",
-    "hessian",
-    "LineSearch",
-    "LineSearchResult",
-    "simple_backtracking",
-    "goldstein_backtracking",
-    "simple_rule",
-    "goldstein_rule",
-    "OptimizationHistory",
-    "OptimizationResult",
+    "minimiser",
+    "minimum_value",
+    "DescentHistory",
+    "euclidean_norm",
     "gradient_descent",
-    "DEFAULT_STARTS",
-    "ExperimentConfig",
-    "ExperimentOutcome",
-    "build_default_suite",
-    "run_experiment",
-    "run_suite",
-    "table",
-    "isosurface",
-    "surface_slice",
+    "backtracking",
+    "LineSearchResult",
+    "goldstein_condition",
+    "simple_decrease_condition",
 ]
 
-_EXPERIMENT_EXPORTS = {
-    "DEFAULT_STARTS",
-    "ExperimentConfig",
-    "ExperimentOutcome",
-    "build_default_suite",
-    "run_experiment",
-    "run_suite",
-    "table",
-}
-
-_VISUAL_EXPORTS = {
-    "isosurface",
-    "surface_slice",
-}
-
-
-def __getattr__(name: str) -> Any:
-    if name in _EXPERIMENT_EXPORTS:
-        module = import_module(".experiments", __name__)
-        value = getattr(module, name)
-        globals()[name] = value
-        return value
-    if name in _VISUAL_EXPORTS:
-        module = import_module(".visualization", __name__)
-        value = getattr(module, name)
-        globals()[name] = value
-        return value
-    raise AttributeError(f"module 'lab_gd' has no attribute {name!r}")
+__version__ = "0.1.0"
