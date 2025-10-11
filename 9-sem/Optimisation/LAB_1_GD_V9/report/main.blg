@@ -1,0 +1,14 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'main.blg'
+[58] biber:340> INFO - === нд жов 12, 2025, 00:33:31
+[69] Biber.pm:418> INFO - Reading 'main.bcf'
+[119] Biber.pm:972> INFO - Found 3 citekeys in bib section 0
+[129] Biber.pm:4383> INFO - Processing section 0
+[137] Biber.pm:4574> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[138] bibtex.pm:1713> INFO - LaTeX decoding ...
+[140] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliography.bib'
+[178] UCollate.pm:68> INFO - Overriding locale 'uk-UA' defaults 'variable = shifted' with 'variable = non-ignorable'
+[178] UCollate.pm:68> INFO - Overriding locale 'uk-UA' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[178] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'uk-UA'
+[181] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[182] bbl.pm:757> INFO - Output to main.bbl

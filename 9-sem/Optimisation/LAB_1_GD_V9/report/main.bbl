@@ -1,0 +1,107 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{boyd2004convex}{book}{}
+      \name{author}{2}{}{%
+        {{hash=ec94d94cc487dd71939a90cbeaaf47d0}{%
+           family={Boyd},
+           familyi={B\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2608d599a0bc2a784c301329a8da5f7b}{%
+           family={Vandenberghe},
+           familyi={V\bibinitperiod},
+           given={Lieven},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{fullhash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{bibnamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authorbibnamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authornamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authorfullhash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Convex Optimization}
+      \field{year}{2004}
+    \endentry
+    \entry{nocedal2006numerical}{book}{}
+      \name{author}{2}{}{%
+        {{hash=88a342d927bf795b0d92af8a5613da31}{%
+           family={Nocedal},
+           familyi={N\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c49efb16d3fa7eef002cc3620d42ab8a}{%
+           family={Wright},
+           familyi={W\bibinitperiod},
+           given={Stephen\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{fullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{bibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorbibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authornamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorfullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Numerical Optimization}
+      \field{year}{2006}
+    \endentry
+    \entry{methods_opt_part2}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=95f38d380eb9cc245aef25889f9ec66b}{%
+           family={{Навчальні матеріали кафедри оптимізації}},
+           familyi={Н\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {ukrainian}%
+      }
+      \strng{namehash}{95f38d380eb9cc245aef25889f9ec66b}
+      \strng{fullhash}{95f38d380eb9cc245aef25889f9ec66b}
+      \strng{bibnamehash}{95f38d380eb9cc245aef25889f9ec66b}
+      \strng{authorbibnamehash}{95f38d380eb9cc245aef25889f9ec66b}
+      \strng{authornamehash}{95f38d380eb9cc245aef25889f9ec66b}
+      \strng{authorfullhash}{95f38d380eb9cc245aef25889f9ec66b}
+      \field{sortinit}{Н}
+      \field{sortinithash}{38afed4b2dd7a2a56c8bd22996f23af0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Лекційні конспекти, локальна копія у репозиторії}
+      \field{title}{Методи оптимізації. Частина 2}
+      \field{year}{2020}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

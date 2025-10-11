@@ -1,0 +1,25 @@
+\selectlanguage *{ukrainian}
+\contentsline {section}{\numberline {1}Постановка задачі}{2}{section.1}%
+\contentsline {paragraph}{Градієнт.}{2}{section*.2}%
+\contentsline {paragraph}{Глобальний мінімум.}{2}{section*.3}%
+\contentsline {section}{\numberline {2}Теоретичні відомості}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Методи спуску та вибір напряму}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Backtracking із умовою Арміхо}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Правило Голдштейна}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Градієнтний спуск}{3}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Класичне поділення кроку}{3}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Правило \mbox {Голдстейна}}{3}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Програмна реалізація}{4}{section.3}%
+\contentsline {paragraph}{Умови прийнятності.}{4}{section*.7}%
+\contentsline {paragraph}{Backtracking.}{4}{section*.8}%
+\contentsline {paragraph}{Градієнтний спуск.}{5}{section*.10}%
+\contentsline {paragraph}{Мінімальний приклад.}{5}{lstlisting.-1}%
+\contentsline {paragraph}{Залежності.}{5}{section*.14}%
+\contentsline {section}{\numberline {4}Обчислювальні експерименти}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Налаштування}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Перерізи поверхні рівня}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Числові результати}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Візуальний аналіз траєкторій}{8}{subsection.4.4}%
+\contentsline {paragraph}{Агреговані порівняння.}{8}{figure.caption.20}%
+\contentsline {paragraph}{Траєкторії $f(x_k)$ у логмасштабі.}{8}{figure.caption.22}%
+\contentsline {section}{\numberline {5}Висновки}{16}{section.5}%

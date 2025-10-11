@@ -1,0 +1,423 @@
+% !TeX program = xelatex
+\documentclass[12pt,a4paper]{article}
+
+% Encoding \& language (engine-aware)
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T2A]{fontenc}
+  \usepackage[ukrainian]{babel}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \setmainfont{DejaVu Serif}
+  \setsansfont{DejaVu Sans}
+  \setmonofont{DejaVu Sans Mono}
+  \usepackage{polyglossia}
+  \setdefaultlanguage{ukrainian}
+\fi
+
+% Math \& graphics
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{placeins} % For \FloatBarrier to keep figures before bibliography
+\geometry{margin=2.5cm}
+
+% Algorithms and code (with graceful fallbacks if package missing)
+\IfFileExists{algorithm.sty}{\usepackage{algorithm}}{}
+\IfFileExists{algpseudocode.sty}{\usepackage{algpseudocode}}{}
+\makeatletter
+\@ifpackageloaded{algorithm}{}{%
+  \newenvironment{algorithm}[1][]{%
+    \begin{center}\begin{minipage}{0.95\linewidth}\captionsetup{type=figure}}%
+    {\end{minipage}\end{center}}%
+}
+\@ifpackageloaded{algpseudocode}{}{%
+  \newenvironment{algorithmic}[1][]{\begin{enumerate}}{\end{enumerate}}%
+  \newcommand{\State}{\item }
+  \newcommand{\For}[1]{\item \textbf{Для}~#1:}
+  \newcommand{\While}[1]{\item \textbf{Поки}~#1:}
+  \newcommand{\EndFor}{}
+  \newcommand{\EndWhile}{}
+}
+\makeatother
+\usepackage{listings}
+\IfFileExists{listingsutf8.sty}{\usepackage{listingsutf8}}{}
+\lstset{basicstyle=\ttfamily\small, frame=single, breaklines=true, inputencoding=utf8}
+
+% Helper: safe figure include with placeholder if file is missing
+\newcommand{\figorplaceholder}[2][]{%
+  \IfFileExists{#2}{\includegraphics[#1]{#2}}{\fbox{\parbox[c][0.32\linewidth][c]{0.85\linewidth}{\centering Місце для рисунка: \\ \texttt{\detokenize{#2}}}}}%
+}
+
+% Bibliography
+\usepackage[backend=biber,style=numeric,sorting=nty]{biblatex}
+\addbibresource{bibliography.bib}
+
+% Title data (замінити на фактичні дані перед здачею)
+\newcommand{\University}{Київський національний університет імені Тараса Шевченка}
+\newcommand{\Faculty}{Факультет комп'ютерних наук та кібернетики}
+\newcommand{\LabTitle}{Лабораторна робота №1}
+\newcommand{\Variant}{Варіант 9}
+\newcommand{\Student}{Студент: Кіщук Ярослав Ярославович}
+\newcommand{\CityYear}{Київ - 2025}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  {\Large \University}\\[0.5em]
+  {\large \Faculty}\\[4em]
+  {\LARGE \textbf{\LabTitle}}\\[0.5em]
+  {\Large \textbf{\Variant}}\\[6em]
+  \begin{flushright}
+    \begin{minipage}{0.55\textwidth}
+      \large
+      \Student\\[0.3em]
+    \end{minipage}
+  \end{flushright}
+  \vfill
+  {\large \CityYear}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Постановка задачі}
+Розглядаємо квадратичну функцію варіанта~9
+\begin{equation}
+  f(x_1, x_2, x_3)
+  = 200x_1^2 + 5x_2^2 + 144x_3^2 - 24x_1x_2 - 48x_1x_3 + 24x_2x_3 + 5,
+  \label{eq:objective}
+\end{equation}
+що може бути записана у матричному вигляді $f(x) = x^\top Q x + 5$, де
+\[
+Q = \begin{bmatrix}
+200 & -12 & -24\\
+-12 & 5 & 12\\
+-24 & 12 & 144
+\end{bmatrix}, \qquad x = (x_1,x_2,x_3)^\top.
+\]
+Постановка завдання містить дві частини:
+\begin{enumerate}
+  \item Побудувати графічні уявлення $f(x_1,x_2,x_3)$: перерізи при фіксованих змінних та ізоповерхні.
+  \item Розв’язати задачу мінімізації $\min_{x\in\mathbb{R}^3} f(x)$ градієнтним спуском, застосовуючи \textbf{два} варіанти лінійного пошуку: (i) поділ кроку (критерій простого зменшення), (ii) правило \mbox{Голдстейна}; виконати порівняння збіжності.
+\end{enumerate}
+
+\paragraph{Градієнт.}
+Градієнт має вигляд
+\[
+  \nabla f(x) = 2Qx =
+  \begin{bmatrix}
+    400x_1 - 24x_2 - 48x_3\\
+    10x_2 - 24x_1 + 24x_3\\
+    288x_3 - 48x_1 + 24x_2
+  \end{bmatrix}.
+\]
+
+\paragraph{Глобальний мінімум.}
+Матриця $Q$ симетрична і додатно визначена, тому функція є строго опуклою й має єдиний мінімум у точці $x^\star = \mathbf{0}$, де $f(x^\star) = 5$ (див., напр., \cite{boyd2004convex}: розд. 3 «Convex functions» — критерій через гесcіан $\nabla^2 f \succ 0$ та приклади 3.2 і 3.22 для квадратичних функцій; також розд. 4.4 про квадратичні задачі та єдиність мінімізатора за $Q \succ 0$).
+
+\section{Теоретичні відомості}
+
+\subsection{Методи спуску та вибір напряму}
+Загальна форма одного кроку методу спуску~\cite[§9.2]{boyd2004convex}:
+\begin{equation}
+  x^{(k+1)} = x^{(k)} + t^{(k)} \Delta x^{(k)}, \qquad t^{(k)} > 0,
+\end{equation}
+де $\Delta x^{(k)}$ --- обраний напрямок. Для коректності спуску вимагаємо
+\begin{equation}
+  \nabla f\big(x^{(k)}\big)^\top \Delta x^{(k)} < 0,
+\end{equation}
+тобто напрямок утворює гострий кут з антиградієнтом (\emph{descent direction}). Далі виконуємо \emph{line search} для вибору кроку $t^{(k)}$ вздовж променя $\{x^{(k)} + t\,\Delta x^{(k)}\mid t\ge0\}$, після чого оновлюємо точку; див. також схему \emph{General descent method} у~\cite[Алгоритм~9.1]{boyd2004convex}.
+
+\subsection{Backtracking із умовою Арміхо}
+Класичний backtracking~\cite[Алгоритм~9.2]{boyd2004convex} перевіряє умову Арміхо
+\begin{equation}
+  f\big(x + t\,\Delta x\big) \le f(x) + \alpha\,t\,\nabla f(x)^\top \Delta x,
+  \qquad \alpha\in(0,0.5),\; \beta\in(0,1),
+\end{equation}
+починаючи з $t\gets1$ та звужуючи крок $t\gets\beta t$, доки нерівність не виконається. Геометрично це означає, що графік $f(x+t\Delta x)$ лежить нижче за лінійну апроксимацію з нахилом, помноженим на $\alpha$ (див. ілюстрацію до \cite[Алг.~9.2]{boyd2004convex}). У нашій реалізації ми також використовуємо спрощений \emph{критерій простого зменшення} $f(x+t\Delta x) < f(x)$, який відповідає підходу ``дроблення кроку'' з матеріалах \emph{Методи оптимізації. Частина 2 (2020)}~\cite{methods_opt_part2}.
+
+\subsection{Правило Голдштейна}
+Правило Голдштейна~\cite[eq.~(3.11)]{nocedal2006numerical} задає двосторонню умову для $c\in(0,\tfrac12)$:
+\begin{equation}
+  f(x) + (1-c)\,t\,\nabla f(x)^\top p \;\le\; f(x+t p) \;\le\; f(x) + c\,t\,\nabla f(x)^\top p.
+\end{equation}
+Ліва межа гарантує достатнє зменшення (не надто малий приріст), а права --- запобігає надто малим крокам. У порівнянні з Арміхо правило Голдштейна краще керує масштабом кроку, але може виключати деякі мінімуми лінійного пошуку; теорії збіжності обох правил подібні.
+
+\subsection{Градієнтний спуск}
+Метод градієнтного спуску~\cite[§9.3]{boyd2004convex} обирає $\Delta x=-\nabla f(x)$, тобто
+\begin{equation}
+  x_{k+1} = x_k - t_k \nabla f(x_k),
+\end{equation}
+де $t_k$ визначається одним з описаних лінійних пошуків. Типовий критерій зупинки --- $\lVert\nabla f(x_k)\rVert_2 \le \eta$ для малого $\eta>0$.
+
+\subsection{Класичне поділення кроку}
+Практична реалізація лінійного пошуку використовує \emph{backtracking}: починаємо з $t_0$ та зменшуємо $t \leftarrow \beta t$ (типово $\beta \approx 0.5$), поки не виконається умова прийнятності~\cite{methods_opt_part2}.
+
+\subsection{Правило \mbox{Голдстейна}}
+Використовуємо також правило Голдстейна~\cite{nocedal2006numerical}, яке задає двосторонню умову на прийнятність кроку для $c \in (0,0.5)$:
+\[
+  f(x_k) + (1-c) t\, \nabla f(x_k)^\top p_k \le f(x_k + t p_k) \le f(x_k) + c t\, \nabla f(x_k)^\top p_k.
+\]
+Нижня межа гарантує достатнє зменшення, а верхня — уникає надто малих кроків.
+
+
+
+\section{Програмна реалізація}
+\subsection*{Архітектура пакета}
+Реалізацію оформлено як пакет Python \texttt{lab\_module} з такими модулями:
+\begin{itemize}
+  \item \textbf{\texttt{objectives.py}}: інтерфейси (Protocol) та квадратична ціль \texttt{QuadraticObjective}; фабрика \texttt{build\_variant9\_objective()} створює завдання варіанта~9.
+  \item \textbf{\texttt{line\_search.py}}: умови прийнятності кроку \texttt{split\_step\_cond} (просте зменшення) і \texttt{goldstein\_cond}; універсальний backtracking \texttt{back\_tracking(...)}.
+  \item \textbf{\texttt{optimizers.py}}: градієнтний спуск \texttt{gd\_back\_tracking(...)} з поверненням повної історії.
+  \item \textbf{\texttt{visualization.py}}: візуалізації \texttt{surface\_for\_slice}, \texttt{show\_isosurface\_with\_path}, \texttt{plot\_metrics}, \texttt{save\_video\_xyz}.
+\end{itemize}
+Усі вектори передаються як \texttt{numpy.ndarray} форми \texttt{(n,)} (у нашій роботі $n=3$), значення функцій --- як \texttt{float}.
+
+\subsection*{Модуль \texttt{objectives.py}}
+\begin{itemize}
+  \item \textbf{Інтерфейс.} Оголошено Protocol \texttt{DifferentiableObjective} з методами \texttt{value(x): float}, \texttt{gradient(x): np.ndarray} та властивістю \texttt{dimension}.
+  \item \textbf{Квадратична ціль.} \texttt{QuadraticObjective(Q, b, c)} реалізує $f(x)=x^\top Qx + b^\top x + c$ і $\nabla f(x)=2Qx + b$. Для варіанта~9 \texttt{b=0}, \texttt{c=5}.
+  \item \textbf{Фабрика.} \texttt{build\_variant9\_objective()} повертає готовий об'єкт із матрицею $Q$ з~\eqref{eq:objective}.
+\end{itemize}
+
+\subsection*{Модуль \texttt{line\_search.py}}
+\paragraph{Умови прийнятності.}
+\begin{itemize}
+  \item \texttt{split\_step\_cond(f, x, p, t, f\_x, grad\_f, c)}: перевіряє лише $f(x+tp) < f(x)$ (просте зменшення), без додаткових констант типу Арміхо.
+  \item \texttt{goldstein\_cond(..., c)}: перевіряє нерівності Ґольдштейна для $c\in(0,0.5)$:
+  \[
+    f(x) + (1-c)\,t\,\nabla f(x)^\top p \le f(x+tp) \le f(x) + c\,t\,\nabla f(x)^\top p.
+  \]
+\end{itemize}
+\paragraph{Backtracking.}
+Функція \texttt{back\_tracking(f, grad\_f, x, p, cond, t0, beta, c)}:
+\begin{itemize}
+  \item Автоматично гарантує напрям спуску: якщо $\nabla f(x)^\top p \ge 0$, замінює $p\leftarrow-\nabla f(x)$; за нульового градієнта повертає крок~0.
+  \item Для \texttt{goldstein\_cond} виконує \emph{двохфазний} пошук: спочатку розширення кроку (\texttt{t}/$\beta$), поки не виконається ліва межа, далі звуження (\texttt{t}*$\beta$), поки не виконається права межа.
+  \item Для інших умов --- стандартне звуження $t\leftarrow\beta t$ до першого виконання умови.
+\end{itemize}
+
+\subsection*{Модуль \texttt{optimizers.py}}
+\paragraph{Градієнтний спуск.}
+Функція \texttt{gd\_back\_tracking(f, grad\_f, x0, cond, max\_iters, tol, t0, beta, c)} реалізує ітерації $x_{k+1}=x_k - t_k\nabla f(x_k)$, де $t_k$ обирається через \texttt{back\_tracking}. Повертає пару $\big(x_{\min}, \;\text{history}\big)$, де
+\begin{itemize}
+  \item \texttt{history['x']}: список точок $x_k$;
+  \item \texttt{history['f']}: значення $f(x_k)$;
+  \item \texttt{history['t']}: прийняті кроки $t_k$;
+  \item \texttt{history['grad\_norm']}: $\lVert\nabla f(x_k)\rVert_2$.
+\end{itemize}
+Збіжність контролюється порогом \texttt{tol} за нормою градієнта або \texttt{max\_iters}.
+
+\subsection*{Модуль \texttt{visualization.py}}
+\begin{itemize}
+  \item \texttt{surface\_for\_slice(f, grid, slice\_var, slice\_val)}: 3D поверхня перерізу для фіксованої змінної ($x_1$, $x_2$ або $x_3$).
+  \item \texttt{show\_isosurface\_with\_path(f, history, grid\_range, vol\_n, level, opacity)}: об'ємна сітка та ізоповерхня з накладеною траєкторією оптимізації.
+  \item \texttt{plot\_metrics(history, ...)}: інтерактивні графіки $f(x_k)$, $t_k$, $\lVert\nabla f(x_k)\rVert$ (логшкали за потреби).
+  \item \texttt{save\_video\_xyz(history, filename, fps)}: анімація траєкторії у 3D (потребує \texttt{ffmpeg}).
+\end{itemize}
+
+\subsection*{Використання та верифікація}
+\paragraph{Мінімальний приклад.}
+\begin{lstlisting}[language=Python]
+import numpy as np
+from lab_module import build_variant9_objective, gd_back_tracking, split_step_cond
+
+obj = build_variant9_objective()
+x0 = np.array([2.0, 1.0, 0.5])
+x_min, history = gd_back_tracking(
+    obj.value, obj.gradient, x0,
+    cond=split_step_cond, max_iters=2000, tol=1e-4,
+)
+print('x* =', x_min, 'f* =', obj(x_min))
+\end{lstlisting}
+
+\paragraph{Залежності.} Візуалізації використовують Plotly/Matplotlib; відео потребує \texttt{ffmpeg}. Список залежностей у \texttt{requirements.txt}.
+
+Демонстраційний ноутбук \texttt{demo\_module\_usage.ipynb} містить усі сценарії експериментів і будує інтерактивні графіки, з яких у звіті розміщено плейсхолдери для подальших скрінів.
+
+\section{Обчислювальні експерименти}\label{sec:experiments}
+
+\subsection{Налаштування}
+Використано три початкові точки:
+\[
+\text{A}: (2,\,1,\,0.5), \quad
+\text{B}: (-10,\,10,\,1), \quad
+\text{C}: (0.5,\,-0.8,\,0.2).
+\]
+Для кожної точки застосовано дві стратегії пошуку кроку:
+\begin{enumerate}
+  \item \emph{Simple backtracking} (умова простого зменшення);
+  \item \emph{Goldstein backtracking} (правило Голдстейна, $c = 0.3$).
+\end{enumerate}
+Початковий крок $t_0 = 1$, коефіцієнт скорочення $\beta = 0.5$, критерій зупинки --- $\lVert\nabla f(x_k)\rVert_2 < 10^{-4}$.
+
+\subsection{Перерізи поверхні рівня}
+На рис.~\ref{fig:slice_x3}--\ref{fig:slice_x1} подано перерізи функції~\eqref{eq:objective}, коли одна зі змінних зафіксована на нулі.
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.88\linewidth]{figures/slice_x3_0.png}
+  \caption{Переріз при $x_3 = 0$.}
+  \label{fig:slice_x3}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.88\linewidth]{figures/slice_x2_0.png}
+  \caption{Переріз при $x_2 = 0$.}
+  \label{fig:slice_x2}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.88\linewidth]{figures/slice_x1_0.png}
+  \caption{Переріз при $x_1 = 0$.}
+  \label{fig:slice_x1}
+\end{figure}
+\FloatBarrier
+
+\subsection{Числові результати}
+Результати ітераційних процесів зведено в табл.~\ref{tab:metrics}. Для кожної пари ``початкова точка + метод'' подано кількість ітерацій, фінальне значення функції, норму градієнта та статистику кроків. Дані збігаються з інтерактивними візуалізаціями у ноутбуці.
+
+\begin{table}[h!]
+  \centering
+  \caption{Зведення метрик для різних стартових точок.}
+  \label{tab:metrics}
+  \begin{tabular}{@{}llrrrrr@{}}
+    \toprule
+    Старт & Метод & Ітерації & $f(x_{\text{fin}})$ & $\lVert\nabla f\rVert$ & $\overline{t}$ & $\sigma_t$ \\
+    \midrule
+    A & Simple     & 319 & 5.000000 & $9.6\times 10^{-5}$ & $5.12\times 10^{-3}$ & $1.81\times 10^{-3}$ \\
+    A & Goldstein  & 317 & 5.000000 & $8.7\times 10^{-5}$ & $5.13\times 10^{-3}$ & $1.83\times 10^{-3}$ \\
+    B & Simple     & 380 & 5.000000 & $9.9\times 10^{-5}$ & $5.13\times 10^{-3}$ & $1.81\times 10^{-3}$ \\
+    B & Goldstein  & 375 & 5.000000 & $9.6\times 10^{-5}$ & $5.14\times 10^{-3}$ & $1.83\times 10^{-3}$ \\
+    C & Simple     & 313 & 5.000000 & $9.7\times 10^{-5}$ & $5.13\times 10^{-3}$ & $1.81\times 10^{-3}$ \\
+    C & Goldstein  & 308 & 5.000000 & $9.3\times 10^{-5}$ & $5.14\times 10^{-3}$ & $1.83\times 10^{-3}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Візуальний аналіз траєкторій}
+Нижче наведено узагальнені графіки:
+\begin{itemize}
+  \item Метрики збіжності ($f(x_k)$, $t_k$, $\lVert\nabla f(x_k)\rVert$) для кожної стартової точки й кожного правила.
+  \item Порівняльні діаграми: кількість ітерацій.
+  \item Ізоповерхні з траєкторіями для кожної комбінації.
+\end{itemize}
+
+\paragraph{Агреговані порівняння.}
+\begin{figure}[h!]
+  \centering
+\figorplaceholder[width=0.85\linewidth]{figures/iters_bars.png}
+  \caption{Агреговане порівняння за кількістю ітерацій.}
+\end{figure}
+
+\FloatBarrier
+\paragraph{Траєкторії $f(x_k)$ у логмасштабі.}
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/convergence_all.png}
+  \caption{Еволюція $f(x_k)$ для всіх стартів і правил.}
+\end{figure}
+
+\FloatBarrier
+\subsubsection*{Стартова точка A}
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_A_simple.png}
+  \caption{Старт A — Метрики (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_A_goldstein.png}
+  \caption{Старт A — Метрики (Goldstein).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_A_simple.png}
+  \caption{Старт A — Ізоповерхня (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_A_goldstein.png}
+  \caption{Старт A — Ізоповерхня (Goldstein).}
+\end{figure}
+\clearpage
+
+\FloatBarrier
+\subsubsection*{Стартова точка B}
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_B_simple.png}
+  \caption{Старт B — Метрики (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_B_goldstein.png}
+  \caption{Старт B — Метрики (Goldstein).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_B_simple.png}
+  \caption{Старт B — Ізоповерхня (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_B_goldstein.png}
+  \caption{Старт B — Ізоповерхня (Goldstein).}
+\end{figure}
+\clearpage
+
+\FloatBarrier
+\subsubsection*{Стартова точка C}
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_C_simple.png}
+  \caption{Старт C — Метрики (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/metrics_C_goldstein.png}
+  \caption{Старт C — Метрики (Goldstein).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_C_simple.png}
+  \caption{Старт C — Ізоповерхня (Simple).}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \figorplaceholder[width=0.9\linewidth]{figures/iso_C_goldstein.png}
+  \caption{Старт C — Ізоповерхня (Goldstein).}
+\end{figure}
+
+Ці візуалізації підтверджують, що правило Голдстейна дозволяє робити трохи більші кроки та дає незначне скорочення кількості ітерацій; обидва підходи сходяться до одного мінімуму.
+
+\FloatBarrier
+\section{Висновки}
+\begin{itemize}
+  \item Квадратична функція варіанта~9 є строго опуклою; підтверджено, що всі траєкторії збігаються до $x^\star = 0$.
+  \item Проста умова зменшення та правило Голдстейна дають подібну швидкість збіжності; останній трохи зменшує кількість ітерацій, контролюючи надто короткі кроки.
+  \item Побудовані перерізи та ізоповерхні наочно демонструють форму функції та шлях оптимізації, що полегшує інтерпретацію числових результатів.
+\end{itemize}
+
+\printbibliography
+
+\end{document}
