@@ -177,45 +177,6 @@ ETL_BATCH_SIZE=5000     # Збільшіть для великих обсягі�
 ETL_MAX_WORKERS=8       # Використайте всі CPU
 ```
 
-## Проблеми?
-
-### Помилка підключення до БД
-
-```bash
-# Перевірте чи працює MySQL
-mysql -h localhost -u root -p
-
-# Перевірте чи працює PostgreSQL
-psql -h localhost -U postgres -l
-```
-
-### Помилка "ModuleNotFoundError"
-
-```bash
-# Переконайтесь що venv активовано
-source env/bin/activate
-
-# Перевстановіть залежності
-pip install -r etl/requirements.txt
-```
-
-### Помилка "Table does not exist"
-
-```bash
-# Створіть схему DWH
-psql -h localhost -U postgres -d tech_market_dwh -f database/init/05_dwh_schema.sql
-```
-
-### ETL працює повільно
-
-```bash
-# Використайте інкрементальне завантаження
-python etl/run_etl.py --mode incremental --days 1
-
-# Або збільште кількість воркерів
-ETL_MAX_WORKERS=8 python etl/run_etl.py --mode full
-```
-
 ## Додаткова документація
 
 - [Детальний README](etl/README.md) - Повна документація модулів
