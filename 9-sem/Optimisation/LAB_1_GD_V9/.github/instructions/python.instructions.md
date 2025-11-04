@@ -1,11 +1,8 @@
-# Instructions
-- The user will provide a task.
-- Wait for all terminal commands to be completed (or terminate them) before finishing.
-
-Ось повний `INSTRUCTIONS.md`, перероблений під **Python-бібліотеку**. Я зробив його у форматі, який ти зможеш одразу використати в codex або як internal guideline.
-
+---
+applyTo: '**'
 ---
 
+--
 # Python Library Development Guidelines
 
 ## 0. **Design Patterns**
@@ -73,18 +70,6 @@
 
 ---
 
-## 5. **Testing**
-
-* Використовуй `pytest`.
-* Покриття тестами ≥ 80%.
-* Unit-тести окремо для:
-
-  * математичних функцій,
-  * оптимізаторів,
-  * візуалізацій.
-
----
-
 ## 6. **Error Handling**
 
 * Використовуй **чіткі винятки** (`ValueError`, `TypeError`, `RuntimeError`).
@@ -106,38 +91,14 @@
 
 * Використовуй **Plotly** для інтерактивних графіків.
 * Використовуй **Matplotlib** для експорту (PDF, PNG, MP4).
-* Візуалізація повинна бути окремим модулем (`visualization/`), без жорсткої залежності від оптимізаторів.
 
 ---
-
-## 9. **Project Organization**
-
-```
-my_optimizer_lib/
-│
-├── optimizers/        # Алгоритми (GradientDescent, CMAES, etc.)
-│   ├── base.py        # Абстрактний Optimizer
-│   ├── gradient_descent.py
-│   └── ...
-│
-├── line_search/       # Правила (Backtracking, Armijo, Wolfe)
-│
-├── visualization/     # Plotly / Matplotlib інструменти
-│
-├── utils/             # math, logging, type helpers
-│
-├── tests/             # pytest тести
-│
-├── examples/          # ноутбуки / демо
-│
-├── __init__.py
-└── setup.py
-```
 
 ## 10. Documentation
 
 * Усі коментарі та документація має бути англійською мовою
 
 ---
+
 
 

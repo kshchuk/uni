@@ -1,0 +1,108 @@
+---
+# DWH DB (PostgreSQL) StatefulSet
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dwh-db-pvc
+  namespace: techmarket
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: hostpath
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dwh-db
+  namespace: techmarket
+  labels:
+    app: dwh-db
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: postgres
+  selector:
+    app: dwh-db
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dwh-db
+  namespace: techmarket
+spec:
+  serviceName: dwh-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dwh-db
+  template:
+    metadata:
+      labels:
+        app: dwh-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: dwh-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: dwh-password
+            - name: POSTGRES_DB
+              value: dwh_db
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: dwh-db-storage
+              mountPath: /var/lib/postgresql/data
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - dwh_user
+                - -d
+                - dwh_db
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - dwh_user
+                - -d
+                - dwh_db
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      volumes:
+        - name: dwh-db-storage
+          persistentVolumeClaim:
+            claimName: dwh-db-pvc
+        - name: init-script
+          configMap:
+            name: dwh-db-init-script
