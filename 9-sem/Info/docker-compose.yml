@@ -137,6 +137,30 @@ services:
       - payments-db
       - dwh-db
 
+  # ============================================
+  # Metabase (BI)
+  # ============================================
+
+  metabase:
+    image: metabase/metabase:v0.48.6
+    platform: linux/amd64
+    container_name: techmarket-metabase
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      MB_ENCRYPTION_SECRET: "change_me_to_secure_string"
+      MB_JETTY_HOST: "0.0.0.0"
+      MB_JETTY_PORT: "3000"
+      # Використовуємо вбудовану H2 для метаданих (для продакшну краще окрему БД)
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - metabase-data:/metabase-data
+    networks:
+      - techmarket-network
+    depends_on:
+      - dwh-db
+
 networks:
   techmarket-network:
     driver: bridge
@@ -153,3 +177,5 @@ volumes:
     name: techmarket-payments-db-data
   dwh-db-data:
     name: techmarket-dwh-db-data
+  metabase-data:
+    name: techmarket-metabase-data
