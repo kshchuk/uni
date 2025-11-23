@@ -25,8 +25,6 @@ TechMarket - це мікросервісна система управління
 ### Інфраструктура баз даних
 - **[DATABASE_README.md](DATABASE_README.md)** - Детальна інструкція по роботі з Docker Compose
 - **[KUBERNETES_README.md](KUBERNETES_README.md)** - Детальна інструкція по деплою в Kubernetes
-- **[LAB_REPORT.md](LAB_REPORT.md)** - Повний звіт з етапами виконання лабораторної роботи
-- **[SCREENSHOT_INSTRUCTIONS.md](SCREENSHOT_INSTRUCTIONS.md)** - Інструкції для створення скріншотів
 
 ### ETL Pipeline
 - **[QUICKSTART.md](QUICKSTART.md)** - Швидкий старт ETL за 5 хвилин
@@ -109,6 +107,21 @@ make k8s-deploy   # Деплой в K8s
 make k8s-clean    # Видалити з K8s
 ```
 
+### Metabase (BI)
+
+```bash
+# Запустити Metabase + DWH
+docker-compose up -d dwh-db metabase
+
+# Посідити підключення до DWH, KPI питання і дашборд
+python scripts/metabase_seed.py --clear   # --clear видаляє старі дашборди/картки
+
+# Відкрити UI
+open http://localhost:3000
+```
+
+Очікувані змінні у `.env`: `METABASE_URL`, `METABASE_USER`, `METABASE_PASS` (логін/пароль Metabase) і реквізити DWH (`DWH_HOST`, `DWH_PORT`, `DWH_NAME`, `DWH_USER`, `DWH_PASS`). 
+
 ## Структура проекту
 
 ```
@@ -188,7 +201,8 @@ Info/
 │
 └── scripts/                        # Допоміжні скрипти
     ├── setup_databases.sh          # Автоматичне налаштування
-    └── generate-report-data.sh     # Збір даних для звіту
+    ├── generate-report-data.sh     # Збір даних для звіту
+    └── metabase_seed.py            # Автосід Metabase (підключення DWH + KPI дашборд)
 ```
 
 ## Технології
@@ -208,6 +222,7 @@ Info/
 - **Apache Airflow 2.7** - Оркестрація та автоматизація
 - **pytest** - Тестування (51 тест, 93% coverage)
 - **Faker** - Генерація реалістичних тестових даних
+- **Metabase** - BI-дешборди поверх DWH
 
 ## Доступ до баз даних
 
