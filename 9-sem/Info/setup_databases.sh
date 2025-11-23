@@ -21,7 +21,12 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
-if ! command -v docker-compose &> /dev/null; then
+# Check for docker-compose (v1) or docker compose (v2)
+if command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
+elif docker compose version &> /dev/null; then
+    DOCKER_COMPOSE="docker compose"
+else
     echo " Docker Compose is not installed. Please install Docker Compose first."
     exit 1
 fi
@@ -30,14 +35,14 @@ echo -e "${GREEN} Docker and Docker Compose are installed${NC}"
 
 # Step 2: Start databases
 echo -e "\n${YELLOW}Step 2: Starting databases...${NC}"
-docker-compose up -d
+$DOCKER_COMPOSE up -d
 
 echo -e "${YELLOW}Waiting for databases to be ready (60 seconds)...${NC}"
 sleep 60
 
 # Check if all containers are healthy
 echo -e "${YELLOW}Checking database health...${NC}"
-docker-compose ps
+$DOCKER_COMPOSE ps
 
 # Step 3: Install Python dependencies
 echo -e "\n${YELLOW}Step 3: Installing Python dependencies...${NC}"
@@ -58,19 +63,19 @@ echo -e "\n${YELLOW}Step 5: Verifying data...${NC}"
 
 echo ""
 echo "=== CATALOG DB ==="
-docker-compose exec -T catalog-db mysql -u catalog_user -pcatalog_pass catalog_db -e "SELECT 'Categories' as Table_Name, COUNT(*) as Count FROM categories UNION ALL SELECT 'Products', COUNT(*) FROM products;" 2>/dev/null
+$DOCKER_COMPOSE exec -T catalog-db mysql -u catalog_user -pcatalog_pass catalog_db -e "SELECT 'Categories' as Table_Name, COUNT(*) as Count FROM categories UNION ALL SELECT 'Products', COUNT(*) FROM products;" 2>/dev/null
 
 echo ""
 echo "=== ORDERS DB ==="
-docker-compose exec -T orders-db mysql -u orders_user -porders_pass orders_db -e "SELECT 'Regions' as Table_Name, COUNT(*) as Count FROM regions UNION ALL SELECT 'Employees', COUNT(*) FROM employees UNION ALL SELECT 'Customers', COUNT(*) FROM customers UNION ALL SELECT 'Orders', COUNT(*) FROM orders UNION ALL SELECT 'Order Items', COUNT(*) FROM order_items;" 2>/dev/null
+$DOCKER_COMPOSE exec -T orders-db mysql -u orders_user -porders_pass orders_db -e "SELECT 'Regions' as Table_Name, COUNT(*) as Count FROM regions UNION ALL SELECT 'Employees', COUNT(*) FROM employees UNION ALL SELECT 'Customers', COUNT(*) FROM customers UNION ALL SELECT 'Orders', COUNT(*) FROM orders UNION ALL SELECT 'Order Items', COUNT(*) FROM order_items;" 2>/dev/null
 
 echo ""
 echo "=== AUTH DB ==="
-docker-compose exec -T auth-db mysql -u auth_user -pauth_pass auth_db -e "SELECT 'Users' as Table_Name, COUNT(*) as Count FROM auth_users UNION ALL SELECT 'Roles', COUNT(*) FROM roles UNION ALL SELECT 'Tokens', COUNT(*) FROM auth_tokens;" 2>/dev/null
+$DOCKER_COMPOSE exec -T auth-db mysql -u auth_user -pauth_pass auth_db -e "SELECT 'Users' as Table_Name, COUNT(*) as Count FROM auth_users UNION ALL SELECT 'Roles', COUNT(*) FROM roles UNION ALL SELECT 'Tokens', COUNT(*) FROM auth_tokens;" 2>/dev/null
 
 echo ""
 echo "=== PAYMENTS DB ==="
-docker-compose exec -T payments-db mysql -u payments_user -ppayments_pass payments_db -e "SELECT 'Payments' as Table_Name, COUNT(*) as Count FROM payments;" 2>/dev/null
+$DOCKER_COMPOSE exec -T payments-db mysql -u payments_user -ppayments_pass payments_db -e "SELECT 'Payments' as Table_Name, COUNT(*) as Count FROM payments;" 2>/dev/null
 
 echo ""
 echo "========================================"
@@ -87,8 +92,8 @@ echo "  - Payments DB: localhost:3309 (payments_user / payments_pass)"
 echo "  - DWH DB:      localhost:5432 (dwh_user / dwh_pass)"
 echo ""
 echo " Useful commands:"
-echo "  - Stop:    docker-compose stop"
-echo "  - Restart: docker-compose restart"
-echo "  - Logs:    docker-compose logs -f"
-echo "  - Clean:   docker-compose down -v"
+echo "  - Stop:    docker compose stop"
+echo "  - Restart: docker compose restart"
+echo "  - Logs:    docker compose logs -f"
+echo "  - Clean:   docker compose down -v"
 echo ""
