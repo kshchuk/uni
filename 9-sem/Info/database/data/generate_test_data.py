@@ -93,6 +93,15 @@ def populate_auth_db(customer_ids: List[str], employee_ids: List[str]):
     conn = mysql.connector.connect(**DB_CONFIGS['auth'])
     cursor = conn.cursor()
     
+    # Очищення існуючих даних
+    print("   - Clearing existing auth data...")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+    cursor.execute("DELETE FROM auth_tokens")
+    cursor.execute("DELETE FROM auth_users")
+    cursor.execute("DELETE FROM roles")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+    conn.commit()
+    
     # Створення ролей
     roles = [
         (generate_uuid(), 'ADMIN', 'Адміністратор системи'),
@@ -206,6 +215,14 @@ def populate_catalog_db() -> Dict[str, List[str]]:
     conn = mysql.connector.connect(**DB_CONFIGS['catalog'])
     cursor = conn.cursor()
     
+    # Очищення існуючих даних
+    print("   - Clearing existing catalog data...")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+    cursor.execute("DELETE FROM products")
+    cursor.execute("DELETE FROM categories")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+    conn.commit()
+    
     # Створення категорій верхнього рівня
     main_categories = [
         'Ноутбуки та комп\'ютери',
@@ -312,6 +329,17 @@ def populate_orders_db(product_ids: List[str]) -> Dict[str, List[str]]:
     
     conn = mysql.connector.connect(**DB_CONFIGS['orders'])
     cursor = conn.cursor()
+    
+    # Очищення існуючих даних
+    print("   - Clearing existing orders data...")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+    cursor.execute("DELETE FROM order_items")
+    cursor.execute("DELETE FROM orders")
+    cursor.execute("DELETE FROM customers")
+    cursor.execute("DELETE FROM employees")
+    cursor.execute("DELETE FROM regions")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+    conn.commit()
     
     # Регіони
     regions = [
@@ -437,6 +465,11 @@ def populate_payments_db(order_ids: List[tuple]):
     conn = mysql.connector.connect(**DB_CONFIGS['payments'])
     cursor = conn.cursor()
     
+    # Очищення існуючих даних
+    print("   - Clearing existing payments data...")
+    cursor.execute("DELETE FROM payments")
+    conn.commit()
+    
     payment_methods = ['card', 'paypal', 'bank_transfer', 'cash']
     
     # Створюємо платежі тільки для paid та shipped замовлень
@@ -476,12 +509,23 @@ def populate_dwh_db(catalog_data: Dict, orders_data: Dict):
     )
     dwh_cursor = dwh_conn.cursor()
     
+    # Очищення існуючих даних у DWH
+    print("   - Clearing existing DWH data...")
+    dwh_cursor.execute("TRUNCATE TABLE fact_sales CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_employee CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_customer CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_product CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_category CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_region CASCADE")
+    dwh_cursor.execute("TRUNCATE TABLE dim_date CASCADE")
+    dwh_conn.commit()
+    
     # Підключення до OLTP баз
     catalog_conn = mysql.connector.connect(**DB_CONFIGS['catalog'])
-    catalog_cursor = catalog_conn.cursor(dictionary=True)
+    catalog_cursor = catalog_conn.cursor(dictionary=True, buffered=True)
     
     orders_conn = mysql.connector.connect(**DB_CONFIGS['orders'])
-    orders_cursor = orders_conn.cursor(dictionary=True)
+    orders_cursor = orders_conn.cursor(dictionary=True, buffered=True)
     
     try:
         # 1. Populate dim_date (останні 2 роки)
@@ -558,10 +602,12 @@ def populate_dwh_db(catalog_data: Dict, orders_data: Dict):
         customer_mapping = {}
         for customer in customers:
             # Get customer's region from their first order (customers don't have direct region)
-            orders_cursor.execute("""
+            region_cursor = orders_conn.cursor(dictionary=True, buffered=True)
+            region_cursor.execute("""
                 SELECT region_id FROM orders WHERE customer_id = %s LIMIT 1
             """, (customer['id'],))
-            order_region = orders_cursor.fetchone()
+            order_region = region_cursor.fetchone()
+            region_cursor.close()
             customer_region_key = region_mapping.get(order_region['region_id']) if order_region else None
             
             dwh_cursor.execute("""
@@ -614,6 +660,12 @@ def populate_dwh_db(catalog_data: Dict, orders_data: Dict):
         for sale in orders_cursor:
             order_date = sale['order_date']
             date_key = int(order_date.strftime('%Y%m%d'))
+            
+            # Перевірка чи існує date_key у dim_date
+            dwh_cursor.execute("SELECT 1 FROM dim_date WHERE date_key = %s", (date_key,))
+            if not dwh_cursor.fetchone():
+                # Якщо дати немає в dim_date - пропускаємо цей запис
+                continue
             
             revenue = float(sale['unit_price']) * sale['quantity']
             discount_amount = float(sale['discount']) if sale['discount'] else 0.0
