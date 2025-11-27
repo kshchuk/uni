@@ -1,0 +1,260 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[ukrainian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    extendedchars=true,
+    inputencoding=utf8
+}
+
+\title{Звіт з лабораторної роботи №2\\Застосування генетичного алгоритму для зламу RSA-шифрування}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Мета роботи}
+
+Метою роботи є реалізація простого генетичного алгоритму (за моделлю Холланда та Голдберга) для апроксимації невідомого відкритого тексту $a$ таким чином, щоб результат шифрування \texttt{rsa\_lib.encrypt\_text(candidate, public\_key, n)} був якомога ближчим до заданого шифротексту $b$.
+
+\section{Постановка задачі}
+
+\subsection{Вхідні дані}
+
+Дано:
+\begin{itemize}
+    \item Шифротекст: масив цілих чисел довжиною 42 елементи
+    \item Публічний ключ: $e = 65537$
+    \item Модуль: $n = 33227$
+    \item Алфавіт: \texttt{"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ, "}
+    \item Довжина тексту: 42 символи
+\end{itemize}
+
+\subsection{Задача оптимізації}
+
+Необхідно знайти текст-кандидат $x$ довжиною 42 символи з заданого алфавіту, який мінімізує функцію помилки:
+
+\begin{equation}
+P(x, b) = \frac{1}{L} \sum_{i=1}^{L} (b'_i - b_i)^2
+\end{equation}
+
+де:
+\begin{itemize}
+    \item $b$ --- цільовий шифротекст
+    \item $b'$ --- шифротекст, отриманий при шифруванні кандидата $x$
+    \item $L$ --- довжина шифротексту
+\end{itemize}
+
+\subsection{Функція пристосованості}
+
+Для застосування генетичного алгоритму функція помилки перетворюється у функцію пристосованості (fitness), яку необхідно максимізувати:
+
+\begin{equation}
+F(x) = \frac{1}{1 + P(x, b)}
+\end{equation}
+
+Таким чином, менша помилка відповідає більшій пристосованості.
+
+\section{Опис генетичного алгоритму}
+
+\subsection{Представлення індивіда}
+
+Кожен індивід у популяції представлений рядком довжиною 42 символи з алфавіту розміром 55 символів (52 літери англійського алфавіту + кома + пробіл).
+
+\subsection{Параметри алгоритму}
+
+Основні параметри генетичного алгоритму:
+
+\begin{itemize}
+    \item Розмір популяції: \texttt{POP\_SIZE = 100}
+    \item Ймовірність мутації: \texttt{MUTATION\_RATE = 0.02}
+    \item Ймовірність кросоверу: \texttt{CROSSOVER\_RATE = 0.8}
+    \item Кількість елітних особин: \texttt{ELITE\_COUNT = 2}
+    \item Розмір турніру: \texttt{tournament\_size = 3}
+    \item Максимальна кількість поколінь: \texttt{MAX\_GENERATIONS = 20000}
+    \item Поріг помилки для зупинки: \texttt{TARGET\_ERROR\_THRESHOLD = 0.0}
+\end{itemize}
+
+\subsection{Ініціалізація популяції}
+
+Початкова популяція генерується випадковим чином: кожен індивід складається з 42 випадково обраних символів з алфавіту.
+
+\begin{lstlisting}
+def random_char():
+    return random.choice(ALPHABET)
+
+def random_text(length=TEXT_LENGTH):
+    return "".join(random_char() for _ in range(length))
+
+def initialize_population():
+    return [random_text(TEXT_LENGTH) for _ in range(POP_SIZE)]
+\end{lstlisting}
+
+\subsection{Оператор селекції}
+
+Використовується турнірна селекція з розміром турніру 3. Алгоритм:
+\begin{enumerate}
+    \item Випадково обирається перший індивід
+    \item Додатково обираються ще 2 випадкові індивіди
+    \item Повертається індивід з найбільшою пристосованістю серед трьох
+\end{enumerate}
+
+\begin{lstlisting}
+def tournament_select(population, fitnesses, tournament_size=3):
+    selected_idx = random.randrange(len(population))
+    for _ in range(tournament_size - 1):
+        i = random.randrange(len(population))
+        if fitnesses[i] > fitnesses[selected_idx]:
+            selected_idx = i
+    return population[selected_idx]
+\end{lstlisting}
+
+\subsection{Оператор кросоверу}
+
+Застосовується одноточковий кросовер:
+\begin{enumerate}
+    \item Випадково обирається точка розрізу від 1 до $L-1$ (де $L$ --- довжина рядка)
+    \item Перша дитина: початок від першого батька + кінець від другого батька
+    \item Друга дитина: початок від другого батька + кінець від першого батька
+\end{enumerate}
+
+\begin{lstlisting}
+def one_point_crossover(parent1, parent2):
+    L = len(parent1)
+    if L < 2:
+        return parent1, parent2
+    cut = random.randint(1, L - 1)
+    child1 = parent1[:cut] + parent2[cut:]
+    child2 = parent2[:cut] + parent1[cut:]
+    return child1, child2
+\end{lstlisting}
+
+\subsection{Оператор мутації}
+
+Для кожного символу в рядку з ймовірністю \texttt{MUTATION\_RATE} (0.02) символ замінюється на випадковий символ з алфавіту.
+
+\begin{lstlisting}
+def mutate(text):
+    text_list = list(text)
+    for i in range(len(text_list)):
+        if random.random() < MUTATION_RATE:
+            text_list[i] = random_char()
+    return "".join(text_list)
+\end{lstlisting}
+
+\subsection{Елітизм}
+
+На кожній ітерації 2 найкращі індивіди (елітні) автоматично переходять до наступного покоління без змін, що гарантує збереження найкращих знайдених рішень.
+
+\section{Алгоритм створення нового покоління}
+
+Процедура формування нового покоління:
+
+\begin{enumerate}
+    \item \textbf{Оцінка:} Обчислюється пристосованість кожного індивіда в поточній популяції
+    \item \textbf{Сортування:} Популяція сортується за спаданням пристосованості
+    \item \textbf{Елітизм:} Перші \texttt{ELITE\_COUNT} особин додаються до нової популяції
+    \item \textbf{Генерація нащадків:} До досягнення розміру \texttt{POP\_SIZE}:
+    \begin{itemize}
+        \item Вибираються два батьки за допомогою турнірної селекції
+        \item З ймовірністю \texttt{CROSSOVER\_RATE} застосовується кросовер
+        \item До обох нащадків застосовується мутація
+        \item Нащадки додаються до нової популяції
+    \end{itemize}
+    \item \textbf{Заміна:} Нова популяція замінює стару
+\end{enumerate}
+
+\section{Критерії зупинки}
+
+Алгоритм зупиняється при виконанні однієї з умов:
+\begin{itemize}
+    \item Знайдено точний збіг: $P(x, b) \leq 0.0$
+    \item Досягнуто максимальну кількість поколінь: 20000
+\end{itemize}
+
+\section{Результати роботи}
+
+Алгоритм виконується протягом максимум 20000 поколінь. На кожному поколінні виводиться інформація про:
+\begin{itemize}
+    \item Номер покоління
+    \item Мінімальна помилка $P$ для найкращого індивіда
+    \item Текст найкращого індивіда
+\end{itemize}
+
+Формат виведення:
+\begin{verbatim}
+Generation XXXX | best error P = Y.YYYYYY | best text = 'текст'
+\end{verbatim}
+
+\subsection{Перевірка результату}
+
+Для перевірки правильності знайденого рішення використовується дешифрування з відомими параметрами:
+
+\begin{itemize}
+    \item Факторизація $n = 149 \times 223 = 33227$
+    \item Обчислення $\phi(n) = (p-1)(q-1) = 148 \times 222 = 32856$
+    \item Знаходження приватного експоненти $d$ як модульного оберненого до $e$ за модулем $\phi(n)$
+    \item Дешифрування: $m = c^d \bmod n$ для кожного символу
+\end{itemize}
+
+\begin{lstlisting}[escapeinside={(*}{*)}]
+# (*Факторизація*) n
+p, q = 149, 223
+phi = (p - 1) * (q - 1)
+
+# (*Знаходження*) d ((*розширений алгоритм Евкліда*)
+def egcd(a, b):
+    if b == 0:
+        return (1, 0, a)
+    x, y, g = egcd(b, a % b)
+    return (y, x - (a // b) * y, g)
+
+x, y, g = egcd(public_key, phi)
+d = x % phi
+
+# (*Дешифрування*)
+plaintext_chars = [chr(pow(c, d, n)) for c in ciphertext]
+plaintext = "".join(plaintext_chars)
+\end{lstlisting}
+
+\section{Висновки}
+
+У даній роботі було реалізовано простий генетичний алгоритм для задачі апроксимації відкритого тексту за шифротекстом RSA. Алгоритм використовує класичні генетичні оператори:
+\begin{itemize}
+    \item Турнірну селекцію для вибору батьків
+    \item Одноточковий кросовер для рекомбінації генетичного матеріалу
+    \item Точкову мутацію для підтримки різноманітності популяції
+    \item Елітизм для збереження найкращих рішень
+\end{itemize}
+
+Функція пристосованості базується на квадратичній відстані між шифротекстами, що дозволяє ефективно направляти пошук до оптимального рішення.
+
+Алгоритм демонструє типовий підхід еволюційних обчислень до задач комбінаторної оптимізації, де простір пошуку є дискретним і надзвичайно великим ($55^{42} \approx 10^{73}$ можливих комбінацій).
+
+\end{document}
