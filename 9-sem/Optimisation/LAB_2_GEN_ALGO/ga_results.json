@@ -1,0 +1,8 @@
+{
+  "generations": 612,
+  "best_individual": "When we have shuffled off this mortal coil",
+  "best_error": 0.0,
+  "best_fitness": 1.0,
+  "final_population_size": 100,
+  "converged": true
+}
