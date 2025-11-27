@@ -1,0 +1,28 @@
+\babel@toc {ukrainian}{}\relax 
+\contentsline {section}{\numberline {1}Вступ}{2}{section.1}%
+\contentsline {section}{\numberline {2}Мета та завдання}{2}{section.2}%
+\contentsline {section}{\numberline {3}Архітектура рішення}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Загальна схема}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Конфігурація та режими}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Стадія Extract}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}OrdersExtractor}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}CatalogExtractor}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}PaymentsExtractor}{3}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Особливості екстракції}{3}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Стадія Transform}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Очищення даних}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Бізнес-трансформації}{4}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Приклад коду}{4}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Стадія Load}{5}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Завантаження вимірів}{5}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Факт-таблиця продажів}{5}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Підтримка dim\_date та upsert}{5}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Оркестрація та автоматизація}{5}{section.7}%
+\contentsline {subsection}{\numberline {7.1}ETLPipeline}{5}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}CLI та приклади}{5}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Apache Airflow}{6}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Тестування та якість}{6}{section.8}%
+\contentsline {section}{\numberline {9}Результати виконання}{6}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Продуктивність}{6}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Спостережність}{6}{subsection.9.2}%
+\contentsline {section}{\numberline {10}Висновки}{7}{section.10}%

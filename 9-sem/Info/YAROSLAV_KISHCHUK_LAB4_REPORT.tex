@@ -1,0 +1,226 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+\usepackage{geometry}
+\geometry{margin=20mm}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{code}{%
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red!60!black},
+  commentstyle=\color{green!50!black},
+  showstringspaces=false,
+  frame=single,
+  breaklines=true,
+  tabsize=2
+}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \Large \textbf{Ужгородський національний університет}\\[4mm]
+    \large Факультет інформаційних технологій\\[2cm]
+    \Huge \textbf{Лабораторна робота №4}\\[4mm]
+    \LARGE Розробка ETL-сценарію для системи TechMarket\\[3cm]
+    \large Виконав: Кіщук Ярослав\\[2mm]
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Вступ}
+Метою четвертої лабораторної роботи є побудова повноцінного процесу Extract--Transform--Load (ETL) для перенесення операційних даних системи TechMarket у аналітичне сховище даних. Рішення має забезпечувати стабільну синхронізацію між чотирма MySQL джерелами (\texttt{orders}, \texttt{catalog}, \texttt{payments}, \texttt{auth}) та \texttt{PostgreSQL} DWH, підтримувати як повні, так і інкрементальні завантаження, надавати механізми автоматизації (CLI, Apache Airflow) та покриття тестами.
+
+Основні артефакти, створені в межах роботи:
+\begin{itemize}
+  \item Python-пакет \texttt{etl/} з модулями \texttt{config}, \texttt{extract}, \texttt{transform}, \texttt{load}, \texttt{pipeline}.
+  \item Документація та приклади запуску (\texttt{etl/README.md}, \texttt{etl/examples.py}, \texttt{etl/run\_etl.py}).
+  \item Оркестровка через Apache Airflow (\texttt{airflow/dags/techmarket\_etl\_dag.py}).
+  \item Набір автоматизованих тестів із покриттям понад 90\% (\texttt{etl/tests/}).
+\end{itemize}
+
+\section{Мета та завдання}
+{\renewcommand{\labelenumi}{\textbf{Завдання \theenumi:}}
+\begin{enumerate}
+  \item Спроєктувати універсальну конфігурацію підключень до MySQL та PostgreSQL, що зчитується зі змінних середовища (\texttt{ETLConfig.from\_env()}).
+  \item Реалізувати окремі екстрактори даних для кожної OLTP-бази з підтримкою фільтрації за періодами та роботи з великими наборами (chunked \texttt{pandas.read\_sql}).
+  \item Розробити модуль трансформації, який виконує очищення, валідацію типів, бізнес-розрахунки (revenue, margin, discount) та агрегації.
+  \item Створити надійний завантажувач у DWH з підтримкою \textit{replace}, \textit{append} та \textit{upsert} для вимірів і фактів.
+  \item Забезпечити оркестрацію повного та інкрементального ETL, включно з автоматичним генератором календаря \texttt{dim\_date}.
+  \item Побудувати сценарії автоматизації: CLI-утиліту, Airflow DAG'и, Docker-орієнтоване оточення.
+  \item Підготувати LaTeX-звіт, що фокусується на етапах Extract, Transform, Load та на русі даних між доменами.
+\end{enumerate}}
+
+\section{Архітектура рішення}
+\subsection{Загальна схема}
+ETL складається з п'яти модулів і працює поверх операційних MySQL баз із шаблоном \textit{Database-per-Service}. Витягнуті дані потрапляють у \texttt{PostgreSQL} схему з шістьма вимірами (\texttt{dim\_date}, \texttt{dim\_region}, \texttt{dim\_category}, \texttt{dim\_product}, \texttt{dim\_customer}, \texttt{dim\_employee}) та однією факт-таблицею \texttt{fact\_sales}.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.23\textwidth} p{0.73\textwidth}}
+\caption{Основні компоненти ETL}\label{tab:components}\\
+\toprule
+Компонент & Функції \\
+\midrule
+\texttt{etl/config.py} & Описує \texttt{MySQLConfig}, \texttt{PostgreSQLConfig}, агрегує все у \texttt{ETLConfig}. Формує рядки підключення \textit{mysql+pymysql://} і \textit{postgresql+psycopg2://}. \\
+\texttt{etl/extract.py} & Узагальнений \texttt{Extractor} з ледачою ініціалізацією \texttt{SQLAlchemy Engine}. Спеціалізовані \texttt{OrdersExtractor}, \texttt{CatalogExtractor}, \texttt{PaymentsExtractor}. \\
+\texttt{etl/transform.py} & \texttt{DataCleaner} (дублікати, пропуски, валідація типів) та \texttt{DataTransformer} (метрики, агрегації). \\
+\texttt{etl/load.py} & \texttt{Loader} для \texttt{dim}/\texttt{fact} таблиць, генератор \texttt{dim\_date}, \texttt{truncate}, \texttt{upsert}. \\
+\texttt{etl/pipeline.py} & \texttt{ETLPipeline} координує сім кроків повного завантаження та інкрементальний сценарій. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Конфігурація та режими}
+Конфігурація зчитується з файлу \texttt{.env}. Ключові змінні: \texttt{ORDERS\_DB\_*}, \texttt{CATALOG\_DB\_*}, \texttt{PAYMENTS\_DB\_*}, \texttt{DWH\_DB\_*}, \texttt{ETL\_INCREMENTAL}, \texttt{ETL\_START\_DATE}, \texttt{ETL\_END\_DATE}. Режими:
+\begin{itemize}
+  \item \textbf{Full Load} --- повне перезавантаження всіх вимірів і фактів, очищення \texttt{fact\_sales}, генерація календаря за \(\pm365\) днів.
+  \item \textbf{Incremental Load} --- фільтрація замовлень і платежів за датою, дозавантаження фактів без очищення, використовується як CLI-параметрами, так і Airflow DAG'ами.
+\end{itemize}
+
+\section{Стадія Extract}
+\subsection{OrdersExtractor}
+Модуль \texttt{OrdersExtractor.extract\_orders()} виконує \texttt{JOIN} між \texttt{orders} та \texttt{order\_items}, відбирає лише стани \texttt{"paid"}, \texttt{"shipped"}, \texttt{"delivered"}, сортує за датою. Фільтри \texttt{start\_date}, \texttt{end\_date} додаються до WHERE, що забезпечує інкрементальність. Додаткові методи \texttt{extract\_customers()}, \texttt{extract\_employees()}, \texttt{extract\_regions()} подають дані для відповідних вимірів.
+
+\subsection{CatalogExtractor}
+Постачає \texttt{products} з \texttt{LEFT JOIN categories}, збагачуючи товар ієрархією. Окремий метод \texttt{extract\_categories()} впорядковує результати за батьківськими категоріями для коректного побудування дерева.
+
+\subsection{PaymentsExtractor}
+Повертає завершені платежі зі статусом \texttt{completed}, підтримує фільтрацію за датою платежу. Дані поєднуються з фактами продажів під час трансформації (зв'язок через \texttt{order\_id}).
+
+\subsection{Особливості екстракції}
+\begin{itemize}
+  \item Ледаче створення \texttt{SQLAlchemy Engine} з \texttt{pool\_pre\_ping} та \texttt{pool\_recycle}, щоб уникати збоїв тривалих з'єднань.
+  \item Підтримка \texttt{chunksize} для обробки великих обсягів даних без перевантаження пам'яті.
+  \item Централізоване логування (\texttt{logging}) із зазначенням бази-джерела.
+\end{itemize}
+
+\section{Стадія Transform}
+\subsection{Очищення даних}
+	exttt{DataCleaner} надає:
+\begin{itemize}
+  \item \textbf{remove\_duplicates} --- видаляє дублікати за складеними ключами (наприклад, \texttt{order\_id+order\_item\_id}).
+  \item \textbf{handle\_missing\_values} --- стратегії \texttt{drop}, \texttt{fill}, \texttt{forward\_fill}; для товарів за замовчуванням підставляє "Опис відсутній".
+  \item \textbf{validate\_data\_types} --- приводить дати, числові значення та рядки до очікуваних типів із журналюванням помилок.
+\end{itemize}
+
+\subsection{Бізнес-трансформації}
+	exttt{DataTransformer.transform\_orders()} розраховує ключові метрики та готує дані до \texttt{fact\_sales}: 
+\begin{itemize}
+  \item \texttt{revenue = unit\_price * quantity}.
+  \item \texttt{discount\_amount = discount} (заповнюється нулями).
+  \item \texttt{cost = revenue * 0.6} (припущення щодо собівартості).
+  \item \texttt{margin = revenue - discount\_amount - cost}.
+  \item \texttt{date\_key = int(order\_date.strftime("\%Y\%m\%d"))} для зв'язку з \texttt{dim\_date}.
+\end{itemize}
+
+Інші методи трансформують клієнтів (нормалізовані email, \texttt{full\_name}), продукти (заповнення відсутніх значень, приведення \texttt{price}/\texttt{stock\_quantity}), а також агрегують продажі за періодами, товарами та менеджерами.
+
+\subsection{Приклад коду}
+\begin{lstlisting}[style=code,language=Python,caption={Фрагмент трансформації замовлень}]
+orders_df = transformer.cleaner.remove_duplicates(
+    orders_df, subset=["order_id", "order_item_id"])
+orders_df = transformer.cleaner.validate_data_types(orders_df, {
+    "order_date": "datetime",
+    "quantity": "int",
+    "unit_price": "float"
+})
+orders_df["revenue"] = orders_df["unit_price"] * orders_df["quantity"]
+orders_df["date_key"] = orders_df["order_date"].dt.strftime("%Y%m%d").astype(int)
+\end{lstlisting}
+
+\section{Стадія Load}
+\subsection{Завантаження вимірів}
+\texttt{Loader.load\_dimension()} виконує \texttt{pandas.to\_sql} із режимами \texttt{append}/\texttt{replace}, чанками по 1000 рядків. Для full-load всі \texttt{dim\_*} таблиці перезбираються, щоб гарантувати узгоджені ключі.
+
+\subsection{Факт-таблиця продажів}
+Метод \texttt{load\_fact\_sales()} перевіряє наявність обов'язкових колонок (\texttt{order\_id}, \texttt{product\_id}, \texttt{revenue}, \dots). Перед повним завантаженням викликається \texttt{truncate\_table('fact\_sales')}, тоді як інкрементальний режим просто \texttt{append} додає нові записи.
+
+\subsection{Підтримка dim\_date та upsert}
+\texttt{load\_dim\_date()} створює календар на 730 днів довкола поточної дати. Для поступових оновлень вимірів застосовується \texttt{upsert\_dimension()}, що розділяє \texttt{DataFrame} на нові та існуючі ключі, видаляє застарілі рядки та вставляє оновлені версії.
+
+\section{Оркестрація та автоматизація}
+\subsection{ETLPipeline}
+Клас \texttt{ETLPipeline} інкапсулює послідовність із семи кроків (\texttt{\_load\_dim\_date}, \texttt{\_load\_dim\_region}, \dots, \texttt{\_load\_fact\_sales}). Повне завантаження виглядає як на листингу \ref{lst:pipeline}.
+
+\begin{lstlisting}[style=code,language=Python,caption={Запуск повного завантаження},label={lst:pipeline}]
+from etl.config import ETLConfig
+from etl.pipeline import ETLPipeline
+
+config = ETLConfig.from_env()
+pipeline = ETLPipeline(config)
+results = pipeline.run_full_load()
+\end{lstlisting}
+
+Інкрементальний метод \texttt{run\_incremental\_load()} приймає \texttt{start\_date}/\texttt{end\_date} і викликає \texttt{\_load\_fact\_sales\_incremental()}. Після завершення \texttt{\_cleanup()} закриває всі з'єднання.
+
+\subsection{CLI та приклади}
+Скрипт \texttt{etl/run\_etl.py} надає інтерфейс:
+\begin{itemize}
+  \item \texttt{python etl/run\_etl.py --mode full}
+  \item \texttt{python etl/run\_etl.py --mode incremental --start-date 2024-01-01 --end-date 2024-01-31}
+  \item Параметри \texttt{--env-file}, \texttt{--log-level}, валідація дат та запис логів одночасно у \texttt{stdout} і файл \texttt{etl.log}.
+\end{itemize}
+Файл \texttt{etl/examples.py} містить п'ять сценаріїв демонстрації (повне, інкрементальне, лише екстракція, трансформація, симуляція 7-денного ETL).
+
+\subsection{Apache Airflow}
+Файл \texttt{airflow/dags/techmarket\_etl\_dag.py} описує два DAG'и:
+\begin{itemize}
+  \item \textbf{techmarket\_etl\_daily}: щоденне інкрементальне завантаження о 02:00 UTC. Завдання --- перевірка OLTP, перевірка DWH, ETL, нотифікації про успіх/помилку. Параметри \texttt{DEFAULT\_ARGS} задають \texttt{retries=2}, \texttt{retry\_delay=5~хв}, \texttt{execution\_timeout=2~год}.
+  \item \textbf{techmarket\_etl\_weekly\_full}: щонедільне повне завантаження о 03:00 UTC з більшим таймаутом (4 год). Використовує ті самі попередні перевірки.
+\end{itemize}
+
+\section{Тестування та якість}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.32\textwidth} p{0.58\textwidth}}
+\caption{Покриття тестами}\label{tab:tests}\\
+\toprule
+Модуль & Ключові сценарії \\
+\midrule
+\texttt{test\_config.py} & Перевірка \texttt{ETLConfig.from\_env()}, коректності рядків підключення, значень \texttt{batch\_size} і \texttt{log\_level}. \\
+\texttt{test\_extract.py} & Моки з'єднань MySQL, фільтри дат, обробка винятків при недоступності бази. \\
+\texttt{test\_transform.py} & Валідність трансформацій: розрахунок метрик, усунення дублікатів, робота з пропусками, агрегування.
+\\
+\texttt{test\_load.py} & Тести \texttt{load\_dimension}, \texttt{load\_fact\_sales}, \texttt{truncate\_table}, \texttt{upsert\_dimension}. \\
+\texttt{test\_pipeline.py} & Повний та інкрементальний флоу із використанням \texttt{MagicMock}. \\
+\bottomrule
+\end{longtable}
+
+Сумарно виконуються 51 тест (\textasciitilde93\% coverage, згідно з \texttt{ETL\_SUMMARY.md}). Команда запуску: \texttt{pytest etl/tests/ --cov=etl --cov-report=html}.
+
+\section{Результати виконання}
+\subsection{Продуктивність}
+Виміряний час роботи:
+\begin{tabular}{@{}p{0.55\textwidth} p{0.35\textwidth}@{}}
+\toprule
+Операція & Орієнтовний час \\
+\midrule
+Повне завантаження (50k+ записів) & 2--5 хвилин \\
+Інкрементальне за 1 день (до 1k записів) & 10--30 секунд \\
+Генерація \texttt{dim\_date} (730 записів) & 1--2 секунди \\
+Трансформація 1000 записів & < 1 секунди \\
+\bottomrule
+\end{tabular}
+
+\subsection{Спостережність}
+\begin{itemize}
+  \item Усі модулі використовують \texttt{logging} з рівнями \texttt{INFO}/\texttt{DEBUG}. Логи CLI дублюються у \texttt{etl.log}.
+  \item Airflow DAG'и push'ять статистику у \texttt{XCom} (\texttt{task\_id=run\_etl}, ключ \texttt{etl\_results}) для подальших нотифікацій.
+  \item Docker та Kubernetes сценарії описані в \texttt{ETL\_SUMMARY.md}, що дозволяє швидко змінювати середовище виконання.
+\end{itemize}
+
+\section{Висновки}
+Побудований ETL-сценарій відповідає вимогам лабораторної роботи №4:
+\begin{itemize}
+  \item Виділено чіткі етапи Extract, Transform, Load із незалежними модулями та тестами.
+  \item Забезпечено повторюваність завдяки конфігурації через \texttt{.env}, CLI та Airflow.
+  \item Реалізовано механізми повного та інкрементального завантаження, включно з генерацією календаря та \texttt{upsert} для вимірів.
+  \item Досягнуто високого рівня автоматизації та спостережності (логування, алерти, XCom статистика).
+\end{itemize}
+
+\end{document}
