@@ -1,0 +1,348 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+\usepackage{geometry}
+\geometry{margin=20mm}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\lstdefinestyle{sqlstyle}{%
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red!60!black},
+  commentstyle=\color{green!50!black}\itshape,
+  showstringspaces=false,
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  numbers=left,
+  numberstyle=\tiny\color{gray}
+}
+
+\lstdefinestyle{pythonstyle}{%
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red!60!black},
+  commentstyle=\color{green!50!black}\itshape,
+  showstringspaces=false,
+  frame=single,
+  breaklines=true,
+  tabsize=2
+}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \Huge \textbf{Лабораторна робота №5}\\[4mm]
+    \LARGE Реалізація бізнес-аналітики для системи TechMarket\\[3cm]
+    \large Виконав: Кіщук Ярослав\\[2mm]
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Вступ}
+Метою п'ятої лабораторної роботи є розробка системи бізнес-аналітики (BI) для інтернет-магазину TechMarket. У попередніх лабораторних роботах було спроєктовано архітектуру баз даних (OLTP та DWH), реалізовано ETL-процес для завантаження даних із операційних баз у аналітичне сховище. Тепер завданням є створення аналітичних запитів для розрахунку ключових показників ефективності (KPI) та побудова інтерактивних дашбордів для візуалізації цих метрик.
+
+У рамках роботи використано:
+\begin{itemize}
+  \item \textbf{PostgreSQL DWH} --- аналітичне сховище даних із зоряною схемою (6 dimension-таблиць та 1 fact-таблиця).
+  \item \textbf{SQL} --- мова запитів для розрахунку KPI безпосередньо у базі даних.
+  \item \textbf{Metabase} --- open-source BI-платформа для візуалізації даних та створення дашбордів.
+  \item \textbf{Python} --- автоматизація налаштування Metabase через API (\texttt{scripts/metabase\_seed.py}).
+\end{itemize}
+
+\section{Мета та завдання}
+{\renewcommand{\labelenumi}{\textbf{Завдання \theenumi:}}
+\begin{enumerate}
+  \item Визначити п'ять ключових показників ефективності (KPI) для аналітики продажів TechMarket.
+  \item Розробити SQL-запити для розрахунку кожного KPI на основі зоряної схеми DWH.
+  \item Реалізувати параметризовані запити з фільтрацією за датами та регіонами.
+  \item Інтегрувати Metabase з PostgreSQL DWH для візуалізації даних.
+  \item Створити інтерактивний дашборд із п'ятьма візуалізаціями та глобальними фільтрами.
+  \item Автоматизувати розгортання BI-інфраструктури через Python-скрипт.
+\end{enumerate}}
+
+\section{Архітектура аналітичного рішення}
+\subsection{Структура DWH}
+Аналітичне сховище даних побудовано за принципом зоряної схеми (star schema), що забезпечує оптимальну продуктивність аналітичних запитів. Центральним елементом є таблиця фактів \texttt{fact\_sales}, яка містить метрики продажів та зовнішні ключі до вимірів.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.25\textwidth} p{0.70\textwidth}}
+\caption{Структура DWH схеми}\label{tab:dwh}\\
+\toprule
+Таблиця & Опис \\
+\midrule
+\texttt{fact\_sales} & Факт продажів: \texttt{order\_id}, \texttt{date\_key}, \texttt{product\_key}, \texttt{customer\_key}, \texttt{employee\_key}, \texttt{region\_key}, \texttt{quantity}, \texttt{revenue}, \texttt{discount\_amount}, \texttt{cost}, \texttt{margin} \\
+\texttt{dim\_date} & Календар: \texttt{date\_key} (YYYYMMDD), \texttt{date}, \texttt{year}, \texttt{quarter}, \texttt{month}, \texttt{day}, \texttt{day\_of\_week}, \texttt{is\_weekend} \\
+\texttt{dim\_product} & Товари: \texttt{product\_key}, \texttt{product\_id}, \texttt{name}, \texttt{sku}, \texttt{category\_key} \\
+\texttt{dim\_customer} & Клієнти: \texttt{customer\_key}, \texttt{customer\_id}, \texttt{first\_name}, \texttt{last\_name}, \texttt{email}, \texttt{region\_key} \\
+\texttt{dim\_employee} & Менеджери: \texttt{employee\_key}, \texttt{employee\_id}, \texttt{first\_name}, \texttt{last\_name}, \texttt{email}, \texttt{region\_key} \\
+\texttt{dim\_region} & Регіони: \texttt{region\_key}, \texttt{region\_id}, \texttt{name}, \texttt{code} \\
+\texttt{dim\_category} & Категорії: \texttt{category\_key}, \texttt{category\_id}, \texttt{name}, \texttt{parent\_category\_key} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Інтеграція з Metabase}
+Metabase розгорнуто як Docker-контейнер (\texttt{metabase/metabase:v0.48.6}) і підключено до PostgreSQL DWH через нативний драйвер. Конфігурація здійснюється автоматично за допомогою Python-скрипта \texttt{metabase\_seed.py}, який виконує:
+\begin{itemize}
+  \item Автентифікацію в Metabase API
+  \item Створення підключення до DWH
+  \item Генерацію SQL-запитів із template tags для параметризації
+  \item Створення Saved Questions (збережених запитів) для кожного KPI
+  \item Побудову дашборда з розміщенням візуалізацій та налаштуванням фільтрів
+\end{itemize}
+
+\section{Ключові показники ефективності (KPI)}
+Для аналізу ефективності продажів системи TechMarket визначено п'ять KPI, які покривають різні аспекти бізнесу: тренд виручки, географічний розподіл замовлень, середній чек, маржинальність та популярність товарів.
+
+\subsection{KPI 1: Динаміка виручки за місяцями (Revenue by Month)}
+\textbf{Бізнес-питання:} Як змінюється виручка компанії в часі? Які місяці є найбільш прибутковими?
+
+\textbf{Опис:} Цей показник відображає сумарну виручку, знижки та маржу за кожен місяць. Дозволяє виявити сезонність, тренди зростання або падіння продажів.
+
+\textbf{SQL-запит:}
+\begin{lstlisting}[style=sqlstyle, caption={Динаміка виручки за місяцями}]
+SELECT
+  d.year,
+  d.month,
+  to_char(d.date, 'Mon') AS month_name,
+  SUM(f.revenue)          AS revenue,
+  SUM(f.discount_amount)  AS discount,
+  SUM(f.margin)           AS margin
+FROM fact_sales f
+JOIN dim_date d ON f.date_key = d.date_key
+LEFT JOIN dim_region r ON f.region_key = r.region_key
+WHERE 1=1
+  AND d.date >= '2024-01-01'
+  AND d.date <= '2024-12-31'
+  AND r.name = 'Kyivska'
+GROUP BY d.year, d.month, to_char(d.date, 'Mon')
+ORDER BY d.year, d.month;
+\end{lstlisting}
+
+\textbf{Тип візуалізації:} Line chart (лінійний графік) для відображення трендів у часі.
+
+\subsection{KPI 2: Кількість замовлень за регіонами (Orders by Region)}
+\textbf{Бізнес-питання:} Які регіони генерують найбільше замовлень? Яка географічна структура продажів?
+
+\textbf{Опис:} Показник агрегує кількість унікальних замовлень та сумарну виручку в розрізі регіонів. Допомагає виявити найбільш активні ринки збуту.
+
+\textbf{SQL-запит:}
+\begin{lstlisting}[style=sqlstyle, caption={Замовлення за регіонами}]
+SELECT
+  r.name AS region_name,
+  COUNT(DISTINCT f.order_id) AS orders_count,
+  SUM(f.revenue)             AS revenue
+FROM fact_sales f
+JOIN dim_region r ON f.region_key = r.region_key
+WHERE 1=1
+  AND f.date_key >= 20240101
+  AND f.date_key <= 20241231
+GROUP BY r.name
+ORDER BY orders_count DESC;
+\end{lstlisting}
+
+\textbf{Тип візуалізації:} Bar chart (стовпчикова діаграма) для порівняння регіонів.
+
+\subsection{KPI 3: Середній чек (Average Order Value)}
+\textbf{Бізнес-питання:} Скільки в середньому витрачає клієнт за одне замовлення?
+
+\textbf{Опис:} Метрика розраховується як відношення сумарної виручки до кількості унікальних замовлень. Є індикатором якості продажів та ефективності маркетингових акцій.
+
+\textbf{SQL-запит:}
+\begin{lstlisting}[style=sqlstyle, caption={Середній чек}]
+SELECT
+  SUM(f.revenue) / NULLIF(COUNT(DISTINCT f.order_id), 0) 
+    AS avg_order_value
+FROM fact_sales f
+LEFT JOIN dim_region r ON f.region_key = r.region_key
+JOIN dim_date d ON f.date_key = d.date_key
+WHERE 1=1
+  AND d.date >= '2024-01-01'
+  AND d.date <= '2024-12-31'
+  AND r.name = 'Kyivska';
+\end{lstlisting}
+
+\textbf{Тип візуалізації:} Scalar (число) --- одне велике значення для швидкого огляду.
+
+\subsection{KPI 4: Відсоток маржі (Margin Percentage)}
+\textbf{Бізнес-питання:} Яка частка прибутку в загальній виручці?
+
+\textbf{Опис:} Показник відображає відношення маржі (різниці між виручкою та собівартістю) до виручки у відсотках. Критичний для оцінки рентабельності бізнесу.
+
+\textbf{SQL-запит:}
+\begin{lstlisting}[style=sqlstyle, caption={Відсоток маржі}]
+SELECT
+  (SUM(f.margin) / NULLIF(SUM(f.revenue), 0))::numeric(12,4) 
+    AS margin_pct
+FROM fact_sales f
+LEFT JOIN dim_region r ON f.region_key = r.region_key
+JOIN dim_date d ON f.date_key = d.date_key
+WHERE 1=1
+  AND d.date >= '2024-01-01'
+  AND d.date <= '2024-12-31'
+  AND r.name = 'Kyivska';
+\end{lstlisting}
+
+\textbf{Тип візуалізації:} Scalar з форматуванням у відсотки.
+
+\subsection{KPI 5: Топ-10 товарів за виручкою (Top Products by Revenue)}
+\textbf{Бізнес-питання:} Які товари приносять найбільше доходу? На які товари варто робити акцент у маркетингу?
+
+\textbf{Опис:} Рейтинг десяти найприбутковіших товарів із відображенням виручки, проданої кількості та маржі.
+
+\textbf{SQL-запит:}
+\begin{lstlisting}[style=sqlstyle, caption={Топ-10 товарів}]
+SELECT
+  p.name AS product_name,
+  SUM(f.revenue) AS revenue,
+  SUM(f.quantity) AS qty,
+  SUM(f.margin) AS margin
+FROM fact_sales f
+JOIN dim_product p ON f.product_key = p.product_key
+LEFT JOIN dim_region r ON f.region_key = r.region_key
+JOIN dim_date d ON f.date_key = d.date_key
+WHERE 1=1
+  AND d.date >= '2024-01-01'
+  AND d.date <= '2024-12-31'
+  AND r.name = 'Kyivska'
+GROUP BY p.name
+ORDER BY revenue DESC
+LIMIT 10;
+\end{lstlisting}
+
+\textbf{Тип візуалізації:} Bar chart (горизонтальні стовпці) для зручного порівняння товарів.
+
+\section{Параметризація запитів}
+Усі п'ять KPI підтримують динамічну фільтрацію через Metabase template tags:
+\begin{itemize}
+  \item \texttt{\{\{start\_date\}\}} --- початкова дата періоду аналізу (тип: \texttt{date})
+  \item \texttt{\{\{end\_date\}\}} --- кінцева дата періоду аналізу (тип: \texttt{date})
+  \item \texttt{\{\{region\}\}} --- назва регіону для фільтрації (тип: \texttt{text}, опціональний)
+\end{itemize}
+
+Синтаксис Metabase для опціональних параметрів: \texttt{[[AND condition]]}, що дозволяє виключити фільтр, якщо параметр не заданий.
+
+\section{Створення дашборда в Metabase}
+\subsection{Архітектура дашборда}
+Дашборд ``TechMarket KPI Dashboard'' складається з п'яти візуалізацій, організованих у grid-layout:
+\begin{itemize}
+  \item \textbf{Row 0--6:} Revenue by Month (ширина 12 колонок) --- займає всю ширину екрана
+  \item \textbf{Row 6--12:} Orders by Region (6 колонок), Average Order Value (3 колонки), Margin Percentage (3 колонки)
+  \item \textbf{Row 12--18:} Top Products by Revenue (12 колонок)
+\end{itemize}
+
+\subsection{Глобальні фільтри}
+На рівні дашборда налаштовано три параметри:
+\begin{enumerate}
+  \item \textbf{Start Date} --- вибір початкової дати (date picker)
+  \item \textbf{End Date} --- вибір кінцевої дати (date picker)
+  \item \textbf{Region} --- текстове поле для назви регіону (опціонально)
+\end{enumerate}
+
+Кожна візуалізація автоматично прив'язана до цих параметрів через \texttt{parameter\_mappings}, що забезпечує синхронну фільтрацію всіх графіків.
+
+\subsection{Автоматизація розгортання}
+Для автоматичного налаштування Metabase створено Python-скрипт \texttt{metabase\_seed.py}, який:
+\begin{enumerate}
+  \item Автентифікується в Metabase API за допомогою \texttt{/api/session}
+  \item Створює або знаходить існуюче підключення до PostgreSQL DWH
+  \item Генерує п'ять Saved Questions з відповідними SQL-запитами та template tags
+  \item Створює дашборд та налаштовує глобальні параметри
+  \item Додає всі візуалізації на дашборд із відповідним layout та mappings
+\end{enumerate}
+
+\textbf{Приклад запуску:}
+\begin{lstlisting}[style=pythonstyle]
+# Setup environment variables
+export METABASE_URL=http://localhost:3000
+export METABASE_USER=admin@example.com
+export METABASE_PASS=secret
+
+# Run the seed script
+python scripts/metabase_seed.py
+\end{lstlisting}
+
+Скрипт також підтримує прапорець \texttt{--clear} для видалення попередніх версій дашборда та запитів перед створенням нових.
+
+\section{Інтеграція з інфраструктурою}
+\subsection{Docker Compose}
+Metabase інтегровано в загальну інфраструктуру TechMarket через \texttt{docker-compose.yml}:
+\begin{lstlisting}[style=pythonstyle]
+services:
+  metabase:
+    image: metabase/metabase:v0.48.6
+    container_name: techmarket-metabase
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - metabase-data:/metabase-data
+    networks:
+      - techmarket-net
+    depends_on:
+      - dwh-db
+\end{lstlisting}
+
+\subsection{Послідовність запуску}
+\begin{enumerate}
+  \item Запуск всієї інфраструктури: \texttt{docker-compose up -d}
+  \item Генерація тестових даних в OLTP: \texttt{python database/data/generate\_test\_data.py}
+  \item Виконання ETL: \texttt{python etl/run\_etl.py --mode full}
+  \item Налаштування Metabase: \texttt{python scripts/metabase\_seed.py}
+  \item Відкриття дашборда: \texttt{http://localhost:3000}
+\end{enumerate}
+
+\section{Результати та аналіз}
+\subsection{Досягнуті результати}
+У рамках лабораторної роботи успішно реалізовано:
+\begin{itemize}
+  \item 5 ключових показників ефективності (KPI) для аналізу продажів TechMarket
+  \item SQL-запити з підтримкою параметризації та фільтрації за датами/регіонами
+  \item Інтерактивний дашборд у Metabase із п'ятьма візуалізаціями
+  \item Автоматизацію розгортання BI-інфраструктури через Python API
+  \item Інтеграцію Metabase з PostgreSQL DWH та Docker-екосистемою
+\end{itemize}
+
+\subsection{Аналіз KPI}
+Розроблені показники дозволяють відповісти на ключові бізнес-питання:
+\begin{enumerate}
+  \item \textbf{Revenue by Month} --- виявлення трендів та сезонності продажів
+  \item \textbf{Orders by Region} --- визначення найбільш активних географічних ринків
+  \item \textbf{Average Order Value} --- оцінка ефективності стратегій підвищення чека
+  \item \textbf{Margin Percentage} --- контроль рентабельності бізнесу
+  \item \textbf{Top Products} --- фокусування маркетингових зусиль на найприбутковіших товарах
+\end{enumerate}
+
+\subsection{Переваги використання Metabase}
+\begin{itemize}
+  \item \textbf{Open-source:} безкоштовна альтернатива Power BI та Tableau
+  \item \textbf{Простота інтеграції:} нативна підтримка PostgreSQL без додаткових драйверів
+  \item \textbf{REST API:} повна автоматизація через програмний інтерфейс
+  \item \textbf{Інтерактивність:} фільтри, drill-down, експорт у CSV/PDF
+  \item \textbf{Легке розгортання:} один Docker-контейнер без складних налаштувань
+\end{itemize}
+
+\section{Висновки}
+У ході виконання лабораторної роботи №5 було успішно реалізовано повноцінну систему бізнес-аналітики для інтернет-магазину TechMarket. Розроблено п'ять ключових показників ефективності, які покривають різні аспекти діяльності компанії: динаміку виручки, географічний розподіл продажів, середній чек, маржинальність та популярність товарів.
+
+Для кожного KPI створено оптимізовані SQL-запити, які використовують зоряну схему DWH та забезпечують швидке виконання аналітичних операцій. Параметризація запитів дозволяє динамічно фільтрувати дані за датами та регіонами, що підвищує гнучкість аналізу.
+
+Інтеграція з Metabase забезпечила створення інтерактивного дашборда з професійними візуалізаціями. Автоматизація налаштування через Python API дозволяє швидко відтворювати BI-інфраструктуру в різних середовищах (development, staging, production).
+
+Обране рішення (Metabase) виявилося оптимальним для навчальних та малих комерційних проектів завдяки простоті використання, відсутності ліцензійних витрат та повній інтеграції з існуючою Docker-інфраструктурою проекту.
+
+Результати роботи можуть бути використані для прийняття управлінських рішень щодо асортиментної політики, регіональної експансії, ціноутворення та маркетингових стратегій.
+
+\end{document}

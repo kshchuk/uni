@@ -1,0 +1,25 @@
+\babel@toc {ukrainian}{}\relax 
+\contentsline {section}{\numberline {1}Вступ}{2}{section.1}%
+\contentsline {section}{\numberline {2}Мета та завдання}{2}{section.2}%
+\contentsline {section}{\numberline {3}Архітектура аналітичного рішення}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Структура DWH}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Інтеграція з Metabase}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Ключові показники ефективності (KPI)}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}KPI 1: Динаміка виручки за місяцями (Revenue by Month)}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}KPI 2: Кількість замовлень за регіонами (Orders by Region)}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}KPI 3: Середній чек (Average Order Value)}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}KPI 4: Відсоток маржі (Margin Percentage)}{4}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}KPI 5: Топ-10 товарів за виручкою (Top Products by Revenue)}{5}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Параметризація запитів}{5}{section.5}%
+\contentsline {section}{\numberline {6}Створення дашборда в Metabase}{6}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Архітектура дашборда}{6}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Глобальні фільтри}{6}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Автоматизація розгортання}{6}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Інтеграція з інфраструктурою}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Docker Compose}{7}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Послідовність запуску}{7}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Результати та аналіз}{7}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Досягнуті результати}{7}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Аналіз KPI}{8}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Переваги використання Metabase}{8}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Висновки}{8}{section.9}%
