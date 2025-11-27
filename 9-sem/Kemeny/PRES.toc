@@ -1,0 +1,12 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Вступ}{3}{0}{1}
+\beamer@sectionintoc {2}{Фон: скінченні ергодичні марковські ланцюги}{5}{0}{2}
+\beamer@sectionintoc {3}{Константа Кемені}{8}{0}{3}
+\beamer@sectionintoc {4}{Підхід Дойла: час до рівноваги}{11}{0}{4}
+\beamer@subsectionintoc {4}{1}{Інтерпретація}{11}{0}{4}
+\beamer@subsectionintoc {4}{2}{Heuristic argument}{12}{0}{4}
+\beamer@subsectionintoc {4}{3}{Алгебраїчний доказ}{14}{0}{4}
+\beamer@sectionintoc {5}{Підхід Bini-Hunter-Latouche-Meini-Taylor}{16}{0}{5}
+\beamer@subsectionintoc {5}{1}{Hitting times та відвідування станів}{16}{0}{5}
+\beamer@subsectionintoc {5}{2}{Deviation matrix}{18}{0}{5}
+\beamer@sectionintoc {6}{Узагальнення та застосування}{20}{0}{6}
