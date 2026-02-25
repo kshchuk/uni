@@ -1,0 +1,193 @@
+(base) user@MacBook-Air-user Info % docker compose up -d
+WARN[0000] /Users/user/Desktop/uni/9-sem/Info/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 8/8
+ ✔ Network techmarket-network        Created                   0.0s 
+ ✔ Container techmarket-dwh-db       Started                   0.3s 
+ ✔ Container techmarket-catalog-db   Started                   0.4s 
+ ✔ Container techmarket-auth-db      Started                   0.3s 
+ ✔ Container techmarket-orders-db    Started                   0.4s 
+ ✔ Container techmarket-payments-db  Started                   0.4s 
+ ✔ Container techmarket-metabase     Started                   0.5s 
+ ✔ Container techmarket-adminer      Started                   0.5s 
+(base) user@MacBook-Air-user Info % docker compose ps dwh-db
+WARN[0000] /Users/user/Desktop/uni/9-sem/Info/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+NAME                IMAGE                COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+techmarket-dwh-db   postgres:15-alpine   "docker-entrypoint.s…"   dwh-db    12 seconds ago   Up 11 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+(base) user@MacBook-Air-user Info % docker exec -it techmarket-dwh-db psql -U dwh_user -d dwh_db
+psql (15.15)
+Type "help" for help.
+
+dwh_db=# EXPLAIN (ANALYZE, BUFFERS, VERBOSE) 
+dwh_db-# SELECT
+dwh_db-#   d.year,
+dwh_db-#   d.month,
+dwh_db-#   to_char(d.date, 'Mon') AS month_name,
+dwh_db-#   SUM(f.revenue) AS revenue,
+dwh_db-#   SUM(f.discount_amount) AS discount,
+dwh_db-#   SUM(f.margin) AS margin
+dwh_db-# FROM fact_sales f
+dwh_db-# JOIN dim_date d ON f.date_key = d.date_key
+dwh_db-# LEFT JOIN dim_region r ON f.region_key = r.region_key
+dwh_db-# WHERE d.date >= '2024-01-01' AND d.date <= '2024-12-31'
+dwh_db-# GROUP BY d.year, d.month, to_char(d.date, 'Mon')
+dwh_db-# ORDER BY d.year, d.month;
+                                                                                                QUERY PLAN                                                                                                 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=116.05..116.97 rows=367 width=136) (actual time=2.451..2.453 rows=12 loops=1)
+   Output: d.year, d.month, (to_char((d.date)::timestamp with time zone, 'Mon'::text)), (sum(f.revenue)), (sum(f.discount_amount)), (sum(f.margin))
+   Sort Key: d.year, d.month
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4 read=39
+   ->  HashAggregate  (cost=92.16..100.41 rows=367 width=136) (actual time=2.399..2.408 rows=12 loops=1)
+         Output: d.year, d.month, (to_char((d.date)::timestamp with time zone, 'Mon'::text)), sum(f.revenue), sum(f.discount_amount), sum(f.margin)
+         Group Key: d.year, d.month, to_char((d.date)::timestamp with time zone, 'Mon'::text)
+         Batches: 1  Memory Usage: 45kB
+         Buffers: shared hit=1 read=39
+         ->  Hash Join  (cost=21.54..79.99 rows=811 width=59) (actual time=0.767..2.039 rows=862 loops=1)
+               Output: d.year, d.month, to_char((d.date)::timestamp with time zone, 'Mon'::text), f.revenue, f.discount_amount, f.margin
+               Inner Unique: true
+               Hash Cond: (f.date_key = d.date_key)
+               Buffers: shared hit=1 read=39
+               ->  Seq Scan on public.fact_sales f  (cost=0.00..50.14 rows=1614 width=27) (actual time=0.354..1.088 rows=1614 loops=1)
+                     Output: f.sales_key, f.order_id, f.order_item_id, f.date_key, f.product_key, f.customer_key, f.employee_key, f.region_key, f.quantity, f.revenue, f.discount_amount, f.cost, f.margin
+                     Buffers: shared read=34
+               ->  Hash  (cost=16.95..16.95 rows=367 width=16) (actual time=0.300..0.300 rows=366 loops=1)
+                     Output: d.year, d.month, d.date, d.date_key
+                     Buckets: 1024  Batches: 1  Memory Usage: 26kB
+                     Buffers: shared hit=1 read=5
+                     ->  Seq Scan on public.dim_date d  (cost=0.00..16.95 rows=367 width=16) (actual time=0.104..0.246 rows=366 loops=1)
+                           Output: d.year, d.month, d.date, d.date_key       
+                           Filter: ((d.date >= '2024-01-01'::date) AND (d.date <= '2024-12-31'::date))
+                           Rows Removed by Filter: 364
+                           Buffers: shared hit=1 read=5
+ Planning:
+   Buffers: shared hit=264 read=43
+ Planning Time: 5.581 ms
+ Execution Time: 2.645 ms
+(31 rows)
+         
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
+dwh_db-# SELECT
+dwh_db-#   r.name AS region_name,
+dwh_db-#   COUNT(DISTINCT f.order_id) AS orders_count,
+dwh_db-#   SUM(f.revenue) AS revenue
+dwh_db-# FROM fact_sales f
+dwh_db-# JOIN dim_region r ON f.region_key = r.region_key
+dwh_db-# WHERE f.date_key >= 20240101 AND f.date_key <= 20241231
+dwh_db-# GROUP BY r.name
+dwh_db-# ORDER BY orders_count DESC;
+                                                                                                   QUERY PLAN                                                                                                    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=134.15..134.60 rows=180 width=258) (actual time=2.308..2.311 rows=5 loops=1)
+   Output: r.name, (count(DISTINCT f.order_id)), (sum(f.revenue))
+   Sort Key: (count(DISTINCT f.order_id)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=47 read=1
+   ->  GroupAggregate  (cost=116.55..127.41 rows=180 width=258) (actual time=1.577..2.157 rows=5 loops=1)
+         Output: r.name, count(DISTINCT f.order_id), sum(f.revenue)
+         Group Key: r.name
+         Buffers: shared hit=44 read=1
+         ->  Sort  (cost=116.55..118.70 rows=861 width=261) (actual time=1.229..1.293 rows=862 loops=1)
+               Output: r.name, f.order_id, f.revenue
+               Sort Key: r.name
+               Sort Method: quicksort  Memory: 129kB
+               Buffers: shared hit=37 read=1
+               ->  Hash Join  (cost=14.05..74.58 rows=861 width=261) (actual time=0.468..0.885 rows=862 loops=1)
+                     Output: r.name, f.order_id, f.revenue
+                     Inner Unique: true
+                     Hash Cond: (f.region_key = r.region_key)
+                     Buffers: shared hit=34 read=1
+                     ->  Seq Scan on public.fact_sales f  (cost=0.00..58.21 rows=861 width=47) (actual time=0.016..0.227 rows=862 loops=1)       
+                           Output: f.sales_key, f.order_id, f.order_item_id, f.date_key, f.product_key, f.customer_key, f.employee_key, f.region_key, f.quantity, f.revenue, f.discount_amount, f.cost, f.margin     
+                           Filter: ((f.date_key >= 20240101) AND (f.date_key <= 20241231))
+                           Rows Removed by Filter: 752
+                           Buffers: shared hit=34
+                     ->  Hash  (cost=11.80..11.80 rows=180 width=222) (actual time=0.426..0.427 rows=5 loops=1)
+                           Output: r.name, r.region_key
+                           Buckets: 1024  Batches: 1  Memory Usage: 9kB      
+                           Buffers: shared read=1
+                           ->  Seq Scan on public.dim_region r  (cost=0.00..11.80 rows=180 width=222) (actual time=0.392..0.394 rows=5 loops=1)  
+                                 Output: r.name, r.region_key
+                                 Buffers: shared read=1
+ Planning:
+   Buffers: shared hit=38 read=6
+ Planning Time: 1.897 ms
+ Execution Time: 2.480 ms
+(35 rows)
+         
+dwh_db=# 
+dwh_db=# 
+dwh_db=# 
+dwh_db=# EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
+dwh_db-# SELECT
+dwh_db-#   p.name AS product_name,
+dwh_db-#   SUM(f.revenue) AS revenue,
+dwh_db-#   SUM(f.quantity) AS qty,
+dwh_db-#   SUM(f.margin) AS margin
+dwh_db-# FROM fact_sales f
+dwh_db-# JOIN dim_product p ON f.product_key = p.product_key
+dwh_db-# LEFT JOIN dim_region r ON f.region_key = r.region_key
+dwh_db-# JOIN dim_date d ON f.date_key = d.date_key
+dwh_db-# WHERE d.date >= '2024-01-01' AND d.date <= '2024-12-31'
+dwh_db-# GROUP BY p.name
+dwh_db-# ORDER BY revenue DESC
+dwh_db-# LIMIT 10;
+                                                                                                      QUERY PLAN                                                                                                       
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=101.02..101.04 rows=10 width=588) (actual time=1.449..1.452 rows=10 loops=1)
+   Output: p.name, (sum(f.revenue)), (sum(f.quantity)), (sum(f.margin))
+   Buffers: shared hit=43 read=1
+   ->  Sort  (cost=101.02..101.22 rows=80 width=588) (actual time=1.448..1.450 rows=10 loops=1)
+         Output: p.name, (sum(f.revenue)), (sum(f.quantity)), (sum(f.margin))
+         Sort Key: (sum(f.revenue)) DESC
+         Sort Method: top-N heapsort  Memory: 26kB
+         Buffers: shared hit=43 read=1
+         ->  HashAggregate  (cost=98.09..99.29 rows=80 width=588) (actual time=1.377..1.387 rows=25 loops=1)
+               Output: p.name, sum(f.revenue), sum(f.quantity), sum(f.margin)
+               Group Key: p.name
+               Batches: 1  Memory Usage: 48kB
+               Buffers: shared hit=40 read=1
+               ->  Hash Join  (cost=33.34..89.98 rows=811 width=534) (actual time=0.526..1.128 rows=862 loops=1)
+                     Output: p.name, f.revenue, f.quantity, f.margin
+                     Inner Unique: true
+                     Hash Cond: (f.product_key = p.product_key)
+                     Buffers: shared hit=40 read=1
+                     ->  Hash Join  (cost=21.54..75.94 rows=811 width=22) (actual time=0.167..0.640 rows=862 loops=1)
+                           Output: f.revenue, f.quantity, f.margin, f.product_key
+                           Inner Unique: true
+                           Hash Cond: (f.date_key = d.date_key)
+                           Buffers: shared hit=40
+                           ->  Seq Scan on public.fact_sales f  (cost=0.00..50.14 rows=1614 width=30) (actual time=0.004..0.156 rows=1614 loops=1)
+                                 Output: f.sales_key, f.order_id, f.order_item_id, f.date_key, f.product_key, f.customer_key, f.employee_key, f.region_key, f.quantity, f.revenue, f.discount_amount, f.cost, f.margin
+                                 Buffers: shared hit=34
+                           ->  Hash  (cost=16.95..16.95 rows=367 width=4) (actual time=0.143..0.144 rows=366 loops=1)
+                                 Output: d.date_key
+                                 Buckets: 1024  Batches: 1  Memory Usage: 21kB
+                                 Buffers: shared hit=6
+                                 ->  Seq Scan on public.dim_date d  (cost=0.00..16.95 rows=367 width=4) (actual time=0.007..0.091 rows=366 loops=1)
+                                       Output: d.date_key
+                                       Filter: ((d.date >= '2024-01-01'::date) AND (d.date <= '2024-12-31'::date))
+                                       Rows Removed by Filter: 364
+                                       Buffers: shared hit=6
+                     ->  Hash  (cost=10.80..10.80 rows=80 width=520) (actual time=0.347..0.347 rows=25 loops=1)
+                           Output: p.name, p.product_key
+                           Buckets: 1024  Batches: 1  Memory Usage: 10kB     
+                           Buffers: shared read=1
+                           ->  Seq Scan on public.dim_product p  (cost=0.00..10.80 rows=80 width=520) (actual time=0.329..0.333 rows=25 loops=1) 
+                                 Output: p.name, p.product_key
+                                 Buffers: shared read=1
+ Planning:
+   Buffers: shared hit=67 read=4
+ Planning Time: 1.295 ms
+ Execution Time: 1.590 ms
+(46 rows)

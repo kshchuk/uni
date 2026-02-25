@@ -1,0 +1,258 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[ukrainian]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\definecolor{techblue}{RGB}{30,144,255}
+\definecolor{techdark}{RGB}{25,25,112}
+\definecolor{techaccent}{RGB}{0,191,255}
+\setbeamercolor{structure}{fg=techdark}
+\setbeamercolor{frametitle}{bg=techblue,fg=white}
+\setbeamercolor{block title}{bg=techblue,fg=white}
+\setbeamercolor{item}{fg=techaccent}
+
+\title{TechMarket: Проєктування та розробка високонавантаженої системи}
+\subtitle{Фінальна презентація проєкту}
+\author{Ярослав Кіщук}
+\institute{Київський національний університет імені Тараса Шевченка \\ Факультет комп'ютерних наук та кібернетики}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Зміст}
+    \tableofcontents
+\end{frame}
+
+\section{Вступ}
+\begin{frame}{Про проєкт TechMarket}
+    \textbf{Мета:} Розробка масштабованої системи електронної комерції для продажу техніки.
+    
+    \vspace{0.5cm}
+    \textbf{Ключові компоненти:}
+    \begin{itemize}
+        \item Мікросервісна архітектура (Auth, Catalog, Orders, Payments).
+        \item OLTP база даних (MySQL) для транзакційних операцій.
+        \item ETL-пайплайн (Airflow) для обробки даних.
+        \item OLAP сховище (PostgreSQL) для аналітики.
+        \item Оркестрація контейнерів (Kubernetes).
+    \end{itemize}
+\end{frame}
+
+\section{Архітектура системи}
+\begin{frame}{Архітектура розгортання}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.85\textwidth]{docs/images/TechMarket_Deployment.png}
+        \caption{Детальна схема розгортання компонентів у Kubernetes}
+        \label{fig:deployment}
+    \end{figure}
+\end{frame}
+
+\section{Модель бази даних (OLTP)}
+\begin{frame}[fragile]{OLTP Services: Auth \& Catalog}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Auth_ER.png}
+                \caption{Auth Service}
+                \label{fig:auth_er}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Catalog_ER.png}
+                \caption{Catalog Service}
+                \label{fig:catalog_er}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{OLTP Services: Orders \& Payments}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Orders_ER.png}
+                \caption{Orders Service}
+                \label{fig:orders_er}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Payments_ER.png}
+                \caption{Payments Service}
+                \label{fig:payments_er}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{ETL Процес}
+\begin{frame}{ETL Пайплайн}
+    \textbf{Інструменти:} Apache Airflow, Python (Pandas).
+    
+    \vspace{0.3cm}
+    \textbf{Етапи:}
+    \begin{enumerate}
+        \item \textbf{Extract:} Вивантаження даних з MySQL (інкрементальне).
+        \item \textbf{Transform:} Очищення, денормалізація, агрегація.
+        \item \textbf{Load:} Завантаження в PostgreSQL (DWH).
+    \end{enumerate}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{docs/images/TechMarket_ETL_DWH.png}
+        \caption{Схема ETL процесу}
+        \label{fig:etl}
+    \end{figure}
+\end{frame}
+
+\section{Сховище даних (DWH)}
+\begin{frame}{Структура DWH (Схема "Зірка")}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{docs/images/DWH_ER.png}
+        \caption{Повна ER-діаграма сховища даних}
+        \label{fig:dwh_er}
+    \end{figure}
+\end{frame}
+
+\section{Лабораторні роботи}
+\begin{frame}{Lab 1: Проєктування БД}
+    \textbf{Завдання:} Розробка концептуальної та логічної моделі БД.
+    
+    \vspace{0.3cm}
+    \textbf{Результат:}
+    \begin{itemize}
+        \item Створено ER-діаграми для 4 мікросервісів.
+        \item Нормалізовано до 3НФ.
+        \item Визначено зв'язки між сутностями.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lab 2: Розгортання БД}
+    \textbf{Завдання:} Розгортання OLTP БД у Docker.
+    
+    \vspace{0.3cm}
+    \textbf{Результат:}
+    \begin{itemize}
+        \item Створено docker-compose конфігурацію.
+        \item Ініціалізовано схеми для всіх сервісів.
+        \item Згенеровано тестові дані (10K+ записів).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lab 3: ETL Pipeline}
+    \textbf{Завдання:} Побудова ETL процесу.
+    
+    \vspace{0.3cm}
+    \textbf{Результат:}
+    \begin{itemize}
+        \item Реалізовано інкрементальне завантаження.
+        \item Автоматизовано через Airflow DAG.
+        \item Трансформація у схему "Зірка".
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lab 4: Розгортання у Kubernetes}
+    \textbf{Завдання:} Оркестрація контейнерів.
+    
+    \vspace{0.3cm}
+    \textbf{Результат:}
+    \begin{itemize}
+        \item Створено Kubernetes manifests.
+        \item Налаштовано PersistentVolumes.
+        \item Забезпечено автоматичний restart сервісів.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lab 5: Аналітика та BI}
+    \textbf{Завдання:} Побудова аналітичних запитів та візуалізація.
+    
+    \vspace{0.3cm}
+    \textbf{Результат:}
+    \begin{itemize}
+        \item Створено SQL запити для аналізу продажів.
+        \item Інтегровано Metabase для візуалізації.
+        \item \textit{[Placeholder: Metabase Dashboard Screenshots]}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Lab 6: Оптимізація та масштабування}
+    \textbf{Проблема:} Повільні запити при великих обсягах даних (1M+ рядків).
+    
+    \vspace{0.3cm}
+    \textbf{Застосовані методи:}
+    \begin{itemize}
+        \item \textbf{Індексація:} B-Tree індекси для фільтрації та з'єднань.
+        \item \textbf{Матеріалізовані представлення:} Кешування складних агрегацій.
+        \item \textbf{VACUUM:} Очищення мертвих кортежів.
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{Результат:} Прискорення запитів у \textbf{308×} (з 450ms до 1.46ms).
+\end{frame}
+
+\section{Аналітичні результати}
+\begin{frame}{Бізнес-аналітика}
+    \textbf{Аналітичні можливості:}
+    \begin{itemize}
+        \item Аналіз трендів продажів.
+        \item Сегментація клієнтів за активністю.
+        \item Моніторинг інвентаря в реальному часі.
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{docs/images/TechMarket_Activity_BI_SalesTrend.png}
+        \caption{Use Case діаграма BI системи}
+        \label{fig:bi}
+    \end{figure}
+    
+    \vspace{0.2cm}
+    \textit{[Placeholder: Metabase аналітичні дашборди]}
+\end{frame}
+
+\section{Висновки}
+\begin{frame}{Рефлексія}
+    \textbf{Що вдалося:}
+    \begin{itemize}
+        \item Розробити реальну систему від проєктування до оптимізації.
+        \item Здобути досвід роботи з сучасними технологіями (Kubernetes, Airflow).
+        \item Навчитись налагоджувати та оптимізувати складні запити.
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{Найбільші виклики:}
+    \begin{itemize}
+        \item Налаштування Kubernetes — багато нюансів з volumes та networking.
+        \item Оптимізація запитів на великих обсягах даних.
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{Висновок:}
+    Проєкт дав можливість об'єднати теоретичні знання з практикою та побудувати реальну інфраструктуру даних.
+\end{frame}
+
+\begin{frame}
+    \centering
+    \Huge \textbf{Дякую за увагу!}
+\end{frame}
+
+\end{document}

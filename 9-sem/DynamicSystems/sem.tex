@@ -1,0 +1,1020 @@
+\documentclass[10pt]{beamer}
+
+% Підтримка української мови
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{ukrainian}
+\setotherlanguage{english}
+
+% Налаштування шрифтів для кирилиці
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+% Математичні пакети
+\usepackage{amsmath,amssymb,amsfonts}
+
+\usepackage{graphicx}
+
+% Графіка для космічного оформлення
+\usepackage{tikz}
+\usetikzlibrary{calc,decorations.pathmorphing,fadings}
+
+% Космічна тема Beamer
+\usetheme{default}
+\useinnertheme{circles}
+\useoutertheme{miniframes}
+
+% Кольорова схема "космос"
+\definecolor{spaceblack}{RGB}{10, 10, 25}
+\definecolor{deepblue}{RGB}{20, 30, 80}
+\definecolor{staryellow}{RGB}{255, 220, 100}
+\definecolor{nebulacyan}{RGB}{80, 200, 255}
+\definecolor{nebulapurple}{RGB}{150, 100, 200}
+
+\setbeamercolor{background canvas}{bg=spaceblack}
+\setbeamercolor{normal text}{fg=white}
+\setbeamercolor{frametitle}{fg=nebulacyan, bg=deepblue!80!black}
+\setbeamercolor{title}{fg=nebulacyan}
+\setbeamercolor{subtitle}{fg=nebulapurple!70!white}
+\setbeamercolor{author}{fg=staryellow}
+\setbeamercolor{institute}{fg=white!80}
+\setbeamercolor{date}{fg=white!60}
+\setbeamercolor{item}{fg=nebulacyan}
+\setbeamercolor{subitem}{fg=nebulapurple!70!white}
+\setbeamercolor{block title}{fg=white, bg=deepblue}
+\setbeamercolor{block body}{fg=white, bg=spaceblack!80!deepblue}
+\setbeamercolor{structure}{fg=nebulacyan}
+\setbeamercolor{footline}{fg=white!50, bg=spaceblack}
+\setbeamercolor{headline}{fg=nebulacyan, bg=deepblue!50!black}
+\setbeamercolor{navigation symbols}{fg=nebulacyan!50}
+
+% Стиль заголовків слайдів
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+
+% Прибрати навігаційні символи
+\setbeamertemplate{navigation symbols}{}
+
+% Ввімкнути нумеровані підписи до рисунків і локалізувати мітку
+\setbeamertemplate{caption}[numbered]
+\renewcommand{\figurename}{Рис}
+
+% Власний шаблон титульної сторінки
+\defbeamertemplate*{title page}{customized}[1][]
+{
+  \begin{tikzpicture}[remember picture, overlay]
+    % Градієнтний фон
+    \fill[deepblue!30!spaceblack] (current page.south west) rectangle (current page.north east);
+    % Зірки (випадкові точки)
+    \foreach \i in {1,...,100} {
+      \pgfmathsetmacro{\x}{rand*6}
+      \pgfmathsetmacro{\y}{rand*4.5}
+      \pgfmathsetmacro{\s}{0.3+rand*0.7}
+      \fill[white, opacity=\s] (\x,\y) circle (0.02);
+    }
+    % Декоративне коло (планета/зоря)
+    \shade[ball color=nebulacyan!60!deepblue, opacity=0.4] (-2.5,-1.5) circle (1.2);
+    \shade[ball color=staryellow, opacity=0.8] (5.5,3.5) circle (0.6);
+    % Орбіта
+    \draw[nebulacyan!50, thick, dashed] (5.5,3.5) ellipse (2 and 0.8);
+  \end{tikzpicture}
+  
+  \vspace{1cm}
+  \begin{center}
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\\[4mm]
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\\[8mm]
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\\[3mm]
+    {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute}
+  \end{center}
+}
+
+% -------------------------------
+% Блок 0. Вступ і мотивація
+% -------------------------------
+
+\title[Орбітальна динаміка екзопланет]{Моделі руху матеріальної точки.\\[2mm] Орбітальна динаміка екзопланет і зона життя за моделлю Kopparapu}
+\subtitle{Семінар з курсу «Моделювання динамічних систем»}
+\author[Кіщук Я.Я.]{Кіщук Ярослав Ярославович}
+\institute[КНУ]{Київський національний університет імені Тараса Шевченка \\ Факультет комп'ютерних наук та кібернетики}
+\date{}
+
+\begin{document}
+
+% Слайд 1. Титульний
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Слайд 2. Мотивація: екзопланети й зона життя
+\begin{frame}{Мотивація: екзопланети й зона життя}
+  \begin{itemize}
+    \item За останні десятиліття відкрито тисячі екзопланет (дані астрономічних оглядів, зокрема місій \textit{Kepler}, \textit{TESS} тощо).
+    \item Ключове фізичне питання:
+      \begin{itemize}
+        \item які з цих планет можуть мати умови для існування рідкої води на поверхні?
+      \end{itemize}
+    \item Концепція \textbf{життєпридатної зони} (Habitable Zone, HZ):
+      \begin{itemize}
+        \item інтервал відстаней від зорі, де потік випромінювання дозволяє існування рідкої води,
+        \item HZ залежить від світності $L$ та ефективної температури $T_{\text{eff}}$ зорі.
+      \end{itemize}
+    \item Для аналізу екзопланет потрібні:
+      \begin{itemize}
+        \item модель орбітальної динаміки (рух планети як матеріальної точки),
+        \item модель енергетичного балансу, яка задає межі зони життя.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Слайд 3. Математична постановка й мета
+\begin{frame}{Математична постановка й мета}
+  \scriptsize
+  \begin{itemize}
+    \item \textbf{Модель руху:}
+      \begin{itemize}
+        \item планета моделюється як матеріальна точка маси $m$,
+        \item що рухається в центральному ньютонівському полі тяжіння маси $M$ (зоря),
+        \item двохтільна задача $\Rightarrow$ конічні орбіти (кола, еліпси, тощо).
+      \end{itemize}
+
+
+    \item \textbf{Орбітальні параметри:}
+      \begin{itemize}
+        \item велика піввісь $a$, ексцентриситет $e$, період $P$,
+        \item ці параметри визначають траєкторію $r(t)$ та положення $(x(t),y(t))$ у часі.
+      \end{itemize}
+
+
+    \item \textbf{Модель зони життя Kopparapu:}
+      \begin{itemize}
+        \item за заданими $L$ та $T_{\text{eff}}$ зорі obчислюється інтервал $[d_{\text{in}}, d_{\text{out}}]$,
+        \item тобто радіуси внутрішньої та зовнішньої меж життєпридатної зони.
+      \end{itemize}
+
+
+    \item \textbf{Мета доповіді:}
+      \begin{itemize}
+        \item побудувати строгий ланцюжок
+        {\raggedright
+        \[
+          	ext{динаміка точки в полі } \frac{1}{r^2}
+          \;\Longrightarrow\; \text{орбітальні елементи } (a,e,P)
+          \;\Longrightarrow\; r(t)
+          \;\Longrightarrow\; d_{\text{in}} \le r(t) \le d_{\text{out}},
+        \]
+        }
+        \item і показати, як ці моделі використовуються для аналізу екзопланетних систем.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 1. Модель руху матеріальної точки в центральному полі
+% -------------------------------
+
+\section{Модель руху матеріальної точки в центральному полі}
+
+% Слайд 4. Двохтільна задача в ньютонівському формалізмі
+\begin{frame}{Двохтільна задача в ньютонівському формалізмі}
+  \begin{itemize}
+    \item Розглядаємо систему:
+      \begin{itemize}
+        \item зоря маси $M$ (домінує гравітаційно),
+        \item планета маси $m$ ($m \ll M$), яку моделюємо як матеріальну точку.
+      \end{itemize}
+
+    \medskip
+
+    \item Закон всесвітнього тяжіння Ньютона:
+      \[
+        \mathbf{F}(\mathbf{r}) = -\,G\,\frac{M m}{r^{3}}\,\mathbf{r},
+        \qquad r = \|\mathbf{r}\|.
+      \]
+
+    \medskip
+
+    \item Другий закон Ньютона для планети:
+      \[
+        m \ddot{\mathbf{r}} = \mathbf{F}(\mathbf{r})
+        \;\;\Longrightarrow\;\;
+        \ddot{\mathbf{r}} = -\,G\,\frac{M}{r^{3}}\,\mathbf{r}.
+      \]
+
+    \medskip
+
+    \item Властивості задачі:
+      \begin{itemize}
+        \item поле центральне $\Rightarrow$ момент імпульсу зберігається;
+        \item траєкторія лежить в деякій фіксованій площині;
+        \item система редукується до задачі про рух у площині.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Слайд 5. Перехід до полярних координат і інтеграли руху
+\begin{frame}{Полярні координати та інтеграли руху}
+  \begin{itemize}
+    \item Вводимо полярні координати в площині орбіти:
+      \[
+        \mathbf{r}(t) = \bigl(r(t)\cos\theta(t),\, r(t)\sin\theta(t)\bigr).
+      \]
+
+    \medskip
+
+    \item Рівняння руху в полярних координатах мають вигляд:
+      \[
+        \ddot r - r\,\dot\theta^{2} = -\,\frac{G M}{r^{2}},
+        \qquad
+        r^{2}\dot\theta = h = \text{const}.
+      \]
+
+    \medskip
+
+    \item Інтеграл кутового моменту:
+      \begin{itemize}
+        \item $h = r^{2}\dot\theta$ --- кутовий момент на одиницю маси,
+        \item $h = \text{const}$ $\Rightarrow$ друга формула Кеплера (рівність секторних площ за рівні проміжки часу).
+      \end{itemize}
+
+    \medskip
+
+    \item Інтеграл енергії:
+      \[
+        E = \frac{m}{2}\bigl(\dot r^{2} + r^{2}\dot\theta^{2}\bigr)
+            - \frac{G M m}{r}
+            = \text{const}.
+      \]
+  \end{itemize}
+\end{frame}
+
+% Слайд 6. Лагранжевий формалізм
+\begin{frame}{Лагранжевий формалізм для центрального поля}
+  \begin{itemize}
+    \item Кінетична та потенціальна енергії:
+      \[
+        T = \frac{m}{2}\bigl(\dot r^{2} + r^{2}\dot\theta^{2}\bigr),
+        \qquad
+        V(r) = -\,\frac{G M m}{r}.
+      \]
+
+    \medskip
+
+    \item Лагранжіан системи:
+      \[
+        L(r,\theta,\dot r,\dot\theta)
+        = T - V
+        = \frac{m}{2}\bigl(\dot r^{2} + r^{2}\dot\theta^{2}\bigr)
+          + \frac{G M m}{r}.
+      \]
+
+    \medskip
+
+    \item Рівняння Лагранжа:
+      \[
+        \frac{d}{dt}\Bigl(\frac{\partial L}{\partial \dot q_i}\Bigr)
+        - \frac{\partial L}{\partial q_i} = 0,
+        \qquad q_i \in \{r,\theta\}.
+      \]
+
+    \medskip
+
+    \item Для координати $\theta$:
+      \[
+        \frac{d}{dt}\bigl(m r^{2}\dot\theta\bigr) = 0
+        \;\;\Longrightarrow\;\;
+        m r^{2}\dot\theta = \text{const},
+      \]
+      що відтворює збереження кутового моменту.
+
+    \item Для координати $r$ отримуємо те саме радіальне рівняння, що й з формалізму Ньютона.
+  \end{itemize}
+\end{frame}
+
+% Слайд 7. Орбіти як конічні перерізи. Закони Кеплера
+\begin{frame}{Орбіти як конічні перерізи та закони Кеплера}
+  \begin{itemize}
+    \item З інтегралів руху (енергія $E$, момент $h$) випливає,
+      що траєкторія в центральному полі $\propto 1/r^{2}$
+      є конічним перерізом.
+
+    \medskip
+
+    \item \textbf{Еліптична орбіта} (зв’язаний рух, $E<0$):
+      \[
+        r(\nu) = \frac{a\,(1 - e^{2})}{1 + e\cos\nu},
+      \]
+      де
+      \begin{itemize}
+        \item $a$ --- велика піввісь еліпса,
+        \item $e$ --- ексцентриситет ($0 \le e < 1$),
+        \item $\nu$ --- істинна аномалія (кут положення відносно перицентра).
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Третій закон Кеплера} (для $m \ll M$):
+      \[
+        P^{2} = \frac{4\pi^{2}}{G M}\,a^{3},
+      \]
+      де $P$ --- сидеричний період обертання.
+
+    \medskip
+
+    \item Узагальнення:
+      \begin{itemize}
+        \item $E = 0$ $\Rightarrow$ параболічна траєкторія ($e=1$),
+        \item $E > 0$ $\Rightarrow$ гіперболічна траєкторія ($e>1$).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 2. Від орбітальних елементів до положення планети
+% -------------------------------
+
+\section{Від орбітальних елементів до положення планети}
+
+% Слайд 8. Орбітальні елементи як вхідні дані
+\begin{frame}{Орбітальні елементи як вхідні дані}
+  \begin{itemize}
+    \item Для еліптичної орбіти планети навколо зорі (двохтільна задача) як вхідні дані зручно використовувати:
+      \begin{itemize}
+        \item велику піввісь $a$,
+        \item ексцентриситет $e$,
+        \item період обертання $P$,
+        \item початкову фазу (напр., середню аномалію $M_0$ у момент $t=0$).
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Задача:}
+      \begin{itemize}
+        \item за заданим часом $t$ знайти \emph{поточне положення планети} на орбіті:
+          \[
+            r(t), \quad \theta(t) \quad \text{або} \quad (x(t),y(t)).
+          \]
+      \end{itemize}
+
+    \medskip
+
+    \item Стандартний ланцюжок перетворень:
+      \[
+        t \;\Longrightarrow\; M(t) \;\Longrightarrow\; E(t)
+        \;\Longrightarrow\; \nu(t) \;\Longrightarrow\; r(t)
+        \;\Longrightarrow\; (x(t),y(t)).
+      \]
+  \end{itemize}
+\end{frame}
+
+% Слайд 9. Середня аномалія M(t)
+\begin{frame}{Середня аномалія $M(t)$}
+  \begin{itemize}
+    \item \textbf{Середня аномалія} $M$ визначається як кут,
+      який зростає рівномірно з часом:
+      \[
+        M(t) = n\,t + M_0,
+        \qquad n = \frac{2\pi}{P}.
+      \]
+
+    \medskip
+
+    \item $n$ --- \textbf{середній рух} (середня кутова швидкість),
+      $M_0$ --- значення $M$ при $t=0$.
+
+    \medskip
+
+    \item Геометричний зміст:
+      \begin{itemize}
+        \item $M$ --- кутова координата \emph{уявної} точки,
+          що рухається \textbf{рівномірно по колу}
+          радіуса $a$ з періодом $P$.
+        \item Для реальної планети рух по еліпсу нерівномірний,
+          але $M$ використовується як параметр часу.
+      \end{itemize}
+
+    \medskip
+
+    \item Далі: $M(t)$ входить до \textbf{рівняння Кеплера}, яке пов’язує $M$ з ексцентричною аномалією~$E$.
+  \end{itemize}
+\end{frame}
+
+% Слайд 10. Рівняння Кеплера і ексцентрична аномалія E
+\begin{frame}{Рівняння Кеплера і ексцентрична аномалія $E$}
+  \begin{itemize}
+    \item \textbf{Ексцентрична аномалія} $E$ --- допоміжний кут,
+      який параметризує положення точки на еліпсі.
+
+    \medskip
+
+    \item Для еліптичної орбіти ($0 \le e < 1$) виконується
+      \textbf{рівняння Кеплера}:
+      \[
+        M = E - e \sin E.
+      \]
+
+    \medskip
+
+    \item Це трансцендентне рівняння:
+      \begin{itemize}
+        \item немає виразу $E(M)$ в елементарних функціях;
+        \item для заданих $M$ і $e$ потрібно чисельно знайти корінь
+          $f(E) = E - e\sin E - M = 0$.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Чисельне розв’язання:}
+      \begin{itemize}
+        \item на практиці часто використовують ітераційні методи,
+          зокрема метод Ньютона–Рафсона
+          для рівняння $f(E) = 0$;
+        \item за малих $e$ як початкове наближення беруть $E_0 \approx M$,
+          ітерації швидко збігаються.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Слайд 11. Перехід від E до істинної аномалії ν та радіуса r
+\begin{frame}{Перехід від $E$ до істинної аномалії $\nu$ та радіуса $r$}
+  \begin{itemize}
+    \item \textbf{Істинна аномалія} $\nu$ --- фактичний кут
+      положення планети відносно перицентра орбіти.
+
+    \medskip
+
+    \item Знайшовши $E$, обчислюємо $\nu$ за класичною формулою:
+      \[
+        \tan\frac{\nu}{2}
+        = \sqrt{\frac{1+e}{1-e}}\,
+          \tan\frac{E}{2}.
+      \]
+
+    \medskip
+
+    \item Потім обчислюємо радіус-вектор:
+      \[
+        r = \frac{a(1 - e^{2})}{1 + e\cos\nu}
+        \quad\text{(еквівалентно,}\;\;
+        r = a(1 - e\cos E)\text{)}.
+      \]
+
+    \medskip
+
+    \item Таким чином, для кожного моменту часу $t$ маємо:
+      \[
+        t \Rightarrow M(t) \Rightarrow E(t)
+        \Rightarrow \nu(t) \Rightarrow r(t).
+      \]
+  \end{itemize}
+\end{frame}
+
+% Слайд 12. Координати (x, y) в площині орбіти
+\begin{frame}{Координати $(x,y)$ в площині орбіти}
+  \begin{itemize}
+    \item Оберемо систему координат так, щоб:
+      \begin{itemize}
+        \item зоря маси $M$ знаходилася в початку координат $(0,0)$,
+        \item перицентр орбіти лежав на додатній осі $Ox$.
+      \end{itemize}
+
+    \medskip
+
+    \item Тоді полярні координати $(r(t),\nu(t))$
+      переходять у декартові за стандартними формулами:
+      \[
+        x(t) = r(t)\cos\nu(t), \qquad
+        y(t) = r(t)\sin\nu(t).
+      \]
+
+    \medskip
+
+    \item \textbf{Результат:}
+      \begin{itemize}
+        \item для кожного часу $t$ ми маємо однозначно визначене
+          положення планети $(x(t),y(t))$ на площині орбіти;
+        \item далі ці координати можуть бути використані для
+          візуалізації орбіти та аналізу того,
+          чи потрапляє планета в життєпридатну зону.
+      \end{itemize}
+
+    \medskip
+
+    \item (За потреби можна додати повороти/нахил орбіти
+      для переходу до 3D, але базова 2D-модель вже повністю визначена.)
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 3. Модель життєпридатної зони Kopparapu
+% -------------------------------
+
+\section{Модель життєпридатної зони Kopparapu}
+
+% Слайд 13. Поняття життєпридатної зони
+\begin{frame}{Поняття життєпридатної зони}
+  \begin{itemize}
+    \item \textbf{Життєпридатна зона} (Habitable Zone, HZ) --- 
+    інтервал відстаней від зорі, в якому на поверхні планети земного типу
+    \emph{може} існувати рідка вода.
+    
+    \medskip
+
+    \item На рівні енергетики:
+      \begin{itemize}
+        \item потік зіркового випромінювання на орбіті планети
+              має лежати в деякому діапазоні,
+        \item занадто великий потік $\Rightarrow$ вода випаровується (перегрів, «парникова Венера»),
+        \item занадто малий потік $\Rightarrow$ вода замерзає (глобальне заледеніння).
+      \end{itemize}
+
+    \medskip
+
+    \item Математично HZ задається інтервалом радіусів:
+      \[
+        [d_{\text{in}}, d_{\text{out}}]
+      \]
+      навколо зорі, де $d_{\text{in}}$ --- внутрішня межа HZ,
+      $d_{\text{out}}$ --- зовнішня межа.
+
+    \medskip
+
+    \item Положення HZ залежить від:
+      \begin{itemize}
+        \item світності зорі $L$,
+        \item ефективної температури $T_{\text{eff}}$,
+        \item (у більш точній моделі) від маси та атмосфери планети.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Слайд 14. Ефективний потік S_{\text{eff}}(T_*)
+\begin{frame}{Ефективний потік $S_{\text{eff}}(T_*)$}
+  \begin{itemize}
+    \item Kopparapu et al. вводять \textbf{ефективний потік} $S_{\text{eff}}$:
+      \begin{itemize}
+        \item безрозмірна величина,
+        \item $S_{\text{eff}} = 1$ відповідає середньому потоку на орбіті Землі.
+      \end{itemize}
+
+    \medskip
+
+    \item Для кожної межі HZ ($\text{inner}$, $\text{outer}$)
+          $S_{\text{eff}}$ задається як поліном від
+          \[
+            T^{*} = T_{\text{eff}} - 5780~\text{K}.
+          \]
+
+    \medskip
+
+    \item \textbf{Поліноміальна апроксимація Kopparapu:}
+      \[
+        S_{\text{eff}}(T_*)
+        = S_{\text{eff},\odot}
+          + a T^{*}
+          + b (T^{*})^{2}
+          + c (T^{*})^{3}
+          + d (T^{*})^{4},
+      \]
+      де
+      \begin{itemize}
+        \item $S_{\text{eff},\odot}$, $a$, $b$, $c$, $d$ --- табличні коефіцієнти,
+        \item різні набори коефіцієнтів для:
+          \begin{itemize}
+            \item внутрішньої межі (наприклад, «runaway greenhouse»),
+            \item зовнішньої межі (наприклад, «maximum greenhouse»),
+            \item різних мас планети (0.1, 1, 5~$M_\oplus$).
+          \end{itemize}
+      \end{itemize}
+
+    \medskip
+
+    \item Таким чином, $S_{\text{eff}}$ --- функція температури зорі $T_{\text{eff}}$,
+          яка враховує спектральний розподіл випромінювання.
+  \end{itemize}
+\end{frame}
+
+% Слайд 15. Від S_{\text{eff}} до відстані d
+\begin{frame}{Перехід від $S_{\text{eff}}$ до відстані $d$}
+  \footnotesize
+  \begin{itemize}
+    \item Потік випромінювання від зорі світності $L$ на відстані $d$:
+      \[
+        F(d) = \frac{L}{4\pi d^{2}}.
+      \]
+
+    \item Нормування до сонячного випадку (Земля):
+      \[
+        S_{\text{eff}}
+        = \frac{F(d)}{F_\oplus}
+        = \frac{L/L_\odot}{d^{2}},
+      \]
+      якщо $d$ вимірюємо в астрономічних одиницях.
+
+    \item Формула для відстані:
+      \[
+        d = \sqrt{\frac{L/L_\odot}{S_{\text{eff}}}}.
+      \]
+
+    \item Межі HZ:
+      \[
+        d_{\text{in}} = \sqrt{\frac{L/L_\odot}{S_{\text{eff}}^{(\text{inner})}(T_*)}},\quad
+        d_{\text{out}} = \sqrt{\frac{L/L_\odot}{S_{\text{eff}}^{(\text{outer})}(T_*)}}.
+      \]
+
+    \item Таким чином, для заданих $L$ і $T_{\text{eff}}$ ми аналітично
+          отримуємо радіуси меж життєпридатної зони.
+  \end{itemize}
+\end{frame}
+
+% Слайд 16. Фізичний зміст внутрішньої та зовнішньої межі
+\begin{frame}{Фізичний зміст $d_{\text{in}}$ та $d_{\text{out}}$}
+  \begin{itemize}
+    \item \textbf{Внутрішня межа} $d_{\text{in}}$ (runaway greenhouse):
+      \begin{itemize}
+        \item за $d < d_{\text{in}}$ потік занадто великий,
+        \item температура поверхні зростає,
+              океани випаровуються,
+              парниковий ефект самопідсилюється,
+        \item врешті-решт вода повністю переходить у газову фазу
+              та може бути втрачена.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Зовнішня межа} $d_{\text{out}}$ (maximum greenhouse):
+      \begin{itemize}
+        \item за $d > d_{\text{out}}$ потік занадто малий,
+        \item навіть максимальний парниковий ефект (насичена CO$_2$ атмосфера)
+              не здатен утримати температуру вище 0°C,
+        \item планета переходить у стан глобального заледеніння.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Підсумок:}
+      \begin{itemize}
+        \item інтервал $[d_{\text{in}}, d_{\text{out}}]$ задає
+              необхідну (але не достатню) умову для існування рідкої води;
+        \item надалі ми будемо порівнювати орбіту $r(t)$ планети
+              з цим інтервалом.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 4. Динамічна система «орбіта + зона життя»
+% -------------------------------
+
+\section{Динамічна система «орбіта + зона життя»}
+
+% Слайд 17. Орбіта r(t) та інтервал [d_in, d_out]
+\begin{frame}{Орбіта $r(t)$ та інтервал $[d_{\text{in}}, d_{\text{out}}]$}
+  \begin{itemize}
+    \item Для еліптичної орбіти маємо
+      \[
+        r(t) = \frac{a(1 - e^{2})}{1 + e\cos\nu(t)},
+      \]
+      де $\nu(t)$ --- істинна аномалія, знайдена через
+      $M(t)$ та $E(t)$.
+
+    \medskip
+
+    \item Життєпридатна зона зорі задається інтервалом радіусів:
+      \[
+        [d_{\text{in}}, d_{\text{out}}],
+      \]
+      де $d_{\text{in}}$, $d_{\text{out}}$ обчислені за моделлю Kopparapu.
+
+    \medskip
+
+    \item \textbf{Умова перебування планети в HZ} в момент часу $t$:
+      \[
+        d_{\text{in}} \;\le\; r(t) \;\le\; d_{\text{out}}.
+      \]
+
+    \medskip
+
+    \item Таким чином, динамічна система
+      \[
+        t \mapsto r(t)
+      \]
+      поєднується з \emph{статично} заданим інтервалом $[d_{\text{in}}, d_{\text{out}}]$,
+      утворюючи задачу про час перебування траєкторії всередині заданого кільця.
+  \end{itemize}
+\end{frame}
+
+% Слайд 18. Частка періоду в життєпридатній зоні
+\begin{frame}{Частка періоду в життєпридатній зоні}
+  \begin{itemize}
+    \item Нехай $P$ --- період обертання планети по орбіті.
+
+    \medskip
+
+    \item Введемо \textbf{індикаторну функцію} перебування в HZ:
+      \[
+        \chi_{\text{HZ}}(t)
+        =
+        \begin{cases}
+          1, & d_{\text{in}} \le r(t) \le d_{\text{out}},\\[1mm]
+          0, & \text{інакше}.
+        \end{cases}
+      \]
+
+    \medskip
+
+    \item \textbf{Частка періоду}, яку планета проводить у HZ:
+      \[
+        \tau_{\text{HZ}}
+        = \frac{1}{P} \int_{0}^{P} \chi_{\text{HZ}}(t)\,dt,
+        \qquad 0 \le \tau_{\text{HZ}} \le 1.
+      \]
+
+    \medskip
+
+    \item Для майже кругової орбіти ($e \approx 0$):
+      \begin{itemize}
+        \item якщо $a \in [d_{\text{in}}, d_{\text{out}}]$, то $\tau_{\text{HZ}} \approx 1$;
+        \item якщо $a$ поза цим інтервалом, то $\tau_{\text{HZ}} \approx 0$.
+      \end{itemize}
+
+    \medskip
+
+    \item Для ексцентричної орбіти ($e > 0$):
+      \begin{itemize}
+        \item можливі проміжні значення $0 < \tau_{\text{HZ}} < 1$;
+        \item планета частину орбіти проводить в HZ, частину --- поза нею.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Слайд 19. Обчислення τ_HZ через аномалію ν
+\begin{frame}{Обчислення $\tau_{\text{HZ}}$ через істинну аномалію $\nu$}
+  \footnotesize
+  \begin{itemize}
+    \item Використаємо зв'язок між часом і кутом $\theta$ (або $\nu$)
+      з другого закону Кеплера:
+      \[
+        r^{2} \dot\theta = h = \text{const}
+        \;\;\Longrightarrow\;\;
+        \frac{d t}{d\theta} = \frac{r^{2}(\theta)}{h}.
+      \]
+
+    \medskip
+
+    \item Якщо ототожнити $\theta \equiv \nu$,
+      тоді для одного періоду:
+      \[
+        P = \int_{0}^{2\pi} \frac{r^{2}(\nu)}{h}\,d\nu.
+      \]
+
+    \medskip
+
+    \item Час, проведений у HZ:
+      \[
+        T_{\text{HZ}}
+        = \int_{\{\nu: d_{\text{in}} \le r(\nu) \le d_{\text{out}}\}}
+          \frac{r^{2}(\nu)}{h}\,d\nu.
+      \]
+
+    \medskip
+
+    \item Звідси
+      \[
+        \tau_{\text{HZ}} = \frac{T_{\text{HZ}}}{P}
+        = \frac{\displaystyle
+              \int_{\{\nu: d_{\text{in}} \le r(\nu) \le d_{\text{out}}\}}
+                  r^{2}(\nu)\,d\nu}
+               {\displaystyle
+              \int_{0}^{2\pi} r^{2}(\nu)\,d\nu}.
+      \]
+
+    \medskip
+
+    \item Це дає \emph{строге інтегральне визначення} $\tau_{\text{HZ}}$
+          через відому функцію $r(\nu)$, де
+          \(
+            r(\nu) = \dfrac{a(1-e^{2})}{1+e\cos\nu}.
+          \)
+  \end{itemize}
+\end{frame}
+
+% Слайд 20. Вплив параметрів e, L, T_eff
+\begin{frame}{Вплив параметрів $e$, $L$, $T_{\text{eff}}$}
+  \begin{itemize}
+    \item \textbf{Ексцентриситет $e$:}
+      \begin{itemize}
+        \item при $e = 0$ радіус $r(t) \equiv a$ сталий;
+        \item при збільшенні $e$:
+          \begin{itemize}
+            \item $r_{\min} = a(1-e)$ (перицентр),
+            \item $r_{\max} = a(1+e)$ (апоцентр),
+          \end{itemize}
+        \item чим більший $e$, тим ширший діапазон $r(t)$
+              і тим складніша структура входів/виходів у HZ.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Світність $L$:}
+      \begin{itemize}
+        \item межі HZ масштабуються як $d \propto \sqrt{L}$,
+        \item для більш яскравої зорі HZ зміщується на більші радіуси,
+        \item для слабшої зорі --- навпаки, ближче до зорі.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Ефективна температура $T_{\text{eff}}$:}
+      \begin{itemize}
+        \item впливає на $S_{\text{eff}}(T_*)$ в моделі Kopparapu,
+        \item змінює положення меж HZ навіть при фіксованому $L$,
+        \item пов’язане зі спектральним типом зорі та спектральним розподілом випромінювання.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 5. Приклади та ілюстрації
+% -------------------------------
+
+\section{Приклади та ілюстрації}
+
+% Слайд 21. Приклад 1: майже кругова орбіта всередині HZ
+\begin{frame}{Приклад 1: майже кругова орбіта всередині HZ}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item Орбіта з малим ексцентриситетом $e \approx 0$.
+        \item Велика піввісь $a$ вибрана так, що
+              \[
+                d_{\text{in}} < a < d_{\text{out}}.
+              \]
+        \item Тоді $r(t) \approx a$ для всіх $t$,
+              і умова перебування в HZ виконується протягом усього періоду.
+        \item \textbf{Частка періоду:} $\tau_{\text{HZ}} \approx 1$.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \centering
+        % Заміни file_name.pdf / .png на свою ілюстрацію
+        \includegraphics[width=\linewidth]{circular_orbit_hz.pdf}
+        \caption{Схематична орбіта всередині HZ.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Слайд 22. Приклад 2: ексцентрична орбіта, що перетинає HZ
+\begin{frame}{Приклад 2: ексцентрична орбіта, що перетинає HZ}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item Орбіта з помітним ексцентриситетом $e > 0$.
+        \item Перицентр $r_{\min} < d_{\text{in}}$:
+          \begin{itemize}
+            \item поблизу перицентра планета перебуває \emph{всередині}
+                  внутрішньої межі (надто жарко).
+          \end{itemize}
+        \item Апоцентр $r_{\max} > d_{\text{out}}$:
+          \begin{itemize}
+            \item поблизу апоцентра планета \emph{поза} HZ
+                  (надто холодно).
+          \end{itemize}
+        \item Лише на частині орбіти виконується
+              \(
+                d_{\text{in}} \le r(t) \le d_{\text{out}}.
+              \)
+        \item \textbf{Частка періоду:} $0 < \tau_{\text{HZ}} < 1$.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \centering
+        % Заміни file_name.pdf / .png на свою ілюстрацію
+        \includegraphics[width=\linewidth]{eccentric_orbit_hz.pdf}
+        \caption{Ексцентрична орбіта, що перетинає HZ.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Слайд 23. Коментарі до прикладів
+\begin{frame}{Коментарі до прикладів}
+  \begin{itemize}
+    \item Обидва приклади будуються на одних і тих самих формулах:
+      \[
+        r(\nu) = \frac{a(1-e^{2})}{1 + e\cos\nu},
+        \qquad
+        d_{\text{in}}, d_{\text{out}}\ \text{з моделі Kopparapu}.
+      \]
+
+    \medskip
+
+    \item Різниця полягає в:
+      \begin{itemize}
+        \item значенні ексцентриситету $e$,
+        \item співвідношенні $a$ з $d_{\text{in}}$ та $d_{\text{out}}$,
+        \item а також у відповідних значеннях $\tau_{\text{HZ}}$.
+      \end{itemize}
+
+    \medskip
+
+    \item На практиці:
+      \begin{itemize}
+        \item з орбітальних елементів (виміряних астрономічно)
+              та параметрів зорі (світність, $T_{\text{eff}}$)
+              можна \emph{обчислити}, як багато часу
+              планета проводить у життєпридатній зоні.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% -------------------------------
+% Блок 6. Висновки та література
+% -------------------------------
+
+\section{Висновки та література}
+
+% Слайд 24. Підсумки (компактна версія)
+\begin{frame}{Підсумки}
+  \small
+  \begin{itemize}
+    \item \textbf{Динамічна модель}
+      \begin{itemize}
+        \item Рух планети описано як рух матеріальної точки в центральному полі $1/r^{2}$.
+        \item Отримано конічні орбіти (еліпси) та закони Кеплера.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Від орбітальних елементів до координат}
+      \begin{itemize}
+        \item Орбіта задається параметрами $(a,e,P,M_0)$.
+        \item Побудовано ланцюжок:
+        \[
+          t \Rightarrow M(t) \Rightarrow E(t)
+          \Rightarrow \nu(t) \Rightarrow r(t) \Rightarrow (x(t),y(t)).
+        \]
+        \item Рівняння Кеплера $M = E - e\sin E$ розв’язується чисельно.
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Зона життя Kopparapu}
+      \begin{itemize}
+        \item За $L$ та $T_{\text{eff}}$ зорі обчислено
+              ефективний потік $S_{\text{eff}}(T_*)$
+              і межі $d_{\text{in}}, d_{\text{out}}$.
+        \item Критерій перебування планети в HZ:
+              \(
+                d_{\text{in}} \le r(t) \le d_{\text{out}}.
+              \)
+      \end{itemize}
+
+    \medskip
+
+    \item \textbf{Головний висновок}
+      \begin{itemize}
+        \item Поєднання орбітальної динаміки з моделлю HZ
+              дозволяє кількісно оцінити частку періоду
+              $\tau_{\text{HZ}}$, яку екзопланета проводить
+              у життєпридатній зоні своєї зорі.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+% Слайд 25. Джерела та література
+\begin{frame}{Джерела та література}
+  \small
+  \begin{itemize}
+    \item Ландау Л.Д., Лифшиц Е.М. \textit{Механика}. —
+          М.: Наука, 1988. — (Теоретическая физика, т.~1).
+
+    \item Гантмахер Ф.Р. \textit{Лекции по аналитической механике}. —
+          М.: Наука, 1966.
+
+    \item Kasting J.F., Whitmire D.P., Reynolds R.T.\\
+          \textit{Habitable Zones around Main Sequence Stars}. —
+          Icarus, 101, 108–128 (1993).
+
+    \item Kopparapu R.K., Ramirez R., Kasting J.F. et al.\\
+          \textit{Habitable Zones around Main-Sequence Stars: New Estimates}. —
+          Astrophysical Journal, 765, 131 (2013).
+
+    \item Kopparapu R.K., Ramirez R.M., SchottelKotte J. et al.\\
+          \textit{Habitable Zones around Main-Sequence Stars: Dependence on Planetary Mass}. —
+          Astrophysical Journal Letters, 787, L29 (2014).
+
+    \item Онлайн-ресурси:
+      \begin{itemize}
+        \item https://www.exoplanetvisualizer.com/,
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\end{document}

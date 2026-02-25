@@ -1,0 +1,8 @@
+\beamer@slide {fig:deployment}{4}
+\beamer@slide {fig:auth_er}{5}
+\beamer@slide {fig:catalog_er}{5}
+\beamer@slide {fig:orders_er}{6}
+\beamer@slide {fig:payments_er}{6}
+\beamer@slide {fig:etl}{7}
+\beamer@slide {fig:dwh_er}{8}
+\beamer@slide {fig:bi}{15}

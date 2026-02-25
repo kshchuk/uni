@@ -1,0 +1,9 @@
+\babel@toc {ukrainian}{}\relax 
+\beamer@sectionintoc {1}{Вступ}{3}{0}{1}
+\beamer@sectionintoc {2}{Архітектура системи}{4}{0}{2}
+\beamer@sectionintoc {3}{Модель бази даних (OLTP)}{5}{0}{3}
+\beamer@sectionintoc {4}{ETL Процес}{7}{0}{4}
+\beamer@sectionintoc {5}{Сховище даних (DWH)}{8}{0}{5}
+\beamer@sectionintoc {6}{Лабораторні роботи}{9}{0}{6}
+\beamer@sectionintoc {7}{Аналітичні результати}{15}{0}{7}
+\beamer@sectionintoc {8}{Висновки}{16}{0}{8}

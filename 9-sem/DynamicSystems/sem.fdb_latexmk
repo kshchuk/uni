@@ -1,0 +1,12 @@
+# Fdb version 4
+["pdflatex"] 1764464643.49675 "sem.tex" "sem.pdf" "sem" 1764464645.13505 2
+  "/usr/local/texlive/2025basic/texmf-dist/web2c/texmf.cnf" 1739380943 42148 61becc7c670cd061bb319c643c27fdd4 ""
+  "/usr/local/texlive/2025basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1764210368 2663840 35b5d454692e481463de43a2f9e5521f ""
+  "/usr/local/texlive/2025basic/texmf.cnf" 1741448314 628 81d1ada0f601fb1ffa62f1323192d946 ""
+  "sem.aux" 1764464635.49626 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "sem.tex" 1764464604.74266 3524 d13d2ffef087f4d4b83e3a357ab72a7d ""
+  (generated)
+  "sem.aux"
+  "sem.log"
+  "sem.pdf"
+  (rewritten before read)

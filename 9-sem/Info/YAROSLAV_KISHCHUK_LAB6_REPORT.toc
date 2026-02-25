@@ -1,0 +1,42 @@
+\babel@toc {ukrainian}{}\relax 
+\contentsline {section}{\numberline {1}Вступ}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Проблематика}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Мета та завдання}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Методологія аналізу продуктивності}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Інструмент EXPLAIN ANALYZE}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Метрики для оцінки}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Базові виміри продуктивності}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Стан бази даних}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Базові запити для аналізу}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Результати EXPLAIN ANALYZE до оптимізації}{3}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Стратегія оптимізації}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Рівень 1: Індексація}{4}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Композитні індекси}{4}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Індекси для COUNT DISTINCT}{4}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}Покриваючі індекси (Covering Indexes)}{4}{subsubsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.4}BRIN індекси}{5}{subsubsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.2}Рівень 2: Матеріалізовані представлення}{5}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Концепція}{5}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}MV 1: Місячна статистика продажів}{5}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}MV 2: Аналітика продуктів}{6}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}MV 3: Регіональна статистика}{6}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}MV 4: Клієнтська аналітика}{6}{subsubsection.4.2.5}%
+\contentsline {subsection}{\numberline {4.3}Рівень 3: Оновлення статистики}{7}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Результати оптимізації}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Створені структури}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Просторові витрати}{8}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Порівняння продуктивності}{8}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Приклад оптимізованого запиту}{8}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Автоматизація підтримки}{9}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Python скрипт для оновлення MV}{9}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Інтеграція з Airflow}{9}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Стратегія оновлення}{10}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Масштабування для великих даних}{10}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Поточний стан (1,600 рядків)}{10}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Прогноз для 10,000+ рядків}{10}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Моніторинг та діагностика}{10}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Перевірка використання індексів}{10}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Перевірка свіжості MV}{11}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Виявлення повільних запитів}{11}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Висновки}{11}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Досягнуті результати}{11}{subsection.9.1}%

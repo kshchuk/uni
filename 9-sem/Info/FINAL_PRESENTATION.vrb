@@ -1,0 +1,19 @@
+\frametitle{OLTP Services: Orders \& Payments}
+\begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Orders_ER.png}
+                \caption{Orders Service}
+                \label{fig:orders_er}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{docs/images/Payments_ER.png}
+                \caption{Payments Service}
+                \label{fig:payments_er}
+            \end{figure}
+        \end{column}
+    \end{columns}

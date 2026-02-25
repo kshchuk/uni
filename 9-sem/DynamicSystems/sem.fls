@@ -1,0 +1,6 @@
+PWD /Users/user/Desktop/uni/9-sem/DynamicSystems
+INPUT /usr/local/texlive/2025basic/texmf.cnf
+INPUT /usr/local/texlive/2025basic/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2025basic/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT sem.tex
+OUTPUT sem.log
