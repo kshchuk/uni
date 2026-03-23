@@ -1,0 +1,351 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setmainfont{Times New Roman}
+\newfontfamily\cyrillicfonttt{Times New Roman}
+
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{setspace}
+
+\geometry{left=25mm,right=15mm,top=20mm,bottom=20mm}
+\setstretch{1.2}
+\captionsetup{justification=centering}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \textbf{Київський національний університет імені Тараса Шевченка}\\
+        \textbf{Факультет комп'ютерних наук та кібернетики}
+    \end{center}
+
+    \vspace{4cm}
+
+    \begin{center}
+        \textbf{\Large ЗВІТ}\\
+        \vspace{0.5cm}
+        \textbf{\large до лабораторної роботи}\\
+        \vspace{0.5cm}
+        з дисципліни \textit{«Основи нелінійної динаміки»}\\
+        \vspace{0.7cm}
+        \textbf{Тема: Фазові портрети лінійних систем}
+    \end{center}
+
+    \vfill
+
+    \begin{flushright}
+        Виконав:\\
+        Кіщук Ярослав Ярославович
+    \end{flushright}
+
+    \vspace{1.5cm}
+
+    \begin{center}
+        Київ --- 2026
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Завдання 3}
+Задана система:
+\[
+\begin{cases}
+\dot{x} = -2x - 5y, \\
+\dot{y} = 2x + 2y.
+\end{cases}
+\]
+
+\subsection{Аналітичний розв'язок}
+Запишемо систему у матричному вигляді:
+\[
+X' = AX, \qquad
+A =
+\begin{pmatrix}
+-2 & -5 \\
+2 & 2
+\end{pmatrix}.
+\]
+
+Характеристичне рівняння:
+\[
+\det(A-\lambda E)=
+\begin{vmatrix}
+-2-\lambda & -5\\
+2 & 2-\lambda
+\end{vmatrix}
+=(-2-\lambda)(2-\lambda)-(-10)
+=\lambda^2+6=0.
+\]
+Отже,
+\[
+\lambda_{1,2}=\pm i\sqrt{6}.
+\]
+Власні значення суто уявні, тому особлива точка $(0,0)$ є \textbf{центром}; система \textbf{стійка}, але не асимптотично.
+
+Для $\lambda_1=i\sqrt{6}$:
+\[
+\begin{pmatrix}
+-2-i\sqrt{6} & -5\\
+2 & 2-i\sqrt{6}
+\end{pmatrix}
+\begin{pmatrix}
+v_1\\v_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\0
+\end{pmatrix}.
+\]
+Із другого рівняння:
+\[
+2v_1+(2-i\sqrt{6})v_2=0
+\;\Rightarrow\;
+v_1=\left(-1+i\frac{\sqrt{6}}{2}\right)v_2.
+\]
+Нехай $v_2=2$, тоді $v_1=-2+i\sqrt{6}$, тобто
+\[
+V=
+\begin{pmatrix}
+-2+i\sqrt{6}\\
+2
+\end{pmatrix}
+=
+\begin{pmatrix}
+-2\\2
+\end{pmatrix}
++i
+\begin{pmatrix}
+\sqrt{6}\\0
+\end{pmatrix}.
+\]
+
+Комплексний розв'язок:
+\[
+Z(t)=e^{i\sqrt{6}t}V.
+\]
+Виділяючи дійсну та уявну частини, отримуємо фундаментальні дійсні розв'язки:
+\[
+X_1(t)=
+\begin{pmatrix}
+-2\cos(\sqrt{6}t)-\sqrt{6}\sin(\sqrt{6}t)\\
+2\cos(\sqrt{6}t)
+\end{pmatrix},
+\]
+\[
+X_2(t)=
+\begin{pmatrix}
+\sqrt{6}\cos(\sqrt{6}t)-2\sin(\sqrt{6}t)\\
+2\sin(\sqrt{6}t)
+\end{pmatrix}.
+\]
+Тоді загальний дійсний розв'язок:
+\[
+\begin{cases}
+x(t)=C_1\bigl(-2\cos(\sqrt{6}t)-\sqrt{6}\sin(\sqrt{6}t)\bigr)
++C_2\bigl(\sqrt{6}\cos(\sqrt{6}t)-2\sin(\sqrt{6}t)\bigr),\\
+y(t)=2C_1\cos(\sqrt{6}t)+2C_2\sin(\sqrt{6}t).
+\end{cases}
+\]
+
+\subsection{Якісний опис фазового портрета}
+\begin{itemize}
+    \item Тип особливої точки: центр у початку координат $(0,0)$.
+    \item Траєкторії: замкнені криві (еліптичного типу), що оточують початок координат.
+    \item Напрям руху: проти годинникової стрілки (наприклад, у точці $(1,0)$ маємо $\dot{x}=-2<0$, $\dot{y}=2>0$).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{portrait3_python.png}
+    \caption{Фазовий портрет (Python) для Завдання 3}
+\end{figure}
+
+\subsection{Програмний розв'язок у Maple}
+\begin{verbatim}
+restart;
+with(DEtools):
+sys1 := {diff(x(t), t) = -2*x(t) - 5*y(t), diff(y(t), t) = 2*x(t) + 2*y(t)};
+
+# Analytic solution
+sol1 := dsolve(sys1);
+print("Analytic solution:", sol1);
+
+# Phase portrait
+DEplot(sys1, [x(t), y(t)], t = -10 .. 10, x = -5 .. 5, y = -5 .. 5,
+       [[x(0)=2, y(0)=0], [x(0)=4, y(0)=0]],
+       arrows = MEDIUM, stepsize = 0.05,
+       title = "Phase portrait: Center", color = black, linecolor = blue);
+\end{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{portrait_1.png}
+    \caption{Фазовий портрет для Завдання 3 (центр)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{solve3.png}
+    \caption{Скріншот аналітичного розв'язку у Maple для Завдання 3}
+\end{figure}
+
+\section{Завдання 6}
+Задана система:
+\[
+\begin{cases}
+\dot{x} = x, \\
+\dot{y} = 2x - y.
+\end{cases}
+\]
+
+\subsection{Аналітичний розв'язок}
+Матриця системи:
+\[
+A=
+\begin{pmatrix}
+1 & 0\\
+2 & -1
+\end{pmatrix}.
+\]
+
+Характеристичне рівняння:
+\[
+\det(A-\lambda E)=
+\begin{vmatrix}
+1-\lambda & 0\\
+2 & -1-\lambda
+\end{vmatrix}
+=(1-\lambda)(-1-\lambda)=0.
+\]
+Отже,
+\[
+\lambda_1=1,\qquad \lambda_2=-1.
+\]
+Оскільки власні значення дійсні та різних знаків, особлива точка $(0,0)$ є \textbf{сідлом} (нестійка).
+
+Власні вектори:
+
+Для $\lambda_1=1$:
+\[
+\begin{pmatrix}
+0 & 0\\
+2 & -2
+\end{pmatrix}
+\begin{pmatrix}
+v_1\\v_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\0
+\end{pmatrix}
+\Rightarrow v_1=v_2
+\Rightarrow
+V_1=
+\begin{pmatrix}
+1\\1
+\end{pmatrix}.
+\]
+
+Для $\lambda_2=-1$:
+\[
+\begin{pmatrix}
+2 & 0\\
+2 & 0
+\end{pmatrix}
+\begin{pmatrix}
+v_1\\v_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\0
+\end{pmatrix}
+\Rightarrow v_1=0
+\Rightarrow
+V_2=
+\begin{pmatrix}
+0\\1
+\end{pmatrix}.
+\]
+
+Загальний розв'язок:
+\[
+\begin{pmatrix}
+x(t)\\y(t)
+\end{pmatrix}
+=
+C_1 e^t
+\begin{pmatrix}
+1\\1
+\end{pmatrix}
++
+C_2 e^{-t}
+\begin{pmatrix}
+0\\1
+\end{pmatrix},
+\]
+тобто
+\[
+\begin{cases}
+x(t)=C_1 e^t,\\
+y(t)=C_1 e^t + C_2 e^{-t}.
+\end{cases}
+\]
+
+\subsection{Якісний опис фазового портрета}
+\begin{itemize}
+    \item Тип особливої точки: сідло у точці $(0,0)$.
+    \item Сепаратриси:
+    \[
+    y=x \quad (\lambda_1=1>0,\ \text{рух від початку координат}),
+    \]
+    \[
+    x=0 \quad (\lambda_2=-1<0,\ \text{рух до початку координат}).
+    \]
+    \item Інші траєкторії мають гіперболічний характер між сепаратрисами.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{portrait6_python.png}
+    \caption{Фазовий портрет (Python) для Завдання 6}
+\end{figure}
+
+\subsection{Програмний розв'язок у Maple}
+\begin{verbatim}
+restart;
+with(DEtools):
+sys2 := {diff(x(t), t) = x(t), diff(y(t), t) = 2*x(t) - y(t)};
+
+# Analytic solution
+sol2 := dsolve(sys2);
+print("Analytic solution:", sol2);
+
+# Phase portrait
+DEplot(sys2, [x(t), y(t)], t = -5 .. 5, x = -3 .. 3, y = -3 .. 3,
+       [[x(0)=1, y(0)=0], [x(0)=-1, y(0)=0],
+        [x(0)=0.5, y(0)=1], [x(0)=-0.5, y(0)=-1]],
+       arrows = MEDIUM, stepsize = 0.05,
+       title = "Phase portrait: Saddle", color = black, linecolor = red);
+\end{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{portrait_2.png}
+    \caption{Фазовий портрет для Завдання 6 (сідло)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{solve6.png}
+    \caption{Скріншот аналітичного розв'язку у Maple для Завдання 6}
+\end{figure}
+
+\end{document}
