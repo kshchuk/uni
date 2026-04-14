@@ -147,3 +147,117 @@ if __name__ == "__main__":
     )
 
     print("Saved: portrait3_python.png, portrait6_python.png")
+
+    # --- Task 3: circles in (xi, eta) plane ---
+    fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+    theta = np.linspace(0, 2 * np.pi, 500)
+    for r in [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]:
+        ax.plot(r * np.cos(theta), r * np.sin(theta), "b-", linewidth=1.6)
+    ax.set_xlim(-3.5, 3.5)
+    ax.set_ylim(-3.5, 3.5)
+    ax.set_aspect("equal")
+    ax.axhline(0, color="black", linewidth=1.1)
+    ax.axvline(0, color="black", linewidth=1.1)
+    ax.set_xlabel(r"$\xi$", fontsize=14)
+    ax.set_ylabel(r"$\eta$", fontsize=14)
+    ax.set_title(
+        r"Траєкторії перетвореної системи ($\xi, \eta$): кола",
+        fontsize=13,
+        fontweight="bold",
+    )
+    ax.grid(True, alpha=0.25)
+    fig.tight_layout()
+    fig.savefig("circles_xi_eta.png")
+    plt.close(fig)
+    print("Saved: circles_xi_eta.png")
+
+    # --- Task 3: ellipses 2x^2+4xy+5y^2=C in (x,y) ---
+    xg = np.linspace(-5, 5, 600)
+    yg = np.linspace(-5, 5, 600)
+    Xg, Yg = np.meshgrid(xg, yg)
+    F3 = 2 * Xg**2 + 4 * Xg * Yg + 5 * Yg**2
+
+    fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+    levels3 = [2, 6, 12, 20, 30, 42]
+    cs = ax.contour(Xg, Yg, F3, levels=levels3, colors="blue", linewidths=1.6)
+    ax.clabel(cs, fmt={lv: f"C={lv}" for lv in levels3}, fontsize=8)
+    ax.set_xlim(-5, 5)
+    ax.set_ylim(-5, 5)
+    ax.set_aspect("equal")
+    ax.axhline(0, color="black", linewidth=1.1)
+    ax.axvline(0, color="black", linewidth=1.1)
+    ax.set_xlabel("x", fontsize=14)
+    ax.set_ylabel("y", fontsize=14)
+    ax.set_title(
+        r"Еліпси $2x^2+4xy+5y^2=C$ (початкові координати)",
+        fontsize=13,
+        fontweight="bold",
+    )
+    ax.grid(True, alpha=0.25)
+    fig.tight_layout()
+    fig.savefig("ellipses_xy.png")
+    plt.close(fig)
+    print("Saved: ellipses_xy.png")
+
+    # --- Task 6: hyperbolas xi*eta=C in (xi,eta) ---
+    xig = np.linspace(-3, 3, 600)
+    etag = np.linspace(-3, 3, 600)
+    XI, ETA = np.meshgrid(xig, etag)
+    F6t = XI * ETA
+
+    fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+    levels6t = [-2, -1, -0.5, -0.2, 0.2, 0.5, 1, 2]
+    cs6 = ax.contour(XI, ETA, F6t, levels=levels6t, colors="red", linewidths=1.6)
+    ax.clabel(cs6, fmt={lv: f"{lv}" for lv in levels6t}, fontsize=8)
+    ax.plot([-3, 3], [0, 0], "--", color="darkgreen", linewidth=1.8, label=r"$\eta=0$")
+    ax.plot([0, 0], [-3, 3], "--", color="darkgreen", linewidth=1.8, label=r"$\xi=0$")
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-3, 3)
+    ax.set_aspect("equal")
+    ax.axhline(0, color="black", linewidth=0.6)
+    ax.axvline(0, color="black", linewidth=0.6)
+    ax.set_xlabel(r"$\xi$", fontsize=14)
+    ax.set_ylabel(r"$\eta$", fontsize=14)
+    ax.set_title(
+        r"Гіперболи $\xi\,\eta=C$ (перетворена система)",
+        fontsize=13,
+        fontweight="bold",
+    )
+    ax.legend(loc="upper right")
+    ax.grid(True, alpha=0.25)
+    fig.tight_layout()
+    fig.savefig("hyperbolas_xi_eta.png")
+    plt.close(fig)
+    print("Saved: hyperbolas_xi_eta.png")
+
+    # --- Task 6: curves x(y-x)=C in (x,y) ---
+    xg6 = np.linspace(-3, 3, 600)
+    yg6 = np.linspace(-3, 3, 600)
+    Xg6, Yg6 = np.meshgrid(xg6, yg6)
+    F6xy = Xg6 * (Yg6 - Xg6)
+
+    fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+    levels6xy = [-2, -1, -0.5, -0.2, 0.2, 0.5, 1, 2]
+    cs6xy = ax.contour(Xg6, Yg6, F6xy, levels=levels6xy, colors="red", linewidths=1.6)
+    ax.clabel(cs6xy, fmt={lv: f"{lv}" for lv in levels6xy}, fontsize=8)
+    xln = np.linspace(-3, 3, 300)
+    ax.plot(xln, xln, "--", color="darkgreen", linewidth=1.8, label="y=x")
+    ax.plot([0, 0], [-3, 3], "--", color="darkgreen", linewidth=1.8, label="x=0")
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-3, 3)
+    ax.set_aspect("equal")
+    ax.axhline(0, color="black", linewidth=1.1)
+    ax.axvline(0, color="black", linewidth=1.1)
+    ax.set_xlabel("x", fontsize=14)
+    ax.set_ylabel("y", fontsize=14)
+    ax.set_title(
+        r"Криві $x(y-x)=C$ (початкові координати)",
+        fontsize=13,
+        fontweight="bold",
+    )
+    ax.legend(loc="upper right")
+    ax.grid(True, alpha=0.25)
+    fig.tight_layout()
+    fig.savefig("saddle_curves_xy.png")
+    plt.close(fig)
+    print("Saved: saddle_curves_xy.png")
