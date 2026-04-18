@@ -94,51 +94,52 @@ A =
 
 \subsection{Побудова перетвореної системи}
 
-\subsubsection{Власний вектор та заміна координат}
+Корені характеристичного рівняння суто уявні: $\lambda_1 = iq$, $\lambda_2 = -iq$, де $q = \sqrt{6}$, $p = 0$. Виконаємо лінійне неособливе перетворення, яке зведе систему до канонічної форми.
 
-Знайдемо власний вектор для $\lambda_1 = i\sqrt{6}$. Розв'яжемо $(A - i\sqrt{6}\,I)\,v = 0$:
+\subsubsection{Власні вектори та матриця перетворення $S$}
+
+Знайдемо власний вектор $s_1^T = (\alpha_1,\,\beta_1)$ для $\lambda_1 = i\sqrt{6}$. Розв'яжемо $(A - i\sqrt{6}\,I)\,s = 0$:
 \[
 \begin{pmatrix}
 -2-i\sqrt{6} & -5\\
 2 & 2-i\sqrt{6}
 \end{pmatrix}
 \begin{pmatrix}
-v_1\\v_2
+\alpha_1\\\beta_1
 \end{pmatrix}
 =
 \begin{pmatrix}
 0\\0
 \end{pmatrix}.
 \]
-З другого рядка: $2v_1 + (2 - i\sqrt{6})\,v_2 = 0$. Нехай $v_2 = 2$, тоді $v_1 = -2 + i\sqrt{6}$. Таким чином, власний вектор
+З другого рядка: $2\alpha_1 + (2 - i\sqrt{6})\,\beta_1 = 0$. Нехай $\beta_1 = 2$, тоді $\alpha_1 = -2 + i\sqrt{6}$. Розділимо власний вектор на дійсну та уявну частини:
 \[
-v =
-\begin{pmatrix}
--2 + i\sqrt{6}\\
-2
-\end{pmatrix}.
-\]
-Розділимо його на дійсну та уявну частини:
-\[
-v_1 =
+s_1 =
 \begin{pmatrix}
 -2\\2
-\end{pmatrix}, \qquad
-v_2 =
+\end{pmatrix}
++ i
 \begin{pmatrix}
 \sqrt{6}\\0
 \end{pmatrix}.
 \]
-Запишемо лінійне неособливе перетворення, утворене цими стовпцями:
+Стовпцями матриці перетворення $S$ є дійсна та уявна частини власного вектора:
+\[
+S =
+\begin{pmatrix}
+-2 & \sqrt{6}\\
+2 & 0
+\end{pmatrix}.
+\]
+
+\subsubsection{Перетворення координат}
+
+Запишемо лінійне неособливе перетворення:
 \[
 \begin{pmatrix}
 x\\y
 \end{pmatrix}
-=
-\begin{pmatrix}
--2 & \sqrt{6}\\
-2 & 0
-\end{pmatrix}
+= S
 \begin{pmatrix}
 \xi\\\eta
 \end{pmatrix},
@@ -156,53 +157,48 @@ x = -2\xi + \sqrt{6}\,\eta, \qquad y = 2\xi.
 
 Покажемо, що в координатах $(\xi,\eta)$ система набуває канонічного вигляду.
 
-Оскільки $\xi = y/2$, маємо
-\[
-\dot{\xi} = \frac{\dot{y}}{2}.
-\]
-З другого рівняння початкової системи $\dot{y} = 2x + 2y$, тому
+Оскільки $\xi = y/2$, маємо $\dot{\xi} = \dot{y}/2$. З другого рівняння початкової системи $\dot{y} = 2x + 2y$, тому
 \[
 \dot{\xi} = \frac{2x + 2y}{2} = x + y.
 \]
-Виразимо $x + y$ через нові змінні. З оберненого перетворення $\eta = (x+y)/\sqrt{6}$, звідки $x + y = \sqrt{6}\,\eta$. Отже,
+З оберненого перетворення $x + y = \sqrt{6}\,\eta$, отже
 \[
 \dot{\xi} = \sqrt{6}\,\eta.
 \]
 
-Далі, оскільки $\eta = (x+y)/\sqrt{6}$, маємо
+Далі, $\eta = (x+y)/\sqrt{6}$, тому $\dot{\eta} = (\dot{x} + \dot{y})/\sqrt{6}$. Обчислимо:
 \[
-\dot{\eta} = \frac{\dot{x} + \dot{y}}{\sqrt{6}}.
+\dot{x} + \dot{y} = (-2x - 5y) + (2x + 2y) = -3y = -3 \cdot 2\xi = -6\xi.
 \]
-Обчислимо $\dot{x} + \dot{y}$:
+Отже,
 \[
-\dot{x} + \dot{y} = (-2x - 5y) + (2x + 2y) = -3y.
-\]
-Оскільки $y = 2\xi$, отримуємо
-\[
-\dot{\eta} = \frac{-3 \cdot 2\xi}{\sqrt{6}} = \frac{-6\xi}{\sqrt{6}} = -\sqrt{6}\,\xi.
+\dot{\eta} = \frac{-6\xi}{\sqrt{6}} = -\sqrt{6}\,\xi.
 \]
 
 Таким чином, перетворена система має вигляд
 \[
-\dot{\xi} = \sqrt{6}\,\eta, \qquad \dot{\eta} = -\sqrt{6}\,\xi,
+\dot{\xi} = p\xi + q\eta, \qquad \dot{\eta} = -q\xi + p\eta,
 \]
-що відповідає канонічній формі $\dot{\xi} = p\xi + q\eta$, $\dot{\eta} = -q\xi + p\eta$ при $p = 0$, $q = \sqrt{6}$.
+де $p = 0$, $q = \sqrt{6}$, тобто
+\[
+\dot{\xi} = \sqrt{6}\,\eta, \qquad \dot{\eta} = -\sqrt{6}\,\xi.
+\]
 
 \subsection{Полярні координати та загальний розв'язок перетвореної системи}
 
-Введемо полярні координати:
+Уведемо полярні координати
 \[
 \xi = r\cos\theta, \qquad \eta = r\sin\theta.
 \]
-У полярних координатах перетворена система зводиться до
+Після підстановки у перетворені рівняння та стандартних обчислень (множення на $\cos\theta$, $\sin\theta$) одержуємо систему в полярних координатах:
 \[
-\dot{r} = pr = 0, \qquad \dot{\theta} = -q = -\sqrt{6}.
+\dot{r} = pr, \qquad \dot{\theta} = -q.
 \]
-Загальний розв'язок:
+Її загальний розв'язок:
 \[
-r = r_0, \qquad \theta = \theta_0 - \sqrt{6}\,t.
+r = r_0\,e^{pt}, \qquad \theta = \theta_0 - qt, \qquad t \geq 0.
 \]
-Отже, у координатах $(\xi,\eta)$ фазові траєкторії є \textbf{колами} радіуса $r_0$ з центром у початку координат. Рух відбувається \textbf{за годинниковою стрілкою}, оскільки $\dot{\theta} = -\sqrt{6} < 0$.
+При $p = 0$, $q = \sqrt{6}$ маємо $r = r_0 = \mathrm{const}$, $\theta = \theta_0 - \sqrt{6}\,t$. Фазові траєкторії перетвореної системи є \textbf{колами} радіуса $r_0$. Рух відбувається \textbf{за годинниковою стрілкою} ($\dot\theta = -\sqrt{6} < 0$).
 
 \begin{figure}[H]
     \centering
@@ -210,13 +206,49 @@ r = r_0, \qquad \theta = \theta_0 - \sqrt{6}\,t.
     \caption{Кола у перетвореній системі $(\xi,\eta)$ для Завдання~3}
 \end{figure}
 
+Код побудови (Python):
+\begin{verbatim}
+fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+theta = np.linspace(0, 2*np.pi, 500)
+for r in [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]:
+    ax.plot(r*np.cos(theta), r*np.sin(theta), 'b-', linewidth=1.6)
+ax.set_aspect('equal')
+ax.set_xlabel(r'$\xi$'); ax.set_ylabel(r'$\eta$')
+ax.set_title(r'Trajectories ($\xi, \eta$): circles')
+fig.savefig('circles_xi_eta.png')
+\end{verbatim}
+
+\subsection{Аналітичний розв'язок системи}
+
+Загальний розв'язок перетвореної системи в полярних координатах:
+\[
+\xi(t) = r_0\cos(\theta_0 - \sqrt{6}\,t), \qquad \eta(t) = r_0\sin(\theta_0 - \sqrt{6}\,t).
+\]
+Повернемось до початкових координат за допомогою оберненого перетворення $x = -2\xi + \sqrt{6}\,\eta$, $y = 2\xi$. Позначимо $c_1 = r_0\cos\theta_0$, $c_2 = r_0\sin\theta_0$. Тоді
+\[
+\xi(t) = c_1\cos(\sqrt{6}\,t) + c_2\sin(\sqrt{6}\,t),
+\]
+\[
+\eta(t) = -c_1\sin(\sqrt{6}\,t) + c_2\cos(\sqrt{6}\,t).
+\]
+Підставляючи у $x = -2\xi + \sqrt{6}\,\eta$, $y = 2\xi$:
+\[
+\begin{cases}
+x(t) = (-2c_1 + \sqrt{6}\,c_2)\cos(\sqrt{6}\,t) + (-2c_2 - \sqrt{6}\,c_1)\sin(\sqrt{6}\,t),\\[6pt]
+y(t) = 2c_1\cos(\sqrt{6}\,t) + 2c_2\sin(\sqrt{6}\,t).
+\end{cases}
+\]
+Або, перепозначивши $C_1 = 2c_1$, $C_2 = 2c_2$:
+\[
+\begin{cases}
+x(t) = \dfrac{-2C_1 + \sqrt{6}\,C_2}{2}\cos(\sqrt{6}\,t) + \dfrac{-2C_2 - \sqrt{6}\,C_1}{2}\sin(\sqrt{6}\,t),\\[8pt]
+y(t) = C_1\cos(\sqrt{6}\,t) + C_2\sin(\sqrt{6}\,t).
+\end{cases}
+\]
+
 \subsection{Фазовий портрет у початкових координатах}
 
-Після оберненого перетворення кола в площині $(\xi,\eta)$ переходять в еліпси на площині $(x,y)$. Запишемо рівняння сім'ї траєкторій. Умова $r^2 = \xi^2 + \eta^2 = \mathrm{const}$ з підстановкою
-\[
-\xi = \frac{y}{2}, \qquad \eta = \frac{x+y}{\sqrt{6}}
-\]
-дає
+Після оберненого перетворення кола в площині $(\xi,\eta)$ переходять в еліпси на площині $(x,y)$. Запишемо рівняння сім'ї траєкторій. Умова $r^2 = \xi^2 + \eta^2 = \mathrm{const}$ з підстановкою $\xi = y/2$, $\eta = (x+y)/\sqrt{6}$ дає
 \[
 \frac{y^2}{4} + \frac{(x+y)^2}{6} = C, \qquad C > 0,
 \]
@@ -232,53 +264,24 @@ r = r_0, \qquad \theta = \theta_0 - \sqrt{6}\,t.
     \caption{Еліпси $2x^2+4xy+5y^2=C$ у початкових координатах для Завдання~3}
 \end{figure}
 
-\subsection{Аналітичний розв'язок системи}
-
-Побудуємо загальний розв'язок зведенням до рівняння другого порядку. З другого рівняння $\dot{y} = 2x + 2y$ виразимо $x$:
-\[
-x = \frac{\dot{y} - 2y}{2}.
-\]
-Диференціюючи, отримуємо
-\[
-\dot{x} = \frac{\ddot{y} - 2\dot{y}}{2}.
-\]
-Підставимо $\dot{x}$ та $x$ у перше рівняння $\dot{x} = -2x - 5y$:
-\[
-\frac{\ddot{y} - 2\dot{y}}{2} = -2 \cdot \frac{\dot{y} - 2y}{2} - 5y
-= \frac{-2\dot{y} + 4y}{2} - 5y.
-\]
-Помноживши обидві частини на~$2$:
-\[
-\ddot{y} - 2\dot{y} = -2\dot{y} + 4y - 10y,
-\]
-\[
-\ddot{y} = -6y,
-\]
-тобто
-\[
-\ddot{y} + 6y = 0.
-\]
-Загальний розв'язок цього рівняння:
-\[
-y(t) = C_1\cos(\sqrt{6}\,t) + C_2\sin(\sqrt{6}\,t).
-\]
-Знайдемо $x(t)$ із формули $x = (\dot{y} - 2y)/2$:
-\[
-\dot{y} = -C_1\sqrt{6}\sin(\sqrt{6}\,t) + C_2\sqrt{6}\cos(\sqrt{6}\,t),
-\]
-\[
-x(t) = \frac{\sqrt{6}\,C_2 - 2C_1}{2}\cos(\sqrt{6}\,t) - \frac{\sqrt{6}\,C_1 + 2C_2}{2}\sin(\sqrt{6}\,t).
-\]
+Код побудови (Python):
+\begin{verbatim}
+xg = np.linspace(-5, 5, 600); yg = np.linspace(-5, 5, 600)
+Xg, Yg = np.meshgrid(xg, yg)
+F3 = 2*Xg**2 + 4*Xg*Yg + 5*Yg**2
+fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+levels3 = [2, 6, 12, 20, 30, 42]
+cs = ax.contour(Xg, Yg, F3, levels=levels3, colors='blue', linewidths=1.6)
+ax.clabel(cs, fmt={lv: f'C={lv}' for lv in levels3}, fontsize=8)
+ax.set_aspect('equal')
+ax.set_xlabel('x'); ax.set_ylabel('y')
+ax.set_title(r'Ellipses $2x^2+4xy+5y^2=C$')
+fig.savefig('ellipses_xy.png')
+\end{verbatim}
 
 \subsection{Висновок до Завдання 3}
 
-Характеристичне рівняння системи має суто уявні корені $\lambda_{1,2} = \pm i\sqrt{6}$. Особлива точка $(0,0)$ є центром. Після лінійного неособливого перетворення та переходу до полярних координат встановлено, що в перетвореній системі траєкторії є колами, а рух відбувається за годинниковою стрілкою. Після оберненого перетворення у початковій системі траєкторії є еліпсами $2x^2 + 4xy + 5y^2 = \mathrm{const}$.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{portrait3_python.png}
-    \caption{Фазовий портрет (Python) для Завдання 3}
-\end{figure}
+Характеристичне рівняння системи має суто уявні корені $\lambda_{1,2} = \pm i\sqrt{6}$ ($p = 0$, $q = \sqrt{6}$). Особлива точка $(0,0)$ є центром. Лінійне неособливе перетворення з матрицею $S$, стовпцями якої є дійсна та уявна частини власного вектора, зводить систему до канонічної форми $\dot\xi = q\eta$, $\dot\eta = -q\xi$. Після переходу до полярних координат: $\dot r = pr = 0$, $\dot\theta = -q$, тобто траєкторії перетвореної системи є колами ($r = r_0$), а рух відбувається за годинниковою стрілкою. Після оберненого перетворення у початковій системі траєкторії є еліпсами $2x^2 + 4xy + 5y^2 = \mathrm{const}$.
 
 \subsection{Програмний розв'язок у Maple}
 \begin{verbatim}
@@ -349,62 +352,70 @@ A =
 
 \subsection{Побудова перетвореної системи}
 
-\subsubsection{Власні вектори та заміна координат}
+Корені характеристичного рівняння дійсні та різних знаків: $\lambda_1 = 1 > 0$, $\lambda_2 = -1 < 0$. Виконаємо лінійне неособливе перетворення, яке зведе систему до жорданової (діагональної) форми.
 
-Знайдемо власний вектор для $\lambda_1 = 1$. Розв'яжемо $(A - I)\,v = 0$:
+\subsubsection{Власні вектори та матриця перетворення $S$}
+
+Знайдемо власний вектор $s_1^T = (\alpha_1,\,\beta_1)$ для $\lambda_1 = 1$. Розв'яжемо $(A - I)\,s = 0$:
 \[
 \begin{pmatrix}
 0 & 0\\
 2 & -2
 \end{pmatrix}
 \begin{pmatrix}
-v_1\\v_2
+\alpha_1\\\beta_1
 \end{pmatrix}
 =
 \begin{pmatrix}
 0\\0
 \end{pmatrix}.
 \]
-З другого рядка: $2v_1 - 2v_2 = 0$, тобто $v_1 = v_2$. Покладемо $v_2 = 1$:
+З другого рядка: $2\alpha_1 - 2\beta_1 = 0$, тобто $\alpha_1 = \beta_1$. Покладемо $\beta_1 = 1$:
 \[
-V_1 =
-\begin{pmatrix}
-1\\1
-\end{pmatrix}.
+s_1^T = (\alpha_1,\,\beta_1) = (1,\,1).
 \]
 
-Знайдемо власний вектор для $\lambda_2 = -1$. Розв'яжемо $(A + I)\,v = 0$:
+Знайдемо власний вектор $s_2^T = (\alpha_2,\,\beta_2)$ для $\lambda_2 = -1$. Розв'яжемо $(A + I)\,s = 0$:
 \[
 \begin{pmatrix}
 2 & 0\\
 2 & 0
 \end{pmatrix}
 \begin{pmatrix}
-v_1\\v_2
+\alpha_2\\\beta_2
 \end{pmatrix}
 =
 \begin{pmatrix}
 0\\0
 \end{pmatrix}.
 \]
-Звідси $v_1 = 0$, а $v_2$~--- довільне. Покладемо $v_2 = 1$:
+Звідси $\alpha_2 = 0$, а $\beta_2$~--- довільне. Покладемо $\beta_2 = 1$:
 \[
-V_2 =
-\begin{pmatrix}
-0\\1
-\end{pmatrix}.
+s_2^T = (\alpha_2,\,\beta_2) = (0,\,1).
 \]
 
-Запишемо лінійне неособливе перетворення, стовпцями якого є власні вектори:
+Складемо матрицю перетворення зі стовпців-власних векторів:
 \[
+S =
 \begin{pmatrix}
-x\\y
+\alpha_1 & \alpha_2\\
+\beta_1 & \beta_2
 \end{pmatrix}
 =
 \begin{pmatrix}
 1 & 0\\
 1 & 1
+\end{pmatrix}.
+\]
+
+\subsubsection{Перетворення координат}
+
+Запишемо лінійне неособливе перетворення:
+\[
+\begin{pmatrix}
+x\\y
 \end{pmatrix}
+= S
 \begin{pmatrix}
 \xi\\\eta
 \end{pmatrix},
@@ -420,39 +431,35 @@ x = \xi, \qquad y = \xi + \eta.
 
 \subsubsection{Виведення перетвореної системи}
 
-Покажемо, що в координатах $(\xi,\eta)$ система набуває діагонального вигляду.
+Покажемо, що в координатах $(\xi,\eta)$ система набуває жорданової (діагональної) форми.
 
-Оскільки $\xi = x$, маємо
-\[
-\dot{\xi} = \dot{x} = x = \xi.
-\]
+Оскільки $\xi = x$, маємо $\dot{\xi} = \dot{x} = x = \xi$.
 
 Далі, $\eta = y - x$, тому
 \[
-\dot{\eta} = \dot{y} - \dot{x} = (2x - y) - x = x - y.
-\]
-Виразимо через нові змінні: $x - y = \xi - (\xi + \eta) = -\eta$, отже
-\[
-\dot{\eta} = -\eta.
+\dot{\eta} = \dot{y} - \dot{x} = (2x - y) - x = x - y = \xi - (\xi + \eta) = -\eta.
 \]
 
 Таким чином, перетворена система має вигляд
 \[
-\dot{\xi} = \xi, \qquad \dot{\eta} = -\eta,
+\dot{\xi} = \lambda_1\,\xi, \qquad \dot{\eta} = \lambda_2\,\eta,
 \]
-що є канонічною діагональною формою для сідла.
+тобто
+\[
+\dot{\xi} = \xi, \qquad \dot{\eta} = -\eta.
+\]
 
 \subsection{Загальний розв'язок перетвореної системи та сепаратриси}
 
-Кожне з рівнянь перетвореної системи розв'язується незалежно:
+Розв'язком перетвореної системи є
 \[
-\xi(t) = C_1\,e^t, \qquad \eta(t) = C_2\,e^{-t}.
+\xi = c_1\,e^{\lambda_1 t} = c_1\,e^t, \qquad \eta = c_2\,e^{\lambda_2 t} = c_2\,e^{-t}.
 \]
 Виключаючи час, отримуємо рівняння фазових траєкторій у площині $(\xi,\eta)$:
 \[
-\xi\,\eta = C_1\,C_2 = \mathrm{const}.
+\xi\,\eta = c_1\,c_2 = \mathrm{const}.
 \]
-Це сім'я гіпербол із осями $\xi$ і $\eta$ як асимптотами.
+Це сім'я узагальнених гіпербол (оскільки $\alpha = \lambda_1/\lambda_2 = -1 < 0$).
 
 \begin{figure}[H]
     \centering
@@ -460,18 +467,45 @@ x = \xi, \qquad y = \xi + \eta.
     \caption{Гіперболи $\xi\,\eta=C$ у перетвореній системі $(\xi,\eta)$ для Завдання~6}
 \end{figure}
 
-\textbf{Сепаратриси} перетвореної системи:
+Код побудови (Python):
+\begin{verbatim}
+xig = np.linspace(-3, 3, 600); etag = np.linspace(-3, 3, 600)
+XI, ETA = np.meshgrid(xig, etag)
+F6t = XI * ETA
+fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+levels6t = [-2, -1, -0.5, -0.2, 0.2, 0.5, 1, 2]
+cs6 = ax.contour(XI, ETA, F6t, levels=levels6t, colors='red', linewidths=1.6)
+ax.plot([-3,3], [0,0], '--', color='darkgreen', linewidth=1.8, label=r'$\eta=0$')
+ax.plot([0,0], [-3,3], '--', color='darkgreen', linewidth=1.8, label=r'$\xi=0$')
+ax.set_aspect('equal')
+ax.set_xlabel(r'$\xi$'); ax.set_ylabel(r'$\eta$')
+fig.savefig('hyperbolas_xi_eta.png')
+\end{verbatim}
+
+Оскільки $\lambda_1 > 0$, $\lambda_2 < 0$, то $\xi(t) \to \pm\infty$, $\eta(t) \to 0$ при $t \to +\infty$.
+
+Прямі $l_1$ та $l_2$, визначені власними векторами $s_1^T = (\alpha_1,\,\beta_1) = (1,\,1)$ та $s_2^T = (\alpha_2,\,\beta_2) = (0,\,1)$, є сепаратрисами сідла:
 \begin{itemize}
-    \item $\eta = 0$ ($C_2 = 0$): траєкторія $\xi(t) = C_1\,e^t$, рух від початку координат при $t \to +\infty$;
-    \item $\xi = 0$ ($C_1 = 0$): траєкторія $\eta(t) = C_2\,e^{-t}$, рух до початку координат при $t \to +\infty$.
+    \item $\eta = 0$ ($c_2 = 0$): траєкторія $\xi(t) = c_1\,e^t$, рух від початку координат при $t \to +\infty$;
+    \item $\xi = 0$ ($c_1 = 0$): траєкторія $\eta(t) = c_2\,e^{-t}$, рух до початку координат при $t \to +\infty$.
 \end{itemize}
+
+\subsection{Аналітичний розв'язок системи}
+
+Повернемось до початкових координат за допомогою прямого перетворення $x = \xi$, $y = \xi + \eta$:
+\[
+\begin{cases}
+x(t) = c_1\,e^t,\\
+y(t) = c_1\,e^t + c_2\,e^{-t}.
+\end{cases}
+\]
 
 \subsection{Фазовий портрет у початкових координатах}
 
 Після оберненого перетворення $\xi = x$, $\eta = y - x$ сепаратриси набувають вигляду:
 \begin{itemize}
-    \item $\eta = 0 \;\Leftrightarrow\; y = x$~--- нестійка сепаратриса (траєкторії віддаляються від початку координат вздовж прямої $y = x$, оскільки $\lambda_1 = 1 > 0$);
-    \item $\xi = 0 \;\Leftrightarrow\; x = 0$~--- стійка сепаратриса (траєкторії наближаються до початку координат вздовж осі $y$, оскільки $\lambda_2 = -1 < 0$).
+    \item $\eta = 0 \;\Leftrightarrow\; y = x$~--- нестійка сепаратриса ($l_1$, відповідає $s_1$, $\lambda_1 = 1 > 0$, траєкторії віддаляються від початку координат);
+    \item $\xi = 0 \;\Leftrightarrow\; x = 0$~--- стійка сепаратриса ($l_2$, відповідає $s_2$, $\lambda_2 = -1 < 0$, траєкторії наближаються до початку координат).
 \end{itemize}
 
 Інші фазові траєкторії мають гіперболічний характер: при $t \to +\infty$ вони наближаються до нестійкої сепаратриси $y = x$, а при $t \to -\infty$~--- до стійкої сепаратриси $x = 0$.
@@ -487,37 +521,25 @@ x\,(y - x) = \mathrm{const}.
     \caption{Криві $x(y-x)=C$ та сепаратриси у початкових координатах для Завдання~6}
 \end{figure}
 
-\subsection{Аналітичний розв'язок системи}
-
-Побудуємо загальний розв'язок зведенням до рівняння другого порядку. З першого рівняння $\dot{x} = x$ одразу маємо
-\[
-x(t) = C_1\,e^t.
-\]
-Підставимо у друге рівняння $\dot{y} = 2x - y$:
-\[
-\dot{y} + y = 2C_1\,e^t.
-\]
-Це лінійне неоднорідне рівняння першого порядку. Його однорідний розв'язок: $y_{\text{одн}} = C_2\,e^{-t}$. Частинний розв'язок шукаємо у вигляді $y_{\text{ч}} = B\,e^t$. Підставляючи:
-\[
-B\,e^t + B\,e^t = 2C_1\,e^t \;\Rightarrow\; 2B = 2C_1 \;\Rightarrow\; B = C_1.
-\]
-Отже, загальний розв'язок:
-\[
-\begin{cases}
-x(t) = C_1\,e^t,\\
-y(t) = C_1\,e^t + C_2\,e^{-t}.
-\end{cases}
-\]
+Код побудови (Python):
+\begin{verbatim}
+xg6 = np.linspace(-3, 3, 600); yg6 = np.linspace(-3, 3, 600)
+Xg6, Yg6 = np.meshgrid(xg6, yg6)
+F6xy = Xg6 * (Yg6 - Xg6)
+fig, ax = plt.subplots(figsize=(7, 7), dpi=140)
+levels6xy = [-2, -1, -0.5, -0.2, 0.2, 0.5, 1, 2]
+cs6xy = ax.contour(Xg6, Yg6, F6xy, levels=levels6xy, colors='red', linewidths=1.6)
+xln = np.linspace(-3, 3, 300)
+ax.plot(xln, xln, '--', color='darkgreen', linewidth=1.8, label='y=x')
+ax.plot([0,0], [-3,3], '--', color='darkgreen', linewidth=1.8, label='x=0')
+ax.set_aspect('equal')
+ax.set_xlabel('x'); ax.set_ylabel('y')
+fig.savefig('saddle_curves_xy.png')
+\end{verbatim}
 
 \subsection{Висновок до Завдання 6}
 
-Характеристичне рівняння системи має дійсні корені різних знаків $\lambda_1 = 1$, $\lambda_2 = -1$. Особлива точка $(0,0)$ є сідлом. Після лінійного неособливого перетворення система зводиться до діагональної форми, у якій фазові траєкторії є гіперболами. У початкових координатах сепаратрисами є прямі $y = x$ (нестійка) та $x = 0$ (стійка), а решта траєкторій описується рівнянням $x(y-x) = \mathrm{const}$.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{portrait6_python.png}
-    \caption{Фазовий портрет (Python) для Завдання 6}
-\end{figure}
+Характеристичне рівняння системи має дійсні корені різних знаків $\lambda_1 = 1$, $\lambda_2 = -1$. Особлива точка $(0,0)$ є сідлом. Після лінійного неособливого перетворення зі стовпцями-власними векторами $s_1^T=(1,1)$, $s_2^T=(0,1)$ система зводиться до жорданової (діагональної) форми $\dot\xi = \lambda_1\xi$, $\dot\eta = \lambda_2\eta$, у якій фазові траєкторії є узагальненими гіперболами. Прямі $l_1$: $y=x$ (нестійка) та $l_2$: $x=0$ (стійка) є сепаратрисами сідла, а решта траєкторій описується рівнянням $x(y-x)=\mathrm{const}$.
 
 \subsection{Програмний розв'язок у Maple}
 \begin{verbatim}
@@ -547,6 +569,24 @@ DEplot(sys2, [x(t), y(t)], t = -5 .. 5, x = -3 .. 3, y = -3 .. 3,
     \centering
     \includegraphics[width=0.78\textwidth]{solve6.png}
     \caption{Скріншот аналітичного розв'язку у Maple для Завдання 6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{telegram-cloud-photo-size-2-5411135133827404541-y.jpg}
+    \caption{Рукописний розв'язок Завдання~3 (інша частина загубилась)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{telegram-cloud-photo-size-2-5411135133827404543-y.jpg}
+    \caption{Рукописний розв'язок Завдання~6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{telegram-cloud-photo-size-2-5411135133827404547-y.jpg}
+    \caption{Рукописний розв'язок Завдання~6 (продовження)}
 \end{figure}
 
 \end{document}
