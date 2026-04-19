@@ -5,15 +5,3 @@ test_fs_list
 
 .cursor/
 .DS_Store
-
-# LaTeX build artefacts
-report/*.aux
-report/*.log
-report/*.out
-report/*.toc
-report/*.lof
-report/*.lot
-report/*.fls
-report/*.fdb_latexmk
-report/*.synctex.gz
-report/report.pdf

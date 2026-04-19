@@ -8,17 +8,12 @@ Left pane lists the active folder; right pane shows per-item details:
 
 | Entry type        | Right-pane content                                          |
 | ----------------- | ----------------------------------------------------------- |
-| `.png`            | IHDR info (dimensions, bit depth, color type, interlace) + image preview |
-| `.jpg`/`.jpeg`    | Rich metadata block + image preview                         |
+| `.png`            | IHDR info (dimensions, bit depth, color type, interlace) + metadata + image preview |
+| `.jpg`/`.jpeg`    | SOF info (dimensions, precision, channels, encoding mode) + metadata + image preview |
 | folder            | Count of `.jpg` / `.png` files inside                       |
 | any other file    | Rich metadata block (size, mode, owner, inode, 3 timestamps)|
 
 The binary is called `pfs`.
-
-## Screenshots
-
-See [`report/images/`](report/images) for expected filenames used in
-the LaTeX report.
 
 ## Layout
 
@@ -27,15 +22,12 @@ src/
   fs.s            # directory walk, parent, jpg/png count, full metadata
   path_join.s     # pure-asm bounded path concatenation
   png_ihdr.s      # open/read/close + PNG signature & IHDR parsing
+  jpeg_info.s     # open/read/close + JPEG marker walk & SOF parsing
   pfs_fmt.s       # str/u32/u64 bounded "append" helpers
   main.m          # NSApplication bootstrap
   AppDelegate.m   # AppKit window, table view, image view, actions
   pfs_core.h      # C-visible declarations of all asm entry points
 Makefile          # top-level build
-report/           # LaTeX report (Ukrainian, XeLaTeX)
-  report.tex
-  Makefile
-  images/         # drop screenshots here
 ```
 
 Only asm + AppKit bindings: no other dependencies.
@@ -45,8 +37,6 @@ Only asm + AppKit bindings: no other dependencies.
 * macOS 12+ on Apple Silicon (arm64).
 * Xcode command line tools (`clang`, system headers, AppKit/Foundation
   frameworks): `xcode-select --install`.
-* For the report: a TeX distribution with **XeLaTeX** (MacTeX, BasicTeX,
-  or TinyTeX). Fonts: Times New Roman (ships with macOS) and Menlo.
 
 ## Build and run
 
@@ -107,6 +97,33 @@ signature and the IHDR chunk, pulls width/height/bit depth/color
 type/interlace, then emits a human-readable preview through the
 `pfs_fmt` helpers.
 
+### `jpeg_info.s`
+
+```
+int jpeg_format_info(const char *path, char *buf, size_t buflen);
+```
+
+`open` → `read` (up to 64 KiB) → `close`, validates the `FF D8` SOI
+and walks JPEG segments: single-byte markers (`01`, `D0`–`D7`,
+`D8`/`D9`) are skipped directly, everything else advances by the
+big-endian 16-bit segment length. When the walk lands on an
+SOF marker (`C0`–`CF` excluding `C4`/`C8`/`CC`) the routine pulls
+precision, height, width and component count out of the segment
+body, then emits:
+
+```
+JPEG info
+Dimensions: <W> x <H> px
+Precision: <P> bits/ch
+Channels: <N>
+Mode: baseline | extended sequential | progressive | lossless | differential | other
+```
+
+The "Mode" label is derived from the low nibble of the marker byte
+(`C0`=baseline, `C2`=progressive, etc.). No `snprintf`, no C helpers,
+no heap allocation — just the raw bytes, `pfs_str_append` and
+`pfs_u32_append`.
+
 ### `fs.s`
 
 ```
@@ -157,18 +174,3 @@ This eliminates the crash class "clicking Parent folder / a file
 segfaults inside `objc_msgSend`": a subtle bug that appears only
 after a few UI interactions because `self` gets silently corrupted
 across a non-compliant asm call.
-
-## Report
-
-A LaTeX report (Ukrainian, XeLaTeX) lives in `report/`:
-
-```bash
-cd report
-make           # produces report.pdf
-make open      # opens it on macOS
-```
-
-Fill in group / name / instructor on the title page, drop screenshots
-into `report/images/` with the names listed in
-[`report/images/README.txt`](report/images/README.txt), and re-run
-`make`.

@@ -343,8 +343,16 @@ static NSString *PFSFormatFileMetadata(const char *fullPath) {
     }
 
     if ([lower hasSuffix:@".jpg"] || [lower hasSuffix:@".jpeg"]) {
+        char detail[4096];
+        NSString *jpegText;
+        if (jpeg_format_info(full, detail, sizeof(detail)) == 0) {
+            jpegText = [NSString stringWithUTF8String:detail]
+                           ?: @"[invalid UTF-8 in JPEG info]";
+        } else {
+            jpegText = @"JPEG image\n(could not parse SOF marker)";
+        }
         [self pfs_setDetailPlainText:
-                  [NSString stringWithFormat:@"JPEG image\n%@", meta]];
+                  [NSString stringWithFormat:@"%@\n%@", meta, jpegText]];
         NSString *pathStr = [NSString stringWithUTF8String:full];
         self.imageView.image =
             pathStr.length ? [[NSImage alloc] initWithContentsOfFile:pathStr] : nil;

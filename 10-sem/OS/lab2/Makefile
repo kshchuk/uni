@@ -6,7 +6,7 @@ CFLAGS = -arch $(ARCH) -Wall -O1
 OBJCFLAGS = $(CFLAGS) -fobjc-arc
 LDFLAGS = -arch $(ARCH) -framework Cocoa -framework Foundation
 
-ASM_SRCS = src/fs.s src/path_join.s src/png_ihdr.s src/pfs_fmt.s
+ASM_SRCS = src/fs.s src/path_join.s src/png_ihdr.s src/jpeg_info.s src/pfs_fmt.s
 M_SRCS = src/main.m src/AppDelegate.m
 
 OBJS = $(ASM_SRCS:.s=.o) $(M_SRCS:.m=.o)
