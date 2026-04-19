@@ -2,7 +2,6 @@
 #import "pfs_core.h"
 
 #import <string.h>
-#import <sys/stat.h>
 #import <unistd.h>
 
 @interface AppDelegate ()
@@ -13,10 +12,14 @@
 @property (nonatomic, strong) NSImageView *imageView;
 @property (nonatomic, strong) NSScrollView *tableScrollView;
 @property (nonatomic, strong) NSButton *parentButton;
+- (void)pfs_reloadInitialListing:(id)unused;
+- (void)pfs_setPathAndReload:(NSString *)path;
+- (void)pfs_setDetailPlainText:(NSString *)text;
 @end
 
 @implementation AppDelegate {
     char _pathBuf[1024];
+    BOOL _suppressSelectionUpdates;
 }
 
 static NSColor *PFSPlatinumBackground(void) {
@@ -25,6 +28,63 @@ static NSColor *PFSPlatinumBackground(void) {
 
 static NSColor *PFSPlatinumPanel(void) {
     return [NSColor colorWithCalibratedWhite:0.93 alpha:1.0];
+}
+
+static NSString *PFSCBoundedUTF8(const char *buf, size_t bufsize) {
+    char tmp[1024];
+    size_t cap = sizeof(tmp) - 1;
+    size_t n = bufsize - 1 < cap ? bufsize - 1 : cap;
+    memcpy(tmp, buf, n);
+    tmp[n] = '\0';
+    NSString *s = [NSString stringWithUTF8String:tmp];
+    return s ?: @"";
+}
+
+static void PFSCopyEntryName(char out[PFS_ENTRY_NAME_LEN],
+                             const unsigned char *entryRow) {
+    memcpy(out, entryRow, PFS_ENTRY_NAME_LEN - 1);
+    out[PFS_ENTRY_NAME_LEN - 1] = '\0';
+}
+
+static NSString *PFSFormatFileMetadata(const char *fullPath) {
+    long long sz = pfs_file_size(fullPath);
+    if (sz < 0) {
+        return @"";
+    }
+
+    NSString *sizeStr;
+    if (sz < 1024) {
+        sizeStr = [NSString stringWithFormat:@"%lld B", sz];
+    } else if (sz < 1024LL * 1024) {
+        sizeStr = [NSString stringWithFormat:@"%.1f KiB (%lld B)",
+                                             sz / 1024.0, sz];
+    } else {
+        sizeStr = [NSString stringWithFormat:@"%.1f MiB (%lld B)",
+                                             sz / (1024.0 * 1024.0), sz];
+    }
+
+    char metaBuf[1024] = {0};
+    NSString *rest = @"";
+    if (pfs_format_fullmeta(fullPath, metaBuf, sizeof(metaBuf)) == 0) {
+        rest = [NSString stringWithUTF8String:metaBuf] ?: @"";
+    }
+
+    if (rest.length == 0) {
+        return [NSString stringWithFormat:@"Size: %@\n", sizeStr];
+    }
+    return [NSString stringWithFormat:@"Size: %@\n%@\n", sizeStr, rest];
+}
+
+- (void)pfs_setDetailPlainText:(NSString *)text {
+    NSTextView *tv = self.detailTextView;
+    if (!tv) {
+        return;
+    }
+    NSString *s = text ?: @"";
+    if (s.length == 0 && tv.string.length == 0) {
+        return;
+    }
+    tv.string = s;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -47,11 +107,11 @@ static NSColor *PFSPlatinumPanel(void) {
     self.window.minSize = NSMakeSize(640, 400);
     self.window.backgroundColor = PFSPlatinumBackground();
 
+    NSAppearance *lightAqua = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+
     NSSplitView *mainSplit = [[NSSplitView alloc] initWithFrame:NSMakeRect(0, 0, w, h)];
     mainSplit.vertical = YES;
     mainSplit.dividerStyle = NSSplitViewDividerStyleThin;
-    mainSplit.wantsLayer = YES;
-    mainSplit.layer.backgroundColor = PFSPlatinumBackground().CGColor;
 
     NSTableColumn *colName =
         [[NSTableColumn alloc] initWithIdentifier:@"name"];
@@ -63,7 +123,8 @@ static NSColor *PFSPlatinumPanel(void) {
     colKind.title = @"Kind";
     colKind.width = 72;
 
-    self.tableView = [[NSTableView alloc] initWithFrame:NSZeroRect];
+    self.tableView =
+        [[NSTableView alloc] initWithFrame:NSMakeRect(0, 0, 420, h - 56)];
     [self.tableView addTableColumn:colName];
     [self.tableView addTableColumn:colKind];
     self.tableView.delegate = self;
@@ -71,7 +132,6 @@ static NSColor *PFSPlatinumPanel(void) {
     self.tableView.target = self;
     self.tableView.doubleAction = @selector(onTableDoubleClick:);
     self.tableView.usesAlternatingRowBackgroundColors = YES;
-    self.tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
 
     self.tableScrollView =
         [[NSScrollView alloc] initWithFrame:NSMakeRect(0, 0, 440, h)];
@@ -92,11 +152,11 @@ static NSColor *PFSPlatinumPanel(void) {
         [[NSTextView alloc] initWithFrame:textFrame];
     self.detailTextView.editable = NO;
     self.detailTextView.selectable = YES;
-    self.detailTextView.font =
-        [NSFont monospacedSystemFontOfSize:12 weight:NSFontWeightRegular];
+    self.detailTextView.font = [NSFont userFixedPitchFontOfSize:12];
     self.detailTextView.backgroundColor = PFSPlatinumPanel();
     self.detailTextView.drawsBackground = YES;
-    self.detailTextView.string = @"";
+    self.detailTextView.textColor = [NSColor textColor];
+    [self pfs_setDetailPlainText:@""];
 
     self.detailScrollView =
         [[NSScrollView alloc] initWithFrame:NSMakeRect(0, 0, sz.width, sz.height * 0.45)];
@@ -111,8 +171,6 @@ static NSColor *PFSPlatinumPanel(void) {
     self.imageView.imageScaling = NSImageScaleProportionallyDown;
     self.imageView.imageAlignment = NSImageAlignCenter;
     self.imageView.editable = NO;
-    self.imageView.wantsLayer = YES;
-    self.imageView.layer.backgroundColor = PFSPlatinumPanel().CGColor;
 
     [rightSplit addSubview:self.detailScrollView];
     [rightSplit addSubview:self.imageView];
@@ -141,9 +199,17 @@ static NSColor *PFSPlatinumPanel(void) {
     mainSplit.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 
     self.window.contentView = mainSplit;
+    self.window.appearance = lightAqua;
+    self.window.contentView.appearance = lightAqua;
 
-    [self reloadListingSelectingRow:0];
     [self.window makeKeyAndOrderFront:nil];
+    [self performSelector:@selector(pfs_reloadInitialListing:)
+               withObject:nil
+               afterDelay:0.05];
+}
+
+- (void)pfs_reloadInitialListing:(id)unused {
+    [self reloadListingSelectingRow:0];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
@@ -168,8 +234,26 @@ static NSColor *PFSPlatinumPanel(void) {
     }
 
     char tmp[1024];
-    path_join(tmp, sizeof(tmp), _pathBuf, (const char *)entry);
-    memcpy(_pathBuf, tmp, sizeof(_pathBuf));
+    char nameBuf[PFS_ENTRY_NAME_LEN];
+    PFSCopyEntryName(nameBuf, entry);
+    path_join(tmp, sizeof(tmp), _pathBuf, nameBuf);
+
+    NSString *pathStr = [NSString stringWithUTF8String:tmp];
+    if (!pathStr.length) {
+        pathStr = PFSCBoundedUTF8(tmp, sizeof(tmp));
+    }
+
+    [self performSelector:@selector(pfs_setPathAndReload:)
+               withObject:pathStr
+               afterDelay:0];
+}
+
+- (void)pfs_setPathAndReload:(NSString *)path {
+    const char *u = path.UTF8String;
+    if (!u) {
+        return;
+    }
+    strlcpy(_pathBuf, u, sizeof(_pathBuf));
     [self reloadListingSelectingRow:0];
 }
 
@@ -178,17 +262,23 @@ static NSColor *PFSPlatinumPanel(void) {
 - (void)reloadListingSelectingRow:(NSInteger)selectRow {
     int n = fs_list_dir(_pathBuf);
     if (n < 0) {
-        self.detailTextView.string = @"Could not read directory listing.";
+        [self pfs_setDetailPlainText:@"Could not read directory listing."];
+        _suppressSelectionUpdates = YES;
         [self.tableView reloadData];
+        _suppressSelectionUpdates = NO;
         return;
     }
 
-    self.window.title = [NSString stringWithFormat:@"FS Viewer — %s", _pathBuf];
+    self.window.title =
+        [NSString stringWithFormat:@"FS Viewer — %@",
+                                   PFSCBoundedUTF8(_pathBuf, sizeof(_pathBuf))];
+    _suppressSelectionUpdates = YES;
     [self.tableView reloadData];
+    _suppressSelectionUpdates = NO;
 
     if (g_entry_count == 0) {
         [self.tableView deselectAll:nil];
-        self.detailTextView.string = @"(empty directory)";
+        [self pfs_setDetailPlainText:@"(empty directory)"];
         self.imageView.image = nil;
         return;
     }
@@ -197,70 +287,72 @@ static NSColor *PFSPlatinumPanel(void) {
         selectRow = 0;
     }
     NSIndexSet *ix = [NSIndexSet indexSetWithIndex:(NSUInteger)selectRow];
+    _suppressSelectionUpdates = YES;
     [self.tableView selectRowIndexes:ix byExtendingSelection:NO];
+    _suppressSelectionUpdates = NO;
+
     [self updateDetailPanel];
 }
 
 - (void)updateDetailPanel {
     NSInteger row = self.tableView.selectedRow;
     if (row < 0 || (uint64_t)row >= g_entry_count) {
-        self.detailTextView.string = @"";
+        [self pfs_setDetailPlainText:@""];
         self.imageView.image = nil;
         return;
     }
 
     unsigned char *entry = g_entries + row * PFS_ENTRY_SIZE;
-    const char *name = (const char *)entry;
+    char nameBuf[PFS_ENTRY_NAME_LEN];
+    PFSCopyEntryName(nameBuf, entry);
 
     char full[1024];
-    path_join(full, sizeof(full), _pathBuf, name);
+    path_join(full, sizeof(full), _pathBuf, nameBuf);
 
     if (entry[PFS_ENTRY_OFF_ISDIR]) {
         int c = fs_count_jpg_png(full);
-        self.detailTextView.string =
-            [NSString stringWithFormat:@"Directory\nJPG/PNG files in this folder: %d\n", c];
+        NSString *body =
+            [NSString stringWithFormat:@"Directory\nJPG/PNG files in this folder: %d\n",
+                                       c];
+        [self pfs_setDetailPlainText:body];
         self.imageView.image = nil;
         return;
     }
 
-    NSString *lower = [[NSString stringWithUTF8String:name] lowercaseString];
+    NSString *meta = PFSFormatFileMetadata(full);
+    NSString *lower = [[NSString stringWithUTF8String:nameBuf] lowercaseString];
+
     if ([lower hasSuffix:@".png"]) {
         char detail[4096];
+        NSString *pngText;
         if (png_format_ihdr_info(full, detail, sizeof(detail)) == 0) {
-            self.detailTextView.string = [NSString stringWithUTF8String:detail];
+            pngText = [NSString stringWithUTF8String:detail]
+                          ?: @"[invalid UTF-8 in PNG info]";
         } else {
-            self.detailTextView.string = @"Could not read PNG header.";
+            pngText = @"Could not read PNG header.";
         }
+        [self pfs_setDetailPlainText:
+                  [NSString stringWithFormat:@"%@\n%@", meta, pngText]];
         NSString *pathStr = [NSString stringWithUTF8String:full];
-        self.imageView.image = [[NSImage alloc] initWithContentsOfFile:pathStr];
+        if (pathStr.length > 0) {
+            self.imageView.image = [[NSImage alloc] initWithContentsOfFile:pathStr];
+        } else {
+            self.imageView.image = nil;
+        }
+        return;
+    }
+
+    if ([lower hasSuffix:@".jpg"] || [lower hasSuffix:@".jpeg"]) {
+        [self pfs_setDetailPlainText:
+                  [NSString stringWithFormat:@"JPEG image\n%@", meta]];
+        NSString *pathStr = [NSString stringWithUTF8String:full];
+        self.imageView.image =
+            pathStr.length ? [[NSImage alloc] initWithContentsOfFile:pathStr] : nil;
         return;
     }
 
     self.imageView.image = nil;
-
-    struct stat st;
-    if (lstat(full, &st) != 0) {
-        self.detailTextView.string = @"lstat failed for the selected path.";
-        return;
-    }
-
-    char tbuf[64];
-    memset(tbuf, 0, sizeof(tbuf));
-
-    if (st.st_birthtimespec.tv_sec != 0 || st.st_birthtimespec.tv_nsec != 0) {
-        render_fmt_timespec_to_buf(st.st_birthtimespec.tv_sec,
-                                   st.st_birthtimespec.tv_nsec, tbuf,
-                                   sizeof(tbuf));
-        self.detailTextView.string = [NSString
-            stringWithFormat:@"File: %s\nCreation time: %s\n", name, tbuf];
-    } else {
-        render_fmt_timespec_to_buf(st.st_mtimespec.tv_sec,
-                                   st.st_mtimespec.tv_nsec, tbuf,
-                                   sizeof(tbuf));
-        self.detailTextView.string =
-            [NSString stringWithFormat:@"File: %s\nModified (no birth time): %s\n",
-                                       name, tbuf];
-    }
+    [self pfs_setDetailPlainText:meta];
 }
 
 #pragma mark - NSTableViewDataSource
@@ -272,16 +364,18 @@ static NSColor *PFSPlatinumPanel(void) {
 - (id)tableView:(NSTableView *)tableView
     objectValueForTableColumn:(NSTableColumn *)tableColumn
                           row:(NSInteger)row {
-    if (row < 0 || (uint64_t)row >= g_entry_count) {
+    if (!tableColumn || row < 0 || (uint64_t)row >= g_entry_count) {
         return @"";
     }
 
     unsigned char *entry = g_entries + row * PFS_ENTRY_SIZE;
+    NSString *colId = tableColumn.identifier;
 
-    if ([tableColumn.identifier isEqualToString:@"name"]) {
-        return [NSString stringWithUTF8String:(const char *)entry];
+    if ([colId isEqualToString:@"name"]) {
+        NSString *s = [NSString stringWithUTF8String:(const char *)entry];
+        return s ?: @"";
     }
-    if ([tableColumn.identifier isEqualToString:@"kind"]) {
+    if ([colId isEqualToString:@"kind"]) {
         return entry[PFS_ENTRY_OFF_ISDIR] ? @"folder" : @"file";
     }
     return @"";
@@ -290,6 +384,9 @@ static NSColor *PFSPlatinumPanel(void) {
 #pragma mark - NSTableViewDelegate
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
+    if (_suppressSelectionUpdates) {
+        return;
+    }
     [self updateDetailPanel];
 }
 

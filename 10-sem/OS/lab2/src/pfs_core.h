@@ -20,8 +20,11 @@ void path_join(char *out, size_t outsiz, const char *base, const char *name);
 void path_parent_inplace(char *path);
 int fs_count_jpg_png(const char *dirpath);
 int png_format_ihdr_info(const char *path, char *buf, size_t buflen);
-size_t render_fmt_timespec_to_buf(int64_t tv_sec, int64_t tv_nsec, char *buf,
-                                  size_t buflen);
+
+/* File metadata helpers (asm): */
+long long pfs_file_size(const char *path);
+int pfs_file_mtime_iso(const char *path, char *buf, size_t buflen);
+int pfs_format_fullmeta(const char *path, char *buf, size_t buflen);
 
 #ifdef __cplusplus
 }

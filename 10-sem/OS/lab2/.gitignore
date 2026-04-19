@@ -1,2 +1,19 @@
 pfs
+pfs_asan
+test_fs_list
 *.o
+
+.cursor/
+.DS_Store
+
+# LaTeX build artefacts
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.lof
+report/*.lot
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+report/report.pdf
