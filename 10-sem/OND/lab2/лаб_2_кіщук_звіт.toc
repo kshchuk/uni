@@ -1,0 +1,27 @@
+\xpg@aux {}{ukrainian}
+\contentsline {section}{\numberline {1}Завдання 3.7}{2}{}%
+\contentsline {subsection}{\numberline {1.1}Запис системи}{2}{}%
+\contentsline {subsection}{\numberline {1.2}Знаходження особливих точок}{2}{}%
+\contentsline {subsection}{\numberline {1.3}Матриця Якобі та інваріанти лінеаризації}{2}{}%
+\contentsline {subsection}{\numberline {1.4}Лінеаризація в околі $M_1(2,1)$}{3}{}%
+\contentsline {paragraph}{Код побудови (Python).}{4}{}%
+\contentsline {subsection}{\numberline {1.5}Лінеаризація в околі $M_2(1,2)$}{5}{}%
+\contentsline {paragraph}{Код побудови (Python).}{6}{}%
+\contentsline {subsection}{\numberline {1.6}Лінеаризація в околі $M_3(-1,-2)$}{7}{}%
+\contentsline {paragraph}{Код побудови (Python).}{8}{}%
+\contentsline {subsection}{\numberline {1.7}Загальний фазовий портрет}{8}{}%
+\contentsline {paragraph}{Код побудови (Python).}{9}{}%
+\contentsline {subsection}{\numberline {1.8}Програмна реалізація (Maple)}{10}{}%
+\contentsline {subsection}{\numberline {1.9}Висновок}{10}{}%
+\contentsline {section}{\numberline {2}Завдання 3.6}{12}{}%
+\contentsline {subsection}{\numberline {2.1}Запис системи}{12}{}%
+\contentsline {subsection}{\numberline {2.2}Знаходження особливих точок}{12}{}%
+\contentsline {subsection}{\numberline {2.3}Матриця Якобі та інваріанти лінеаризації}{12}{}%
+\contentsline {subsection}{\numberline {2.4}Лінеаризація в околі $M_1(1,1)$}{13}{}%
+\contentsline {paragraph}{Код побудови (Python).}{13}{}%
+\contentsline {subsection}{\numberline {2.5}Лінеаризація в околі $M_2(-1,-1)$}{14}{}%
+\contentsline {paragraph}{Код побудови (Python).}{15}{}%
+\contentsline {subsection}{\numberline {2.6}Загальний фазовий портрет}{15}{}%
+\contentsline {paragraph}{Код побудови (Python).}{16}{}%
+\contentsline {subsection}{\numberline {2.7}Програмна реалізація (Maple)}{16}{}%
+\contentsline {subsection}{\numberline {2.8}Висновок}{17}{}%
