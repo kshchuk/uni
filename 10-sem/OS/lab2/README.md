@@ -15,6 +15,18 @@ Left pane lists the active folder; right pane shows per-item details:
 
 The binary is called `pfs`.
 
+## Screenshots
+
+JPEG selected — asm-parsed SOF fields (dimensions, precision, channels,
+encoding mode) combined with the full metadata block and an image
+preview:
+
+![JPEG detail pane](screenshots/jpeg-detail.png)
+
+PNG selected — asm-parsed IHDR fields plus metadata and preview:
+
+![PNG detail pane](screenshots/png-detail.png)
+
 ## Layout
 
 ```
