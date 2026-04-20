@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.16)  20 APR 2026 12:21
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.16)  20 APR 2026 23:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -464,55 +464,73 @@ File: global_phase_portrait.png Graphic file (type bmp)
  [9] [10]
 File: maple_deplot.png Graphic file (type bmp)
 <maple_deplot.png>
-File: Screenshot 2026-04-19 at 22.27.33.png Graphic file (type bmp)
-<Screenshot 2026-04-19 at 22.27.33.png>
+File: ../Screenshot 2026-04-20 at 23.09.51.png Graphic file (type bmp)
+<../Screenshot 2026-04-20 at 23.09.51.png>
  [11]
+File: ../Screenshot 2026-04-20 at 23.10.27.png Graphic file (type bmp)
+<../Screenshot 2026-04-20 at 23.10.27.png>
+ [12]
+File: Screenshot 2026-04-20 at 23.11.29.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.11.29.png>
+ [13]
+File: Screenshot 2026-04-20 at 23.11.58.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.11.58.png>
+ [14]
 File: telegram-cloud-photo-size-2-5418129556788416924-y.jpg Graphic file (type 
 bmp)
 <telegram-cloud-photo-size-2-5418129556788416924-y.jpg>
- [12]
+ [15]
 File: 2026-04-19 22.35.26.jpg Graphic file (type bmp)
 <2026-04-19 22.35.26.jpg>
- [13]
+ [16]
 File: 2026-04-19 22.35.45.jpg Graphic file (type bmp)
 <2026-04-19 22.35.45.jpg>
- [14]
+ [17]
 File: 2026-04-19 22.35.49.jpg Graphic file (type bmp)
 <2026-04-19 22.35.49.jpg>
- [15] [16] [17]
+ [18] [19] [20]
 File: local_M1_3_6.png Graphic file (type bmp)
 <local_M1_3_6.png>
- [18] [19]
+ [21]
+[22]
 File: local_M2_3_6.png Graphic file (type bmp)
 <local_M2_3_6.png>
- [20]
+ [23]
 File: global_phase_portrait_3_6.png Graphic file (type bmp)
 <global_phase_portrait_3_6.png>
- [21]
+ [24]
 File: Screenshot 2026-04-19 at 22.07.40.png Graphic file (type bmp)
 <Screenshot 2026-04-19 at 22.07.40.png>
-
-[22]
-File: Screenshot 2026-04-19 at 22.29.02.png Graphic file (type bmp)
-<Screenshot 2026-04-19 at 22.29.02.png>
- [23]
+ [25]
+File: Screenshot 2026-04-20 at 23.13.02.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.13.02.png>
+File: Screenshot 2026-04-20 at 23.13.38.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.13.38.png>
+ [26]
+File: Screenshot 2026-04-20 at 23.14.14.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.14.14.png>
+ [27]
+File: Screenshot 2026-04-20 at 23.23.35.png Graphic file (type bmp)
+<Screenshot 2026-04-20 at 23.23.35.png>
+ [28]
 File: 2026-04-19 22.37.34.jpg Graphic file (type bmp)
 <2026-04-19 22.37.34.jpg>
+ [29]
 File: 2026-04-19 22.37.38.jpg Graphic file (type bmp)
 <2026-04-19 22.37.38.jpg>
- [24] [25] (./лаб_2_кіщук_звіт.aux)
+ [30] [31] (./лаб_2_кіщук_звіт.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 8063 strings out of 468961
- 186970 string characters out of 5456696
+ 8124 strings out of 468961
+ 189421 string characters out of 5456696
  632085 words of memory out of 5000000
- 36585 multiletter control sequences out of 15000+600000
+ 36639 multiletter control sequences out of 15000+600000
  635277 words of font info for 108 fonts, out of 8000000 for 9000
  987 hyphenation exceptions out of 8191
- 73i,9n,93p,628b,622s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,9n,93p,634b,622s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on лаб_2_кіщук_звіт.pdf (26 pages).
+Output written on лаб_2_кіщук_звіт.pdf (32 pages).

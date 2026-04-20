@@ -15,20 +15,20 @@
 \contentsline {paragraph}{Код побудови (Python).}{10}{}%
 \contentsline {subsection}{\numberline {1.8}Програмна реалізація (Maple)}{11}{}%
 \contentsline {subsection}{\numberline {1.9}Розширений фазовий простір}{11}{}%
-\contentsline {subsection}{\numberline {1.10}Висновок}{12}{}%
-\contentsline {subsection}{Додаток: розв'язання на папері}{12}{}%
-\contentsline {section}{\numberline {2}Завдання 3.6}{17}{}%
-\contentsline {subsection}{\numberline {2.1}Запис системи}{17}{}%
-\contentsline {subsection}{\numberline {2.2}Знаходження особливих точок}{17}{}%
-\contentsline {subsection}{\numberline {2.3}Матриця Якобі та інваріанти лінеаризації}{17}{}%
-\contentsline {subsection}{\numberline {2.4}Лінеаризація в околі $M_1(1,1)$}{18}{}%
-\contentsline {paragraph}{Геометрія спіралі.}{18}{}%
-\contentsline {paragraph}{Код побудови (Python).}{19}{}%
-\contentsline {subsection}{\numberline {2.5}Лінеаризація в околі $M_2(-1,-1)$}{19}{}%
-\contentsline {paragraph}{Код побудови (Python).}{20}{}%
-\contentsline {subsection}{\numberline {2.6}Загальний фазовий портрет}{21}{}%
-\contentsline {paragraph}{Код побудови (Python).}{21}{}%
-\contentsline {subsection}{\numberline {2.7}Програмна реалізація (Maple)}{22}{}%
-\contentsline {subsection}{\numberline {2.8}Розширений фазовий простір}{23}{}%
-\contentsline {subsection}{\numberline {2.9}Висновок}{23}{}%
-\contentsline {subsection}{Додаток: розв'язання на папері (3.6)}{24}{}%
+\contentsline {subsection}{\numberline {1.10}Висновок}{15}{}%
+\contentsline {subsection}{Додаток: розв'язання на папері}{15}{}%
+\contentsline {section}{\numberline {2}Завдання 3.6}{20}{}%
+\contentsline {subsection}{\numberline {2.1}Запис системи}{20}{}%
+\contentsline {subsection}{\numberline {2.2}Знаходження особливих точок}{20}{}%
+\contentsline {subsection}{\numberline {2.3}Матриця Якобі та інваріанти лінеаризації}{20}{}%
+\contentsline {subsection}{\numberline {2.4}Лінеаризація в околі $M_1(1,1)$}{21}{}%
+\contentsline {paragraph}{Геометрія спіралі.}{21}{}%
+\contentsline {paragraph}{Код побудови (Python).}{22}{}%
+\contentsline {subsection}{\numberline {2.5}Лінеаризація в околі $M_2(-1,-1)$}{22}{}%
+\contentsline {paragraph}{Код побудови (Python).}{23}{}%
+\contentsline {subsection}{\numberline {2.6}Загальний фазовий портрет}{24}{}%
+\contentsline {paragraph}{Код побудови (Python).}{24}{}%
+\contentsline {subsection}{\numberline {2.7}Програмна реалізація (Maple)}{25}{}%
+\contentsline {subsection}{\numberline {2.8}Розширений фазовий простір}{26}{}%
+\contentsline {subsection}{\numberline {2.9}Висновок}{29}{}%
+\contentsline {subsection}{Додаток: розв'язання на папері (3.6)}{29}{}%
