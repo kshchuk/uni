@@ -1,0 +1,9 @@
+tau_explicit = 1.250000e-04
+tau_adi = 2.500000e-02
+tau_sym = 1.250000e-04
+steps: explicit=8000, ADI=40, sym=8000
+time: explicit=0.247, ADI=0.075, sym=15.201
+Linf@t=1: explicit=2.909e-06, ADI=8.049e-06, sym=2.171e-05
+L2@t=1:   explicit=1.587e-06, ADI=2.491e-06, sym=1.083e-05
+3D setup: Lx=Ly=1.0, Lz=0.0200 (=1.0/50 of side); Nx=Ny=30, Nz=6; tau=2.179e-06, steps=4590; T=0.01
+3D: max w = 3.415e-01, max w на передній грані z=Lz = 2.585e-01 (Робен до Т_кімн)
