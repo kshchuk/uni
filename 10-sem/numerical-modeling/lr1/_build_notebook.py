@@ -746,7 +746,7 @@ def laplacian_3d_mixed_bc(U, hx, hy, hz, Lz_plate, biot_front):
 
 tau3_max = 1.0 / (2.0 * a * (1.0 / hx3 ** 2 + 1.0 / hy3 ** 2 + 1.0 / hz3 ** 2))
 tau3 = 0.4 * tau3_max
-T3 = 0.001
+T3 = 0.01
 nsteps3 = int(np.ceil(T3 / tau3))
 print(f"3D: tau_max={tau3_max:.3e}, tau={tau3:.3e}, steps={nsteps3}")
 
