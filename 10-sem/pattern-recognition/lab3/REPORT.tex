@@ -1,0 +1,225 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[ukrainian]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\geometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Розпізнавання образів}
+\fancyhead[R]{Лабораторна робота 3}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0.5cm}
+\linespread{1.5}
+
+\begin{document}
+
+%================ ТИТУЛЬНА СТОРІНКА ================
+\begin{titlepage}
+\centering
+{\Large \textbf{КИЇВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ\\
+ІМЕНІ ТАРАСА ШЕВЧЕНКА}}
+
+\vspace{2cm}
+{\large Факультет комп'ютерних наук та кібернетики}
+
+\vspace{3cm}
+{\Large \textbf{ЛАБОРАТОРНА РОБОТА 3}}
+
+\vspace{0.5cm}
+{\large \textbf{Розпізнавання образів}}
+
+\vspace{2cm}
+{\large \textbf{Класифікація точок трьох типів\\
+за відстанями до усереднених представників класів}}
+
+\vspace{3cm}
+{\large \textbf{Виконав:} студент групи ПМ}
+
+\vspace{0.5cm}
+{\Large \textbf{Кіщук Ярослав Ярославович}}
+
+\vspace{3cm}
+{\large \textbf{Київ} -- 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+%================ ВСТУП ================
+\section{Мета та завдання роботи}
+
+\subsection{Мета}
+Реалізувати класифікацію точки до одного з трьох типів за відстанню до центру мас класу, порівняти результати для метрик $L2$ (евклідова) та $L1$ (мангеттенська), а також дослідити граничні випадки.
+
+\subsection{Умова для парного номера}
+Для парного номера у списку використано змішані розподіли:
+\begin{itemize}
+    \item Тип 1 --- рівномірний;
+    \item Тип 2 --- нормальний;
+    \item Тип 3 --- рівномірний.
+\end{itemize}
+
+\subsection{Завдання}
+\begin{enumerate}
+    \item Згенерувати три навчальні множини точок та множину тестових точок.
+    \item Для кожної навчальної множини обчислити центроїд.
+    \item Для кожної тестової точки порахувати відстані до центроїдів за $L2$ та $L1$.
+    \item Призначити клас за правилом мінімальної відстані.
+    \item Порівняти результати $L2$ і $L1$ на тестовому наборі.
+\end{enumerate}
+
+%================ ТЕОРЕТИЧНІ ОСНОВИ ================
+\section{Теоретичні відомості}
+
+Нехай маємо три класи точок $C_1, C_2, C_3$. Для кожного класу обчислюється центроїд:
+\begin{equation}
+\mu_k = \frac{1}{|C_k|} \sum_{x \in C_k} x, \quad k \in \{1,2,3\}.
+\end{equation}
+
+Для тестової точки $t=(t_x,t_y)$ відстані до центроїда $\mu_k=(\mu_{k,x},\mu_{k,y})$:
+\begin{align}
+d_{L2}(t,\mu_k) &= \sqrt{(t_x-\mu_{k,x})^2 + (t_y-\mu_{k,y})^2}, \\
+d_{L1}(t,\mu_k) &= |t_x-\mu_{k,x}| + |t_y-\mu_{k,y}|.
+\end{align}
+
+Рішення класифікатора:
+\begin{equation}
+\hat{k} = \arg\min_k d(t,\mu_k).
+\end{equation}
+
+%================ АЛГОРИТМ ================
+\section{Описання алгоритму та реалізація}
+
+Робота виконана у ноутбуці \texttt{lab3/lab-3.ipynb}. Для геометричних допоміжних обчислень перевикористано частину коду з лабораторної 1 (\texttt{cross}, \texttt{convex\_hull}, \texttt{scale\_to\_square}).
+
+\subsection{Параметри експерименту}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|}
+\toprule
+\textbf{Параметр} & \textbf{Значення} \\
+\midrule
+Кількість класів & 3 \\
+Точок у кожному класі & 100 \\
+Кількість тестових точок & 100 \\
+Seed генератора & 24 \\
+\bottomrule
+\end{tabular}
+\caption{Параметри генерації даних}
+\end{table}
+
+\subsection{Центроїди класів}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|r|}
+\toprule
+\textbf{Клас} & \textbf{$x_c$} & \textbf{$y_c$} \\
+\midrule
+Тип 1 & -8.5236 & 4.2531 \\
+Тип 2 & 4.2152 & 5.6406 \\
+Тип 3 & 2.6207 & -4.6042 \\
+\bottomrule
+\end{tabular}
+\caption{Обчислені центри мас для трьох класів}
+\end{table}
+
+\subsection{Фрагмент класифікації тестових точок}
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|r|r|c|c|}
+\toprule
+\textbf{\#} & \textbf{$x$} & \textbf{$y$} & \textbf{L2} & \textbf{L1} \\
+\midrule
+1  & -1.496  & -8.546 & Тип 3 & Тип 3 \\
+2  & -10.070 & 9.686  & Тип 1 & Тип 1 \\
+3  & 8.628   & 0.621  & Тип 2 & Тип 2 \\
+4  & -7.454  & -4.472 & Тип 1 & Тип 1 \\
+5  & -4.679  & 6.022  & Тип 1 & Тип 1 \\
+6  & 1.557   & -6.082 & Тип 3 & Тип 3 \\
+7  & -9.908  & 8.822  & Тип 1 & Тип 1 \\
+8  & -12.140 & -5.443 & Тип 1 & Тип 1 \\
+9  & -8.551  & 4.767  & Тип 1 & Тип 1 \\
+10 & 1.779   & -5.877 & Тип 3 & Тип 3 \\
+\bottomrule
+\end{tabular}
+\caption{Перші 10 результатів класифікації}
+\end{table}
+
+%================ РЕЗУЛЬТАТИ ================
+\section{Результати та аналіз}
+
+\subsection{Порівняння метрик}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\toprule
+\textbf{Метрика} & \textbf{Тип 1} & \textbf{Тип 2} & \textbf{Тип 3} \\
+\midrule
+L2 & 43 & 25 & 32 \\
+L1 & 41 & 25 & 34 \\
+\bottomrule
+\end{tabular}
+\caption{Кількість тестових точок, віднесених до кожного типу}
+\end{table}
+
+Кількість розбіжностей між індивідуальними рішеннями $L2$ та $L1$ становить 4 зі 100 точок.
+
+\subsection{Ілюстрації з методичних матеріалів}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{telegram-cloud-document-2-5278242879519624596.jpg}
+\caption{Схеми класифікації за центрами та відстанями}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{telegram-cloud-document-2-5298853036003733245.jpg}
+\caption{Приклади ручних обчислень та ілюстрацій граничних випадків}
+\end{figure}
+
+%================ ВИСНОВКИ ================
+\section{Висновки}
+\begin{enumerate}
+    \item Лабораторну роботу 3 перероблено під умову для парного номера (Тип 1 і Тип 3 --- рівномірний, Тип 2 --- нормальний).
+    \item Реалізовано класифікацію трьох типів точок за відстанню до центроїдів класів.
+    \item Підтверджено коректну роботу критеріїв $L2$ та $L1$ на вибірці зі 100 тестових точок.
+    \item Виявлено 4 прикордонні точки, для яких рішення за $L2$ і $L1$ відрізняються.
+\end{enumerate}
+
+%================ ДЖЕРЕЛА ================
+\section{Використані джерела}
+\begin{enumerate}
+    \item Методичні матеріали до ЛР3 з дисципліни ``Розпізнавання образів''.
+    \item Duda R., Hart P., Stork D. Pattern Classification. 2nd ed. Wiley, 2000.
+    \item Bishop C. Pattern Recognition and Machine Learning. Springer, 2006.
+\end{enumerate}
+
+%================ ДОДАТКИ ================
+\appendix
+\section{Фрагмент коду класифікації}
+\begin{lstlisting}[language=Python, basicstyle=\small]
+def pairwise_distances(point, centroids):
+    names = list(centroids.keys())
+    centers = np.array([centroids[n] for n in names])
+    diffs = centers - point
+    d_l2 = np.sqrt(np.sum(diffs ** 2, axis=1))
+    d_l1 = np.sum(np.abs(diffs), axis=1)
+    return names, d_l2, d_l1
+\end{lstlisting}
+
+\end{document}
