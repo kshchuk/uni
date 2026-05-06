@@ -1,0 +1,204 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setmainfont{Times New Roman}
+\newfontfamily\cyrillicfonttt{Times New Roman}
+
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+\geometry{left=25mm,right=15mm,top=20mm,bottom=20mm}
+\setstretch{1.2}
+\captionsetup{justification=centering}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \textbf{Київський національний університет імені Тараса Шевченка}\\
+        \textbf{Факультет комп'ютерних наук та кібернетики}
+    \end{center}
+
+    \vspace{4cm}
+
+    \begin{center}
+        \textbf{\Large ЗВІТ}\\
+        \vspace{0.5cm}
+        \textbf{\large до лабораторної роботи №\,3}\\
+        \vspace{0.5cm}
+        з дисципліни \textit{«Основи нелінійної динаміки»}\\
+        \vspace{0.7cm}
+        \textbf{Тема: Перевірка умов існування центра\\для системи з квадратичною правою частиною}
+    \end{center}
+
+    \vfill
+
+    \begin{flushright}
+        Виконав:\\
+        Кіщук Ярослав Ярославович
+    \end{flushright}
+
+    \vspace{1.5cm}
+
+    \begin{center}
+        Київ --- 2026
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Постановка задачі}
+
+Розглянемо стаціонарну систему звичайних диференціальних рівнянь першого порядку з квадратичною правою частиною:
+\begin{equation}\label{eq:system}
+\begin{cases}
+\dot{x}=y+b x^2+(2c+\alpha)xy+d y^2,\\
+\dot{y}=-x+a x^2+(2b+\beta)xy+c y^2.
+\end{cases}
+\end{equation}
+Лінійна частина має вигляд
+\[
+\dot{x}=y,\qquad \dot{y}=-x,
+\]
+тому нульовий стан рівноваги для лінійної системи є центром. Мета роботи --- алгоритмічно перевірити умови теореми 5.2, які гарантують, що нульовий стан рівноваги системи~\eqref{eq:system} залишається центром з урахуванням квадратичних членів.
+
+\section{Теорема 5.2}
+
+Для системи~\eqref{eq:system} нульовий стан рівноваги є центром у таких випадках:
+\begin{enumerate}
+    \item $a+c=0,\quad b+d=0$.
+    \item
+    \[
+    \frac{\alpha}{\beta}=\frac{b+d}{a+c}=k,\qquad
+    ak^3-(3b+\alpha)k^2+(3c+\beta)k-d=0.
+    \]
+    \item $\alpha=0,\quad \beta=0$.
+    \item $a=0,\quad c=0,\quad \beta=0$.
+    \item
+    \[
+    b+d=0,\quad \alpha=0,\quad \beta+5a+5c=0,\quad
+    ac+2a^2+d^2=0,\qquad a+c\ne 0.
+    \]
+    \item Після повороту координат
+    \[
+    x=x_1\cos\varphi-y_1\sin\varphi,\qquad
+    y=x_1\sin\varphi+y_1\cos\varphi,
+    \]
+    де
+    \[
+    \tan\varphi=-\frac{a+c}{b+d},\qquad b+d\ne 0,
+    \]
+    отримуємо нові коефіцієнти $a_1,b_1,c_1,d_1,\beta_1$, для яких
+    \[
+    a_1+c_1=0,\quad \beta_1=0,\quad
+    a_1+5b_1+5d_1=0,\quad
+    b_1a_1+2a_1^2+d_1^2=0.
+    \]
+\end{enumerate}
+
+Отже, алгоритм перевірки полягає у послідовній перевірці шести наборів алгебраїчних рівностей. Якщо виконується хоча б один пункт, то за теоремою нульовий стан рівноваги є центром.
+
+\section{Алгоритм перевірки}
+
+\subsection{Прямі умови}
+
+Умови 1, 3, 4 та 5 перевіряються прямою підстановкою коефіцієнтів у відповідні рівності. Для числових коефіцієнтів у Python використано малу похибку \texttt{TOL}, щоб уникнути помилок округлення.
+
+\subsection{Умова 2}
+
+Умова 2 містить відношення
+\[
+\frac{\alpha}{\beta},\qquad \frac{b+d}{a+c}.
+\]
+Якщо знаменники не дорівнюють нулю, то число $k$ обчислюється безпосередньо:
+\[
+k=\frac{\alpha}{\beta}=\frac{b+d}{a+c}.
+\]
+Після цього перевіряється кубічне рівняння
+\[
+ak^3-(3b+\alpha)k^2+(3c+\beta)k-d=0.
+\]
+
+Щоб алгоритм не ламався у вироджених випадках, у ноутбуку використано еквівалентну форму без ділення:
+\begin{equation*}
+\alpha=\beta k,\qquad b+d=(a+c)k.
+\end{equation*}
+Тому перевірка зводиться до пошуку дійсного $k$, яке одночасно задовольняє дві лінійні рівності та кубічне рівняння.
+
+\subsection{Умова 6}
+
+Для перевірки умови 6 виконується поворот координат. Позначимо
+\[
+R=
+\begin{pmatrix}
+\cos\varphi & -\sin\varphi\\
+\sin\varphi & \cos\varphi
+\end{pmatrix}.
+\]
+Якщо $F(x,y)$ --- права частина системи~\eqref{eq:system}, то в нових координатах $(x_1,y_1)$ векторне поле обчислюється за формулою
+\[
+G(x_1,y_1)=R^T F\bigl(R(x_1,y_1)\bigr).
+\]
+Після розкриття дужок воно знову має канонічний вигляд:
+\begin{equation*}
+\begin{cases}
+\dot{x}_1=y_1+b_1x_1^2+(2c_1+\alpha_1)x_1y_1+d_1y_1^2,\\
+\dot{y}_1=-x_1+a_1x_1^2+(2b_1+\beta_1)x_1y_1+c_1y_1^2.
+\end{cases}
+\end{equation*}
+Звідси виділяються коефіцієнти $a_1,b_1,c_1,d_1,\beta_1$ і перевіряються рівності з пункту 6.
+
+\section{Програмна реалізація}
+
+Перевірку реалізовано у Jupyter-ноутбуку:
+\[
+\texttt{theorem\_5\_2\_checks.ipynb}.
+\]
+На початку ноутбуку задаються коефіцієнти:
+\begin{verbatim}
+a = 1
+b = Rational(1, 5)
+c = Rational(-3, 10)
+d = Rational(2, 5)
+alpha = 0
+beta = 0
+\end{verbatim}
+Після цього викликається функція \texttt{check\_all(coeffs)}, яка повертає таблицю результатів для шести умов теореми.
+
+Фрагмент реалізації:
+\begin{verbatim}
+checks = check_all(coeffs)
+if any(ok for _, ok, _, _ in checks):
+    true_conditions = [number for number, ok, _, _ in checks if ok]
+    print("Центр. Виконані умови:", true_conditions)
+else:
+    print("Жодна з умов теореми 5.2 не виконалась.")
+\end{verbatim}
+
+\section{Приклад перевірки}
+
+Для прикладових коефіцієнтів
+\[
+a=1,\quad b=\frac15,\quad c=-\frac{3}{10},\quad d=\frac25,\quad
+\alpha=0,\quad \beta=0
+\]
+маємо
+\[
+\alpha=0,\qquad \beta=0.
+\]
+Отже, виконується умова 3 теореми 5.2. Тому за теоремою нульовий стан рівноваги системи~\eqref{eq:system} є центром.
+
+\section{Висновок}
+
+У роботі побудовано алгоритм перевірки умов теореми 5.2 для системи з квадратичною правою частиною. Умови 1, 3, 4, 5 перевіряються прямою підстановкою. Умова 2 реалізована через пошук числа $k$ без обов'язкового ділення на потенційно нульові знаменники. Умова 6 перевіряється після ортогонального повороту координат та виділення нових коефіцієнтів квадратичної частини.
+
+Якщо хоча б одна з шести умов виконується, то за теоремою нульовий стан рівноваги є центром. Якщо жодна умова не виконується, то ця теорема не дає висновку про наявність центра.
+
+\end{document}

@@ -1,0 +1,15 @@
+\xpg@aux {}{ukrainian}
+\contentsline {section}{\numberline {1}Постановка задачі та чесна заява про межі роботи}{2}{section.1}%
+\contentsline {section}{\numberline {2}Метод Пуанкаре--Ляпунова: конструкція $V_k$}{3}{section.2}%
+\contentsline {paragraph}{Розв'язання покроково за степенями.}{3}{section*.3}%
+\contentsline {paragraph}{Тести самоперевірки.}{4}{section*.4}%
+\contentsline {section}{\numberline {3}Випадок $n=2$: комп'ютерне відтворення теореми Баутина}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Базис Ґрьобнера: доведення $N(2)\leq 3$}{5}{subsection.3.1}%
+\contentsline {paragraph}{Комп'ютерне підтвердження.}{5}{section*.5}%
+\contentsline {subsection}{\numberline {3.2}Чисельна перевірка на компонентах}{5}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Випадок $n=3$: ілюстрація вибуху складності}{6}{section.4}%
+\contentsline {section}{\numberline {5}Експерименти для $n=2,\dots ,8$}{6}{section.5}%
+\contentsline {paragraph}{Інтерпретація.}{6}{section*.6}%
+\contentsline {section}{\numberline {6}Спроби просунутися для $n=7, 8$}{7}{section.6}%
+\contentsline {section}{\numberline {7}Висновок}{8}{section.7}%
+\contentsline {paragraph}{Чесна заява.}{8}{section*.11}%

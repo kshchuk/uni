@@ -1,0 +1,7 @@
+torch
+numpy
+sympy
+matplotlib
+jupyter
+# Optional backend adapter:
+# pykan
