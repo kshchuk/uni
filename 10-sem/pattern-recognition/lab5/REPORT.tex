@@ -4,231 +4,60 @@
 \usepackage[ukrainian]{babel}
 \usepackage{geometry}
 \usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{array}
 \usepackage{booktabs}
-\usepackage{xcolor}
-\usepackage{listings}
-\usepackage{fancyhdr}
-\usepackage{hyperref}
+\usepackage{float}
 
 \geometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{Розпізнавання образів}
-\fancyhead[R]{Лабораторна робота 5}
-\fancyfoot[C]{\thepage}
-\setlength{\headheight}{15pt}
-\setlength{\parindent}{0.5cm}
-\linespread{1.5}
 
 \begin{document}
 
-%================ ТИТУЛЬНА СТОРІНКА ================
-\begin{titlepage}
-\centering
-{\Large \textbf{КИЇВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ\\
-ІМЕНІ ТАРАСА ШЕВЧЕНКА}}
+\begin{center}
+{\Large \textbf{Лабораторна робота 5}}\\[0.2cm]
+\textbf{Розпізнавання образів, VAR 3 (N=2)}
+\end{center}
 
-\vspace{2cm}
-{\large Факультет комп'ютерних наук та кібернетики}
+\section*{Мета}
+Побудувати класифікатор для трьох 3D-класів через проєкцію на кандидатні прямі між центрами класів і перевірити два критерії вибору прямої.
 
-\vspace{3cm}
-{\Large \textbf{ЛАБОРАТОРНА РОБОТА 5}}
+\section*{Постановка і критерії}
+Кандидатні прямі: $L_{12}$, $L_{23}$, $L_{13}$ (між центрами класів).
 
-\vspace{0.5cm}
-{\large \textbf{Розпізнавання образів}}
-
-\vspace{2cm}
-{\large \textbf{VAR 3: 3D класифікація\\
-вибором прямої проєкції за трьома критеріями}}
-
-\vspace{3cm}
-{\large \textbf{Виконав:} студент групи ПМ}
-
-\vspace{0.5cm}
-{\Large \textbf{Кіщук Ярослав Ярославович}}
-
-\vspace{3cm}
-{\large \textbf{Київ} -- 2026}
-\end{titlepage}
-
-\newpage
-\tableofcontents
-\newpage
-
-%================ ВСТУП ================
-\section{Мета та завдання роботи}
-
-\subsection{Мета}
-Для номера у списку $N=2$ реалізувати VAR 3 (3 класи, 3D), причому вибір проєкції виконати за трьома критеріями, як вказано у методичці.
-
-\subsection{Визначення варіанту}
-\[
-N \bmod 3 = 2 \Rightarrow \text{VAR 3}.
-\]
-
-\subsection{Завдання}
-\begin{enumerate}
-    \item Згенерувати 3 навчальні класи у $\mathbb{R}^3$ (рівномірні розподіли по координатах).
-    \item Обчислити центри мас класів.
-    \item Побудувати 3 прямі проєктування: 1-2, 2-3, 1-3.
-    \item Обчислити 3 критерії для кожної прямої і обрати найкращу.
-    \item Проєктувати тестові точки на обрану пряму та класифікувати за найближчою проєкцією центра.
-\end{enumerate}
-
-%================ ТЕОРЕТИЧНІ ОСНОВИ ================
-\section{Метод}
-
-Нехай для прямої $L$ (з напрямом $u$ і опорною точкою $o$) проєкція точки $x$:
+Для точки $x$ проєкція на пряму $L$:
 \[
 t(x)=(x-o)^\top u.
 \]
 
-Для кожного класу $k$ маємо множину проєкцій $\{t_{k,i}\}$.
-Використані критерії:
-\begin{align}
-J_1(L) &= \sum_{k=1}^{3}\left(\max_i t_{k,i} - \min_i t_{k,i}\right) \quad (\min), \\
-J_2(L) &= \sum_{i<j}|\bar t_i - \bar t_j| \quad (\max), \\
-J_3(L) &= \sum_{k=1}^{3}\mathrm{Var}(t_k) \quad (\min).
-\end{align}
-
-Після min-max нормалізації:
-\[
-S(L)=\frac{(1-\widetilde J_1)+\widetilde J_2+(1-\widetilde J_3)}{3},
-\]
-обираємо $L^*=\arg\max S(L)$.
-
-Класифікація точки $x$:
-\[
-\hat y(x)=\arg\min_k |t(x)-t(\mu_k)|,
-\]
-де $\mu_k$ --- центр класу.
-
-%================ АЛГОРИТМ ================
-\section{Описання алгоритму та реалізація}
-
-Реалізацію виконано у ноутбуці \texttt{lab5/lab-5.ipynb}.
-
-\subsection{Параметри}
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|}
-\toprule
-\textbf{Параметр} & \textbf{Значення} \\
-\midrule
-Номер у списку & 2 \\
-Варіант & VAR 3 \\
-Класи & 3 \\
-Розмірність & 3 \\
-Train у класі & 120 \\
-Test у класі & 120 \\
-Seed & 42 \\
-\bottomrule
-\end{tabular}
-\caption{Параметри експерименту}
-\end{table}
-
-\subsection{Центри класів}
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|r|r|}
-\toprule
-\textbf{Клас} & \textbf{$x_c$} & \textbf{$y_c$} & \textbf{$z_c$} \\
-\midrule
-Клас 1 & -4.1839 & -2.6461 & -1.0441 \\
-Клас 2 &  3.8081 & -1.9523 & -0.3216 \\
-Клас 3 &  1.1535 &  5.3684 &  3.2370 \\
-\bottomrule
-\end{tabular}
-\caption{Центри мас класів}
-\end{table}
-
-\subsection{Критерії для кандидатних прямих}
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|r|r|r|}
-\toprule
-\textbf{Пряма} & \textbf{$J_1$} & \textbf{$J_2$} & \textbf{$J_3$} & \textbf{Score} \\
-\midrule
-Клас 1 -- Клас 2 & 20.6089 & 16.1090 & 10.4552 & 0.6667 \\
-Клас 2 -- Клас 3 & 25.2051 & 17.1233 & 11.3234 & 0.1082 \\
-Клас 1 -- Клас 3 & 25.8339 & 21.0758 & 11.2523 & 0.3606 \\
-\bottomrule
-\end{tabular}
-\caption{Оцінювання трьох прямих проєктування}
-\end{table}
-
-Найкраща пряма за агрегованим скором:
-\[
-L^* = \text{Клас 1 -- Клас 2}.
-\]
-
-%================ РЕЗУЛЬТАТИ ================
-\section{Результати класифікації}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|}
-\toprule
-\textbf{Метрика} & \textbf{Значення} \\
-\midrule
-Accuracy & 0.7472 \\
-Прогнозів ``Клас 1'' & 122 \\
-Прогнозів ``Клас 2'' & 121 \\
-Прогнозів ``Клас 3'' & 117 \\
-\bottomrule
-\end{tabular}
-\caption{Підсумок на 360 тестових точках}
-\end{table}
-
-\subsection{Ілюстрації}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{telegram-cloud-document-2-5361664896893230412.jpg}
-\caption{Умова ЛР5: VAR 3 для $N\bmod 3=2$ та класифікація через проєкції}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{telegram-cloud-photo-size-2-5404613784334177750-y.jpg}
-\caption{Приклад з дошки: оцінювання кандидатних прямих за критеріями}
-\end{figure}
-
-%================ ВИСНОВКИ ================
-\section{Висновки}
+У ноутбуці \texttt{lab5/lab-5.ipynb} використано два критерії:
 \begin{enumerate}
-    \item Виправлено постановку: використано VAR 3 для $N=2$.
-    \item Реалізовано підхід з трьома критеріями вибору прямої проєктування.
-    \item Обрана пряма Клас 1 -- Клас 2 дала найбільший агрегований скор.
-    \item Класифікація за найближчою проєкцією центра дала accuracy $0.7472$.
+    \item \textbf{sum\_dist} (мінімізувати): сума ортогональних відстаней усіх навчальних точок до прямої.
+    \item \textbf{proj\_msd} (максимізувати): середньоквадратична попарна відстань між усіма 1D-проєкціями точок на пряму.
 \end{enumerate}
 
-%================ ДЖЕРЕЛА ================
-\section{Використані джерела}
-\begin{enumerate}
-    \item Методичні матеріали до ЛР5 з дисципліни ``Розпізнавання образів''.
-    \item Duda R., Hart P., Stork D. Pattern Classification. Wiley, 2000.
-\end{enumerate}
+\section*{Результати вибору прямої}
+\begin{table}[H]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Пряма} & \textbf{sum\_dist} & \textbf{mean\_dist} & \textbf{proj\_msd} \\
+\midrule
+Клас 1 -- Клас 2 & 1639.3456 & 4.5537 & 31.0353 \\
+Клас 2 -- Клас 3 & 1560.6149 & 4.3350 & 35.2145 \\
+Клас 1 -- Клас 3 & 1373.2384 & 3.8146 & 44.5884 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-%================ ДОДАТКИ ================
-\appendix
-\section{Фрагмент коду обчислення критеріїв}
-\begin{lstlisting}[language=Python, basicstyle=\small]
-def criteria(line):
-    pj, mu = {}, {}
-    for cn in class_names:
-        t = proj(train[cn], line)
-        pj[cn] = t
-        mu[cn] = float(t.mean())
+Найкраща пряма за обома критеріями: \textbf{Клас 1 -- Клас 3}.
 
-    j1 = sum(float(t.max() - t.min()) for t in pj.values())
-    m = [mu[n] for n in class_names]
-    j2 = abs(m[0]-m[1]) + abs(m[0]-m[2]) + abs(m[1]-m[2])
-    j3 = sum(float(np.var(t)) for t in pj.values())
-    return j1, j2, j3, pj, mu
-\end{lstlisting}
+\section*{Класифікація}
+Рішення для тестової точки приймається за найближчою проєкцією центру класу на обрану пряму:
+\[
+\hat y(x)=\arg\min_k |t(x)-t(\mu_k)|.
+\]
+
+Підсумкова точність на тесті: \textbf{Accuracy = 0.8639}.
+
+\section*{Висновок}
+Для цієї вибірки пряма Клас 1 -- Клас 3 є найкращою одночасно за критерієм близькості точок до прямої (sum\_dist) і за критерієм розкиду проєкцій (proj\_msd). Класифікація за проєкцією центрів дала точність 0.8639.
 
 \end{document}
