@@ -62,7 +62,7 @@ class PolynomialSystem:
 
 
 def make_test_system(
-    n: int = 7,
+    n: int = 6,
     scale: float = 0.1,
     seed: int = 42,
     device: torch.device | str = "cpu",

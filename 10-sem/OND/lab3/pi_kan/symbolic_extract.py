@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import gc
 from pathlib import Path
 
 import sympy as sp
@@ -75,6 +77,10 @@ def taylor_series_from_model(
     cfg: PIKANConfig,
     order: int | None = None,
     threshold: float | None = None,
+    verbose: bool = False,
+    cache_dir: str | None = None,
+    cache_tag: str = "phi_taylor",
+    resume: bool = True,
 ) -> sp.Expr:
     """
     Compute 2D Taylor polynomial of Phi at (0,0) using autograd derivatives.
@@ -86,25 +92,102 @@ def taylor_series_from_model(
     expr = 0
     device = next(model.parameters()).device
     dtype = next(model.parameters()).dtype
+    cache_state_path: Path | None = None
+    cache_expr_path: Path | None = None
 
     def nth_partial(ix: int, iy: int) -> float:
         pt = torch.zeros(1, 2, device=device, dtype=dtype, requires_grad=True)
         out = model(pt).squeeze()
         cur = out
         for _ in range(ix):
-            cur = torch.autograd.grad(cur, pt, create_graph=True, retain_graph=True)[0][0, 0]
+            cur = torch.autograd.grad(cur, pt, create_graph=True, retain_graph=False)[0][0, 0]
         for _ in range(iy):
-            cur = torch.autograd.grad(cur, pt, create_graph=True, retain_graph=True)[0][0, 1]
+            cur = torch.autograd.grad(cur, pt, create_graph=True, retain_graph=False)[0][0, 1]
         return float(cur.detach().cpu())
 
+    terms: list[tuple[int, int, int]] = []
     for d in range(order + 1):
         for i in range(d + 1):
             j = d - i
-            c = nth_partial(i, j) / (sp.factorial(i) * sp.factorial(j))
-            expr += c * (x**i) * (y**j)
+            terms.append((d, i, j))
+    total_terms = len(terms)
+    start_idx = 0
+
+    if cache_dir is not None:
+        cdir = Path(cache_dir)
+        cdir.mkdir(parents=True, exist_ok=True)
+        cache_state_path = cdir / f"{cache_tag}_state.json"
+        cache_expr_path = cdir / f"{cache_tag}_expr.txt"
+        if resume and cache_state_path.exists() and cache_expr_path.exists():
+            try:
+                with open(cache_state_path, "r", encoding="utf-8") as f:
+                    st = json.load(f)
+                if int(st.get("order", -1)) == int(order):
+                    start_idx = int(st.get("done_terms", 0))
+                    expr_text = cache_expr_path.read_text(encoding="utf-8")
+                    expr = sp.sympify(expr_text) if expr_text.strip() else 0
+                    if verbose:
+                        print(
+                            f"[extractor] resumed from cache: done_terms={start_idx}/{total_terms}",
+                            flush=True,
+                        )
+                elif verbose:
+                    print("[extractor] cache exists but order mismatch, starting from scratch", flush=True)
+            except Exception as exc:
+                if verbose:
+                    print(f"[extractor] cache load failed ({type(exc).__name__}), starting from scratch", flush=True)
+                start_idx = 0
+                expr = 0
+
+    done_terms = start_idx
+    if verbose:
+        print(f"[extractor] Taylor order={order}, total partials={total_terms}", flush=True)
+
+    current_d = None
+    for idx, (d, i, j) in enumerate(terms):
+        if idx < start_idx:
+            continue
+        if current_d != d:
+            if current_d is not None and verbose:
+                print(f"[extractor] degree d={current_d} finished", flush=True)
+            current_d = d
+            if verbose:
+                print(f"[extractor] degree d={d} started", flush=True)
+
+        c = nth_partial(i, j) / (sp.factorial(i) * sp.factorial(j))
+        expr += c * (x**i) * (y**j)
+        done_terms += 1
+        if verbose and (done_terms % 5 == 0 or done_terms == total_terms):
+            print(f"[extractor] progress {done_terms}/{total_terms}", flush=True)
+
+        # Fine-grained autosave after every term.
+        if cache_state_path is not None and cache_expr_path is not None:
+            cache_expr_path.write_text(str(sp.expand(expr)), encoding="utf-8")
+            with open(cache_state_path, "w", encoding="utf-8") as f:
+                json.dump(
+                    {
+                        "order": int(order),
+                        "done_terms": int(done_terms),
+                        "last_degree": int(d),
+                        "last_i": int(i),
+                        "last_j": int(j),
+                    },
+                    f,
+                    ensure_ascii=False,
+                    indent=2,
+                )
+        # Keep memory pressure lower on long high-order runs.
+        if device.type == "mps":
+            torch.mps.empty_cache()
+        gc.collect()
+
+    if current_d is not None and verbose:
+        print(f"[extractor] degree d={current_d} finished", flush=True)
 
     expr = sp.expand(expr)
     expr = prune_small_coeffs(expr, threshold=threshold, vars_=(x, y))
+    if verbose:
+        print("[extractor] prune+simplify started", flush=True)
     return sp.simplify(expr)
 
 
@@ -130,16 +213,43 @@ def save_symbolic_expression(expr: sp.Expr, output_dir: str) -> tuple[str, str]:
     return str(txt_path), str(tex_path)
 
 
-def hamiltonian_sympy(system: PolynomialSystem) -> sp.Expr:
+def hamiltonian_sympy(
+    system: PolynomialSystem,
+    x: sp.Symbol | None = None,
+    y: sp.Symbol | None = None,
+) -> sp.Expr:
     if system.h_coeffs_by_degree is None:
         raise RuntimeError("System has no Hamiltonian coefficients.")
-    x, y = sp.symbols("x y", real=True)
+    if x is None or y is None:
+        x, y = sp.symbols("x y", real=True)
     h = sp.Rational(1, 2) * (x**2 + y**2)
     for d, coeffs in sorted(system.h_coeffs_by_degree.items()):
         arr = coeffs.detach().cpu().numpy()
         for i, c in enumerate(arr):
             h += float(c) * x**i * y ** (d - i)
     return sp.expand(h)
+
+
+def vector_field_P_Q_bautin_form(
+    system: PolynomialSystem,
+    x_sym: sp.Symbol | None = None,
+    y_sym: sp.Symbol | None = None,
+) -> tuple[sp.Expr, sp.Expr]:
+    """
+    Same ODE as the Hamiltonian field from ``system``, written in the Bautin notebook convention
+    dx = -y + P(x,y), dy = x + Q(x,y).
+
+    For H from ``hamiltonian_sympy``, one has dx = -∂H/∂y and dy = ∂H/∂x, hence
+    P = -∂H/∂y + y and Q = ∂H/∂x - x (linear part cancels).
+
+    Pass ``x_sym``, ``y_sym`` to match symbols used elsewhere (e.g. ``lyapunov_quantities`` in a notebook).
+    """
+    if x_sym is None or y_sym is None:
+        x_sym, y_sym = sp.symbols("x y", real=True)
+    H = hamiltonian_sympy(system, x_sym, y_sym)
+    P = sp.expand(-sp.diff(H, y_sym) + y_sym)
+    Q = sp.expand(sp.diff(H, x_sym) - x_sym)
+    return P, Q
 
 
 def phi_h_comparison_metrics(
@@ -169,6 +279,7 @@ def restore_from_checkpoint(
     checkpoint_path: str,
     cfg: PIKANConfig,
     map_location: str = "cpu",
+    target_device: str | None = None,
 ) -> tuple[PIKAN, PolynomialSystem]:
     data = torch.load(checkpoint_path, map_location=map_location)
     model = PIKAN(
@@ -181,14 +292,19 @@ def restore_from_checkpoint(
         input_radius=cfg.domain_radius,
     )
     model.load_state_dict(data["model_state_dict"])
+    if target_device is not None:
+        model = model.to(torch.device(target_device))
     model.eval()
     h_coeffs = data.get("h_coeffs_by_degree")
     if h_coeffs is not None:
         h_coeffs = {int(d): c for d, c in h_coeffs.items()}
     system = PolynomialSystem(
         n=int(data["degree_n"]),
-        p_coeffs=data.get("p_coeffs"),
-        q_coeffs=data.get("q_coeffs"),
+        p_coeffs=(data.get("p_coeffs").to(torch.device(target_device)) if (data.get("p_coeffs") is not None and target_device is not None) else data.get("p_coeffs")),
+        q_coeffs=(data.get("q_coeffs").to(torch.device(target_device)) if (data.get("q_coeffs") is not None and target_device is not None) else data.get("q_coeffs")),
         h_coeffs_by_degree=h_coeffs,
     )
+    if target_device is not None and system.h_coeffs_by_degree is not None:
+        dev = torch.device(target_device)
+        system.h_coeffs_by_degree = {int(d): c.to(dev) for d, c in system.h_coeffs_by_degree.items()}
     return model, system

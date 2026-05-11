@@ -2,379 +2,4780 @@
   {
     "stage": "adam",
     "step": 1,
-    "loss_total": 4669761536.0,
-    "loss_pde": 591.8230590820312,
-    "loss_anchor": 0.12944822013378143,
-    "loss_origin": 186790432.0,
-    "lie_l2": 24.32741355895996
+    "loss_total": 67713783300096.0,
+    "loss_pde": 14269.28125,
+    "loss_anchor": 0.3769305348396301,
+    "loss_origin": 13542756450304.0,
+    "lie_l2": 119.45409393310547
+  },
+  {
+    "stage": "adam",
+    "step": 2,
+    "loss_total": 190407065600.0,
+    "loss_pde": 15777.123046875,
+    "loss_anchor": 0.38996976613998413,
+    "loss_origin": 38081409024.0,
+    "lie_l2": 125.60701751708984
+  },
+  {
+    "stage": "adam",
+    "step": 3,
+    "loss_total": 339140444160.0,
+    "loss_pde": 13548.30078125,
+    "loss_anchor": 0.37891218066215515,
+    "loss_origin": 67828088832.0,
+    "lie_l2": 116.39717102050781
+  },
+  {
+    "stage": "adam",
+    "step": 4,
+    "loss_total": 3706456320.0,
+    "loss_pde": 16412.853515625,
+    "loss_anchor": 0.453741192817688,
+    "loss_origin": 741288000.0,
+    "lie_l2": 128.11265563964844
+  },
+  {
+    "stage": "adam",
+    "step": 5,
+    "loss_total": 5069949952.0,
+    "loss_pde": 9226.1396484375,
+    "loss_anchor": 0.40447336435317993,
+    "loss_origin": 1013988160.0,
+    "lie_l2": 96.05279541015625
+  },
+  {
+    "stage": "adam",
+    "step": 6,
+    "loss_total": 4270010880.0,
+    "loss_pde": 12838.404296875,
+    "loss_anchor": 0.42426827549934387,
+    "loss_origin": 853999616.0,
+    "lie_l2": 113.30667877197266
+  },
+  {
+    "stage": "adam",
+    "step": 7,
+    "loss_total": 121524969472.0,
+    "loss_pde": 15179.4619140625,
+    "loss_anchor": 0.43149393796920776,
+    "loss_origin": 24304990208.0,
+    "lie_l2": 123.2049560546875
+  },
+  {
+    "stage": "adam",
+    "step": 8,
+    "loss_total": 17205473280.0,
+    "loss_pde": 11842.453125,
+    "loss_anchor": 0.5022639036178589,
+    "loss_origin": 3441092352.0,
+    "lie_l2": 108.82303619384766
+  },
+  {
+    "stage": "adam",
+    "step": 9,
+    "loss_total": 3382423552.0,
+    "loss_pde": 21188.357421875,
+    "loss_anchor": 0.4483566880226135,
+    "loss_origin": 676480448.0,
+    "lie_l2": 145.5622100830078
+  },
+  {
+    "stage": "adam",
+    "step": 10,
+    "loss_total": 4732491264.0,
+    "loss_pde": 10689.0478515625,
+    "loss_anchor": 0.44087475538253784,
+    "loss_origin": 946496128.0,
+    "lie_l2": 103.38784790039062
+  },
+  {
+    "stage": "adam",
+    "step": 11,
+    "loss_total": 894283520.0,
+    "loss_pde": 12839.474609375,
+    "loss_anchor": 0.4140947461128235,
+    "loss_origin": 178854128.0,
+    "lie_l2": 113.31140899658203
+  },
+  {
+    "stage": "adam",
+    "step": 12,
+    "loss_total": 81517453312.0,
+    "loss_pde": 36968.2578125,
+    "loss_anchor": 0.4708484709262848,
+    "loss_origin": 16303481856.0,
+    "lie_l2": 192.2713165283203
+  },
+  {
+    "stage": "adam",
+    "step": 13,
+    "loss_total": 170407821312.0,
+    "loss_pde": 11981.3525390625,
+    "loss_anchor": 0.45865243673324585,
+    "loss_origin": 34081560576.0,
+    "lie_l2": 109.45936584472656
+  },
+  {
+    "stage": "adam",
+    "step": 14,
+    "loss_total": 1100086247424.0,
+    "loss_pde": 11786.759765625,
+    "loss_anchor": 0.5332430005073547,
+    "loss_origin": 220017246208.0,
+    "lie_l2": 108.56684112548828
+  },
+  {
+    "stage": "adam",
+    "step": 15,
+    "loss_total": 33075359744.0,
+    "loss_pde": 14687.150390625,
+    "loss_anchor": 0.49177733063697815,
+    "loss_origin": 6615069184.0,
+    "lie_l2": 121.1905517578125
+  },
+  {
+    "stage": "adam",
+    "step": 16,
+    "loss_total": 6201274880.0,
+    "loss_pde": 12467.8974609375,
+    "loss_anchor": 0.4608875513076782,
+    "loss_origin": 1240252544.0,
+    "lie_l2": 111.65973663330078
+  },
+  {
+    "stage": "adam",
+    "step": 17,
+    "loss_total": 1493814784.0,
+    "loss_pde": 11361.072265625,
+    "loss_anchor": 0.49440786242485046,
+    "loss_origin": 298760672.0,
+    "lie_l2": 106.58833312988281
+  },
+  {
+    "stage": "adam",
+    "step": 18,
+    "loss_total": 655608774656.0,
+    "loss_pde": 11694.1650390625,
+    "loss_anchor": 0.4983822703361511,
+    "loss_origin": 131121750016.0,
+    "lie_l2": 108.13956451416016
+  },
+  {
+    "stage": "adam",
+    "step": 19,
+    "loss_total": 58913910784.0,
+    "loss_pde": 11350.08984375,
+    "loss_anchor": 0.5265997052192688,
+    "loss_origin": 11782779904.0,
+    "lie_l2": 106.53680419921875
+  },
+  {
+    "stage": "adam",
+    "step": 20,
+    "loss_total": 3169596416.0,
+    "loss_pde": 9238.953125,
+    "loss_anchor": 0.4593386650085449,
+    "loss_origin": 633917440.0,
+    "lie_l2": 96.11947631835938
+  },
+  {
+    "stage": "adam",
+    "step": 21,
+    "loss_total": 763419136.0,
+    "loss_pde": 9448.205078125,
+    "loss_anchor": 0.4998876452445984,
+    "loss_origin": 152681936.0,
+    "lie_l2": 97.2018814086914
+  },
+  {
+    "stage": "adam",
+    "step": 22,
+    "loss_total": 1470109696.0,
+    "loss_pde": 14598.173828125,
+    "loss_anchor": 0.44695112109184265,
+    "loss_origin": 294019008.0,
+    "lie_l2": 120.82290649414062
+  },
+  {
+    "stage": "adam",
+    "step": 23,
+    "loss_total": 751811008.0,
+    "loss_pde": 13326.4716796875,
+    "loss_anchor": 0.48525309562683105,
+    "loss_origin": 150359536.0,
+    "lie_l2": 115.44033813476562
+  },
+  {
+    "stage": "adam",
+    "step": 24,
+    "loss_total": 193159200.0,
+    "loss_pde": 11815.3505859375,
+    "loss_anchor": 0.5335485935211182,
+    "loss_origin": 38629476.0,
+    "lie_l2": 108.69844055175781
+  },
+  {
+    "stage": "adam",
+    "step": 25,
+    "loss_total": 511889472.0,
+    "loss_pde": 11189.921875,
+    "loss_anchor": 0.40674084424972534,
+    "loss_origin": 102375656.0,
+    "lie_l2": 105.78242492675781
+  },
+  {
+    "stage": "adam",
+    "step": 26,
+    "loss_total": 241601328.0,
+    "loss_pde": 9782.849609375,
+    "loss_anchor": 0.46249938011169434,
+    "loss_origin": 48318312.0,
+    "lie_l2": 98.90828704833984
+  },
+  {
+    "stage": "adam",
+    "step": 27,
+    "loss_total": 314557056.0,
+    "loss_pde": 13890.1455078125,
+    "loss_anchor": 0.436737060546875,
+    "loss_origin": 62908632.0,
+    "lie_l2": 117.85646057128906
+  },
+  {
+    "stage": "adam",
+    "step": 28,
+    "loss_total": 562054955008.0,
+    "loss_pde": 9955.248046875,
+    "loss_anchor": 0.4318762421607971,
+    "loss_origin": 112410992640.0,
+    "lie_l2": 99.77598571777344
+  },
+  {
+    "stage": "adam",
+    "step": 29,
+    "loss_total": 1238983296.0,
+    "loss_pde": 9716.2431640625,
+    "loss_anchor": 0.419869065284729,
+    "loss_origin": 247794720.0,
+    "lie_l2": 98.57100677490234
+  },
+  {
+    "stage": "adam",
+    "step": 30,
+    "loss_total": 48589960.0,
+    "loss_pde": 13754.568359375,
+    "loss_anchor": 0.4450222849845886,
+    "loss_origin": 9715241.0,
+    "lie_l2": 117.27986907958984
+  },
+  {
+    "stage": "adam",
+    "step": 31,
+    "loss_total": 112853384.0,
+    "loss_pde": 15949.62109375,
+    "loss_anchor": 0.38963139057159424,
+    "loss_origin": 22567486.0,
+    "lie_l2": 126.29180908203125
+  },
+  {
+    "stage": "adam",
+    "step": 32,
+    "loss_total": 75466696.0,
+    "loss_pde": 14776.12890625,
+    "loss_anchor": 0.33794546127319336,
+    "loss_origin": 15090384.0,
+    "lie_l2": 121.55709838867188
+  },
+  {
+    "stage": "adam",
+    "step": 33,
+    "loss_total": 53372876.0,
+    "loss_pde": 9740.447265625,
+    "loss_anchor": 0.3280828595161438,
+    "loss_origin": 10672627.0,
+    "lie_l2": 98.6937026977539
+  },
+  {
+    "stage": "adam",
+    "step": 34,
+    "loss_total": 36498088.0,
+    "loss_pde": 10920.349609375,
+    "loss_anchor": 0.29643791913986206,
+    "loss_origin": 7297433.5,
+    "lie_l2": 104.50047302246094
+  },
+  {
+    "stage": "adam",
+    "step": 35,
+    "loss_total": 94789048.0,
+    "loss_pde": 9224.8916015625,
+    "loss_anchor": 0.3116639256477356,
+    "loss_origin": 18955964.0,
+    "lie_l2": 96.04630279541016
+  },
+  {
+    "stage": "adam",
+    "step": 36,
+    "loss_total": 45444976.0,
+    "loss_pde": 10514.03125,
+    "loss_anchor": 0.29599860310554504,
+    "loss_origin": 9086892.0,
+    "lie_l2": 102.53794860839844
+  },
+  {
+    "stage": "adam",
+    "step": 37,
+    "loss_total": 51905748.0,
+    "loss_pde": 9276.072265625,
+    "loss_anchor": 0.2888396382331848,
+    "loss_origin": 10379294.0,
+    "lie_l2": 96.31237030029297
+  },
+  {
+    "stage": "adam",
+    "step": 38,
+    "loss_total": 30265016320.0,
+    "loss_pde": 9632.169921875,
+    "loss_anchor": 0.2674676179885864,
+    "loss_origin": 6053001216.0,
+    "lie_l2": 98.14361572265625
+  },
+  {
+    "stage": "adam",
+    "step": 39,
+    "loss_total": 166216704.0,
+    "loss_pde": 10452.7734375,
+    "loss_anchor": 0.2599005103111267,
+    "loss_origin": 33241250.0,
+    "lie_l2": 102.23880767822266
+  },
+  {
+    "stage": "adam",
+    "step": 40,
+    "loss_total": 167216128.0,
+    "loss_pde": 9416.603515625,
+    "loss_anchor": 0.2898181080818176,
+    "loss_origin": 33441342.0,
+    "lie_l2": 97.0391845703125
+  },
+  {
+    "stage": "adam",
+    "step": 41,
+    "loss_total": 329432512.0,
+    "loss_pde": 9175.74609375,
+    "loss_anchor": 0.2779146134853363,
+    "loss_origin": 65884664.0,
+    "lie_l2": 95.79011535644531
+  },
+  {
+    "stage": "adam",
+    "step": 42,
+    "loss_total": 547228057600.0,
+    "loss_pde": 8241.9853515625,
+    "loss_anchor": 0.2737172842025757,
+    "loss_origin": 109445611520.0,
+    "lie_l2": 90.7853775024414
+  },
+  {
+    "stage": "adam",
+    "step": 43,
+    "loss_total": 1003074752.0,
+    "loss_pde": 9556.044921875,
+    "loss_anchor": 0.2686290740966797,
+    "loss_origin": 200613040.0,
+    "lie_l2": 97.7550277709961
+  },
+  {
+    "stage": "adam",
+    "step": 44,
+    "loss_total": 1124949888.0,
+    "loss_pde": 8897.962890625,
+    "loss_anchor": 0.23456156253814697,
+    "loss_origin": 224988176.0,
+    "lie_l2": 94.32901763916016
+  },
+  {
+    "stage": "adam",
+    "step": 45,
+    "loss_total": 3043165440.0,
+    "loss_pde": 13011.388671875,
+    "loss_anchor": 0.25487610697746277,
+    "loss_origin": 608630464.0,
+    "lie_l2": 114.06747436523438
+  },
+  {
+    "stage": "adam",
+    "step": 46,
+    "loss_total": 121148792.0,
+    "loss_pde": 8615.7919921875,
+    "loss_anchor": 0.2390453815460205,
+    "loss_origin": 24228036.0,
+    "lie_l2": 92.8212890625
+  },
+  {
+    "stage": "adam",
+    "step": 47,
+    "loss_total": 271299008.0,
+    "loss_pde": 8825.072265625,
+    "loss_anchor": 0.22927573323249817,
+    "loss_origin": 54258036.0,
+    "lie_l2": 93.94185638427734
+  },
+  {
+    "stage": "adam",
+    "step": 48,
+    "loss_total": 464619488.0,
+    "loss_pde": 11729.19140625,
+    "loss_anchor": 0.257986843585968,
+    "loss_origin": 92921552.0,
+    "lie_l2": 108.3013916015625
+  },
+  {
+    "stage": "adam",
+    "step": 49,
+    "loss_total": 120367008.0,
+    "loss_pde": 9619.4140625,
+    "loss_anchor": 0.2187674194574356,
+    "loss_origin": 24071478.0,
+    "lie_l2": 98.07861328125
   },
   {
     "stage": "adam",
     "step": 50,
-    "loss_total": 544612.0,
-    "loss_pde": 524.57958984375,
-    "loss_anchor": 0.15652284026145935,
-    "loss_origin": 21763.435546875,
-    "lie_l2": 22.903701782226562
+    "loss_total": 277531712.0,
+    "loss_pde": 7920.849609375,
+    "loss_anchor": 0.26051586866378784,
+    "loss_origin": 55504756.0,
+    "lie_l2": 88.99915313720703
+  },
+  {
+    "stage": "adam",
+    "step": 51,
+    "loss_total": 120973256.0,
+    "loss_pde": 13674.044921875,
+    "loss_anchor": 0.2528718113899231,
+    "loss_origin": 24191916.0,
+    "lie_l2": 116.93607330322266
+  },
+  {
+    "stage": "adam",
+    "step": 52,
+    "loss_total": 1995282560.0,
+    "loss_pde": 8477.849609375,
+    "loss_anchor": 0.2672958970069885,
+    "loss_origin": 399054816.0,
+    "lie_l2": 92.07524108886719
+  },
+  {
+    "stage": "adam",
+    "step": 53,
+    "loss_total": 42625124.0,
+    "loss_pde": 8917.6484375,
+    "loss_anchor": 0.22302916646003723,
+    "loss_origin": 8523241.0,
+    "lie_l2": 94.43330383300781
+  },
+  {
+    "stage": "adam",
+    "step": 54,
+    "loss_total": 45420116.0,
+    "loss_pde": 10633.5400390625,
+    "loss_anchor": 0.2768339514732361,
+    "loss_origin": 9081896.0,
+    "lie_l2": 103.11905670166016
+  },
+  {
+    "stage": "adam",
+    "step": 55,
+    "loss_total": 25445606.0,
+    "loss_pde": 8894.8427734375,
+    "loss_anchor": 0.23475569486618042,
+    "loss_origin": 5087342.0,
+    "lie_l2": 94.3124771118164
+  },
+  {
+    "stage": "adam",
+    "step": 56,
+    "loss_total": 47357672.0,
+    "loss_pde": 8689.02734375,
+    "loss_anchor": 0.3213964104652405,
+    "loss_origin": 9469797.0,
+    "lie_l2": 93.21495056152344
+  },
+  {
+    "stage": "adam",
+    "step": 57,
+    "loss_total": 458034848.0,
+    "loss_pde": 10354.9521484375,
+    "loss_anchor": 0.1996319741010666,
+    "loss_origin": 91604896.0,
+    "lie_l2": 101.75928497314453
+  },
+  {
+    "stage": "adam",
+    "step": 58,
+    "loss_total": 122731600.0,
+    "loss_pde": 10163.267578125,
+    "loss_anchor": 0.24606835842132568,
+    "loss_origin": 24544288.0,
+    "lie_l2": 100.81303405761719
+  },
+  {
+    "stage": "adam",
+    "step": 59,
+    "loss_total": 60521600.0,
+    "loss_pde": 11272.0498046875,
+    "loss_anchor": 0.2614160478115082,
+    "loss_origin": 12102066.0,
+    "lie_l2": 106.16990661621094
+  },
+  {
+    "stage": "adam",
+    "step": 60,
+    "loss_total": 17609156.0,
+    "loss_pde": 8361.6982421875,
+    "loss_anchor": 0.2583383619785309,
+    "loss_origin": 3520158.75,
+    "lie_l2": 91.44232177734375
+  },
+  {
+    "stage": "adam",
+    "step": 61,
+    "loss_total": 9384470.0,
+    "loss_pde": 8815.7890625,
+    "loss_anchor": 0.26208072900772095,
+    "loss_origin": 1875130.875,
+    "lie_l2": 93.8924331665039
+  },
+  {
+    "stage": "adam",
+    "step": 62,
+    "loss_total": 31720436.0,
+    "loss_pde": 8363.0625,
+    "loss_anchor": 0.27425652742385864,
+    "loss_origin": 6342414.5,
+    "lie_l2": 91.44978332519531
+  },
+  {
+    "stage": "adam",
+    "step": 63,
+    "loss_total": 2128824.5,
+    "loss_pde": 11376.283203125,
+    "loss_anchor": 0.24046380817890167,
+    "loss_origin": 423489.5625,
+    "lie_l2": 106.65966033935547
+  },
+  {
+    "stage": "adam",
+    "step": 64,
+    "loss_total": 370129280.0,
+    "loss_pde": 8600.166015625,
+    "loss_anchor": 0.2699905037879944,
+    "loss_origin": 74024136.0,
+    "lie_l2": 92.7370834350586
+  },
+  {
+    "stage": "adam",
+    "step": 65,
+    "loss_total": 7361382.5,
+    "loss_pde": 9964.2744140625,
+    "loss_anchor": 0.251761794090271,
+    "loss_origin": 1470283.5,
+    "lie_l2": 99.82121276855469
+  },
+  {
+    "stage": "adam",
+    "step": 66,
+    "loss_total": 978710336.0,
+    "loss_pde": 7848.56298828125,
+    "loss_anchor": 0.26128140091896057,
+    "loss_origin": 195740496.0,
+    "lie_l2": 88.59211730957031
+  },
+  {
+    "stage": "adam",
+    "step": 67,
+    "loss_total": 5285389.5,
+    "loss_pde": 9589.78515625,
+    "loss_anchor": 0.2679402232170105,
+    "loss_origin": 1055159.75,
+    "lie_l2": 97.92745208740234
+  },
+  {
+    "stage": "adam",
+    "step": 68,
+    "loss_total": 7286880.0,
+    "loss_pde": 12888.423828125,
+    "loss_anchor": 0.2397371232509613,
+    "loss_origin": 1454798.25,
+    "lie_l2": 113.52719116210938
+  },
+  {
+    "stage": "adam",
+    "step": 69,
+    "loss_total": 11628662.0,
+    "loss_pde": 8113.4248046875,
+    "loss_anchor": 0.25355833768844604,
+    "loss_origin": 2324109.5,
+    "lie_l2": 90.07455444335938
+  },
+  {
+    "stage": "adam",
+    "step": 70,
+    "loss_total": 2936165.25,
+    "loss_pde": 15212.08984375,
+    "loss_anchor": 0.2516174018383026,
+    "loss_origin": 584190.5625,
+    "lie_l2": 123.3373031616211
+  },
+  {
+    "stage": "adam",
+    "step": 71,
+    "loss_total": 7662226.5,
+    "loss_pde": 11526.646484375,
+    "loss_anchor": 0.2684909403324127,
+    "loss_origin": 1530139.875,
+    "lie_l2": 107.36222076416016
+  },
+  {
+    "stage": "adam",
+    "step": 72,
+    "loss_total": 6865731.0,
+    "loss_pde": 11189.265625,
+    "loss_anchor": 0.27225950360298157,
+    "loss_origin": 1370908.25,
+    "lie_l2": 105.77932739257812
+  },
+  {
+    "stage": "adam",
+    "step": 73,
+    "loss_total": 4444191.5,
+    "loss_pde": 10642.7314453125,
+    "loss_anchor": 0.2941816449165344,
+    "loss_origin": 886709.625,
+    "lie_l2": 103.16361236572266
+  },
+  {
+    "stage": "adam",
+    "step": 74,
+    "loss_total": 2159988.5,
+    "loss_pde": 8718.953125,
+    "loss_anchor": 0.2534506320953369,
+    "loss_origin": 430253.78125,
+    "lie_l2": 93.37533569335938
+  },
+  {
+    "stage": "adam",
+    "step": 75,
+    "loss_total": 7679800.0,
+    "loss_pde": 7492.1181640625,
+    "loss_anchor": 0.2688542902469635,
+    "loss_origin": 1534461.5,
+    "lie_l2": 86.55702209472656
+  },
+  {
+    "stage": "adam",
+    "step": 76,
+    "loss_total": 1716996608.0,
+    "loss_pde": 9209.8388671875,
+    "loss_anchor": 0.23939600586891174,
+    "loss_origin": 343397472.0,
+    "lie_l2": 95.96790313720703
+  },
+  {
+    "stage": "adam",
+    "step": 77,
+    "loss_total": 1457302528.0,
+    "loss_pde": 11470.140625,
+    "loss_anchor": 0.25408822298049927,
+    "loss_origin": 291458208.0,
+    "lie_l2": 107.09873962402344
+  },
+  {
+    "stage": "adam",
+    "step": 78,
+    "loss_total": 693203648.0,
+    "loss_pde": 9329.013671875,
+    "loss_anchor": 0.27039021253585815,
+    "loss_origin": 138638864.0,
+    "lie_l2": 96.58682250976562
+  },
+  {
+    "stage": "adam",
+    "step": 79,
+    "loss_total": 1371047424.0,
+    "loss_pde": 7152.75732421875,
+    "loss_anchor": 0.26762649416923523,
+    "loss_origin": 274208064.0,
+    "lie_l2": 84.573974609375
+  },
+  {
+    "stage": "adam",
+    "step": 80,
+    "loss_total": 719996608.0,
+    "loss_pde": 6229.8369140625,
+    "loss_anchor": 0.24455437064170837,
+    "loss_origin": 143998080.0,
+    "lie_l2": 78.92931365966797
+  },
+  {
+    "stage": "adam",
+    "step": 81,
+    "loss_total": 607697024.0,
+    "loss_pde": 8851.4345703125,
+    "loss_anchor": 0.24877424538135529,
+    "loss_origin": 121537632.0,
+    "lie_l2": 94.08206176757812
+  },
+  {
+    "stage": "adam",
+    "step": 82,
+    "loss_total": 1406070784.0,
+    "loss_pde": 6140.0966796875,
+    "loss_anchor": 0.29939359426498413,
+    "loss_origin": 281212928.0,
+    "lie_l2": 78.35877227783203
+  },
+  {
+    "stage": "adam",
+    "step": 83,
+    "loss_total": 197386928.0,
+    "loss_pde": 7643.12109375,
+    "loss_anchor": 0.23407244682312012,
+    "loss_origin": 39475856.0,
+    "lie_l2": 87.42494201660156
+  },
+  {
+    "stage": "adam",
+    "step": 84,
+    "loss_total": 356740832.0,
+    "loss_pde": 6722.916015625,
+    "loss_anchor": 0.25668108463287354,
+    "loss_origin": 71346824.0,
+    "lie_l2": 81.99339294433594
+  },
+  {
+    "stage": "adam",
+    "step": 85,
+    "loss_total": 1396992000.0,
+    "loss_pde": 9112.859375,
+    "loss_anchor": 0.2435971051454544,
+    "loss_origin": 279396576.0,
+    "lie_l2": 95.46129608154297
+  },
+  {
+    "stage": "adam",
+    "step": 86,
+    "loss_total": 4671559168.0,
+    "loss_pde": 6017.4423828125,
+    "loss_anchor": 0.22538675367832184,
+    "loss_origin": 934310592.0,
+    "lie_l2": 77.57217407226562
+  },
+  {
+    "stage": "adam",
+    "step": 87,
+    "loss_total": 2817407232.0,
+    "loss_pde": 7049.2998046875,
+    "loss_anchor": 0.22446246445178986,
+    "loss_origin": 563480000.0,
+    "lie_l2": 83.9601058959961
+  },
+  {
+    "stage": "adam",
+    "step": 88,
+    "loss_total": 155722160.0,
+    "loss_pde": 9069.078125,
+    "loss_anchor": 0.21136334538459778,
+    "loss_origin": 31142618.0,
+    "lie_l2": 95.23170471191406
+  },
+  {
+    "stage": "adam",
+    "step": 89,
+    "loss_total": 168648400.0,
+    "loss_pde": 6122.4072265625,
+    "loss_anchor": 0.2386777251958847,
+    "loss_origin": 33728456.0,
+    "lie_l2": 78.24581146240234
+  },
+  {
+    "stage": "adam",
+    "step": 90,
+    "loss_total": 126268080.0,
+    "loss_pde": 6725.22265625,
+    "loss_anchor": 0.25084277987480164,
+    "loss_origin": 25252270.0,
+    "lie_l2": 82.00745391845703
+  },
+  {
+    "stage": "adam",
+    "step": 91,
+    "loss_total": 191541008.0,
+    "loss_pde": 13455.107421875,
+    "loss_anchor": 0.2371864914894104,
+    "loss_origin": 38305512.0,
+    "lie_l2": 115.99615478515625
+  },
+  {
+    "stage": "adam",
+    "step": 92,
+    "loss_total": 84593096.0,
+    "loss_pde": 8812.96875,
+    "loss_anchor": 0.24189108610153198,
+    "loss_origin": 16916856.0,
+    "lie_l2": 93.87741088867188
+  },
+  {
+    "stage": "adam",
+    "step": 93,
+    "loss_total": 513092480.0,
+    "loss_pde": 21563.53515625,
+    "loss_anchor": 0.20467375218868256,
+    "loss_origin": 102614184.0,
+    "lie_l2": 146.84527587890625
+  },
+  {
+    "stage": "adam",
+    "step": 94,
+    "loss_total": 325058240.0,
+    "loss_pde": 8709.44140625,
+    "loss_anchor": 0.2214730978012085,
+    "loss_origin": 65009908.0,
+    "lie_l2": 93.32438659667969
+  },
+  {
+    "stage": "adam",
+    "step": 95,
+    "loss_total": 213027072.0,
+    "loss_pde": 5968.013671875,
+    "loss_anchor": 0.21301594376564026,
+    "loss_origin": 42604220.0,
+    "lie_l2": 77.25292205810547
+  },
+  {
+    "stage": "adam",
+    "step": 96,
+    "loss_total": 43410328.0,
+    "loss_pde": 7456.0625,
+    "loss_anchor": 0.21605005860328674,
+    "loss_origin": 8680574.0,
+    "lie_l2": 86.34849548339844
+  },
+  {
+    "stage": "adam",
+    "step": 97,
+    "loss_total": 9682662.0,
+    "loss_pde": 7260.41015625,
+    "loss_anchor": 0.2633623480796814,
+    "loss_origin": 1935080.125,
+    "lie_l2": 85.20803833007812
+  },
+  {
+    "stage": "adam",
+    "step": 98,
+    "loss_total": 467882368.0,
+    "loss_pde": 14493.5498046875,
+    "loss_anchor": 0.22791698575019836,
+    "loss_origin": 93573576.0,
+    "lie_l2": 120.38916015625
+  },
+  {
+    "stage": "adam",
+    "step": 99,
+    "loss_total": 141051184.0,
+    "loss_pde": 5208.4677734375,
+    "loss_anchor": 0.2488047331571579,
+    "loss_origin": 28209194.0,
+    "lie_l2": 72.16971588134766
   },
   {
     "stage": "adam",
     "step": 100,
-    "loss_total": 15646.623046875,
-    "loss_pde": 450.9872741699219,
-    "loss_anchor": 0.16330258548259735,
-    "loss_origin": 607.7601318359375,
-    "lie_l2": 21.236461639404297
+    "loss_total": 166464336.0,
+    "loss_pde": 9609.2177734375,
+    "loss_anchor": 0.229373037815094,
+    "loss_origin": 33290944.0,
+    "lie_l2": 98.02661895751953
+  },
+  {
+    "stage": "adam",
+    "step": 101,
+    "loss_total": 232146240.0,
+    "loss_pde": 8390.1923828125,
+    "loss_anchor": 0.22554859519004822,
+    "loss_origin": 46427572.0,
+    "lie_l2": 91.59799194335938
+  },
+  {
+    "stage": "adam",
+    "step": 102,
+    "loss_total": 5362422.0,
+    "loss_pde": 7855.92333984375,
+    "loss_anchor": 0.23956263065338135,
+    "loss_origin": 1070913.125,
+    "lie_l2": 88.6336441040039
+  },
+  {
+    "stage": "adam",
+    "step": 103,
+    "loss_total": 3522384640.0,
+    "loss_pde": 7019.6669921875,
+    "loss_anchor": 0.20640893280506134,
+    "loss_origin": 704475520.0,
+    "lie_l2": 83.78345489501953
+  },
+  {
+    "stage": "adam",
+    "step": 104,
+    "loss_total": 2686511104.0,
+    "loss_pde": 8876.9150390625,
+    "loss_anchor": 0.23513241112232208,
+    "loss_origin": 537300416.0,
+    "lie_l2": 94.2173843383789
+  },
+  {
+    "stage": "adam",
+    "step": 105,
+    "loss_total": 750182720.0,
+    "loss_pde": 5929.46484375,
+    "loss_anchor": 0.24527451395988464,
+    "loss_origin": 150035360.0,
+    "lie_l2": 77.00302124023438
+  },
+  {
+    "stage": "adam",
+    "step": 106,
+    "loss_total": 31857430.0,
+    "loss_pde": 7537.3212890625,
+    "loss_anchor": 0.23613762855529785,
+    "loss_origin": 6369978.5,
+    "lie_l2": 86.8177490234375
+  },
+  {
+    "stage": "adam",
+    "step": 107,
+    "loss_total": 1906918784.0,
+    "loss_pde": 7052.1357421875,
+    "loss_anchor": 0.227124884724617,
+    "loss_origin": 381382336.0,
+    "lie_l2": 83.97699737548828
+  },
+  {
+    "stage": "adam",
+    "step": 108,
+    "loss_total": 24792768.0,
+    "loss_pde": 6663.890625,
+    "loss_anchor": 0.2270577847957611,
+    "loss_origin": 4957221.0,
+    "lie_l2": 81.63265991210938
+  },
+  {
+    "stage": "adam",
+    "step": 109,
+    "loss_total": 17319870.0,
+    "loss_pde": 6169.1630859375,
+    "loss_anchor": 0.24342995882034302,
+    "loss_origin": 3462740.0,
+    "lie_l2": 78.54402160644531
+  },
+  {
+    "stage": "adam",
+    "step": 110,
+    "loss_total": 2893517.5,
+    "loss_pde": 7208.6123046875,
+    "loss_anchor": 0.20642316341400146,
+    "loss_origin": 577261.6875,
+    "lie_l2": 84.90354919433594
+  },
+  {
+    "stage": "adam",
+    "step": 111,
+    "loss_total": 6786216.5,
+    "loss_pde": 5207.13037109375,
+    "loss_anchor": 0.19097378849983215,
+    "loss_origin": 1356201.75,
+    "lie_l2": 72.16044616699219
+  },
+  {
+    "stage": "adam",
+    "step": 112,
+    "loss_total": 34925592.0,
+    "loss_pde": 7061.55078125,
+    "loss_anchor": 0.22698640823364258,
+    "loss_origin": 6983706.0,
+    "lie_l2": 84.03303527832031
+  },
+  {
+    "stage": "adam",
+    "step": 113,
+    "loss_total": 12633983.0,
+    "loss_pde": 6832.7734375,
+    "loss_anchor": 0.22306400537490845,
+    "loss_origin": 2525430.0,
+    "lie_l2": 82.66059112548828
+  },
+  {
+    "stage": "adam",
+    "step": 114,
+    "loss_total": 6823816.0,
+    "loss_pde": 7110.4140625,
+    "loss_anchor": 0.22543461620807648,
+    "loss_origin": 1363341.0,
+    "lie_l2": 84.32327270507812
+  },
+  {
+    "stage": "adam",
+    "step": 115,
+    "loss_total": 5823036.0,
+    "loss_pde": 6444.6171875,
+    "loss_anchor": 0.20685334503650665,
+    "loss_origin": 1163318.25,
+    "lie_l2": 80.27837371826172
+  },
+  {
+    "stage": "adam",
+    "step": 116,
+    "loss_total": 16565139.0,
+    "loss_pde": 7828.82568359375,
+    "loss_anchor": 0.20039451122283936,
+    "loss_origin": 3311462.0,
+    "lie_l2": 88.48065185546875
+  },
+  {
+    "stage": "adam",
+    "step": 117,
+    "loss_total": 33712816.0,
+    "loss_pde": 7899.892578125,
+    "loss_anchor": 0.22291120886802673,
+    "loss_origin": 6740983.5,
+    "lie_l2": 88.88134002685547
+  },
+  {
+    "stage": "adam",
+    "step": 118,
+    "loss_total": 19914074.0,
+    "loss_pde": 11031.408203125,
+    "loss_anchor": 0.21436011791229248,
+    "loss_origin": 3980608.5,
+    "lie_l2": 105.03050994873047
+  },
+  {
+    "stage": "adam",
+    "step": 119,
+    "loss_total": 1934960128.0,
+    "loss_pde": 7229.76904296875,
+    "loss_anchor": 0.20247025787830353,
+    "loss_origin": 386990592.0,
+    "lie_l2": 85.02804565429688
+  },
+  {
+    "stage": "adam",
+    "step": 120,
+    "loss_total": 121109256.0,
+    "loss_pde": 8207.62109375,
+    "loss_anchor": 0.17694424092769623,
+    "loss_origin": 24220210.0,
+    "lie_l2": 90.5959243774414
+  },
+  {
+    "stage": "adam",
+    "step": 121,
+    "loss_total": 61934884.0,
+    "loss_pde": 6979.296875,
+    "loss_anchor": 0.22893978655338287,
+    "loss_origin": 12385581.0,
+    "lie_l2": 83.54218292236328
+  },
+  {
+    "stage": "adam",
+    "step": 122,
+    "loss_total": 8556507.0,
+    "loss_pde": 7098.65087890625,
+    "loss_anchor": 0.20971143245697021,
+    "loss_origin": 1709881.5,
+    "lie_l2": 84.25349426269531
+  },
+  {
+    "stage": "adam",
+    "step": 123,
+    "loss_total": 1503316.125,
+    "loss_pde": 5910.70703125,
+    "loss_anchor": 0.22805556654930115,
+    "loss_origin": 299481.0,
+    "lie_l2": 76.8811264038086
+  },
+  {
+    "stage": "adam",
+    "step": 124,
+    "loss_total": 8136786.0,
+    "loss_pde": 6650.5615234375,
+    "loss_anchor": 0.2336624562740326,
+    "loss_origin": 1626027.0,
+    "lie_l2": 81.55097198486328
+  },
+  {
+    "stage": "adam",
+    "step": 125,
+    "loss_total": 6800286.0,
+    "loss_pde": 5990.49267578125,
+    "loss_anchor": 0.2723562717437744,
+    "loss_origin": 1358859.0,
+    "lie_l2": 77.39826965332031
+  },
+  {
+    "stage": "adam",
+    "step": 126,
+    "loss_total": 1596356.875,
+    "loss_pde": 8829.0390625,
+    "loss_anchor": 0.22685536742210388,
+    "loss_origin": 317505.46875,
+    "lie_l2": 93.96296691894531
+  },
+  {
+    "stage": "adam",
+    "step": 127,
+    "loss_total": 19729416.0,
+    "loss_pde": 6984.89306640625,
+    "loss_anchor": 0.24704694747924805,
+    "loss_origin": 3944486.0,
+    "lie_l2": 83.57567596435547
+  },
+  {
+    "stage": "adam",
+    "step": 128,
+    "loss_total": 3553515.25,
+    "loss_pde": 5571.1484375,
+    "loss_anchor": 0.24372972548007965,
+    "loss_origin": 709588.6875,
+    "lie_l2": 74.64012908935547
+  },
+  {
+    "stage": "adam",
+    "step": 129,
+    "loss_total": 358737216.0,
+    "loss_pde": 7542.517578125,
+    "loss_anchor": 0.22045248746871948,
+    "loss_origin": 71745936.0,
+    "lie_l2": 86.84767150878906
+  },
+  {
+    "stage": "adam",
+    "step": 130,
+    "loss_total": 28915042.0,
+    "loss_pde": 7393.6650390625,
+    "loss_anchor": 0.23618215322494507,
+    "loss_origin": 5781529.5,
+    "lie_l2": 85.9864273071289
+  },
+  {
+    "stage": "adam",
+    "step": 131,
+    "loss_total": 19660354.0,
+    "loss_pde": 7115.23974609375,
+    "loss_anchor": 0.18240825831890106,
+    "loss_origin": 3930647.75,
+    "lie_l2": 84.35188293457031
+  },
+  {
+    "stage": "adam",
+    "step": 132,
+    "loss_total": 13045334.0,
+    "loss_pde": 10799.0498046875,
+    "loss_anchor": 0.22133029997348785,
+    "loss_origin": 2606907.0,
+    "lie_l2": 103.9184799194336
+  },
+  {
+    "stage": "adam",
+    "step": 133,
+    "loss_total": 9852696.0,
+    "loss_pde": 9011.3974609375,
+    "loss_anchor": 0.21765822172164917,
+    "loss_origin": 1968736.75,
+    "lie_l2": 94.92838287353516
+  },
+  {
+    "stage": "adam",
+    "step": 134,
+    "loss_total": 737681.625,
+    "loss_pde": 8161.0380859375,
+    "loss_anchor": 0.2702259421348572,
+    "loss_origin": 145904.015625,
+    "lie_l2": 90.33846282958984
+  },
+  {
+    "stage": "adam",
+    "step": 135,
+    "loss_total": 6769.58740234375,
+    "loss_pde": 6759.09423828125,
+    "loss_anchor": 0.24658524990081787,
+    "loss_origin": 2.0,
+    "lie_l2": 82.21370697021484
+  },
+  {
+    "stage": "adam",
+    "step": 136,
+    "loss_total": 6382.4130859375,
+    "loss_pde": 6371.92822265625,
+    "loss_anchor": 0.2425045371055603,
+    "loss_origin": 2.0,
+    "lie_l2": 79.82435607910156
+  },
+  {
+    "stage": "adam",
+    "step": 137,
+    "loss_total": 3393584640.0,
+    "loss_pde": 6116.5830078125,
+    "loss_anchor": 0.23257771134376526,
+    "loss_origin": 678715712.0,
+    "lie_l2": 78.20858764648438
+  },
+  {
+    "stage": "adam",
+    "step": 138,
+    "loss_total": 43574000.0,
+    "loss_pde": 7021.5791015625,
+    "loss_anchor": 0.2203127145767212,
+    "loss_origin": 8713395.0,
+    "lie_l2": 83.79486083984375
+  },
+  {
+    "stage": "adam",
+    "step": 139,
+    "loss_total": 23165756.0,
+    "loss_pde": 6999.6533203125,
+    "loss_anchor": 0.22576875984668732,
+    "loss_origin": 4631751.0,
+    "lie_l2": 83.66393280029297
+  },
+  {
+    "stage": "adam",
+    "step": 140,
+    "loss_total": 49936860.0,
+    "loss_pde": 5130.048828125,
+    "loss_anchor": 0.17247045040130615,
+    "loss_origin": 9986346.0,
+    "lie_l2": 71.62435913085938
+  },
+  {
+    "stage": "adam",
+    "step": 141,
+    "loss_total": 5577673.5,
+    "loss_pde": 5296.2421875,
+    "loss_anchor": 0.19827136397361755,
+    "loss_origin": 1114475.375,
+    "lie_l2": 72.77528381347656
+  },
+  {
+    "stage": "adam",
+    "step": 142,
+    "loss_total": 17756162.0,
+    "loss_pde": 11078.5673828125,
+    "loss_anchor": 0.17795249819755554,
+    "loss_origin": 3549017.0,
+    "lie_l2": 105.25477600097656
+  },
+  {
+    "stage": "adam",
+    "step": 143,
+    "loss_total": 4260746.5,
+    "loss_pde": 7468.154296875,
+    "loss_anchor": 0.18328875303268433,
+    "loss_origin": 850655.625,
+    "lie_l2": 86.4184799194336
+  },
+  {
+    "stage": "adam",
+    "step": 144,
+    "loss_total": 3973234.5,
+    "loss_pde": 6341.85595703125,
+    "loss_anchor": 0.18587321043014526,
+    "loss_origin": 793378.4375,
+    "lie_l2": 79.63577270507812
+  },
+  {
+    "stage": "adam",
+    "step": 145,
+    "loss_total": 3193729.75,
+    "loss_pde": 10223.0380859375,
+    "loss_anchor": 0.1716260313987732,
+    "loss_origin": 636701.25,
+    "lie_l2": 101.10903930664062
+  },
+  {
+    "stage": "adam",
+    "step": 146,
+    "loss_total": 3040926.75,
+    "loss_pde": 8025.99853515625,
+    "loss_anchor": 0.2032882571220398,
+    "loss_origin": 606580.0625,
+    "lie_l2": 89.58793640136719
+  },
+  {
+    "stage": "adam",
+    "step": 147,
+    "loss_total": 563259.875,
+    "loss_pde": 6575.0126953125,
+    "loss_anchor": 0.21209008991718292,
+    "loss_origin": 111336.8828125,
+    "lie_l2": 81.0864486694336
+  },
+  {
+    "stage": "adam",
+    "step": 148,
+    "loss_total": 4747985.5,
+    "loss_pde": 6476.853515625,
+    "loss_anchor": 0.18081650137901306,
+    "loss_origin": 948301.6875,
+    "lie_l2": 80.4789047241211
+  },
+  {
+    "stage": "adam",
+    "step": 149,
+    "loss_total": 321001.125,
+    "loss_pde": 5589.69921875,
+    "loss_anchor": 0.2148594707250595,
+    "loss_origin": 63082.203125,
+    "lie_l2": 74.76428985595703
   },
   {
     "stage": "adam",
     "step": 150,
-    "loss_total": 10477.294921875,
-    "loss_pde": 319.58831787109375,
-    "loss_anchor": 0.13092610239982605,
-    "loss_origin": 406.2558898925781,
-    "lie_l2": 17.877033233642578
+    "loss_total": 31465.955078125,
+    "loss_pde": 6643.3505859375,
+    "loss_anchor": 0.20965765416622162,
+    "loss_origin": 4964.43701171875,
+    "lie_l2": 81.50675201416016
+  },
+  {
+    "stage": "adam",
+    "step": 151,
+    "loss_total": 6932.44091796875,
+    "loss_pde": 6922.0673828125,
+    "loss_anchor": 0.18674615025520325,
+    "loss_origin": 2.0,
+    "lie_l2": 83.19895935058594
+  },
+  {
+    "stage": "adam",
+    "step": 152,
+    "loss_total": 7391.52490234375,
+    "loss_pde": 7381.1572265625,
+    "loss_anchor": 0.18386685848236084,
+    "loss_origin": 2.0,
+    "lie_l2": 85.91365814208984
+  },
+  {
+    "stage": "adam",
+    "step": 153,
+    "loss_total": 8469.36328125,
+    "loss_pde": 8459.01953125,
+    "loss_anchor": 0.17208391427993774,
+    "loss_origin": 2.0,
+    "lie_l2": 91.97293090820312
+  },
+  {
+    "stage": "adam",
+    "step": 154,
+    "loss_total": 14636374016.0,
+    "loss_pde": 6251.92041015625,
+    "loss_anchor": 0.1615751087665558,
+    "loss_origin": 2927273472.0,
+    "lie_l2": 79.06908416748047
+  },
+  {
+    "stage": "adam",
+    "step": 155,
+    "loss_total": 13399429.0,
+    "loss_pde": 6221.0859375,
+    "loss_anchor": 0.19490420818328857,
+    "loss_origin": 2678641.5,
+    "lie_l2": 78.87386322021484
+  },
+  {
+    "stage": "adam",
+    "step": 156,
+    "loss_total": 93617672.0,
+    "loss_pde": 5712.0283203125,
+    "loss_anchor": 0.18674640357494354,
+    "loss_origin": 18722392.0,
+    "lie_l2": 75.57796478271484
+  },
+  {
+    "stage": "adam",
+    "step": 157,
+    "loss_total": 6912.4052734375,
+    "loss_pde": 6902.0302734375,
+    "loss_anchor": 0.1875070035457611,
+    "loss_origin": 2.0,
+    "lie_l2": 83.07846069335938
+  },
+  {
+    "stage": "adam",
+    "step": 158,
+    "loss_total": 6493.67529296875,
+    "loss_pde": 6483.3505859375,
+    "loss_anchor": 0.16229557991027832,
+    "loss_origin": 2.0,
+    "lie_l2": 80.51925659179688
+  },
+  {
+    "stage": "adam",
+    "step": 159,
+    "loss_total": 182108454912.0,
+    "loss_pde": 6420.93408203125,
+    "loss_anchor": 0.20879517495632172,
+    "loss_origin": 36421689344.0,
+    "lie_l2": 80.13072967529297
+  },
+  {
+    "stage": "adam",
+    "step": 160,
+    "loss_total": 5655444992.0,
+    "loss_pde": 6150.71337890625,
+    "loss_anchor": 0.20857037603855133,
+    "loss_origin": 1131087744.0,
+    "lie_l2": 78.42648315429688
+  },
+  {
+    "stage": "adam",
+    "step": 161,
+    "loss_total": 1785947648.0,
+    "loss_pde": 5901.47509765625,
+    "loss_anchor": 0.20087561011314392,
+    "loss_origin": 357188352.0,
+    "lie_l2": 76.82106018066406
+  },
+  {
+    "stage": "adam",
+    "step": 162,
+    "loss_total": 260197056.0,
+    "loss_pde": 6357.2431640625,
+    "loss_anchor": 0.1967688798904419,
+    "loss_origin": 52038140.0,
+    "lie_l2": 79.7323226928711
+  },
+  {
+    "stage": "adam",
+    "step": 163,
+    "loss_total": 7852155392.0,
+    "loss_pde": 5772.587890625,
+    "loss_anchor": 0.19461467862129211,
+    "loss_origin": 1570429952.0,
+    "lie_l2": 75.97754669189453
+  },
+  {
+    "stage": "adam",
+    "step": 164,
+    "loss_total": 113485576.0,
+    "loss_pde": 6702.80419921875,
+    "loss_anchor": 0.19219309091567993,
+    "loss_origin": 22695774.0,
+    "lie_l2": 81.87065887451172
+  },
+  {
+    "stage": "adam",
+    "step": 165,
+    "loss_total": 70315368.0,
+    "loss_pde": 6413.806640625,
+    "loss_anchor": 0.1945604383945465,
+    "loss_origin": 14061790.0,
+    "lie_l2": 80.08624267578125
+  },
+  {
+    "stage": "adam",
+    "step": 166,
+    "loss_total": 67863896.0,
+    "loss_pde": 6394.04736328125,
+    "loss_anchor": 0.19998249411582947,
+    "loss_origin": 13571501.0,
+    "lie_l2": 79.96278381347656
+  },
+  {
+    "stage": "adam",
+    "step": 167,
+    "loss_total": 80396296.0,
+    "loss_pde": 5227.80224609375,
+    "loss_anchor": 0.2087450921535492,
+    "loss_origin": 16078213.0,
+    "lie_l2": 72.30354309082031
+  },
+  {
+    "stage": "adam",
+    "step": 168,
+    "loss_total": 91535112.0,
+    "loss_pde": 7721.9873046875,
+    "loss_anchor": 0.20921659469604492,
+    "loss_origin": 18305478.0,
+    "lie_l2": 87.87483978271484
+  },
+  {
+    "stage": "adam",
+    "step": 169,
+    "loss_total": 25466944.0,
+    "loss_pde": 6011.7822265625,
+    "loss_anchor": 0.20133118331432343,
+    "loss_origin": 5092186.5,
+    "lie_l2": 77.53568267822266
+  },
+  {
+    "stage": "adam",
+    "step": 170,
+    "loss_total": 28559400.0,
+    "loss_pde": 5563.37548828125,
+    "loss_anchor": 0.18349340558052063,
+    "loss_origin": 5710767.0,
+    "lie_l2": 74.5880355834961
+  },
+  {
+    "stage": "adam",
+    "step": 171,
+    "loss_total": 12455437.0,
+    "loss_pde": 4275.84326171875,
+    "loss_anchor": 0.212682843208313,
+    "loss_origin": 2490232.25,
+    "lie_l2": 65.38993072509766
+  },
+  {
+    "stage": "adam",
+    "step": 172,
+    "loss_total": 3305763.25,
+    "loss_pde": 5160.7353515625,
+    "loss_anchor": 0.1926383376121521,
+    "loss_origin": 660120.4375,
+    "lie_l2": 71.8382568359375
+  },
+  {
+    "stage": "adam",
+    "step": 173,
+    "loss_total": 106409816.0,
+    "loss_pde": 4522.9892578125,
+    "loss_anchor": 0.18175145983695984,
+    "loss_origin": 21281060.0,
+    "lie_l2": 67.253173828125
+  },
+  {
+    "stage": "adam",
+    "step": 174,
+    "loss_total": 111466472.0,
+    "loss_pde": 5827.197265625,
+    "loss_anchor": 0.15500971674919128,
+    "loss_origin": 22292130.0,
+    "lie_l2": 76.3360824584961
+  },
+  {
+    "stage": "adam",
+    "step": 175,
+    "loss_total": 113245128.0,
+    "loss_pde": 5942.6923828125,
+    "loss_anchor": 0.16368885338306427,
+    "loss_origin": 22647836.0,
+    "lie_l2": 77.08885955810547
+  },
+  {
+    "stage": "adam",
+    "step": 176,
+    "loss_total": 53543192.0,
+    "loss_pde": 8342.3232421875,
+    "loss_anchor": 0.18092432618141174,
+    "loss_origin": 10706970.0,
+    "lie_l2": 91.33631896972656
+  },
+  {
+    "stage": "adam",
+    "step": 177,
+    "loss_total": 69557542912.0,
+    "loss_pde": 14012.41796875,
+    "loss_anchor": 0.19589298963546753,
+    "loss_origin": 13911505920.0,
+    "lie_l2": 118.37406158447266
+  },
+  {
+    "stage": "adam",
+    "step": 178,
+    "loss_total": 305171488.0,
+    "loss_pde": 6550.525390625,
+    "loss_anchor": 0.1902780532836914,
+    "loss_origin": 61032984.0,
+    "lie_l2": 80.93531799316406
+  },
+  {
+    "stage": "adam",
+    "step": 179,
+    "loss_total": 79988264.0,
+    "loss_pde": 5852.8466796875,
+    "loss_anchor": 0.1604500561952591,
+    "loss_origin": 15996481.0,
+    "lie_l2": 76.50389862060547
+  },
+  {
+    "stage": "adam",
+    "step": 180,
+    "loss_total": 25920432.0,
+    "loss_pde": 5947.630859375,
+    "loss_anchor": 0.16516461968421936,
+    "loss_origin": 5182897.0,
+    "lie_l2": 77.12088775634766
+  },
+  {
+    "stage": "adam",
+    "step": 181,
+    "loss_total": 4844093.0,
+    "loss_pde": 6412.5234375,
+    "loss_anchor": 0.17418986558914185,
+    "loss_origin": 967536.0,
+    "lie_l2": 80.07823181152344
+  },
+  {
+    "stage": "adam",
+    "step": 182,
+    "loss_total": 2697887.75,
+    "loss_pde": 4964.67578125,
+    "loss_anchor": 0.14789891242980957,
+    "loss_origin": 538584.5625,
+    "lie_l2": 70.46045684814453
+  },
+  {
+    "stage": "adam",
+    "step": 183,
+    "loss_total": 518778.71875,
+    "loss_pde": 6047.70751953125,
+    "loss_anchor": 0.16005423665046692,
+    "loss_origin": 102546.140625,
+    "lie_l2": 77.76700592041016
+  },
+  {
+    "stage": "adam",
+    "step": 184,
+    "loss_total": 22113108.0,
+    "loss_pde": 4759.9873046875,
+    "loss_anchor": 0.15278533101081848,
+    "loss_origin": 4421669.5,
+    "lie_l2": 68.99266052246094
+  },
+  {
+    "stage": "adam",
+    "step": 185,
+    "loss_total": 14895597.0,
+    "loss_pde": 4827.85986328125,
+    "loss_anchor": 0.1507350206375122,
+    "loss_origin": 2978153.75,
+    "lie_l2": 69.48280334472656
+  },
+  {
+    "stage": "adam",
+    "step": 186,
+    "loss_total": 6577378.0,
+    "loss_pde": 5418.72314453125,
+    "loss_anchor": 0.1454879194498062,
+    "loss_origin": 1314391.75,
+    "lie_l2": 73.61197662353516
+  },
+  {
+    "stage": "adam",
+    "step": 187,
+    "loss_total": 1569660.125,
+    "loss_pde": 4943.478515625,
+    "loss_anchor": 0.1804959774017334,
+    "loss_origin": 312943.25,
+    "lie_l2": 70.30987548828125
+  },
+  {
+    "stage": "adam",
+    "step": 188,
+    "loss_total": 365869.9375,
+    "loss_pde": 6465.8837890625,
+    "loss_anchor": 0.13612185418605804,
+    "loss_origin": 71880.7578125,
+    "lie_l2": 80.41072082519531
+  },
+  {
+    "stage": "adam",
+    "step": 189,
+    "loss_total": 309624.875,
+    "loss_pde": 4756.044921875,
+    "loss_anchor": 0.15184266865253448,
+    "loss_origin": 60973.70703125,
+    "lie_l2": 68.96408081054688
+  },
+  {
+    "stage": "adam",
+    "step": 190,
+    "loss_total": 253105.46875,
+    "loss_pde": 5149.3271484375,
+    "loss_anchor": 0.12123039364814758,
+    "loss_origin": 49591.1796875,
+    "lie_l2": 71.7588119506836
+  },
+  {
+    "stage": "adam",
+    "step": 191,
+    "loss_total": 78516.03125,
+    "loss_pde": 6585.61181640625,
+    "loss_anchor": 0.12467865645885468,
+    "loss_origin": 14386.0341796875,
+    "lie_l2": 81.15177917480469
+  },
+  {
+    "stage": "adam",
+    "step": 192,
+    "loss_total": 30814.541015625,
+    "loss_pde": 7705.16796875,
+    "loss_anchor": 0.13064531981945038,
+    "loss_origin": 4621.822265625,
+    "lie_l2": 87.77908325195312
+  },
+  {
+    "stage": "adam",
+    "step": 193,
+    "loss_total": 28269.908203125,
+    "loss_pde": 4797.6181640625,
+    "loss_anchor": 0.13062070310115814,
+    "loss_origin": 4694.40576171875,
+    "lie_l2": 69.26483917236328
+  },
+  {
+    "stage": "adam",
+    "step": 194,
+    "loss_total": 25636.03515625,
+    "loss_pde": 5594.482421875,
+    "loss_anchor": 0.13332965970039368,
+    "loss_origin": 4008.25732421875,
+    "lie_l2": 74.79627227783203
+  },
+  {
+    "stage": "adam",
+    "step": 195,
+    "loss_total": 7343.18212890625,
+    "loss_pde": 5303.57861328125,
+    "loss_anchor": 0.14070075750350952,
+    "loss_origin": 407.86444091796875,
+    "lie_l2": 72.82567596435547
+  },
+  {
+    "stage": "adam",
+    "step": 196,
+    "loss_total": 11418.3330078125,
+    "loss_pde": 4384.0791015625,
+    "loss_anchor": 0.12457264959812164,
+    "loss_origin": 1406.801025390625,
+    "lie_l2": 66.2123794555664
+  },
+  {
+    "stage": "adam",
+    "step": 197,
+    "loss_total": 5773.13330078125,
+    "loss_pde": 4939.62353515625,
+    "loss_anchor": 0.13549858331680298,
+    "loss_origin": 166.6477508544922,
+    "lie_l2": 70.28245544433594
+  },
+  {
+    "stage": "adam",
+    "step": 198,
+    "loss_total": 46626.109375,
+    "loss_pde": 4062.332763671875,
+    "loss_anchor": 0.10810074210166931,
+    "loss_origin": 8512.7119140625,
+    "lie_l2": 63.73643112182617
+  },
+  {
+    "stage": "adam",
+    "step": 199,
+    "loss_total": 34123.8203125,
+    "loss_pde": 7213.970703125,
+    "loss_anchor": 0.13007627427577972,
+    "loss_origin": 5381.91796875,
+    "lie_l2": 84.93509674072266
   },
   {
     "stage": "adam",
     "step": 200,
-    "loss_total": 9759.642578125,
-    "loss_pde": 401.7958984375,
-    "loss_anchor": 0.16688625514507294,
-    "loss_origin": 374.2471008300781,
-    "lie_l2": 20.04484748840332
+    "loss_total": 7021.4658203125,
+    "loss_pde": 4737.21826171875,
+    "loss_anchor": 0.11725129187107086,
+    "loss_origin": 456.80267333984375,
+    "lie_l2": 68.82745361328125
+  },
+  {
+    "stage": "adam",
+    "step": 201,
+    "loss_total": 57210.62890625,
+    "loss_pde": 5837.056640625,
+    "loss_anchor": 0.13454003632068634,
+    "loss_origin": 10274.6611328125,
+    "lie_l2": 76.400634765625
+  },
+  {
+    "stage": "adam",
+    "step": 202,
+    "loss_total": 5274.955078125,
+    "loss_pde": 4464.755859375,
+    "loss_anchor": 0.12833938002586365,
+    "loss_origin": 161.98849487304688,
+    "lie_l2": 66.81883239746094
+  },
+  {
+    "stage": "adam",
+    "step": 203,
+    "loss_total": 4256.93310546875,
+    "loss_pde": 4224.88818359375,
+    "loss_anchor": 0.12464639544487,
+    "loss_origin": 6.3590850830078125,
+    "lie_l2": 64.99913787841797
+  },
+  {
+    "stage": "adam",
+    "step": 204,
+    "loss_total": 6108.4306640625,
+    "loss_pde": 5983.73046875,
+    "loss_anchor": 0.12340878695249557,
+    "loss_origin": 24.89073371887207,
+    "lie_l2": 77.35457611083984
+  },
+  {
+    "stage": "adam",
+    "step": 205,
+    "loss_total": 8839.564453125,
+    "loss_pde": 8619.994140625,
+    "loss_anchor": 0.12335959076881409,
+    "loss_origin": 43.86467361450195,
+    "lie_l2": 92.84392547607422
+  },
+  {
+    "stage": "adam",
+    "step": 206,
+    "loss_total": 6169.1650390625,
+    "loss_pde": 6033.5869140625,
+    "loss_anchor": 0.12408293783664703,
+    "loss_origin": 27.06598472595215,
+    "lie_l2": 77.6761703491211
+  },
+  {
+    "stage": "adam",
+    "step": 207,
+    "loss_total": 4038.532958984375,
+    "loss_pde": 3956.326171875,
+    "loss_anchor": 0.12234984338283539,
+    "loss_origin": 16.39241600036621,
+    "lie_l2": 62.89933395385742
+  },
+  {
+    "stage": "adam",
+    "step": 208,
+    "loss_total": 6698.341796875,
+    "loss_pde": 3706.811767578125,
+    "loss_anchor": 0.11120085418224335,
+    "loss_origin": 598.261474609375,
+    "lie_l2": 60.88359069824219
+  },
+  {
+    "stage": "adam",
+    "step": 209,
+    "loss_total": 7209.7216796875,
+    "loss_pde": 3907.22021484375,
+    "loss_anchor": 0.09463866800069809,
+    "loss_origin": 660.4625244140625,
+    "lie_l2": 62.50776290893555
+  },
+  {
+    "stage": "adam",
+    "step": 210,
+    "loss_total": 5956.5849609375,
+    "loss_pde": 5892.9130859375,
+    "loss_anchor": 0.09626154601573944,
+    "loss_origin": 12.695929527282715,
+    "lie_l2": 76.76531219482422
+  },
+  {
+    "stage": "adam",
+    "step": 211,
+    "loss_total": 10473.5234375,
+    "loss_pde": 6807.361328125,
+    "loss_anchor": 0.10911504924297333,
+    "loss_origin": 733.1888427734375,
+    "lie_l2": 82.5067367553711
+  },
+  {
+    "stage": "adam",
+    "step": 212,
+    "loss_total": 10676.5703125,
+    "loss_pde": 4204.740234375,
+    "loss_anchor": 0.11044397950172424,
+    "loss_origin": 1294.3218994140625,
+    "lie_l2": 64.8439712524414
+  },
+  {
+    "stage": "adam",
+    "step": 213,
+    "loss_total": 5943.5732421875,
+    "loss_pde": 4549.990234375,
+    "loss_anchor": 0.10582957416772842,
+    "loss_origin": 278.67425537109375,
+    "lie_l2": 67.45361328125
+  },
+  {
+    "stage": "adam",
+    "step": 214,
+    "loss_total": 5831.0595703125,
+    "loss_pde": 4673.818359375,
+    "loss_anchor": 0.10251671075820923,
+    "loss_origin": 231.4071807861328,
+    "lie_l2": 68.3653335571289
+  },
+  {
+    "stage": "adam",
+    "step": 215,
+    "loss_total": 4221.1767578125,
+    "loss_pde": 3465.76806640625,
+    "loss_anchor": 0.11699307709932327,
+    "loss_origin": 151.03492736816406,
+    "lie_l2": 58.87077331542969
+  },
+  {
+    "stage": "adam",
+    "step": 216,
+    "loss_total": 4260871936.0,
+    "loss_pde": 5185.03125,
+    "loss_anchor": 0.09899435937404633,
+    "loss_origin": 852173376.0,
+    "lie_l2": 72.00716400146484
+  },
+  {
+    "stage": "adam",
+    "step": 217,
+    "loss_total": 84038416.0,
+    "loss_pde": 3147.740234375,
+    "loss_anchor": 0.12140128016471863,
+    "loss_origin": 16807054.0,
+    "lie_l2": 56.1047248840332
+  },
+  {
+    "stage": "adam",
+    "step": 218,
+    "loss_total": 236973120.0,
+    "loss_pde": 4033.314453125,
+    "loss_anchor": 0.09344825893640518,
+    "loss_origin": 47393816.0,
+    "lie_l2": 63.50838088989258
+  },
+  {
+    "stage": "adam",
+    "step": 219,
+    "loss_total": 3816.7734375,
+    "loss_pde": 3428.4609375,
+    "loss_anchor": 0.1139775961637497,
+    "loss_origin": 77.61688995361328,
+    "lie_l2": 58.553062438964844
+  },
+  {
+    "stage": "adam",
+    "step": 220,
+    "loss_total": 3587.91796875,
+    "loss_pde": 3550.635498046875,
+    "loss_anchor": 0.12021256983280182,
+    "loss_origin": 7.408420562744141,
+    "lie_l2": 59.58720779418945
+  },
+  {
+    "stage": "adam",
+    "step": 221,
+    "loss_total": 3953.221435546875,
+    "loss_pde": 3874.5224609375,
+    "loss_anchor": 0.12934166193008423,
+    "loss_origin": 15.68803596496582,
+    "lie_l2": 62.245662689208984
+  },
+  {
+    "stage": "adam",
+    "step": 222,
+    "loss_total": 3246.84033203125,
+    "loss_pde": 2927.8134765625,
+    "loss_anchor": 0.10111474990844727,
+    "loss_origin": 63.764930725097656,
+    "lie_l2": 54.10927200317383
+  },
+  {
+    "stage": "adam",
+    "step": 223,
+    "loss_total": 4015.64208984375,
+    "loss_pde": 3484.24169921875,
+    "loss_anchor": 0.10258421301841736,
+    "loss_origin": 106.23908233642578,
+    "lie_l2": 59.0274658203125
+  },
+  {
+    "stage": "adam",
+    "step": 224,
+    "loss_total": 3312.829345703125,
+    "loss_pde": 2757.71826171875,
+    "loss_anchor": 0.10005487501621246,
+    "loss_origin": 110.982177734375,
+    "lie_l2": 52.513980865478516
+  },
+  {
+    "stage": "adam",
+    "step": 225,
+    "loss_total": 3825.43017578125,
+    "loss_pde": 3469.3828125,
+    "loss_anchor": 0.11067264527082443,
+    "loss_origin": 71.1651611328125,
+    "lie_l2": 58.901466369628906
+  },
+  {
+    "stage": "adam",
+    "step": 226,
+    "loss_total": 2816.03955078125,
+    "loss_pde": 2637.00634765625,
+    "loss_anchor": 0.10965774953365326,
+    "loss_origin": 35.76280212402344,
+    "lie_l2": 51.35179138183594
+  },
+  {
+    "stage": "adam",
+    "step": 227,
+    "loss_total": 2814.210205078125,
+    "loss_pde": 2785.649658203125,
+    "loss_anchor": 0.1141648143529892,
+    "loss_origin": 5.666475296020508,
+    "lie_l2": 52.77925491333008
+  },
+  {
+    "stage": "adam",
+    "step": 228,
+    "loss_total": 3154.09619140625,
+    "loss_pde": 3149.5087890625,
+    "loss_anchor": 0.10993333160877228,
+    "loss_origin": 0.8734779953956604,
+    "lie_l2": 56.1204833984375
+  },
+  {
+    "stage": "adam",
+    "step": 229,
+    "loss_total": 2253.785400390625,
+    "loss_pde": 2232.02783203125,
+    "loss_anchor": 0.09866657853126526,
+    "loss_origin": 4.312075614929199,
+    "lie_l2": 47.24434280395508
+  },
+  {
+    "stage": "adam",
+    "step": 230,
+    "loss_total": 2650.042724609375,
+    "loss_pde": 2578.0283203125,
+    "loss_anchor": 0.09678640961647034,
+    "loss_origin": 14.364145278930664,
+    "lie_l2": 50.774288177490234
+  },
+  {
+    "stage": "adam",
+    "step": 231,
+    "loss_total": 2425.715087890625,
+    "loss_pde": 2378.046630859375,
+    "loss_anchor": 0.10383785516023636,
+    "loss_origin": 9.49213695526123,
+    "lie_l2": 48.765220642089844
+  },
+  {
+    "stage": "adam",
+    "step": 232,
+    "loss_total": 2966.67138671875,
+    "loss_pde": 2929.888671875,
+    "loss_anchor": 0.09169112890958786,
+    "loss_origin": 7.319891452789307,
+    "lie_l2": 54.12844467163086
+  },
+  {
+    "stage": "adam",
+    "step": 233,
+    "loss_total": 2571.93896484375,
+    "loss_pde": 2560.708984375,
+    "loss_anchor": 0.09345988929271698,
+    "loss_origin": 2.208583354949951,
+    "lie_l2": 50.60344696044922
+  },
+  {
+    "stage": "adam",
+    "step": 234,
+    "loss_total": 2624369920.0,
+    "loss_pde": 1766.294921875,
+    "loss_anchor": 0.0984354168176651,
+    "loss_origin": 524873632.0,
+    "lie_l2": 42.027313232421875
+  },
+  {
+    "stage": "adam",
+    "step": 235,
+    "loss_total": 9814258.0,
+    "loss_pde": 1871.829345703125,
+    "loss_anchor": 0.08129937201738358,
+    "loss_origin": 1962477.25,
+    "lie_l2": 43.264644622802734
+  },
+  {
+    "stage": "adam",
+    "step": 236,
+    "loss_total": 8386443264.0,
+    "loss_pde": 1983.7886962890625,
+    "loss_anchor": 0.09298311173915863,
+    "loss_origin": 1677288192.0,
+    "lie_l2": 44.53974151611328
+  },
+  {
+    "stage": "adam",
+    "step": 237,
+    "loss_total": 2390355712.0,
+    "loss_pde": 2953.119384765625,
+    "loss_anchor": 0.07988902181386948,
+    "loss_origin": 478070528.0,
+    "lie_l2": 54.34260940551758
+  },
+  {
+    "stage": "adam",
+    "step": 238,
+    "loss_total": 49269712.0,
+    "loss_pde": 1945.2371826171875,
+    "loss_anchor": 0.07871584594249725,
+    "loss_origin": 9853554.0,
+    "lie_l2": 44.10484313964844
+  },
+  {
+    "stage": "adam",
+    "step": 239,
+    "loss_total": 12686938.0,
+    "loss_pde": 2750.0478515625,
+    "loss_anchor": 0.08938775211572647,
+    "loss_origin": 2536837.5,
+    "lie_l2": 52.44089889526367
+  },
+  {
+    "stage": "adam",
+    "step": 240,
+    "loss_total": 16250876.0,
+    "loss_pde": 2031.968505859375,
+    "loss_anchor": 0.08798573911190033,
+    "loss_origin": 3249768.75,
+    "lie_l2": 45.077362060546875
+  },
+  {
+    "stage": "adam",
+    "step": 241,
+    "loss_total": 16271105.0,
+    "loss_pde": 1907.22119140625,
+    "loss_anchor": 0.09224922955036163,
+    "loss_origin": 3253839.5,
+    "lie_l2": 43.67174530029297
+  },
+  {
+    "stage": "adam",
+    "step": 242,
+    "loss_total": 6280024.0,
+    "loss_pde": 3109.5244140625,
+    "loss_anchor": 0.07655587047338486,
+    "loss_origin": 1255382.875,
+    "lie_l2": 55.76311111450195
+  },
+  {
+    "stage": "adam",
+    "step": 243,
+    "loss_total": 3195983.25,
+    "loss_pde": 1367.209716796875,
+    "loss_anchor": 0.08210527896881104,
+    "loss_origin": 638923.1875,
+    "lie_l2": 36.975799560546875
+  },
+  {
+    "stage": "adam",
+    "step": 244,
+    "loss_total": 2459773.25,
+    "loss_pde": 1777.2825927734375,
+    "loss_anchor": 0.07553109526634216,
+    "loss_origin": 491599.15625,
+    "lie_l2": 42.15782928466797
+  },
+  {
+    "stage": "adam",
+    "step": 245,
+    "loss_total": 782518.375,
+    "loss_pde": 1677.9163818359375,
+    "loss_anchor": 0.0934632271528244,
+    "loss_origin": 156168.046875,
+    "lie_l2": 40.962379455566406
+  },
+  {
+    "stage": "adam",
+    "step": 246,
+    "loss_total": 28850.119140625,
+    "loss_pde": 1867.641845703125,
+    "loss_anchor": 0.07125623524188995,
+    "loss_origin": 5396.466796875,
+    "lie_l2": 43.21622085571289
+  },
+  {
+    "stage": "adam",
+    "step": 247,
+    "loss_total": 144059531264.0,
+    "loss_pde": 1766.049560546875,
+    "loss_anchor": 0.08294694870710373,
+    "loss_origin": 28811905024.0,
+    "lie_l2": 42.024391174316406
+  },
+  {
+    "stage": "adam",
+    "step": 248,
+    "loss_total": 1077290880.0,
+    "loss_pde": 1418.7457275390625,
+    "loss_anchor": 0.09199360013008118,
+    "loss_origin": 215457904.0,
+    "lie_l2": 37.66624069213867
+  },
+  {
+    "stage": "adam",
+    "step": 249,
+    "loss_total": 1095749120.0,
+    "loss_pde": 1817.89794921875,
+    "loss_anchor": 0.07468202710151672,
+    "loss_origin": 219149456.0,
+    "lie_l2": 42.63681411743164
   },
   {
     "stage": "adam",
     "step": 250,
-    "loss_total": 8890.4599609375,
-    "loss_pde": 340.6697082519531,
-    "loss_anchor": 0.1308191418647766,
-    "loss_origin": 341.9393005371094,
-    "lie_l2": 18.457239151000977
+    "loss_total": 537284160.0,
+    "loss_pde": 1346.2919921875,
+    "loss_anchor": 0.08158746361732483,
+    "loss_origin": 107456560.0,
+    "lie_l2": 36.69185256958008
+  },
+  {
+    "stage": "adam",
+    "step": 251,
+    "loss_total": 266696720.0,
+    "loss_pde": 1262.9549560546875,
+    "loss_anchor": 0.07006771862506866,
+    "loss_origin": 53339092.0,
+    "lie_l2": 35.53807830810547
+  },
+  {
+    "stage": "adam",
+    "step": 252,
+    "loss_total": 98662512.0,
+    "loss_pde": 2066.77392578125,
+    "loss_anchor": 0.07970710098743439,
+    "loss_origin": 19732090.0,
+    "lie_l2": 45.46178436279297
+  },
+  {
+    "stage": "adam",
+    "step": 253,
+    "loss_total": 612719.125,
+    "loss_pde": 1760.97705078125,
+    "loss_anchor": 0.08148179948329926,
+    "loss_origin": 122191.6015625,
+    "lie_l2": 41.96399688720703
+  },
+  {
+    "stage": "adam",
+    "step": 254,
+    "loss_total": 9255779.0,
+    "loss_pde": 1406.89013671875,
+    "loss_anchor": 0.07681797444820404,
+    "loss_origin": 1850874.5,
+    "lie_l2": 37.5085334777832
+  },
+  {
+    "stage": "adam",
+    "step": 255,
+    "loss_total": 29800.2265625,
+    "loss_pde": 2037.104736328125,
+    "loss_anchor": 0.07602332532405853,
+    "loss_origin": 5552.59423828125,
+    "lie_l2": 45.13429641723633
+  },
+  {
+    "stage": "adam",
+    "step": 256,
+    "loss_total": 15796.30859375,
+    "loss_pde": 1555.450927734375,
+    "loss_anchor": 0.09561274945735931,
+    "loss_origin": 2848.13330078125,
+    "lie_l2": 39.439205169677734
+  },
+  {
+    "stage": "adam",
+    "step": 257,
+    "loss_total": 46798.06640625,
+    "loss_pde": 1631.81494140625,
+    "loss_anchor": 0.08849947899580002,
+    "loss_origin": 9033.21484375,
+    "lie_l2": 40.395729064941406
+  },
+  {
+    "stage": "adam",
+    "step": 258,
+    "loss_total": 22601.41796875,
+    "loss_pde": 1372.48193359375,
+    "loss_anchor": 0.08359819650650024,
+    "loss_origin": 4245.75390625,
+    "lie_l2": 37.04702377319336
+  },
+  {
+    "stage": "adam",
+    "step": 259,
+    "loss_total": 8031.61767578125,
+    "loss_pde": 1542.262939453125,
+    "loss_anchor": 0.0845508724451065,
+    "loss_origin": 1297.837158203125,
+    "lie_l2": 39.27165603637695
+  },
+  {
+    "stage": "adam",
+    "step": 260,
+    "loss_total": 10687.609375,
+    "loss_pde": 1886.8433837890625,
+    "loss_anchor": 0.08458096534013748,
+    "loss_origin": 1760.119384765625,
+    "lie_l2": 43.437808990478516
+  },
+  {
+    "stage": "adam",
+    "step": 261,
+    "loss_total": 2389.14208984375,
+    "loss_pde": 1174.53173828125,
+    "loss_anchor": 0.08139997720718384,
+    "loss_origin": 242.88951110839844,
+    "lie_l2": 34.27144241333008
+  },
+  {
+    "stage": "adam",
+    "step": 262,
+    "loss_total": 2929.354248046875,
+    "loss_pde": 1559.9833984375,
+    "loss_anchor": 0.09632337838411331,
+    "loss_origin": 273.83563232421875,
+    "lie_l2": 39.49662399291992
+  },
+  {
+    "stage": "adam",
+    "step": 263,
+    "loss_total": 2022.587158203125,
+    "loss_pde": 1668.600341796875,
+    "loss_anchor": 0.08064678311347961,
+    "loss_origin": 70.7651138305664,
+    "lie_l2": 40.84850311279297
+  },
+  {
+    "stage": "adam",
+    "step": 264,
+    "loss_total": 1600.0546875,
+    "loss_pde": 1271.580322265625,
+    "loss_anchor": 0.08379556238651276,
+    "loss_origin": 65.66134643554688,
+    "lie_l2": 35.65922546386719
+  },
+  {
+    "stage": "adam",
+    "step": 265,
+    "loss_total": 3633.811279296875,
+    "loss_pde": 1427.738037109375,
+    "loss_anchor": 0.08204622566699982,
+    "loss_origin": 441.1818542480469,
+    "lie_l2": 37.78541946411133
+  },
+  {
+    "stage": "adam",
+    "step": 266,
+    "loss_total": 2056.009765625,
+    "loss_pde": 1205.9501953125,
+    "loss_anchor": 0.08287771791219711,
+    "loss_origin": 169.97879028320312,
+    "lie_l2": 34.7267951965332
+  },
+  {
+    "stage": "adam",
+    "step": 267,
+    "loss_total": 2975.048828125,
+    "loss_pde": 1732.01025390625,
+    "loss_anchor": 0.0746842548251152,
+    "loss_origin": 248.5778045654297,
+    "lie_l2": 41.617427825927734
+  },
+  {
+    "stage": "adam",
+    "step": 268,
+    "loss_total": 1417.4075927734375,
+    "loss_pde": 1248.14697265625,
+    "loss_anchor": 0.08228237926959991,
+    "loss_origin": 33.819210052490234,
+    "lie_l2": 35.329124450683594
+  },
+  {
+    "stage": "adam",
+    "step": 269,
+    "loss_total": 2117.5634765625,
+    "loss_pde": 1502.659912109375,
+    "loss_anchor": 0.09608042240142822,
+    "loss_origin": 122.94229125976562,
+    "lie_l2": 38.764156341552734
+  },
+  {
+    "stage": "adam",
+    "step": 270,
+    "loss_total": 1891.96875,
+    "loss_pde": 1231.08203125,
+    "loss_anchor": 0.09806828200817108,
+    "loss_origin": 132.13812255859375,
+    "lie_l2": 35.08677673339844
+  },
+  {
+    "stage": "adam",
+    "step": 271,
+    "loss_total": 399759.28125,
+    "loss_pde": 1349.37548828125,
+    "loss_anchor": 0.07762157917022705,
+    "loss_origin": 79681.953125,
+    "lie_l2": 36.73384475708008
+  },
+  {
+    "stage": "adam",
+    "step": 272,
+    "loss_total": 2241.314208984375,
+    "loss_pde": 1637.35107421875,
+    "loss_anchor": 0.08734329789876938,
+    "loss_origin": 120.7576904296875,
+    "lie_l2": 40.464195251464844
+  },
+  {
+    "stage": "adam",
+    "step": 273,
+    "loss_total": 2896.23046875,
+    "loss_pde": 2268.40625,
+    "loss_anchor": 0.08563810586929321,
+    "loss_origin": 125.53058624267578,
+    "lie_l2": 47.62778854370117
+  },
+  {
+    "stage": "adam",
+    "step": 274,
+    "loss_total": 1651.927978515625,
+    "loss_pde": 1521.768798828125,
+    "loss_anchor": 0.07641662657260895,
+    "loss_origin": 26.001270294189453,
+    "lie_l2": 39.00985336303711
+  },
+  {
+    "stage": "adam",
+    "step": 275,
+    "loss_total": 1647.82666015625,
+    "loss_pde": 1600.301513671875,
+    "loss_anchor": 0.08766631782054901,
+    "loss_origin": 9.469970703125,
+    "lie_l2": 40.00376892089844
+  },
+  {
+    "stage": "adam",
+    "step": 276,
+    "loss_total": 1579.7548828125,
+    "loss_pde": 1437.8341064453125,
+    "loss_anchor": 0.10234714299440384,
+    "loss_origin": 28.343215942382812,
+    "lie_l2": 37.91878128051758
+  },
+  {
+    "stage": "adam",
+    "step": 277,
+    "loss_total": 1552.62109375,
+    "loss_pde": 1361.185302734375,
+    "loss_anchor": 0.0726238489151001,
+    "loss_origin": 38.25811004638672,
+    "lie_l2": 36.89424514770508
+  },
+  {
+    "stage": "adam",
+    "step": 278,
+    "loss_total": 201406.765625,
+    "loss_pde": 1241.4033203125,
+    "loss_anchor": 0.08637747168540955,
+    "loss_origin": 40033.0390625,
+    "lie_l2": 35.23355484008789
+  },
+  {
+    "stage": "adam",
+    "step": 279,
+    "loss_total": 136564.4375,
+    "loss_pde": 1239.6199951171875,
+    "loss_anchor": 0.07349324226379395,
+    "loss_origin": 27064.93359375,
+    "lie_l2": 35.20823669433594
+  },
+  {
+    "stage": "adam",
+    "step": 280,
+    "loss_total": 2064.774658203125,
+    "loss_pde": 2040.341796875,
+    "loss_anchor": 0.0954953134059906,
+    "loss_origin": 4.848364353179932,
+    "lie_l2": 45.170143127441406
+  },
+  {
+    "stage": "adam",
+    "step": 281,
+    "loss_total": 1324.536865234375,
+    "loss_pde": 1215.0927734375,
+    "loss_anchor": 0.07388614118099213,
+    "loss_origin": 21.859254837036133,
+    "lie_l2": 34.85818099975586
+  },
+  {
+    "stage": "adam",
+    "step": 282,
+    "loss_total": 1892373632.0,
+    "loss_pde": 1080.147705078125,
+    "loss_anchor": 0.08406198024749756,
+    "loss_origin": 378474528.0,
+    "lie_l2": 32.8656005859375
+  },
+  {
+    "stage": "adam",
+    "step": 283,
+    "loss_total": 6217037824.0,
+    "loss_pde": 1244.116943359375,
+    "loss_anchor": 0.0612637996673584,
+    "loss_origin": 1243407360.0,
+    "lie_l2": 35.27204132080078
+  },
+  {
+    "stage": "adam",
+    "step": 284,
+    "loss_total": 5192171008.0,
+    "loss_pde": 1472.302490234375,
+    "loss_anchor": 0.08163219690322876,
+    "loss_origin": 1038433856.0,
+    "lie_l2": 38.3705940246582
+  },
+  {
+    "stage": "adam",
+    "step": 285,
+    "loss_total": 802821568.0,
+    "loss_pde": 1103.768798828125,
+    "loss_anchor": 0.08662404119968414,
+    "loss_origin": 160564096.0,
+    "lie_l2": 33.22301483154297
+  },
+  {
+    "stage": "adam",
+    "step": 286,
+    "loss_total": 6435689984.0,
+    "loss_pde": 1271.884765625,
+    "loss_anchor": 0.07339024543762207,
+    "loss_origin": 1287137792.0,
+    "lie_l2": 35.66349411010742
+  },
+  {
+    "stage": "adam",
+    "step": 287,
+    "loss_total": 1187449216.0,
+    "loss_pde": 954.1051025390625,
+    "loss_anchor": 0.07440744340419769,
+    "loss_origin": 237489664.0,
+    "lie_l2": 30.888591766357422
+  },
+  {
+    "stage": "adam",
+    "step": 288,
+    "loss_total": 2631413248.0,
+    "loss_pde": 976.43359375,
+    "loss_anchor": 0.07978059351444244,
+    "loss_origin": 526282432.0,
+    "lie_l2": 31.24793815612793
+  },
+  {
+    "stage": "adam",
+    "step": 289,
+    "loss_total": 466871392.0,
+    "loss_pde": 1106.440673828125,
+    "loss_anchor": 0.07121722400188446,
+    "loss_origin": 93374056.0,
+    "lie_l2": 33.26320266723633
+  },
+  {
+    "stage": "adam",
+    "step": 290,
+    "loss_total": 1164.3697509765625,
+    "loss_pde": 1154.204833984375,
+    "loss_anchor": 0.08247911930084229,
+    "loss_origin": 2.0,
+    "lie_l2": 33.97359085083008
+  },
+  {
+    "stage": "adam",
+    "step": 291,
+    "loss_total": 1254.6724853515625,
+    "loss_pde": 1244.5059814453125,
+    "loss_anchor": 0.08324559032917023,
+    "loss_origin": 2.0,
+    "lie_l2": 35.277557373046875
+  },
+  {
+    "stage": "adam",
+    "step": 292,
+    "loss_total": 817.36376953125,
+    "loss_pde": 807.1751098632812,
+    "loss_anchor": 0.09431711584329605,
+    "loss_origin": 2.0,
+    "lie_l2": 28.41082763671875
+  },
+  {
+    "stage": "adam",
+    "step": 293,
+    "loss_total": 1011.6131591796875,
+    "loss_pde": 1001.456787109375,
+    "loss_anchor": 0.07819204777479172,
+    "loss_origin": 2.0,
+    "lie_l2": 31.645801544189453
+  },
+  {
+    "stage": "adam",
+    "step": 294,
+    "loss_total": 1003.6626586914062,
+    "loss_pde": 993.476318359375,
+    "loss_anchor": 0.09317392855882645,
+    "loss_origin": 2.0,
+    "lie_l2": 31.519458770751953
+  },
+  {
+    "stage": "adam",
+    "step": 295,
+    "loss_total": 1074.83349609375,
+    "loss_pde": 1064.661376953125,
+    "loss_anchor": 0.08604877442121506,
+    "loss_origin": 2.0,
+    "lie_l2": 32.629150390625
+  },
+  {
+    "stage": "adam",
+    "step": 296,
+    "loss_total": 778.1505737304688,
+    "loss_pde": 767.9757080078125,
+    "loss_anchor": 0.08742125332355499,
+    "loss_origin": 2.0,
+    "lie_l2": 27.712373733520508
+  },
+  {
+    "stage": "adam",
+    "step": 297,
+    "loss_total": 807.17333984375,
+    "loss_pde": 797.025146484375,
+    "loss_anchor": 0.07408977299928665,
+    "loss_origin": 2.0,
+    "lie_l2": 28.23163414001465
+  },
+  {
+    "stage": "adam",
+    "step": 298,
+    "loss_total": 969.6636962890625,
+    "loss_pde": 959.505615234375,
+    "loss_anchor": 0.07904380559921265,
+    "loss_origin": 2.0,
+    "lie_l2": 30.975887298583984
+  },
+  {
+    "stage": "adam",
+    "step": 299,
+    "loss_total": 1028.8773193359375,
+    "loss_pde": 1018.7410278320312,
+    "loss_anchor": 0.06815129518508911,
+    "loss_origin": 2.0,
+    "lie_l2": 31.917722702026367
   },
   {
     "stage": "adam",
     "step": 300,
-    "loss_total": 8145.744140625,
-    "loss_pde": 390.3055419921875,
-    "loss_anchor": 0.17530623078346252,
-    "loss_origin": 310.1474304199219,
-    "lie_l2": 19.75615119934082
+    "loss_total": 921.1524658203125,
+    "loss_pde": 911.0179443359375,
+    "loss_anchor": 0.06726954877376556,
+    "loss_origin": 2.0,
+    "lie_l2": 30.183073043823242
+  },
+  {
+    "stage": "adam",
+    "step": 301,
+    "loss_total": 920.5696411132812,
+    "loss_pde": 910.4295654296875,
+    "loss_anchor": 0.07004764676094055,
+    "loss_origin": 2.0,
+    "lie_l2": 30.173324584960938
+  },
+  {
+    "stage": "adam",
+    "step": 302,
+    "loss_total": 928.98583984375,
+    "loss_pde": 918.859619140625,
+    "loss_anchor": 0.06311532109975815,
+    "loss_origin": 2.0,
+    "lie_l2": 30.31269645690918
+  },
+  {
+    "stage": "adam",
+    "step": 303,
+    "loss_total": 631.2955932617188,
+    "loss_pde": 621.1546020507812,
+    "loss_anchor": 0.07049180567264557,
+    "loss_origin": 2.0,
+    "lie_l2": 24.9229736328125
+  },
+  {
+    "stage": "adam",
+    "step": 304,
+    "loss_total": 853.9215087890625,
+    "loss_pde": 843.7918701171875,
+    "loss_anchor": 0.06481541693210602,
+    "loss_origin": 2.0,
+    "lie_l2": 29.048095703125
+  },
+  {
+    "stage": "adam",
+    "step": 305,
+    "loss_total": 1089.52978515625,
+    "loss_pde": 1079.42041015625,
+    "loss_anchor": 0.054676830768585205,
+    "loss_origin": 2.0,
+    "lie_l2": 32.85453414916992
+  },
+  {
+    "stage": "adam",
+    "step": 306,
+    "loss_total": 980.8807983398438,
+    "loss_pde": 970.7557373046875,
+    "loss_anchor": 0.06252788752317429,
+    "loss_origin": 2.0,
+    "lie_l2": 31.156953811645508
+  },
+  {
+    "stage": "adam",
+    "step": 307,
+    "loss_total": 799.7543334960938,
+    "loss_pde": 789.6333618164062,
+    "loss_anchor": 0.06047669053077698,
+    "loss_origin": 2.0,
+    "lie_l2": 28.10041618347168
+  },
+  {
+    "stage": "adam",
+    "step": 308,
+    "loss_total": 754.4293212890625,
+    "loss_pde": 744.3229370117188,
+    "loss_anchor": 0.0532047264277935,
+    "loss_origin": 2.0,
+    "lie_l2": 27.28228187561035
+  },
+  {
+    "stage": "adam",
+    "step": 309,
+    "loss_total": 618.6259765625,
+    "loss_pde": 608.5277099609375,
+    "loss_anchor": 0.04913835972547531,
+    "loss_origin": 2.0,
+    "lie_l2": 24.668354034423828
+  },
+  {
+    "stage": "adam",
+    "step": 310,
+    "loss_total": 590.4662475585938,
+    "loss_pde": 580.3738403320312,
+    "loss_anchor": 0.04619341343641281,
+    "loss_origin": 2.0,
+    "lie_l2": 24.09095001220703
+  },
+  {
+    "stage": "adam",
+    "step": 311,
+    "loss_total": 433.6689453125,
+    "loss_pde": 423.5690002441406,
+    "loss_anchor": 0.049967266619205475,
+    "loss_origin": 2.0,
+    "lie_l2": 20.580791473388672
+  },
+  {
+    "stage": "adam",
+    "step": 312,
+    "loss_total": 722248192.0,
+    "loss_pde": 419.49163818359375,
+    "loss_anchor": 0.047019679099321365,
+    "loss_origin": 144449552.0,
+    "lie_l2": 20.481494903564453
+  },
+  {
+    "stage": "adam",
+    "step": 313,
+    "loss_total": 830293.8125,
+    "loss_pde": 505.73883056640625,
+    "loss_anchor": 0.037035249173641205,
+    "loss_origin": 165957.59375,
+    "lie_l2": 22.488637924194336
+  },
+  {
+    "stage": "adam",
+    "step": 314,
+    "loss_total": 12377.5576171875,
+    "loss_pde": 611.711181640625,
+    "loss_anchor": 0.0373794361948967,
+    "loss_origin": 2353.154296875,
+    "lie_l2": 24.73279571533203
+  },
+  {
+    "stage": "adam",
+    "step": 315,
+    "loss_total": 15201.9697265625,
+    "loss_pde": 302.2832946777344,
+    "loss_anchor": 0.03467745706439018,
+    "loss_origin": 2979.92333984375,
+    "lie_l2": 17.386295318603516
+  },
+  {
+    "stage": "adam",
+    "step": 316,
+    "loss_total": 3951.686767578125,
+    "loss_pde": 391.2189636230469,
+    "loss_anchor": 0.04408468306064606,
+    "loss_origin": 712.075927734375,
+    "lie_l2": 19.77925682067871
+  },
+  {
+    "stage": "adam",
+    "step": 317,
+    "loss_total": 1997368.75,
+    "loss_pde": 392.3675537109375,
+    "loss_anchor": 0.04347109794616699,
+    "loss_origin": 399395.25,
+    "lie_l2": 19.808269500732422
+  },
+  {
+    "stage": "adam",
+    "step": 318,
+    "loss_total": 3826734.75,
+    "loss_pde": 488.1109619140625,
+    "loss_anchor": 0.04930473119020462,
+    "loss_origin": 765249.3125,
+    "lie_l2": 22.093233108520508
+  },
+  {
+    "stage": "adam",
+    "step": 319,
+    "loss_total": 7790763.0,
+    "loss_pde": 453.2498779296875,
+    "loss_anchor": 0.05063643679022789,
+    "loss_origin": 1558061.875,
+    "lie_l2": 21.28966522216797
+  },
+  {
+    "stage": "adam",
+    "step": 320,
+    "loss_total": 2476164.5,
+    "loss_pde": 370.30072021484375,
+    "loss_anchor": 0.046091530472040176,
+    "loss_origin": 495158.8125,
+    "lie_l2": 19.24319839477539
+  },
+  {
+    "stage": "adam",
+    "step": 321,
+    "loss_total": 448.4181213378906,
+    "loss_pde": 438.3064880371094,
+    "loss_anchor": 0.05581394582986832,
+    "loss_origin": 2.0,
+    "lie_l2": 20.93577003479004
+  },
+  {
+    "stage": "adam",
+    "step": 322,
+    "loss_total": 432.7126159667969,
+    "loss_pde": 422.6269836425781,
+    "loss_anchor": 0.042810581624507904,
+    "loss_origin": 2.0,
+    "lie_l2": 20.557893753051758
+  },
+  {
+    "stage": "adam",
+    "step": 323,
+    "loss_total": 468.15826416015625,
+    "loss_pde": 458.09661865234375,
+    "loss_anchor": 0.030827835202217102,
+    "loss_origin": 2.0,
+    "lie_l2": 21.4031925201416
+  },
+  {
+    "stage": "adam",
+    "step": 324,
+    "loss_total": 315.94183349609375,
+    "loss_pde": 305.87713623046875,
+    "loss_anchor": 0.032345324754714966,
+    "loss_origin": 2.0,
+    "lie_l2": 17.489343643188477
+  },
+  {
+    "stage": "adam",
+    "step": 325,
+    "loss_total": 309.76495361328125,
+    "loss_pde": 299.70281982421875,
+    "loss_anchor": 0.031070508062839508,
+    "loss_origin": 2.0,
+    "lie_l2": 17.311927795410156
+  },
+  {
+    "stage": "adam",
+    "step": 326,
+    "loss_total": 302.0644226074219,
+    "loss_pde": 291.99041748046875,
+    "loss_anchor": 0.03699827194213867,
+    "loss_origin": 2.0,
+    "lie_l2": 17.087726593017578
+  },
+  {
+    "stage": "adam",
+    "step": 327,
+    "loss_total": 272.718505859375,
+    "loss_pde": 262.6511535644531,
+    "loss_anchor": 0.033677466213703156,
+    "loss_origin": 2.0,
+    "lie_l2": 16.20651626586914
+  },
+  {
+    "stage": "adam",
+    "step": 328,
+    "loss_total": 329.3729553222656,
+    "loss_pde": 319.3157958984375,
+    "loss_anchor": 0.028579231351614,
+    "loss_origin": 2.0,
+    "lie_l2": 17.869409561157227
+  },
+  {
+    "stage": "adam",
+    "step": 329,
+    "loss_total": 87121379328.0,
+    "loss_pde": 248.45628356933594,
+    "loss_anchor": 0.02920779213309288,
+    "loss_origin": 17424275456.0,
+    "lie_l2": 15.762495994567871
+  },
+  {
+    "stage": "adam",
+    "step": 330,
+    "loss_total": 134627760.0,
+    "loss_pde": 277.62786865234375,
+    "loss_anchor": 0.02661982551217079,
+    "loss_origin": 26925498.0,
+    "lie_l2": 16.662168502807617
+  },
+  {
+    "stage": "adam",
+    "step": 331,
+    "loss_total": 81100248.0,
+    "loss_pde": 341.5064697265625,
+    "loss_anchor": 0.023037001490592957,
+    "loss_origin": 16219981.0,
+    "lie_l2": 18.47989273071289
+  },
+  {
+    "stage": "adam",
+    "step": 332,
+    "loss_total": 267.5814208984375,
+    "loss_pde": 257.538818359375,
+    "loss_anchor": 0.021295584738254547,
+    "loss_origin": 2.0,
+    "lie_l2": 16.048015594482422
+  },
+  {
+    "stage": "adam",
+    "step": 333,
+    "loss_total": 4689581056.0,
+    "loss_pde": 226.40255737304688,
+    "loss_anchor": 0.023181306198239326,
+    "loss_origin": 937916224.0,
+    "lie_l2": 15.046679496765137
+  },
+  {
+    "stage": "adam",
+    "step": 334,
+    "loss_total": 3047000832.0,
+    "loss_pde": 224.56863403320312,
+    "loss_anchor": 0.020278271287679672,
+    "loss_origin": 609400128.0,
+    "lie_l2": 14.985613822937012
+  },
+  {
+    "stage": "adam",
+    "step": 335,
+    "loss_total": 123180192.0,
+    "loss_pde": 196.55340576171875,
+    "loss_anchor": 0.018650833517313004,
+    "loss_origin": 24635998.0,
+    "lie_l2": 14.019750595092773
+  },
+  {
+    "stage": "adam",
+    "step": 336,
+    "loss_total": 77878144.0,
+    "loss_pde": 432.7603454589844,
+    "loss_anchor": 0.025218918919563293,
+    "loss_origin": 15575543.0,
+    "lie_l2": 20.802892684936523
+  },
+  {
+    "stage": "adam",
+    "step": 337,
+    "loss_total": 34048336.0,
+    "loss_pde": 286.21826171875,
+    "loss_anchor": 0.018927134573459625,
+    "loss_origin": 6809610.0,
+    "lie_l2": 16.917985916137695
+  },
+  {
+    "stage": "adam",
+    "step": 338,
+    "loss_total": 9848576.0,
+    "loss_pde": 228.8257598876953,
+    "loss_anchor": 0.02040809765458107,
+    "loss_origin": 1969669.375,
+    "lie_l2": 15.12698745727539
+  },
+  {
+    "stage": "adam",
+    "step": 339,
+    "loss_total": 48243556.0,
+    "loss_pde": 198.51034545898438,
+    "loss_anchor": 0.020987264811992645,
+    "loss_origin": 9648671.0,
+    "lie_l2": 14.089369773864746
+  },
+  {
+    "stage": "adam",
+    "step": 340,
+    "loss_total": 92283760.0,
+    "loss_pde": 236.4801025390625,
+    "loss_anchor": 0.02301860600709915,
+    "loss_origin": 18456704.0,
+    "lie_l2": 15.377909660339355
+  },
+  {
+    "stage": "adam",
+    "step": 341,
+    "loss_total": 25728332.0,
+    "loss_pde": 269.33172607421875,
+    "loss_anchor": 0.022575318813323975,
+    "loss_origin": 5145612.5,
+    "lie_l2": 16.41132926940918
+  },
+  {
+    "stage": "adam",
+    "step": 342,
+    "loss_total": 359750.34375,
+    "loss_pde": 383.17608642578125,
+    "loss_anchor": 0.01754320040345192,
+    "loss_origin": 71873.421875,
+    "lie_l2": 19.57488441467285
+  },
+  {
+    "stage": "adam",
+    "step": 343,
+    "loss_total": 242.71127319335938,
+    "loss_pde": 232.66775512695312,
+    "loss_anchor": 0.021761242300271988,
+    "loss_origin": 2.0,
+    "lie_l2": 15.253450393676758
+  },
+  {
+    "stage": "adam",
+    "step": 344,
+    "loss_total": 175.62191772460938,
+    "loss_pde": 165.58718872070312,
+    "loss_anchor": 0.01736738160252571,
+    "loss_origin": 2.0,
+    "lie_l2": 12.86806869506836
+  },
+  {
+    "stage": "adam",
+    "step": 345,
+    "loss_total": 155.83218383789062,
+    "loss_pde": 145.80740356445312,
+    "loss_anchor": 0.01239328645169735,
+    "loss_origin": 2.0,
+    "lie_l2": 12.0750732421875
+  },
+  {
+    "stage": "adam",
+    "step": 346,
+    "loss_total": 195.883544921875,
+    "loss_pde": 185.86199951171875,
+    "loss_anchor": 0.010772010311484337,
+    "loss_origin": 2.0,
+    "lie_l2": 13.633121490478516
+  },
+  {
+    "stage": "adam",
+    "step": 347,
+    "loss_total": 155.06622314453125,
+    "loss_pde": 145.0351104736328,
+    "loss_anchor": 0.01555558666586876,
+    "loss_origin": 2.0,
+    "lie_l2": 12.043052673339844
+  },
+  {
+    "stage": "adam",
+    "step": 348,
+    "loss_total": 180.94015502929688,
+    "loss_pde": 170.90383911132812,
+    "loss_anchor": 0.018160380423069,
+    "loss_origin": 2.0,
+    "lie_l2": 13.073019981384277
+  },
+  {
+    "stage": "adam",
+    "step": 349,
+    "loss_total": 147.17494201660156,
+    "loss_pde": 137.12887573242188,
+    "loss_anchor": 0.023035647347569466,
+    "loss_origin": 2.0,
+    "lie_l2": 11.710204124450684
   },
   {
     "stage": "adam",
     "step": 350,
-    "loss_total": 7379.5830078125,
-    "loss_pde": 380.501220703125,
-    "loss_anchor": 0.1529233455657959,
-    "loss_origin": 279.902099609375,
-    "lie_l2": 19.506441116333008
+    "loss_total": 200.73455810546875,
+    "loss_pde": 190.68089294433594,
+    "loss_anchor": 0.0268307626247406,
+    "loss_origin": 2.0,
+    "lie_l2": 13.808725357055664
+  },
+  {
+    "stage": "adam",
+    "step": 351,
+    "loss_total": 116.51837158203125,
+    "loss_pde": 106.46577453613281,
+    "loss_anchor": 0.02629793807864189,
+    "loss_origin": 2.0,
+    "lie_l2": 10.318224906921387
+  },
+  {
+    "stage": "adam",
+    "step": 352,
+    "loss_total": 109.5539779663086,
+    "loss_pde": 99.51144409179688,
+    "loss_anchor": 0.021266356110572815,
+    "loss_origin": 2.0,
+    "lie_l2": 9.975542068481445
+  },
+  {
+    "stage": "adam",
+    "step": 353,
+    "loss_total": 77.35381317138672,
+    "loss_pde": 67.32376098632812,
+    "loss_anchor": 0.015026473440229893,
+    "loss_origin": 2.0,
+    "lie_l2": 8.205105781555176
+  },
+  {
+    "stage": "adam",
+    "step": 354,
+    "loss_total": 59.99812698364258,
+    "loss_pde": 49.975711822509766,
+    "loss_anchor": 0.01120691280812025,
+    "loss_origin": 2.0,
+    "lie_l2": 7.069350242614746
+  },
+  {
+    "stage": "adam",
+    "step": 355,
+    "loss_total": 91.39381408691406,
+    "loss_pde": 81.36953735351562,
+    "loss_anchor": 0.012137951329350471,
+    "loss_origin": 2.0,
+    "lie_l2": 9.020506858825684
+  },
+  {
+    "stage": "adam",
+    "step": 356,
+    "loss_total": 214.99134826660156,
+    "loss_pde": 204.955078125,
+    "loss_anchor": 0.018134810030460358,
+    "loss_origin": 2.0,
+    "lie_l2": 14.316252708435059
+  },
+  {
+    "stage": "adam",
+    "step": 357,
+    "loss_total": 151.40284729003906,
+    "loss_pde": 141.34815979003906,
+    "loss_anchor": 0.02734304592013359,
+    "loss_origin": 2.0,
+    "lie_l2": 11.888993263244629
+  },
+  {
+    "stage": "adam",
+    "step": 358,
+    "loss_total": 185.66696166992188,
+    "loss_pde": 175.6017608642578,
+    "loss_anchor": 0.03259851410984993,
+    "loss_origin": 2.0,
+    "lie_l2": 13.251481056213379
+  },
+  {
+    "stage": "adam",
+    "step": 359,
+    "loss_total": 63.798370361328125,
+    "loss_pde": 53.72353744506836,
+    "loss_anchor": 0.037415534257888794,
+    "loss_origin": 2.0,
+    "lie_l2": 7.329634189605713
+  },
+  {
+    "stage": "adam",
+    "step": 360,
+    "loss_total": 45.549888610839844,
+    "loss_pde": 35.48810958862305,
+    "loss_anchor": 0.030890464782714844,
+    "loss_origin": 2.0,
+    "lie_l2": 5.957189559936523
+  },
+  {
+    "stage": "adam",
+    "step": 361,
+    "loss_total": 53.387939453125,
+    "loss_pde": 43.35824203491211,
+    "loss_anchor": 0.01484818197786808,
+    "loss_origin": 2.0,
+    "lie_l2": 6.584697723388672
+  },
+  {
+    "stage": "adam",
+    "step": 362,
+    "loss_total": 51.042938232421875,
+    "loss_pde": 41.020713806152344,
+    "loss_anchor": 0.011112619191408157,
+    "loss_origin": 2.0,
+    "lie_l2": 6.404741287231445
+  },
+  {
+    "stage": "adam",
+    "step": 363,
+    "loss_total": 48.09764862060547,
+    "loss_pde": 38.07066345214844,
+    "loss_anchor": 0.013493343256413937,
+    "loss_origin": 2.0,
+    "lie_l2": 6.170143127441406
+  },
+  {
+    "stage": "adam",
+    "step": 364,
+    "loss_total": 64.84788513183594,
+    "loss_pde": 54.813316345214844,
+    "loss_anchor": 0.01728251576423645,
+    "loss_origin": 2.0,
+    "lie_l2": 7.40360164642334
+  },
+  {
+    "stage": "adam",
+    "step": 365,
+    "loss_total": 236.00611877441406,
+    "loss_pde": 225.9627227783203,
+    "loss_anchor": 0.021701613441109657,
+    "loss_origin": 2.0,
+    "lie_l2": 15.03205680847168
+  },
+  {
+    "stage": "adam",
+    "step": 366,
+    "loss_total": 52.56621551513672,
+    "loss_pde": 42.50374221801758,
+    "loss_anchor": 0.031236059963703156,
+    "loss_origin": 2.0,
+    "lie_l2": 6.519489288330078
+  },
+  {
+    "stage": "adam",
+    "step": 367,
+    "loss_total": 44.26616668701172,
+    "loss_pde": 34.20697021484375,
+    "loss_anchor": 0.029598915949463844,
+    "loss_origin": 2.0,
+    "lie_l2": 5.848672389984131
+  },
+  {
+    "stage": "adam",
+    "step": 368,
+    "loss_total": 41.42476272583008,
+    "loss_pde": 31.37471580505371,
+    "loss_anchor": 0.025023028254508972,
+    "loss_origin": 2.0,
+    "lie_l2": 5.601313591003418
+  },
+  {
+    "stage": "adam",
+    "step": 369,
+    "loss_total": 90.43689727783203,
+    "loss_pde": 80.4049301147461,
+    "loss_anchor": 0.01598300412297249,
+    "loss_origin": 2.0,
+    "lie_l2": 8.966879844665527
+  },
+  {
+    "stage": "adam",
+    "step": 370,
+    "loss_total": 44.35758590698242,
+    "loss_pde": 34.33810806274414,
+    "loss_anchor": 0.009739771485328674,
+    "loss_origin": 2.0,
+    "lie_l2": 5.859872817993164
+  },
+  {
+    "stage": "adam",
+    "step": 371,
+    "loss_total": 115.61067962646484,
+    "loss_pde": 105.59091186523438,
+    "loss_anchor": 0.00988471508026123,
+    "loss_origin": 2.0,
+    "lie_l2": 10.27574348449707
+  },
+  {
+    "stage": "adam",
+    "step": 372,
+    "loss_total": 66.9178466796875,
+    "loss_pde": 56.89433288574219,
+    "loss_anchor": 0.011754141189157963,
+    "loss_origin": 2.0,
+    "lie_l2": 7.54283332824707
+  },
+  {
+    "stage": "adam",
+    "step": 373,
+    "loss_total": 48.77812957763672,
+    "loss_pde": 38.75346374511719,
+    "loss_anchor": 0.012332352809607983,
+    "loss_origin": 2.0,
+    "lie_l2": 6.2252278327941895
+  },
+  {
+    "stage": "adam",
+    "step": 374,
+    "loss_total": 38.50120162963867,
+    "loss_pde": 28.471721649169922,
+    "loss_anchor": 0.014739606529474258,
+    "loss_origin": 2.0,
+    "lie_l2": 5.33588981628418
+  },
+  {
+    "stage": "adam",
+    "step": 375,
+    "loss_total": 64.04345703125,
+    "loss_pde": 54.02130889892578,
+    "loss_anchor": 0.011071744374930859,
+    "loss_origin": 2.0,
+    "lie_l2": 7.349918842315674
+  },
+  {
+    "stage": "adam",
+    "step": 376,
+    "loss_total": 83.01334381103516,
+    "loss_pde": 72.99264526367188,
+    "loss_anchor": 0.010350462049245834,
+    "loss_origin": 2.0,
+    "lie_l2": 8.543573379516602
+  },
+  {
+    "stage": "adam",
+    "step": 377,
+    "loss_total": 38.535118103027344,
+    "loss_pde": 28.521034240722656,
+    "loss_anchor": 0.0070417942479252815,
+    "loss_origin": 2.0,
+    "lie_l2": 5.340508937835693
+  },
+  {
+    "stage": "adam",
+    "step": 378,
+    "loss_total": 39.17466354370117,
+    "loss_pde": 29.16483497619629,
+    "loss_anchor": 0.004914308898150921,
+    "loss_origin": 2.0,
+    "lie_l2": 5.400447845458984
+  },
+  {
+    "stage": "adam",
+    "step": 379,
+    "loss_total": 30.602365493774414,
+    "loss_pde": 20.58840560913086,
+    "loss_anchor": 0.006979326251894236,
+    "loss_origin": 2.0,
+    "lie_l2": 4.537445068359375
+  },
+  {
+    "stage": "adam",
+    "step": 380,
+    "loss_total": 28.171611785888672,
+    "loss_pde": 18.15258026123047,
+    "loss_anchor": 0.009515047073364258,
+    "loss_origin": 2.0,
+    "lie_l2": 4.260584354400635
+  },
+  {
+    "stage": "adam",
+    "step": 381,
+    "loss_total": 28.817516326904297,
+    "loss_pde": 18.799650192260742,
+    "loss_anchor": 0.008931668475270271,
+    "loss_origin": 2.0,
+    "lie_l2": 4.3358564376831055
+  },
+  {
+    "stage": "adam",
+    "step": 382,
+    "loss_total": 27.510738372802734,
+    "loss_pde": 17.499372482299805,
+    "loss_anchor": 0.005681892391294241,
+    "loss_origin": 2.0,
+    "lie_l2": 4.183225154876709
+  },
+  {
+    "stage": "adam",
+    "step": 383,
+    "loss_total": 29.404062271118164,
+    "loss_pde": 19.39419174194336,
+    "loss_anchor": 0.004934471100568771,
+    "loss_origin": 2.0,
+    "lie_l2": 4.403883934020996
+  },
+  {
+    "stage": "adam",
+    "step": 384,
+    "loss_total": 27.563169479370117,
+    "loss_pde": 17.547739028930664,
+    "loss_anchor": 0.00771445082500577,
+    "loss_origin": 2.0,
+    "lie_l2": 4.18900203704834
+  },
+  {
+    "stage": "adam",
+    "step": 385,
+    "loss_total": 22.89599609375,
+    "loss_pde": 12.87800407409668,
+    "loss_anchor": 0.00899510644376278,
+    "loss_origin": 2.0,
+    "lie_l2": 3.5885937213897705
+  },
+  {
+    "stage": "adam",
+    "step": 386,
+    "loss_total": 67.0557632446289,
+    "loss_pde": 57.033447265625,
+    "loss_anchor": 0.011158651672303677,
+    "loss_origin": 2.0,
+    "lie_l2": 7.552049160003662
+  },
+  {
+    "stage": "adam",
+    "step": 387,
+    "loss_total": 76.34022521972656,
+    "loss_pde": 66.31752014160156,
+    "loss_anchor": 0.01135075744241476,
+    "loss_origin": 2.0,
+    "lie_l2": 8.143556594848633
+  },
+  {
+    "stage": "adam",
+    "step": 388,
+    "loss_total": 47.129085540771484,
+    "loss_pde": 37.10166931152344,
+    "loss_anchor": 0.013707799836993217,
+    "loss_origin": 2.0,
+    "lie_l2": 6.091114044189453
+  },
+  {
+    "stage": "adam",
+    "step": 389,
+    "loss_total": 88.70482635498047,
+    "loss_pde": 78.67855834960938,
+    "loss_anchor": 0.013132977299392223,
+    "loss_origin": 2.0,
+    "lie_l2": 8.87009334564209
+  },
+  {
+    "stage": "adam",
+    "step": 390,
+    "loss_total": 25.085264205932617,
+    "loss_pde": 15.068658828735352,
+    "loss_anchor": 0.008302112109959126,
+    "loss_origin": 2.0,
+    "lie_l2": 3.8818371295928955
+  },
+  {
+    "stage": "adam",
+    "step": 391,
+    "loss_total": 154.4761505126953,
+    "loss_pde": 144.46487426757812,
+    "loss_anchor": 0.005634658969938755,
+    "loss_origin": 2.0,
+    "lie_l2": 12.019353866577148
+  },
+  {
+    "stage": "adam",
+    "step": 392,
+    "loss_total": 20.159990310668945,
+    "loss_pde": 10.152509689331055,
+    "loss_anchor": 0.0037390869110822678,
+    "loss_origin": 2.0,
+    "lie_l2": 3.186300277709961
+  },
+  {
+    "stage": "adam",
+    "step": 393,
+    "loss_total": 22.484771728515625,
+    "loss_pde": 12.475563049316406,
+    "loss_anchor": 0.004603272303938866,
+    "loss_origin": 2.0,
+    "lie_l2": 3.532076358795166
+  },
+  {
+    "stage": "adam",
+    "step": 394,
+    "loss_total": 20.001636505126953,
+    "loss_pde": 9.990245819091797,
+    "loss_anchor": 0.005694572813808918,
+    "loss_origin": 2.0,
+    "lie_l2": 3.1607351303100586
+  },
+  {
+    "stage": "adam",
+    "step": 395,
+    "loss_total": 2180844288.0,
+    "loss_pde": 10.021295547485352,
+    "loss_anchor": 0.006538840476423502,
+    "loss_origin": 436168864.0,
+    "lie_l2": 3.1656429767608643
+  },
+  {
+    "stage": "adam",
+    "step": 396,
+    "loss_total": 2863740.5,
+    "loss_pde": 8.891057968139648,
+    "loss_anchor": 0.006236081011593342,
+    "loss_origin": 572746.3125,
+    "lie_l2": 2.98178768157959
+  },
+  {
+    "stage": "adam",
+    "step": 397,
+    "loss_total": 710557.3125,
+    "loss_pde": 10.460719108581543,
+    "loss_anchor": 0.005807694047689438,
+    "loss_origin": 142109.359375,
+    "lie_l2": 3.2343034744262695
+  },
+  {
+    "stage": "adam",
+    "step": 398,
+    "loss_total": 21.771547317504883,
+    "loss_pde": 11.75845718383789,
+    "loss_anchor": 0.0065438104793429375,
+    "loss_origin": 2.0,
+    "lie_l2": 3.429060697555542
+  },
+  {
+    "stage": "adam",
+    "step": 399,
+    "loss_total": 38.8890380859375,
+    "loss_pde": 28.880168914794922,
+    "loss_anchor": 0.004435810726135969,
+    "loss_origin": 2.0,
+    "lie_l2": 5.374027252197266
   },
   {
     "stage": "adam",
     "step": 400,
-    "loss_total": 6702.06640625,
-    "loss_pde": 403.0606689453125,
-    "loss_anchor": 0.16641858220100403,
-    "loss_origin": 251.89366149902344,
-    "lie_l2": 20.076370239257812
+    "loss_total": 27.614971160888672,
+    "loss_pde": 17.60671043395996,
+    "loss_anchor": 0.004129459615796804,
+    "loss_origin": 2.0,
+    "lie_l2": 4.196034908294678
+  },
+  {
+    "stage": "adam",
+    "step": 401,
+    "loss_total": 27.706043243408203,
+    "loss_pde": 17.699993133544922,
+    "loss_anchor": 0.0030238539911806583,
+    "loss_origin": 2.0,
+    "lie_l2": 4.207136154174805
+  },
+  {
+    "stage": "adam",
+    "step": 402,
+    "loss_total": 72.6827392578125,
+    "loss_pde": 62.676265716552734,
+    "loss_anchor": 0.0032352579291909933,
+    "loss_origin": 2.0,
+    "lie_l2": 7.916834354400635
+  },
+  {
+    "stage": "adam",
+    "step": 403,
+    "loss_total": 103252016.0,
+    "loss_pde": 9.565303802490234,
+    "loss_anchor": 0.0032897545024752617,
+    "loss_origin": 20650402.0,
+    "lie_l2": 3.092782497406006
+  },
+  {
+    "stage": "adam",
+    "step": 404,
+    "loss_total": 341727.03125,
+    "loss_pde": 9.701177597045898,
+    "loss_anchor": 0.0030225624796003103,
+    "loss_origin": 68343.4609375,
+    "lie_l2": 3.114671230316162
+  },
+  {
+    "stage": "adam",
+    "step": 405,
+    "loss_total": 116989.7421875,
+    "loss_pde": 16.219614028930664,
+    "loss_anchor": 0.0030809142626821995,
+    "loss_origin": 23394.703125,
+    "lie_l2": 4.027358055114746
+  },
+  {
+    "stage": "adam",
+    "step": 406,
+    "loss_total": 68.92491149902344,
+    "loss_pde": 58.91961669921875,
+    "loss_anchor": 0.0026490127202123404,
+    "loss_origin": 2.0,
+    "lie_l2": 7.6759114265441895
+  },
+  {
+    "stage": "adam",
+    "step": 407,
+    "loss_total": 36.21232604980469,
+    "loss_pde": 26.205350875854492,
+    "loss_anchor": 0.0034866512287408113,
+    "loss_origin": 2.0,
+    "lie_l2": 5.119116306304932
+  },
+  {
+    "stage": "adam",
+    "step": 408,
+    "loss_total": 23.197813034057617,
+    "loss_pde": 13.190834999084473,
+    "loss_anchor": 0.003487396752461791,
+    "loss_origin": 2.0,
+    "lie_l2": 3.6319189071655273
+  },
+  {
+    "stage": "adam",
+    "step": 409,
+    "loss_total": 111.48828125,
+    "loss_pde": 101.482421875,
+    "loss_anchor": 0.002928405534476042,
+    "loss_origin": 2.0,
+    "lie_l2": 10.073848724365234
+  },
+  {
+    "stage": "adam",
+    "step": 410,
+    "loss_total": 17.269758224487305,
+    "loss_pde": 7.264852523803711,
+    "loss_anchor": 0.0024516130797564983,
+    "loss_origin": 2.0,
+    "lie_l2": 2.6953389644622803
+  },
+  {
+    "stage": "adam",
+    "step": 411,
+    "loss_total": 22799836.0,
+    "loss_pde": 6.002384185791016,
+    "loss_anchor": 0.0027092781383544207,
+    "loss_origin": 4559966.0,
+    "lie_l2": 2.4499764442443848
+  },
+  {
+    "stage": "adam",
+    "step": 412,
+    "loss_total": 1680247.25,
+    "loss_pde": 10.531232833862305,
+    "loss_anchor": 0.0018167451489716768,
+    "loss_origin": 336047.34375,
+    "lie_l2": 3.2451860904693604
+  },
+  {
+    "stage": "adam",
+    "step": 413,
+    "loss_total": 247325.390625,
+    "loss_pde": 20.92966079711914,
+    "loss_anchor": 0.0017663653707131743,
+    "loss_origin": 49460.890625,
+    "lie_l2": 4.574894428253174
+  },
+  {
+    "stage": "adam",
+    "step": 414,
+    "loss_total": 16.942508697509766,
+    "loss_pde": 6.938694000244141,
+    "loss_anchor": 0.0019062799401581287,
+    "loss_origin": 2.0,
+    "lie_l2": 2.6341400146484375
+  },
+  {
+    "stage": "adam",
+    "step": 415,
+    "loss_total": 17.172826766967773,
+    "loss_pde": 7.169106483459473,
+    "loss_anchor": 0.0018590076360851526,
+    "loss_origin": 2.0,
+    "lie_l2": 2.677518606185913
+  },
+  {
+    "stage": "adam",
+    "step": 416,
+    "loss_total": 20.429874420166016,
+    "loss_pde": 10.426933288574219,
+    "loss_anchor": 0.0014698095619678497,
+    "loss_origin": 2.0,
+    "lie_l2": 3.2290761470794678
+  },
+  {
+    "stage": "adam",
+    "step": 417,
+    "loss_total": 19.092599868774414,
+    "loss_pde": 9.089250564575195,
+    "loss_anchor": 0.0016742546577006578,
+    "loss_origin": 2.0,
+    "lie_l2": 3.014838457107544
+  },
+  {
+    "stage": "adam",
+    "step": 418,
+    "loss_total": 17.970094680786133,
+    "loss_pde": 7.964580535888672,
+    "loss_anchor": 0.002756653819233179,
+    "loss_origin": 2.0,
+    "lie_l2": 2.8221588134765625
+  },
+  {
+    "stage": "adam",
+    "step": 419,
+    "loss_total": 18.750051498413086,
+    "loss_pde": 8.741427421569824,
+    "loss_anchor": 0.004310828633606434,
+    "loss_origin": 2.0,
+    "lie_l2": 2.956590414047241
+  },
+  {
+    "stage": "adam",
+    "step": 420,
+    "loss_total": 16.50116539001465,
+    "loss_pde": 6.493778705596924,
+    "loss_anchor": 0.003692843485623598,
+    "loss_origin": 2.0,
+    "lie_l2": 2.5482892990112305
+  },
+  {
+    "stage": "adam",
+    "step": 421,
+    "loss_total": 17.48845863342285,
+    "loss_pde": 7.483010292053223,
+    "loss_anchor": 0.0027232388965785503,
+    "loss_origin": 2.0,
+    "lie_l2": 2.735509157180786
+  },
+  {
+    "stage": "adam",
+    "step": 422,
+    "loss_total": 14.796468734741211,
+    "loss_pde": 4.794033527374268,
+    "loss_anchor": 0.0012168863322585821,
+    "loss_origin": 2.0,
+    "lie_l2": 2.189528226852417
+  },
+  {
+    "stage": "adam",
+    "step": 423,
+    "loss_total": 14.865642547607422,
+    "loss_pde": 4.862249374389648,
+    "loss_anchor": 0.0016955877654254436,
+    "loss_origin": 2.0,
+    "lie_l2": 2.2050509452819824
+  },
+  {
+    "stage": "adam",
+    "step": 424,
+    "loss_total": 13.762210845947266,
+    "loss_pde": 3.7571463584899902,
+    "loss_anchor": 0.0025313773658126593,
+    "loss_origin": 2.0,
+    "lie_l2": 1.9383360147476196
+  },
+  {
+    "stage": "adam",
+    "step": 425,
+    "loss_total": 13.617687225341797,
+    "loss_pde": 3.6146597862243652,
+    "loss_anchor": 0.001512609189376235,
+    "loss_origin": 2.0,
+    "lie_l2": 1.9012258052825928
+  },
+  {
+    "stage": "adam",
+    "step": 426,
+    "loss_total": 13.064878463745117,
+    "loss_pde": 3.0633811950683594,
+    "loss_anchor": 0.0007479321793653071,
+    "loss_origin": 2.0,
+    "lie_l2": 1.7502517700195312
+  },
+  {
+    "stage": "adam",
+    "step": 427,
+    "loss_total": 13.571311950683594,
+    "loss_pde": 3.5669422149658203,
+    "loss_anchor": 0.0021841037087142467,
+    "loss_origin": 2.0,
+    "lie_l2": 1.8886350393295288
+  },
+  {
+    "stage": "adam",
+    "step": 428,
+    "loss_total": 12.933553695678711,
+    "loss_pde": 2.9273324012756348,
+    "loss_anchor": 0.0031095449812710285,
+    "loss_origin": 2.0,
+    "lie_l2": 1.7109448909759521
+  },
+  {
+    "stage": "adam",
+    "step": 429,
+    "loss_total": 12.048179626464844,
+    "loss_pde": 2.044180393218994,
+    "loss_anchor": 0.0019987986888736486,
+    "loss_origin": 2.0,
+    "lie_l2": 1.4297484159469604
+  },
+  {
+    "stage": "adam",
+    "step": 430,
+    "loss_total": 12.57813835144043,
+    "loss_pde": 2.5768706798553467,
+    "loss_anchor": 0.0006327136652544141,
+    "loss_origin": 2.0,
+    "lie_l2": 1.6052634716033936
+  },
+  {
+    "stage": "adam",
+    "step": 431,
+    "loss_total": 12.242326736450195,
+    "loss_pde": 2.239715576171875,
+    "loss_anchor": 0.0013043791987001896,
+    "loss_origin": 2.0,
+    "lie_l2": 1.496567964553833
+  },
+  {
+    "stage": "adam",
+    "step": 432,
+    "loss_total": 14.158926963806152,
+    "loss_pde": 4.156391620635986,
+    "loss_anchor": 0.0012666441034525633,
+    "loss_origin": 2.0,
+    "lie_l2": 2.0387229919433594
+  },
+  {
+    "stage": "adam",
+    "step": 433,
+    "loss_total": 12.780256271362305,
+    "loss_pde": 2.779322385787964,
+    "loss_anchor": 0.0004658567486330867,
+    "loss_origin": 2.0,
+    "lie_l2": 1.6671299934387207
+  },
+  {
+    "stage": "adam",
+    "step": 434,
+    "loss_total": 12.3896484375,
+    "loss_pde": 2.3883535861968994,
+    "loss_anchor": 0.0006462268647737801,
+    "loss_origin": 2.0,
+    "lie_l2": 1.5454299449920654
+  },
+  {
+    "stage": "adam",
+    "step": 435,
+    "loss_total": 12.614625930786133,
+    "loss_pde": 2.6120309829711914,
+    "loss_anchor": 0.0012964140623807907,
+    "loss_origin": 2.0,
+    "lie_l2": 1.6161779165267944
+  },
+  {
+    "stage": "adam",
+    "step": 436,
+    "loss_total": 12.287403106689453,
+    "loss_pde": 2.2840166091918945,
+    "loss_anchor": 0.0016921975184231997,
+    "loss_origin": 2.0,
+    "lie_l2": 1.5112963914871216
+  },
+  {
+    "stage": "adam",
+    "step": 437,
+    "loss_total": 12.076353073120117,
+    "loss_pde": 2.0748414993286133,
+    "loss_anchor": 0.000754880195017904,
+    "loss_origin": 2.0,
+    "lie_l2": 1.440430998802185
+  },
+  {
+    "stage": "adam",
+    "step": 438,
+    "loss_total": 12.879986763000488,
+    "loss_pde": 2.878602981567383,
+    "loss_anchor": 0.0006907787173986435,
+    "loss_origin": 2.0,
+    "lie_l2": 1.69664466381073
+  },
+  {
+    "stage": "adam",
+    "step": 439,
+    "loss_total": 11.673046112060547,
+    "loss_pde": 1.6703978776931763,
+    "loss_anchor": 0.0013229490723460913,
+    "loss_origin": 2.0,
+    "lie_l2": 1.2924387454986572
+  },
+  {
+    "stage": "adam",
+    "step": 440,
+    "loss_total": 10.884695053100586,
+    "loss_pde": 0.8828206062316895,
+    "loss_anchor": 0.0009361285483464599,
+    "loss_origin": 2.0,
+    "lie_l2": 0.9395853281021118
+  },
+  {
+    "stage": "adam",
+    "step": 441,
+    "loss_total": 10.830942153930664,
+    "loss_pde": 0.8298611640930176,
+    "loss_anchor": 0.0005393455503508449,
+    "loss_origin": 2.0,
+    "lie_l2": 0.9109671711921692
+  },
+  {
+    "stage": "adam",
+    "step": 442,
+    "loss_total": 12.931221008300781,
+    "loss_pde": 2.9269723892211914,
+    "loss_anchor": 0.0021233183797448874,
+    "loss_origin": 2.0,
+    "lie_l2": 1.7108396291732788
+  },
+  {
+    "stage": "adam",
+    "step": 443,
+    "loss_total": 10.994791984558105,
+    "loss_pde": 0.987928032875061,
+    "loss_anchor": 0.0034308116883039474,
+    "loss_origin": 2.0,
+    "lie_l2": 0.9939457178115845
+  },
+  {
+    "stage": "adam",
+    "step": 444,
+    "loss_total": 11.010997772216797,
+    "loss_pde": 1.0097694396972656,
+    "loss_anchor": 0.000612945354077965,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0048727989196777
+  },
+  {
+    "stage": "adam",
+    "step": 445,
+    "loss_total": 11.299275398254395,
+    "loss_pde": 1.2982187271118164,
+    "loss_anchor": 0.0005274486029520631,
+    "loss_origin": 2.0,
+    "lie_l2": 1.1393940448760986
+  },
+  {
+    "stage": "adam",
+    "step": 446,
+    "loss_total": 10.618402481079102,
+    "loss_pde": 0.6119579672813416,
+    "loss_anchor": 0.0032213423401117325,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7822774052619934
+  },
+  {
+    "stage": "adam",
+    "step": 447,
+    "loss_total": 11.133864402770996,
+    "loss_pde": 1.1330466270446777,
+    "loss_anchor": 0.0004079687059856951,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0644466876983643
+  },
+  {
+    "stage": "adam",
+    "step": 448,
+    "loss_total": 11.96780776977539,
+    "loss_pde": 1.965723991394043,
+    "loss_anchor": 0.0010410534450784326,
+    "loss_origin": 2.0,
+    "lie_l2": 1.4020427465438843
+  },
+  {
+    "stage": "adam",
+    "step": 449,
+    "loss_total": 11.344855308532715,
+    "loss_pde": 1.3376697301864624,
+    "loss_anchor": 0.003591822227463126,
+    "loss_origin": 2.0,
+    "lie_l2": 1.1565767526626587
   },
   {
     "stage": "adam",
     "step": 450,
-    "loss_total": 6015.9423828125,
-    "loss_pde": 351.59576416015625,
-    "loss_anchor": 0.14766377210617065,
-    "loss_origin": 226.51480102539062,
-    "lie_l2": 18.750886917114258
+    "loss_total": 12.720096588134766,
+    "loss_pde": 2.708481788635254,
+    "loss_anchor": 0.005806431174278259,
+    "loss_origin": 2.0,
+    "lie_l2": 1.6457465887069702
+  },
+  {
+    "stage": "adam",
+    "step": 451,
+    "loss_total": 11.826008796691895,
+    "loss_pde": 1.8119767904281616,
+    "loss_anchor": 0.0070150140672922134,
+    "loss_origin": 2.0,
+    "lie_l2": 1.3460968732833862
+  },
+  {
+    "stage": "adam",
+    "step": 452,
+    "loss_total": 11.35931396484375,
+    "loss_pde": 1.3475549221038818,
+    "loss_anchor": 0.00587866036221385,
+    "loss_origin": 2.0,
+    "lie_l2": 1.1608422994613647
+  },
+  {
+    "stage": "adam",
+    "step": 453,
+    "loss_total": 11.450735092163086,
+    "loss_pde": 1.4445102214813232,
+    "loss_anchor": 0.003111309837549925,
+    "loss_origin": 2.0,
+    "lie_l2": 1.2018778324127197
+  },
+  {
+    "stage": "adam",
+    "step": 454,
+    "loss_total": 11.038582801818848,
+    "loss_pde": 1.037416696548462,
+    "loss_anchor": 0.0005821974482387304,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0185365676879883
+  },
+  {
+    "stage": "adam",
+    "step": 455,
+    "loss_total": 17.222320556640625,
+    "loss_pde": 7.221306324005127,
+    "loss_anchor": 0.0005059763789176941,
+    "loss_origin": 2.0,
+    "lie_l2": 2.687248945236206
+  },
+  {
+    "stage": "adam",
+    "step": 456,
+    "loss_total": 11.073122024536133,
+    "loss_pde": 1.0682655572891235,
+    "loss_anchor": 0.002427182160317898,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0335693359375
+  },
+  {
+    "stage": "adam",
+    "step": 457,
+    "loss_total": 13.583782196044922,
+    "loss_pde": 3.580352306365967,
+    "loss_anchor": 0.0017141199205070734,
+    "loss_origin": 2.0,
+    "lie_l2": 1.8921818733215332
+  },
+  {
+    "stage": "adam",
+    "step": 458,
+    "loss_total": 11.639800071716309,
+    "loss_pde": 1.636653184890747,
+    "loss_anchor": 0.00157268438488245,
+    "loss_origin": 2.0,
+    "lie_l2": 1.2793174982070923
+  },
+  {
+    "stage": "adam",
+    "step": 459,
+    "loss_total": 12.192078590393066,
+    "loss_pde": 2.189756155014038,
+    "loss_anchor": 0.0011603295570239425,
+    "loss_origin": 2.0,
+    "lie_l2": 1.4797824621200562
+  },
+  {
+    "stage": "adam",
+    "step": 460,
+    "loss_total": 11.373936653137207,
+    "loss_pde": 1.372666358947754,
+    "loss_anchor": 0.0006342984270304441,
+    "loss_origin": 2.0,
+    "lie_l2": 1.1716084480285645
+  },
+  {
+    "stage": "adam",
+    "step": 461,
+    "loss_total": 11.642927169799805,
+    "loss_pde": 1.6420038938522339,
+    "loss_anchor": 0.0004605258582159877,
+    "loss_origin": 2.0,
+    "lie_l2": 1.2814069986343384
+  },
+  {
+    "stage": "adam",
+    "step": 462,
+    "loss_total": 10.690709114074707,
+    "loss_pde": 0.6899141073226929,
+    "loss_anchor": 0.0003965261857956648,
+    "loss_origin": 2.0,
+    "lie_l2": 0.8306106925010681
+  },
+  {
+    "stage": "adam",
+    "step": 463,
+    "loss_total": 10.47606372833252,
+    "loss_pde": 0.47533300518989563,
+    "loss_anchor": 0.00036437661037780344,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6894440054893494
+  },
+  {
+    "stage": "adam",
+    "step": 464,
+    "loss_total": 10.437358856201172,
+    "loss_pde": 0.43657660484313965,
+    "loss_anchor": 0.000390038825571537,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6607394218444824
+  },
+  {
+    "stage": "adam",
+    "step": 465,
+    "loss_total": 10.512104034423828,
+    "loss_pde": 0.5110408067703247,
+    "loss_anchor": 0.0005309031112119555,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7148711681365967
+  },
+  {
+    "stage": "adam",
+    "step": 466,
+    "loss_total": 10.458353996276855,
+    "loss_pde": 0.4577532410621643,
+    "loss_anchor": 0.0002993552479892969,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6765746474266052
+  },
+  {
+    "stage": "adam",
+    "step": 467,
+    "loss_total": 10.49122428894043,
+    "loss_pde": 0.49062657356262207,
+    "loss_anchor": 0.0002977313124574721,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7004473805427551
+  },
+  {
+    "stage": "adam",
+    "step": 468,
+    "loss_total": 11.03641414642334,
+    "loss_pde": 1.034578800201416,
+    "loss_anchor": 0.0009168960386887193,
+    "loss_origin": 2.0,
+    "lie_l2": 1.017142415046692
+  },
+  {
+    "stage": "adam",
+    "step": 469,
+    "loss_total": 10.474559783935547,
+    "loss_pde": 0.4703945219516754,
+    "loss_anchor": 0.0020819115452468395,
+    "loss_origin": 2.0,
+    "lie_l2": 0.685853123664856
+  },
+  {
+    "stage": "adam",
+    "step": 470,
+    "loss_total": 10.490631103515625,
+    "loss_pde": 0.4877610504627228,
+    "loss_anchor": 0.0014340007910504937,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6983989477157593
+  },
+  {
+    "stage": "adam",
+    "step": 471,
+    "loss_total": 10.345661163330078,
+    "loss_pde": 0.34522849321365356,
+    "loss_anchor": 0.00021533758263103664,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5875614881515503
+  },
+  {
+    "stage": "adam",
+    "step": 472,
+    "loss_total": 10.434309005737305,
+    "loss_pde": 0.4295092225074768,
+    "loss_anchor": 0.0023987237364053726,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6553695201873779
+  },
+  {
+    "stage": "adam",
+    "step": 473,
+    "loss_total": 10.298807144165039,
+    "loss_pde": 0.29251858592033386,
+    "loss_anchor": 0.003143275622278452,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5408498644828796
+  },
+  {
+    "stage": "adam",
+    "step": 474,
+    "loss_total": 10.468002319335938,
+    "loss_pde": 0.46661069989204407,
+    "loss_anchor": 0.000694909249432385,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6830890774726868
+  },
+  {
+    "stage": "adam",
+    "step": 475,
+    "loss_total": 10.683981895446777,
+    "loss_pde": 0.6831272840499878,
+    "loss_anchor": 0.00042614241829141974,
+    "loss_origin": 2.0,
+    "lie_l2": 0.8265151381492615
+  },
+  {
+    "stage": "adam",
+    "step": 476,
+    "loss_total": 16.23644256591797,
+    "loss_pde": 6.2323503494262695,
+    "loss_anchor": 0.0020448295399546623,
+    "loss_origin": 2.0,
+    "lie_l2": 2.4964675903320312
+  },
+  {
+    "stage": "adam",
+    "step": 477,
+    "loss_total": 10.84364128112793,
+    "loss_pde": 0.8327518701553345,
+    "loss_anchor": 0.005443664733320475,
+    "loss_origin": 2.0,
+    "lie_l2": 0.9125524163246155
+  },
+  {
+    "stage": "adam",
+    "step": 478,
+    "loss_total": 11.760636329650879,
+    "loss_pde": 1.7455908060073853,
+    "loss_anchor": 0.0075218286365270615,
+    "loss_origin": 2.0,
+    "lie_l2": 1.321208119392395
+  },
+  {
+    "stage": "adam",
+    "step": 479,
+    "loss_total": 11.384908676147461,
+    "loss_pde": 1.3663365840911865,
+    "loss_anchor": 0.009284860454499722,
+    "loss_origin": 2.0,
+    "lie_l2": 1.1689040660858154
+  },
+  {
+    "stage": "adam",
+    "step": 480,
+    "loss_total": 26.34429168701172,
+    "loss_pde": 16.330707550048828,
+    "loss_anchor": 0.006790757179260254,
+    "loss_origin": 2.0,
+    "lie_l2": 4.0411272048950195
+  },
+  {
+    "stage": "adam",
+    "step": 481,
+    "loss_total": 11.901252746582031,
+    "loss_pde": 1.8897713422775269,
+    "loss_anchor": 0.0057395161129534245,
+    "loss_origin": 2.0,
+    "lie_l2": 1.3746895790100098
+  },
+  {
+    "stage": "adam",
+    "step": 482,
+    "loss_total": 12.844165802001953,
+    "loss_pde": 2.8351244926452637,
+    "loss_anchor": 0.004519755020737648,
+    "loss_origin": 2.0,
+    "lie_l2": 1.6837828159332275
+  },
+  {
+    "stage": "adam",
+    "step": 483,
+    "loss_total": 12.483237266540527,
+    "loss_pde": 2.477525472640991,
+    "loss_anchor": 0.0028549530543386936,
+    "loss_origin": 2.0,
+    "lie_l2": 1.574015736579895
+  },
+  {
+    "stage": "adam",
+    "step": 484,
+    "loss_total": 12.81998348236084,
+    "loss_pde": 2.816301107406616,
+    "loss_anchor": 0.0018400949193164706,
+    "loss_origin": 2.0,
+    "lie_l2": 1.678183913230896
+  },
+  {
+    "stage": "adam",
+    "step": 485,
+    "loss_total": 11.745915412902832,
+    "loss_pde": 1.7443917989730835,
+    "loss_anchor": 0.0007607669685967267,
+    "loss_origin": 2.0,
+    "lie_l2": 1.3207542896270752
+  },
+  {
+    "stage": "adam",
+    "step": 486,
+    "loss_total": 11.030924797058105,
+    "loss_pde": 1.0298813581466675,
+    "loss_anchor": 0.0005208697402849793,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0148307085037231
+  },
+  {
+    "stage": "adam",
+    "step": 487,
+    "loss_total": 10.793993949890137,
+    "loss_pde": 0.7930323481559753,
+    "loss_anchor": 0.00048005959251895547,
+    "loss_origin": 2.0,
+    "lie_l2": 0.8905236124992371
+  },
+  {
+    "stage": "adam",
+    "step": 488,
+    "loss_total": 10.418116569519043,
+    "loss_pde": 0.4151143431663513,
+    "loss_anchor": 0.0015001113060861826,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6442936658859253
+  },
+  {
+    "stage": "adam",
+    "step": 489,
+    "loss_total": 10.32728099822998,
+    "loss_pde": 0.32442036271095276,
+    "loss_anchor": 0.0014291516272351146,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5695791244506836
+  },
+  {
+    "stage": "adam",
+    "step": 490,
+    "loss_total": 10.3572359085083,
+    "loss_pde": 0.3565455675125122,
+    "loss_anchor": 0.0003441501467023045,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5971143841743469
+  },
+  {
+    "stage": "adam",
+    "step": 491,
+    "loss_total": 10.298323631286621,
+    "loss_pde": 0.29724591970443726,
+    "loss_anchor": 0.0005377634079195559,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5452026128768921
+  },
+  {
+    "stage": "adam",
+    "step": 492,
+    "loss_total": 10.292696952819824,
+    "loss_pde": 0.2887066900730133,
+    "loss_anchor": 0.0019940868951380253,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5373143553733826
+  },
+  {
+    "stage": "adam",
+    "step": 493,
+    "loss_total": 10.440658569335938,
+    "loss_pde": 0.4376679062843323,
+    "loss_anchor": 0.0014943272108212113,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6615647673606873
+  },
+  {
+    "stage": "adam",
+    "step": 494,
+    "loss_total": 10.929377555847168,
+    "loss_pde": 0.9287437796592712,
+    "loss_anchor": 0.0003161148924846202,
+    "loss_origin": 2.0,
+    "lie_l2": 0.963713526725769
+  },
+  {
+    "stage": "adam",
+    "step": 495,
+    "loss_total": 10.510510444641113,
+    "loss_pde": 0.5100330114364624,
+    "loss_anchor": 0.00023793106083758175,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7141659259796143
+  },
+  {
+    "stage": "adam",
+    "step": 496,
+    "loss_total": 22211.5078125,
+    "loss_pde": 0.6656181812286377,
+    "loss_anchor": 0.000907560926862061,
+    "loss_origin": 4442.16796875,
+    "lie_l2": 0.8158542513847351
+  },
+  {
+    "stage": "adam",
+    "step": 497,
+    "loss_total": 10.590947151184082,
+    "loss_pde": 0.5861683487892151,
+    "loss_anchor": 0.002388652414083481,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7656162977218628
+  },
+  {
+    "stage": "adam",
+    "step": 498,
+    "loss_total": 11.110428810119629,
+    "loss_pde": 1.1057453155517578,
+    "loss_anchor": 0.0023406660184264183,
+    "loss_origin": 2.0,
+    "lie_l2": 1.0515443086624146
+  },
+  {
+    "stage": "adam",
+    "step": 499,
+    "loss_total": 10.435589790344238,
+    "loss_pde": 0.43177294731140137,
+    "loss_anchor": 0.001907409867271781,
+    "loss_origin": 2.0,
+    "lie_l2": 0.6570942997932434
   },
   {
     "stage": "adam",
     "step": 500,
-    "loss_total": 5522.3037109375,
-    "loss_pde": 423.43017578125,
-    "loss_anchor": 0.1666514277458191,
-    "loss_origin": 203.88827514648438,
-    "lie_l2": 20.57741928100586
-  },
-  {
-    "stage": "adam",
-    "step": 550,
-    "loss_total": 4942.2568359375,
-    "loss_pde": 341.8704833984375,
-    "loss_anchor": 0.13955426216125488,
-    "loss_origin": 183.95962524414062,
-    "lie_l2": 18.4897403717041
-  },
-  {
-    "stage": "adam",
-    "step": 600,
-    "loss_total": 4524.1904296875,
-    "loss_pde": 359.2261962890625,
-    "loss_anchor": 0.13772734999656677,
-    "loss_origin": 166.54347229003906,
-    "lie_l2": 18.953264236450195
-  },
-  {
-    "stage": "adam",
-    "step": 650,
-    "loss_total": 4102.380859375,
-    "loss_pde": 316.4740295410156,
-    "loss_anchor": 0.14839035272598267,
-    "loss_origin": 151.37692260742188,
-    "lie_l2": 17.789716720581055
-  },
-  {
-    "stage": "adam",
-    "step": 700,
-    "loss_total": 3767.947998046875,
-    "loss_pde": 312.68939208984375,
-    "loss_anchor": 0.1489388644695282,
-    "loss_origin": 138.15077209472656,
-    "lie_l2": 17.683025360107422
-  },
-  {
-    "stage": "adam",
-    "step": 750,
-    "loss_total": 3533.973876953125,
-    "loss_pde": 367.987548828125,
-    "loss_anchor": 0.17735408246517181,
-    "loss_origin": 126.56851959228516,
-    "lie_l2": 19.183002471923828
-  },
-  {
-    "stage": "adam",
-    "step": 800,
-    "loss_total": 3267.254150390625,
-    "loss_pde": 356.7238464355469,
-    "loss_anchor": 0.1545211374759674,
-    "loss_origin": 116.35940551757812,
-    "lie_l2": 18.887134552001953
-  },
-  {
-    "stage": "adam",
-    "step": 850,
-    "loss_total": 3070.6279296875,
-    "loss_pde": 387.4207458496094,
-    "loss_anchor": 0.15063264966011047,
-    "loss_origin": 107.26803588867188,
-    "lie_l2": 19.683006286621094
-  },
-  {
-    "stage": "adam",
-    "step": 900,
-    "loss_total": 2859.110107421875,
-    "loss_pde": 380.41900634765625,
-    "loss_anchor": 0.1483028680086136,
-    "loss_origin": 99.08831787109375,
-    "lie_l2": 19.50433349609375
-  },
-  {
-    "stage": "adam",
-    "step": 950,
-    "loss_total": 2641.861328125,
-    "loss_pde": 349.1114807128906,
-    "loss_anchor": 0.15378150343894958,
-    "loss_origin": 91.64847564697266,
-    "lie_l2": 18.684524536132812
-  },
-  {
-    "stage": "adam",
-    "step": 1000,
-    "loss_total": 2541.02587890625,
-    "loss_pde": 419.3458251953125,
-    "loss_anchor": 0.1429920196533203,
-    "loss_origin": 84.80999755859375,
-    "lie_l2": 20.477935791015625
-  },
-  {
-    "stage": "adam",
-    "step": 1050,
-    "loss_total": 2292.645751953125,
-    "loss_pde": 329.4705810546875,
-    "loss_anchor": 0.16015593707561493,
-    "loss_origin": 78.46294403076172,
-    "lie_l2": 18.151325225830078
-  },
-  {
-    "stage": "adam",
-    "step": 1100,
-    "loss_total": 2327.2392578125,
-    "loss_pde": 512.6168823242188,
-    "loss_anchor": 0.13322150707244873,
-    "loss_origin": 72.53160858154297,
-    "lie_l2": 22.64104461669922
-  },
-  {
-    "stage": "adam",
-    "step": 1150,
-    "loss_total": 2047.0157470703125,
-    "loss_pde": 371.5563659667969,
-    "loss_anchor": 0.16135628521442413,
-    "loss_origin": 66.9538345336914,
-    "lie_l2": 19.27579689025879
-  },
-  {
-    "stage": "adam",
-    "step": 1200,
-    "loss_total": 1864.235595703125,
-    "loss_pde": 320.584716796875,
-    "loss_anchor": 0.15691111981868744,
-    "loss_origin": 61.68327331542969,
-    "lie_l2": 17.90488052368164
-  },
-  {
-    "stage": "adam",
-    "step": 1250,
-    "loss_total": 1772.8299560546875,
-    "loss_pde": 354.0160217285156,
-    "loss_anchor": 0.14809168875217438,
-    "loss_origin": 56.693321228027344,
-    "lie_l2": 18.8153133392334
-  },
-  {
-    "stage": "adam",
-    "step": 1300,
-    "loss_total": 1640.508056640625,
-    "loss_pde": 339.8495178222656,
-    "loss_anchor": 0.15684224665164948,
-    "loss_origin": 51.96360397338867,
-    "lie_l2": 18.435007095336914
-  },
-  {
-    "stage": "adam",
-    "step": 1350,
-    "loss_total": 1679.150146484375,
-    "loss_pde": 490.54742431640625,
-    "loss_anchor": 0.1448001116514206,
-    "loss_origin": 47.48618698120117,
-    "lie_l2": 22.148305892944336
-  },
-  {
-    "stage": "adam",
-    "step": 1400,
-    "loss_total": 1411.5311279296875,
-    "loss_pde": 328.675537109375,
-    "loss_anchor": 0.15790969133377075,
-    "loss_origin": 43.251060485839844,
-    "lie_l2": 18.129411697387695
-  },
-  {
-    "stage": "adam",
-    "step": 1450,
-    "loss_total": 1428.3841552734375,
-    "loss_pde": 445.3885498046875,
-    "loss_anchor": 0.1669200211763382,
-    "loss_origin": 39.253055572509766,
-    "lie_l2": 21.104230880737305
-  },
-  {
-    "stage": "adam",
-    "step": 1500,
-    "loss_total": 1234.445556640625,
-    "loss_pde": 345.54632568359375,
-    "loss_anchor": 0.15066400170326233,
-    "loss_origin": 35.49570083618164,
-    "lie_l2": 18.588876724243164
-  },
-  {
-    "stage": "adam",
-    "step": 1550,
-    "loss_total": 1107.4493408203125,
-    "loss_pde": 306.25244140625,
-    "loss_anchor": 0.19450004398822784,
-    "loss_origin": 31.970075607299805,
-    "lie_l2": 17.500070571899414
-  },
-  {
-    "stage": "adam",
-    "step": 1600,
-    "loss_total": 1052.848388671875,
-    "loss_pde": 334.0582275390625,
-    "loss_anchor": 0.1737164855003357,
-    "loss_origin": 28.682119369506836,
-    "lie_l2": 18.277259826660156
-  },
-  {
-    "stage": "adam",
-    "step": 1650,
-    "loss_total": 1019.339599609375,
-    "loss_pde": 377.1605224609375,
-    "loss_anchor": 0.1507532000541687,
-    "loss_origin": 25.626863479614258,
-    "lie_l2": 19.420621871948242
-  },
-  {
-    "stage": "adam",
-    "step": 1700,
-    "loss_total": 859.0257568359375,
-    "loss_pde": 287.5079345703125,
-    "loss_anchor": 0.13427701592445374,
-    "loss_origin": 22.807003021240234,
-    "lie_l2": 16.956058502197266
-  },
-  {
-    "stage": "adam",
-    "step": 1750,
-    "loss_total": 810.9478149414062,
-    "loss_pde": 304.43048095703125,
-    "loss_anchor": 0.1363482028245926,
-    "loss_origin": 20.206153869628906,
-    "lie_l2": 17.44793701171875
-  },
-  {
-    "stage": "adam",
-    "step": 1800,
-    "loss_total": 835.7967529296875,
-    "loss_pde": 388.487060546875,
-    "loss_anchor": 0.16295747458934784,
-    "loss_origin": 17.827205657958984,
-    "lie_l2": 19.71007537841797
-  },
-  {
-    "stage": "adam",
-    "step": 1850,
-    "loss_total": 765.4365844726562,
-    "loss_pde": 372.1905822753906,
-    "loss_anchor": 0.15987293422222137,
-    "loss_origin": 15.66589069366455,
-    "lie_l2": 19.2922420501709
-  },
-  {
-    "stage": "adam",
-    "step": 1900,
-    "loss_total": 111394.296875,
-    "loss_pde": 394.3097839355469,
-    "loss_anchor": 0.15651702880859375,
-    "loss_origin": 4439.93701171875,
-    "lie_l2": 19.857234954833984
-  },
-  {
-    "stage": "adam",
-    "step": 1950,
-    "loss_total": 1147.033447265625,
-    "loss_pde": 300.97918701171875,
-    "loss_anchor": 0.13192930817604065,
-    "loss_origin": 33.789398193359375,
-    "lie_l2": 17.348751068115234
-  },
-  {
-    "stage": "adam",
-    "step": 2000,
-    "loss_total": 707.6930541992188,
-    "loss_pde": 375.1640625,
-    "loss_anchor": 0.15504427254199982,
-    "loss_origin": 13.239141464233398,
-    "lie_l2": 19.369152069091797
+    "loss_total": 10.81407642364502,
+    "loss_pde": 0.8126569390296936,
+    "loss_anchor": 0.0007086186669766903,
+    "loss_origin": 2.0,
+    "lie_l2": 0.9014748930931091
   },
   {
     "stage": "lbfgs",
     "step": 1,
-    "loss_total": 754.524658203125,
-    "loss_pde": 378.38604736328125,
-    "loss_anchor": 0.14304772019386292,
-    "loss_origin": 14.988325119018555,
-    "lie_l2": 19.4521484375
+    "loss_total": 10.32514476776123,
+    "loss_pde": 0.32226771116256714,
+    "loss_anchor": 0.0014375168830156326,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5676862597465515
+  },
+  {
+    "stage": "lbfgs",
+    "step": 2,
+    "loss_total": 14.523038864135742,
+    "loss_pde": 4.520340919494629,
+    "loss_anchor": 0.0013483096845448017,
+    "loss_origin": 2.0,
+    "lie_l2": 2.1261093616485596
+  },
+  {
+    "stage": "lbfgs",
+    "step": 3,
+    "loss_total": 10.219429969787598,
+    "loss_pde": 0.21660394966602325,
+    "loss_anchor": 0.0014118802500888705,
+    "loss_origin": 2.0,
+    "lie_l2": 0.46540728211402893
+  },
+  {
+    "stage": "lbfgs",
+    "step": 4,
+    "loss_total": 10.195943832397461,
+    "loss_pde": 0.19306537508964539,
+    "loss_anchor": 0.0014380896463990211,
+    "loss_origin": 2.0,
+    "lie_l2": 0.4393920600414276
+  },
+  {
+    "stage": "lbfgs",
+    "step": 5,
+    "loss_total": 10.160614013671875,
+    "loss_pde": 0.1576615273952484,
+    "loss_anchor": 0.0014750801492482424,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3970661461353302
+  },
+  {
+    "stage": "lbfgs",
+    "step": 6,
+    "loss_total": 10.151963233947754,
+    "loss_pde": 0.14898386597633362,
+    "loss_anchor": 0.001488806214183569,
+    "loss_origin": 2.0,
+    "lie_l2": 0.38598427176475525
+  },
+  {
+    "stage": "lbfgs",
+    "step": 7,
+    "loss_total": 10.125733375549316,
+    "loss_pde": 0.1226048469543457,
+    "loss_anchor": 0.001563177676871419,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3501497507095337
+  },
+  {
+    "stage": "lbfgs",
+    "step": 8,
+    "loss_total": 10.554214477539062,
+    "loss_pde": 0.5500259399414062,
+    "loss_anchor": 0.00209329416975379,
+    "loss_origin": 2.0,
+    "lie_l2": 0.7416373491287231
+  },
+  {
+    "stage": "lbfgs",
+    "step": 9,
+    "loss_total": 10.289390563964844,
+    "loss_pde": 0.2861102223396301,
+    "loss_anchor": 0.0016391398385167122,
+    "loss_origin": 2.0,
+    "lie_l2": 0.534892737865448
+  },
+  {
+    "stage": "lbfgs",
+    "step": 10,
+    "loss_total": 10.123581886291504,
+    "loss_pde": 0.12044739723205566,
+    "loss_anchor": 0.0015660999342799187,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3470553159713745
+  },
+  {
+    "stage": "lbfgs",
+    "step": 11,
+    "loss_total": 10.119009971618652,
+    "loss_pde": 0.11586202681064606,
+    "loss_anchor": 0.0015732105821371078,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3403851091861725
+  },
+  {
+    "stage": "lbfgs",
+    "step": 12,
+    "loss_total": 10.10571002960205,
+    "loss_pde": 0.10251302272081375,
+    "loss_anchor": 0.001597544178366661,
+    "loss_origin": 2.0,
+    "lie_l2": 0.32017654180526733
+  },
+  {
+    "stage": "lbfgs",
+    "step": 13,
+    "loss_total": 10.303586959838867,
+    "loss_pde": 0.3003765940666199,
+    "loss_anchor": 0.001604106742888689,
+    "loss_origin": 2.0,
+    "lie_l2": 0.548066258430481
+  },
+  {
+    "stage": "lbfgs",
+    "step": 14,
+    "loss_total": 10.105647087097168,
+    "loss_pde": 0.10245011746883392,
+    "loss_anchor": 0.0015975871356204152,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3200783133506775
+  },
+  {
+    "stage": "lbfgs",
+    "step": 15,
+    "loss_total": 10.104763984680176,
+    "loss_pde": 0.10156531631946564,
+    "loss_anchor": 0.0015982331242412329,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3186931312084198
+  },
+  {
+    "stage": "lbfgs",
+    "step": 16,
+    "loss_total": 10.104718208312988,
+    "loss_pde": 0.10151933133602142,
+    "loss_anchor": 0.0015982668846845627,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3186209797859192
+  },
+  {
+    "stage": "lbfgs",
+    "step": 17,
+    "loss_total": 10.348932266235352,
+    "loss_pde": 0.3457323908805847,
+    "loss_anchor": 0.0015988406958058476,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5879901051521301
+  },
+  {
+    "stage": "lbfgs",
+    "step": 18,
+    "loss_total": 10.104717254638672,
+    "loss_pde": 0.10151887685060501,
+    "loss_anchor": 0.0015982622280716896,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3186202645301819
+  },
+  {
+    "stage": "lbfgs",
+    "step": 19,
+    "loss_total": 10.104640007019043,
+    "loss_pde": 0.10144170373678207,
+    "loss_anchor": 0.001598329283297062,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3184991478919983
+  },
+  {
+    "stage": "lbfgs",
+    "step": 20,
+    "loss_total": 10.104640007019043,
+    "loss_pde": 0.10144142806529999,
+    "loss_anchor": 0.0015983299817889929,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3184987008571625
+  },
+  {
+    "stage": "lbfgs",
+    "step": 21,
+    "loss_total": 10.104640007019043,
+    "loss_pde": 0.10144171863794327,
+    "loss_anchor": 0.001598329283297062,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3184991776943207
+  },
+  {
+    "stage": "lbfgs",
+    "step": 22,
+    "loss_total": 10.259071350097656,
+    "loss_pde": 0.2558733820915222,
+    "loss_anchor": 0.001598232425749302,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5058392882347107
+  },
+  {
+    "stage": "lbfgs",
+    "step": 23,
+    "loss_total": 10.104205131530762,
+    "loss_pde": 0.10100633651018143,
+    "loss_anchor": 0.001598315080627799,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3178149461746216
+  },
+  {
+    "stage": "lbfgs",
+    "step": 24,
+    "loss_total": 10.340352058410645,
+    "loss_pde": 0.3371533453464508,
+    "loss_anchor": 0.0015982736367732286,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5806490778923035
+  },
+  {
+    "stage": "lbfgs",
+    "step": 25,
+    "loss_total": 10.104201316833496,
+    "loss_pde": 0.10100322216749191,
+    "loss_anchor": 0.0015983185730874538,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3178100287914276
+  },
+  {
+    "stage": "lbfgs",
+    "step": 26,
+    "loss_total": 10.35036849975586,
+    "loss_pde": 0.34716951847076416,
+    "loss_anchor": 0.001598312403075397,
+    "loss_origin": 2.0,
+    "lie_l2": 0.5892109274864197
+  },
+  {
+    "stage": "lbfgs",
+    "step": 27,
+    "loss_total": 10.104201316833496,
+    "loss_pde": 0.10100317746400833,
+    "loss_anchor": 0.0015983185730874538,
+    "loss_origin": 2.0,
+    "lie_l2": 0.31780996918678284
+  },
+  {
+    "stage": "lbfgs",
+    "step": 28,
+    "loss_total": 10.23318862915039,
+    "loss_pde": 0.230019211769104,
+    "loss_anchor": 0.0015835128724575043,
+    "loss_origin": 2.0,
+    "lie_l2": 0.4796031713485718
+  },
+  {
+    "stage": "lbfgs",
+    "step": 29,
+    "loss_total": 10.347137451171875,
+    "loss_pde": 0.3439393639564514,
+    "loss_anchor": 0.0015978764276951551,
+    "loss_origin": 2.0,
+    "lie_l2": 0.586463451385498
+  },
+  {
+    "stage": "lbfgs",
+    "step": 30,
+    "loss_total": 10.351065635681152,
+    "loss_pde": 0.34786713123321533,
+    "loss_anchor": 0.0015982661861926317,
+    "loss_origin": 2.0,
+    "lie_l2": 0.589802622795105
+  },
+  {
+    "stage": "lbfgs",
+    "step": 31,
+    "loss_total": 10.104201316833496,
+    "loss_pde": 0.10100322216749191,
+    "loss_anchor": 0.0015983185730874538,
+    "loss_origin": 2.0,
+    "lie_l2": 0.3178100287914276
   }
 ]

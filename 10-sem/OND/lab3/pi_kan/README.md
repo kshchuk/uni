@@ -18,7 +18,8 @@ For the default experiment, the test system is Hamiltonian:
   - `L_origin = ||grad Phi(0,0)||^2 + ||H(Phi)(0,0)-2I||_F^2`.
 - Symbolic extraction (`lab3/pi_kan/symbolic_extract.py`):
   - direct symbolic route for polynomial bases,
-  - Taylor-series route for non-polynomial basis (`rbf`).
+  - Taylor-series route for non-polynomial basis (`rbf`),
+  - `vector_field_P_Q_bautin_form` maps the Hamiltonian field to $\dot x=-y+P$, $\dot y=x+Q$ for comparison with the Bautin/Lyapunov notebook convention.
 
 ## Files
 
@@ -43,7 +44,11 @@ From workspace root:
 
 ```bash
 python -m lab3.pi_kan.train
+# Optional overrides (must match notebook if you compare SymPy vs checkpoint):
+python -m lab3.pi_kan.train --degree-n 6 --seed 42 --hamiltonian-scale 0.1
 ```
+
+The random Hamiltonian demo is fixed by `PIKANConfig.degree_n`, `seed`, and `hamiltonian_scale` (passed through to `make_test_system`). Use the same triple anywhere you rebuild the system for cross-checks (e.g. `bautin_ideal.ipynb`).
 
 Outputs are saved into `lab3/pi_kan/outputs/`:
 
@@ -81,7 +86,7 @@ from lab3.pi_kan.config import PIKANConfig
 from lab3.pi_kan.train import train
 from lab3.pi_kan.symbolic_extract import extract_symbolic_polynomial
 
-cfg = PIKANConfig(degree_n=7, basis_type="chebyshev", device="mps", use_mps_if_available=True)
+cfg = PIKANConfig(degree_n=6, basis_type="chebyshev", device="mps", use_mps_if_available=True)
 result = train(cfg)
 phi_sym = extract_symbolic_polynomial(result["model"], cfg)
 print(phi_sym)

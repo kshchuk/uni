@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -173,49 +174,15 @@ def _train_lbfgs(
     return best
 
 
-def train(cfg: PIKANConfig | None = None) -> dict[str, Any]:
-    cfg = cfg or PIKANConfig()
-    set_seed(cfg.seed)
-    device = resolve_device(use_mps_if_available=cfg.use_mps_if_available)
-    if cfg.device == "cpu":
-        device = torch.device("cpu")
-
-    out_dir = Path(cfg.output_dir)
-    ensure_dir(str(out_dir))
-
-    model = PIKAN(
-        hidden_dim=cfg.hidden_dim,
-        depth=cfg.depth,
-        basis_type=cfg.basis_type,
-        basis_order=cfg.basis_order,
-        rbf_centers=cfg.rbf_centers,
-        rbf_sigma=cfg.rbf_sigma,
-        input_radius=cfg.domain_radius,
-    ).to(device)
-    system = make_test_system(n=cfg.degree_n, seed=cfg.seed, device=device)
-    logs: list[dict[str, Any]] = []
-
-    # MPS fallback guard for higher-order autograd operations.
-    if str(device) == "mps":
-        try:
-            xc, yc = sample_collocation(8, cfg.domain_radius, device=device)
-            xa, ya = sample_anchor(8, cfg.anchor_radius, device=device)
-            test_loss, _ = compute_loss(model, system, xc, yc, xa, ya, cfg)
-            _ = float(test_loss.detach().cpu())
-        except Exception as exc:
-            print(f"MPS autograd check failed ({type(exc).__name__}); falling back to CPU.")
-            device = torch.device("cpu")
-            model = model.to(device)
-            system = make_test_system(n=cfg.degree_n, seed=cfg.seed, device=device)
-
-    best_adam = _train_adam(model, system, cfg, device, logs)
-    if best_adam["state_dict"] is not None:
-        model.load_state_dict(best_adam["state_dict"])
-    best_lbfgs = _train_lbfgs(model, system, cfg, device, logs)
-    if best_lbfgs["state_dict"] is not None:
-        model.load_state_dict(best_lbfgs["state_dict"])
-
-    ckpt_path = out_dir / "best_model.pt"
+def _save_artifacts(
+    model: PIKAN,
+    system: PolynomialSystem,
+    cfg: PIKANConfig,
+    logs: list[dict[str, Any]],
+    out_dir: Path,
+    ckpt_name: str = "best_model.pt",
+) -> tuple[str, str, str]:
+    ckpt_path = out_dir / ckpt_name
     torch.save(
         {
             "model_state_dict": model.state_dict(),
@@ -238,17 +205,152 @@ def train(cfg: PIKANConfig | None = None) -> dict[str, Any]:
     with open(cfg_path, "w", encoding="utf-8") as f:
         json.dump(asdict(cfg), f, ensure_ascii=False, indent=2)
 
+    return str(ckpt_path), str(cfg_path), str(logs_path)
+
+
+def train(cfg: PIKANConfig | None = None) -> dict[str, Any]:
+    cfg = cfg or PIKANConfig()
+    set_seed(cfg.seed)
+    device = resolve_device(use_mps_if_available=cfg.use_mps_if_available)
+    if cfg.device == "cpu":
+        device = torch.device("cpu")
+
+    out_dir = Path(cfg.output_dir)
+    ensure_dir(str(out_dir))
+
+    model = PIKAN(
+        hidden_dim=cfg.hidden_dim,
+        depth=cfg.depth,
+        basis_type=cfg.basis_type,
+        basis_order=cfg.basis_order,
+        rbf_centers=cfg.rbf_centers,
+        rbf_sigma=cfg.rbf_sigma,
+        input_radius=cfg.domain_radius,
+    ).to(device)
+    system = make_test_system(
+        n=cfg.degree_n,
+        scale=cfg.hamiltonian_scale,
+        seed=cfg.seed,
+        device=device,
+    )
+    logs: list[dict[str, Any]] = []
+
+    # Resume from checkpoint if requested.
+    if cfg.resume_from_checkpoint:
+        ckpt = torch.load(cfg.resume_from_checkpoint, map_location=device)
+        model.load_state_dict(ckpt["model_state_dict"])
+        h_coeffs = ckpt.get("h_coeffs_by_degree")
+        if h_coeffs is not None:
+            h_coeffs = {int(d): c.to(device=device) for d, c in h_coeffs.items()}
+        system = PolynomialSystem(
+            n=int(ckpt["degree_n"]),
+            p_coeffs=ckpt.get("p_coeffs").to(device=device) if ckpt.get("p_coeffs") is not None else None,
+            q_coeffs=ckpt.get("q_coeffs").to(device=device) if ckpt.get("q_coeffs") is not None else None,
+            h_coeffs_by_degree=h_coeffs,
+        )
+        print(f"Resumed from checkpoint: {cfg.resume_from_checkpoint}")
+
+    # MPS fallback guard for higher-order autograd operations.
+    if str(device) == "mps":
+        try:
+            xc, yc = sample_collocation(8, cfg.domain_radius, device=device)
+            xa, ya = sample_anchor(8, cfg.anchor_radius, device=device)
+            test_loss, _ = compute_loss(model, system, xc, yc, xa, ya, cfg)
+            _ = float(test_loss.detach().cpu())
+        except Exception as exc:
+            print(f"MPS autograd check failed ({type(exc).__name__}); falling back to CPU.")
+            device = torch.device("cpu")
+            model = model.to(device)
+            system = make_test_system(
+                n=cfg.degree_n,
+                scale=cfg.hamiltonian_scale,
+                seed=cfg.seed,
+                device=device,
+            )
+
+    interrupted = False
+    try:
+        if not cfg.only_lbfgs and cfg.adam_steps > 0:
+            best_adam = _train_adam(model, system, cfg, device, logs)
+            if best_adam["state_dict"] is not None:
+                model.load_state_dict(best_adam["state_dict"])
+        else:
+            print("Skipping Adam phase.")
+
+        best_lbfgs = _train_lbfgs(model, system, cfg, device, logs)
+        if best_lbfgs["state_dict"] is not None:
+            model.load_state_dict(best_lbfgs["state_dict"])
+    except KeyboardInterrupt:
+        interrupted = True
+        print("\nKeyboardInterrupt received: saving interrupt checkpoint...")
+
+    ckpt_name = "interrupt_model.pt" if interrupted else "best_model.pt"
+    ckpt_path, cfg_path, logs_path = _save_artifacts(
+        model=model,
+        system=system,
+        cfg=cfg,
+        logs=logs,
+        out_dir=out_dir,
+        ckpt_name=ckpt_name,
+    )
     print(f"Saved checkpoint: {ckpt_path}")
     return {
         "model": model,
         "system": system,
         "logs": logs,
-        "checkpoint_path": str(ckpt_path),
-        "config_path": str(cfg_path),
-        "logs_path": str(logs_path),
+        "checkpoint_path": ckpt_path,
+        "config_path": cfg_path,
+        "logs_path": logs_path,
         "device": str(device),
+        "interrupted": interrupted,
     }
 
 
+def _parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Train PI-KAN model.")
+    p.add_argument(
+        "--resume-from-checkpoint",
+        type=str,
+        default=None,
+        help="Path to checkpoint (best_model.pt) to resume from.",
+    )
+    p.add_argument(
+        "--only-lbfgs",
+        action="store_true",
+        help="Skip Adam and run only LBFGS (typically with --resume-from-checkpoint).",
+    )
+    p.add_argument(
+        "--degree-n",
+        type=int,
+        default=None,
+        help="System size n: nonlinear Hamiltonian terms for degrees 3..n+1 (default: PIKANConfig.degree_n).",
+    )
+    p.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="RNG seed for Hamiltonian coefficients (default: PIKANConfig.seed).",
+    )
+    p.add_argument(
+        "--hamiltonian-scale",
+        type=float,
+        default=None,
+        help="Scale for random nonlinear H coefficients (default: PIKANConfig.hamiltonian_scale).",
+    )
+    return p.parse_args()
+
+
 if __name__ == "__main__":
-    train()
+    args = _parse_args()
+    cfg_kw: dict[str, Any] = {
+        "resume_from_checkpoint": args.resume_from_checkpoint,
+        "only_lbfgs": args.only_lbfgs,
+    }
+    if args.degree_n is not None:
+        cfg_kw["degree_n"] = args.degree_n
+    if args.seed is not None:
+        cfg_kw["seed"] = args.seed
+    if args.hamiltonian_scale is not None:
+        cfg_kw["hamiltonian_scale"] = args.hamiltonian_scale
+    cfg = PIKANConfig(**cfg_kw)
+    train(cfg)
