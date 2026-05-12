@@ -1,0 +1,6 @@
+# lab3 is work-in-progress; ignore everything in this folder
+# except the screenshots/ subtree (which we want to keep tracked).
+*
+!.gitignore
+!screenshots/
+!screenshots/**
