@@ -1,6 +1,23 @@
-# lab3 is work-in-progress; ignore everything in this folder
-# except the screenshots/ subtree (which we want to keep tracked).
-*
-!.gitignore
-!screenshots/
-!screenshots/**
+# Build artifacts
+bin/
+
+# Stray binaries left behind by go build without -o
+/supervisor
+/process_a
+/process_b
+/poke
+
+# Course manual (binary PDF, not a deliverable)
+ОС ЛП3(пр).pdf
+
+# LaTeX intermediates (also caught by the root .gitignore)
+report/*.aux
+report/*.fdb_latexmk
+report/*.fls
+report/*.log
+report/*.out
+report/*.synctex.gz
+report/*.toc
+
+# Local terminal noise
+*.DS_Store
