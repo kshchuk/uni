@@ -134,42 +134,73 @@ def explicit_step(U, tau, t_n):
 
 
 def adi_step(U, tau, t_n):
+    """Метод змінних напрямків [1, с. 237]: f на обох півкроках у t_n + τ/2."""
     Un = U.copy()
-    Fn = rhs_f(X, Y, t_n)
+    t_half = t_n + tau / 2.0
+    F_mid = rhs_f(X, Y, t_half)
     rhs_star = np.zeros_like(Un)
     rhs_star[1:-1, 1:-1] = (
         Un[1:-1, 1:-1]
         + (tau / 2.0) * dyy(Un, h)[1:-1, 1:-1]
-        + (tau / 2.0) * Fn[1:-1, 1:-1]
+        + (tau / 2.0) * F_mid[1:-1, 1:-1]
     )
-    t_half = t_n + tau / 2.0
     Wstar = solve_implicit_x(rhs_star, tau / 2.0, h, t_half)
-    Fnp1 = rhs_f(X, Y, t_n + tau)
     rhs_np1 = np.zeros_like(Wstar)
     rhs_np1[1:-1, 1:-1] = (
         Wstar[1:-1, 1:-1]
         + (tau / 2.0) * dxx(Wstar, h)[1:-1, 1:-1]
-        + (tau / 2.0) * Fnp1[1:-1, 1:-1]
+        + (tau / 2.0) * F_mid[1:-1, 1:-1]
     )
     return solve_implicit_y(rhs_np1, tau / 2.0, h, t_n + tau)
 
 
-def sym_lod_step(U, tau, t_n):
-    Un = U.copy()
-    t_mid = t_n + tau / 2.0
+def neighbor_sum_4(U):
+    """Сума чотирьох сусідів на внутрішніх вузлах (результат у внутрішньому прямокутнику)."""
+    S = np.zeros_like(U)
+    S[1:-1, 1:-1] = (
+        U[:-2, 1:-1] + U[2:, 1:-1] + U[1:-1, :-2] + U[1:-1, 2:]
+    )
+    return S
+
+
+def ds_checkerboard_step(U, tau, t_n):
+    """ДС-алгоритм (шахівниця, σ=1/2): два півкроки τ/2 — явний на одному кольорі,
+    CN-неявний на іншому [2]; коефіцієнти CN: (1±τ/h²). Крок τ як у явної схеми (CFL)."""
+    dt2 = tau / 2.0
+    t_mid = t_n + dt2
     t_np1 = t_n + tau
-    Fn = rhs_f(X, Y, t_n)
-    Fmid = rhs_f(X, Y, t_mid)
-    w1 = Un.copy()
-    w1[1:-1, 1:-1] += (tau / 2.0) * dxx(Un, h)[1:-1, 1:-1] + (tau / 4.0) * Fn[1:-1, 1:-1]
-    apply_dirichlet(w1, t_mid)
-    w2 = w1.copy()
-    w2[1:-1, 1:-1] += (tau / 2.0) * dyy(w1, h)[1:-1, 1:-1] + (tau / 4.0) * Fmid[1:-1, 1:-1]
-    apply_dirichlet(w2, t_mid)
-    w2b = w2.copy()
-    apply_dirichlet(w2b, t_np1)
-    w3 = solve_implicit_y(w2b, tau / 2.0, h, t_np1)
-    return solve_implicit_x(w3, tau / 2.0, h, t_np1)
+    ni, nj = U.shape
+    h2 = h * h
+    coef_imp = 1.0 + tau / h2
+    coef_exp = 1.0 - tau / h2
+    U0 = U.copy()
+    F_n = rhs_f(X, Y, t_n)
+    F_mid = rhs_f(X, Y, t_mid)
+    F_np1 = rhs_f(X, Y, t_np1)
+    W = U0.copy()
+    Lap0 = laplacian_2d(U0, h)
+    I = np.arange(ni)[:, None]
+    J = np.arange(nj)[None, :]
+    interior = (I > 0) & (I < ni - 1) & (J > 0) & (J < nj - 1)
+    white = interior & ((I + J) % 2 == 0)
+    black = interior & ((I + J) % 2 == 1)
+    W[white] = U0[white] + dt2 * (Lap0[white] + F_n[white])
+    apply_dirichlet(W, t_mid)
+    Sc = neighbor_sum_4(W)
+    So = neighbor_sum_4(U0)
+    rhs_b = coef_exp * U0 + (tau / 4.0) * (Sc + So) / h2 + (tau / 2.0) * F_mid
+    W[black] = rhs_b[black] / coef_imp
+    apply_dirichlet(W, t_mid)
+    U2 = W.copy()
+    LapW = laplacian_2d(W, h)
+    U2[black] = W[black] + dt2 * (LapW[black] + F_mid[black])
+    apply_dirichlet(U2, t_mid)
+    Sc2 = neighbor_sum_4(U2)
+    So2 = neighbor_sum_4(W)
+    rhs_w = coef_exp * W + (tau / 4.0) * (Sc2 + So2) / h2 + (tau / 2.0) * F_np1
+    U2[white] = rhs_w[white] / coef_imp
+    apply_dirichlet(U2, t_np1)
+    return U2
 
 
 def run(method_fn, tau, record_every):
@@ -206,14 +237,14 @@ def norm_linf(E):
 # ------------------------------------------------------------------ run
 tau_expl = 0.2 * h ** 2 / a
 tau_adi = h
-tau_sym = tau_expl
+tau_ds = tau_expl  # явний підкрок на «білих» — умова CFL τ ≤ h²/2 для півкроку τ/2
 
 print("Running explicit...")
 W_e, tE, hE, nE, timeE = run(explicit_step, tau_expl, record_every=max(1, 8000 // 80))
 print("Running ADI...")
 W_a, tA, hA, nA, timeA = run(adi_step, tau_adi, record_every=max(1, 40 // 40))
-print("Running symmetric LOD...")
-W_s, tS, hS, nS, timeS = run(sym_lod_step, tau_sym, record_every=max(1, 8000 // 80))
+print("Running DS checkerboard...")
+W_s, tS, hS, nS, timeS = run(ds_checkerboard_step, tau_ds, record_every=max(1, 8000 // 80))
 
 
 def save_heatmap(U, title, fname, vmin=None, vmax=None, cmap="inferno"):
@@ -256,10 +287,10 @@ for tv in [0.0, 0.25, 0.5, 1.0]:
 # Final surfaces for all three
 save_surface(W_e, "Явна схема: w(x,y) при t=1", "surface_explicit.png")
 save_surface(W_a, "ADI: w(x,y) при t=1", "surface_adi.png")
-save_surface(W_s, "Симетризований LOD: w(x,y) при t=1", "surface_sym.png")
+save_surface(W_s, "ДС-алгоритм (шахівниця): w(x,y) при t=1", "surface_sym.png")
 
 # Error heatmaps at t=1
-for name, W, slug in [("Явна", W_e, "explicit"), ("ADI", W_a, "adi"), ("LOD", W_s, "sym")]:
+for name, W, slug in [("Явна", W_e, "explicit"), ("ADI", W_a, "adi"), ("ДС", W_s, "sym")]:
     E = np.abs(W - w_exact(X, Y, T_final))
     save_heatmap(E, f"{name}: |w_num - w_exact| при t=1", f"err_{slug}.png", vmin=0,
                  vmax=np.percentile(E, 99), cmap="magma")
@@ -283,7 +314,7 @@ LsI, LsL2 = norms(tS, hS)
 fig, ax = plt.subplots(1, 2, figsize=(11, 4))
 ax[0].plot(tE, LeI, label="Явна", lw=2)
 ax[0].plot(tA, LaI, label="ADI", lw=2)
-ax[0].plot(tS, LsI, label="Симетр. LOD", lw=2, linestyle="--")
+ax[0].plot(tS, LsI, label="ДС [2]", lw=2, linestyle="--")
 ax[0].set_xlabel("t")
 ax[0].set_ylabel("||e||_inf")
 ax[0].set_title("Max-норма похибки")
@@ -292,7 +323,7 @@ ax[0].grid(True)
 
 ax[1].semilogy(tE, LeL2, label="Явна", lw=2)
 ax[1].semilogy(tA, LaL2, label="ADI", lw=2)
-ax[1].semilogy(tS, LsL2, label="Симетр. LOD", lw=2, linestyle="--")
+ax[1].semilogy(tS, LsL2, label="ДС [2]", lw=2, linestyle="--")
 ax[1].set_xlabel("t")
 ax[1].set_ylabel("||e||_2  (log)")
 ax[1].set_title("Дискретна L2-норма похибки")
@@ -369,7 +400,7 @@ ax.plot(ts_c, m_c, label="Охолодження (Дирихле = 0)", lw=2)
 ax.plot(ts_i, m_i, label="Ізоляція (Нейман)", lw=2, linestyle="--")
 ax.set_xlabel("t")
 ax.set_ylabel("середнє w")
-ax.set_title("Еволюція середньої температури по області")
+ax.set_title("Середня температура по області у часі")
 ax.legend()
 ax.grid(True)
 fig.tight_layout()
@@ -788,15 +819,15 @@ plt.close(fig)
 with open("summary.txt", "w", encoding="utf-8") as f:
     f.write(f"tau_explicit = {tau_expl:.6e}\n")
     f.write(f"tau_adi = {tau_adi:.6e}\n")
-    f.write(f"tau_sym = {tau_sym:.6e}\n")
-    f.write(f"steps: explicit={nE}, ADI={nA}, sym={nS}\n")
-    f.write(f"time: explicit={timeE:.3f}, ADI={timeA:.3f}, sym={timeS:.3f}\n")
+    f.write(f"tau_ds = {tau_ds:.6e}\n")
+    f.write(f"steps: explicit={nE}, ADI={nA}, ds={nS}\n")
+    f.write(f"time: explicit={timeE:.3f}, ADI={timeA:.3f}, ds={timeS:.3f}\n")
     f.write(f"Linf@t=1: explicit={norm_linf(W_e - w_exact(X,Y,T_final)):.3e}, "
             f"ADI={norm_linf(W_a - w_exact(X,Y,T_final)):.3e}, "
-            f"sym={norm_linf(W_s - w_exact(X,Y,T_final)):.3e}\n")
+            f"ds={norm_linf(W_s - w_exact(X,Y,T_final)):.3e}\n")
     f.write(f"L2@t=1:   explicit={norm_l2(W_e - w_exact(X,Y,T_final)):.3e}, "
             f"ADI={norm_l2(W_a - w_exact(X,Y,T_final)):.3e}, "
-            f"sym={norm_l2(W_s - w_exact(X,Y,T_final)):.3e}\n")
+            f"ds={norm_l2(W_s - w_exact(X,Y,T_final)):.3e}\n")
     f.write(
         f"3D setup: Lx=Ly={Lx3}, Lz={Lz3:.4f} (={Lz3*50:.1f}/50 of side); "
         f"Nx=Ny={Nx3}, Nz={Nz3}; tau={tau3:.3e}, steps={nsteps}; T={T3}\n"

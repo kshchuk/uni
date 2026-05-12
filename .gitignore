@@ -1,5 +1,27 @@
-
 *.class
+
+# OS / editor noise
+.DS_Store
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+.venv/
+
+# Local course reference materials
+10-sem/OND/*.pdf
+10-sem/OND/*.djvu
+10-sem/OND/lab3/[0-9]*.pdf
+10-sem/computer-modeling/*.pdf
 
 5-sem/ruby/zalik/zalik.rar
 7-sem/3D/lec6/explosion.blend

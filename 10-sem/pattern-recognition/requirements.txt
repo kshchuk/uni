@@ -1,0 +1,5 @@
+# Python dependencies for thermal_stream.py
+# Also install ffmpeg on the system:  brew install ffmpeg  (macOS)
+
+numpy>=1.24
+opencv-python>=4.8
