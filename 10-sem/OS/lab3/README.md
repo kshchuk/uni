@@ -11,7 +11,7 @@
 
 ```bash
 make tidy        # підтягнути модулі (Fyne)
-make build       # зібрати три бінарники у bin/
+make build       # зібрати supervisor, process_a, process_b, poke у bin/
 make run         # запустити супервізор
 ```
 
@@ -34,10 +34,9 @@ internal/
   dekker/       алгоритм Деккера (atomic + racy-варіант)
   coinbank/     банк монет і логіка розміну
   ipc/          протокол подій між процесами і супервізором
-  metrics/      лічильники у SHM
 report/         повний звіт
 screenshots/    скріни GUI
-examples/       сценарії стрес-тестування
+examples/       # stress.sh, smoketest, poke, capture_report_screenshots.sh
 ```
 
 ## Звіт
@@ -48,6 +47,14 @@ examples/       сценарії стрес-тестування
 ```bash
 make report           # дві проходки xelatex -> report/report.pdf
 make report-clean     # видалити .aux / .log / .out / .toc
+```
+
+Щоб **перезняти скріншоти** для звіту (повне вікно + поля навколо, без
+обрізання заголовка й логу):
+
+```bash
+./examples/capture_report_screenshots.sh   # потрібні права Screen Recording
+make report
 ```
 
 ## Очищення «осиротілих» SHM-сегментів

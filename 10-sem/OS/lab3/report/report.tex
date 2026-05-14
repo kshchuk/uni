@@ -590,11 +590,22 @@ nosync         : -tags=nosync - функції Enter/Leave порожні
 \texttt{process\_a} і \texttt{process\_b} у auto-mode на 3~секунди,
 після чого друкує метрики.
 
+Знімки інтерфейсу для рис.\,2--6 зроблено скриптом
+\texttt{examples/capture\_report\_screenshots.sh}: перед кожним кадром
+AppleScript зчитує \texttt{position} і \texttt{size} вікна супервізора,
+а \texttt{screencapture -R} захоплює прямокутник із додатковим полем
+(\texttt{PAD\_X}=80, \texttt{PAD\_Y}=40 у пунктах екрана), щоб не
+відрізати заголовок вікна й колонку логу через неточність меж, які
+повертає System Events. У PDF вони вставлені як
+\verb|\includegraphics[width=\linewidth]{...}| без опції
+\texttt{trim}/\texttt{clip}, тобто масштабуються до ширини рядка без
+відсікання пікселів зображення.
+
 \subsection{Baseline: коректний Деккер (atomic)}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../screenshots/01-startup.png}
+\includegraphics[width=\linewidth]{../screenshots/01-startup.png}
 \caption{Стартовий стан супервізора після запуску. Банк =
 50/25/20/15/10/5, прапорці Деккера в нулі, метрики порожні, у лозі лише
 події \texttt{start} обох процесів.}
@@ -602,7 +613,7 @@ nosync         : -tags=nosync - функції Enter/Leave порожні
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../screenshots/02-automode.png}
+\includegraphics[width=\linewidth]{../screenshots/02-automode.png}
 \caption{Робота автомата в auto-режимі \char`\~5\,с. Лічильники
 $\text{EnterA} = \text{EnterB} \approx 23$, \textbf{Колізій у КД: 0},
 max~в~КД: 1. У лозі видно правильне чергування
@@ -629,7 +640,7 @@ max~в~КД: 1. У лозі видно правильне чергування
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../screenshots/04-manual-deal.png}
+\includegraphics[width=\linewidth]{../screenshots/04-manual-deal.png}
 \caption{Сценарій з кнопками: процес~A прийняв монети, процес~B
 розміняв їх. Лог показує цикли
 \texttt{enter\_cs}\,$\to$\,\texttt{deal}\,$\to$\,\texttt{leave\_cs}
@@ -640,7 +651,7 @@ max~в~КД: 1. У лозі видно правильне чергування
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../screenshots/05-manual-refuse.png}
+\includegraphics[width=\linewidth]{../screenshots/05-manual-refuse.png}
 \caption{Запит <<розміняти 2~коп. на 50~коп.>> --- процес~B повертає
 \texttt{refuse=2} <<номінал розміну не менший за монету>>. У лозі видно
 серію таких відмов з різними коп. на 50.}
@@ -650,7 +661,7 @@ max~в~КД: 1. У лозі видно правильне чергування
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{../screenshots/03-nosync-collisions.png}
+\includegraphics[width=\linewidth]{../screenshots/03-nosync-collisions.png}
 \caption{Той самий код, але \texttt{Enter}/\texttt{Leave} Деккера
 підмінені на no-op (\texttt{build -tags=nosync}). Уже після 5~секунд
 auto-mode лічильник <<Колізій у КД>> дорівнює \textbf{19},

@@ -6,7 +6,10 @@ TAGS      ?=
 
 all: build
 
-build: supervisor process_a process_b
+build: supervisor process_a process_b poke
+
+poke:
+	$(GO) build -o $(BIN_DIR)/poke ./examples/poke
 
 supervisor:
 	$(GO) build $(if $(TAGS),-tags=$(TAGS)) -o $(BIN_DIR)/supervisor ./cmd/supervisor
