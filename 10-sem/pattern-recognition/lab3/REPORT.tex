@@ -1,225 +1,274 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[14pt,a4paper,oneside]{extarticle}
+
 \usepackage[utf8]{inputenc}
 \usepackage[T2A]{fontenc}
 \usepackage[ukrainian]{babel}
-\usepackage{geometry}
+
+%% --- Оформлення за вимогами ДСТУ 3008--95 (поля, інтервал, абзац, підписи таблиць і рисунків) ---
+\usepackage[a4paper,left=30mm,right=15mm,top=20mm,bottom=20mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{graphicx}
 \usepackage{float}
 \usepackage{array}
-\usepackage{booktabs}
-\usepackage{xcolor}
-\usepackage{listings}
-\usepackage{fancyhdr}
-\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionLabelSeparator{dstudash}{\,---\,}
+\captionsetup{format=plain,labelfont=bf,labelsep=dstudash}
+\captionsetup[figure]{justification=centering}
+\captionsetup[table]{position=top,justification=raggedright,singlelinecheck=false}
 
-\geometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\addto\captionsukrainian{%
+  \renewcommand{\figurename}{Рисунок}%
+  \renewcommand{\tablename}{Таблиця}%
+  \renewcommand{\contentsname}{Зміст}%
+}
+
+\usepackage[hidelinks]{hyperref}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\graphicspath{{./}{figures/}}
+
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{Розпізнавання образів}
 \fancyhead[R]{Лабораторна робота 3}
 \fancyfoot[C]{\thepage}
-\setlength{\headheight}{15pt}
-\setlength{\parindent}{0.5cm}
-\linespread{1.5}
+\setlength{\headheight}{17pt}
 
 \begin{document}
 
 %================ ТИТУЛЬНА СТОРІНКА ================
 \begin{titlepage}
-\centering
+\thispagestyle{empty}
+\begin{center}
 {\Large \textbf{КИЇВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ\\
-ІМЕНІ ТАРАСА ШЕВЧЕНКА}}
-
-\vspace{2cm}
-{\large Факультет комп'ютерних наук та кібернетики}
-
-\vspace{3cm}
-{\Large \textbf{ЛАБОРАТОРНА РОБОТА 3}}
-
-\vspace{0.5cm}
-{\large \textbf{Розпізнавання образів}}
-
-\vspace{2cm}
-{\large \textbf{Класифікація точок трьох типів\\
-за відстанями до усереднених представників класів}}
-
-\vspace{3cm}
-{\large \textbf{Виконав:} студент групи ПМ}
-
-\vspace{0.5cm}
-{\Large \textbf{Кіщук Ярослав Ярославович}}
-
-\vspace{3cm}
-{\large \textbf{Київ} -- 2026}
+ІМЕНІ ТАРАСА ШЕВЧЕНКА}}\\[2\baselineskip]
+{\large Факультет комп'ютерних наук та кібернетики}\\[3\baselineskip]
+{\Large \textbf{ЛАБОРАТОРНА РОБОТА 3}}\\[0.75\baselineskip]
+{\large \textbf{Розпізнавання образів}}\\[2.5\baselineskip]
+{\normalsize на тему:}\\[0.75\baselineskip]
+{\large \textbf{Класифікація точок трьох типів за метриками $L2$, $L1$\\
+та еліпсами Петуніна (2D і 3D)}}\\[4\baselineskip]
+\end{center}
+\begin{flushright}
+Виконав:\\[0.25\baselineskip]
+студент групи ПМ\\[0.4\baselineskip]
+{\Large \textbf{Кіщук Ярослав Ярославович}}\\[2\baselineskip]
+\end{flushright}
+\vfill
+\begin{center}
+{\large \textbf{Київ --- 2026}}
+\end{center}
 \end{titlepage}
+\clearpage
 
-\newpage
 \tableofcontents
-\newpage
+\clearpage
 
-%================ ВСТУП ================
+%================ МЕТА ТА ЗАВДАННЯ ================
 \section{Мета та завдання роботи}
 
 \subsection{Мета}
-Реалізувати класифікацію точки до одного з трьох типів за відстанню до центру мас класу, порівняти результати для метрик $L2$ (евклідова) та $L1$ (мангеттенська), а також дослідити граничні випадки.
+Порівняти класифікацію тестових точок трьох класів у площині $(x,y)$ і в просторі $(x,y,z)$ за правилами:
+мінімальна відстань до \emph{центроїда} класу в метриках $L2$ (евклідова) та $L1$ (манхеттенська);
+окремо --- за \emph{еліпсами Петуніна}: у~2D --- система вкладених еліпсів, побудована для кожного класу за алгоритмом лабораторної роботи~1; у~3D --- після нормалізації координат відносно паралелепіпеда класу застосовують ті самі показники $m$, $P$, а вихідні координати відповідають вкладеним еліпсоїдам.
+Дослідити два режими генерації даних: майже розділені множини та множини з частковим перекриттям.
 
 \subsection{Умова для парного номера}
-Для парного номера у списку використано змішані розподіли:
+Змішані розподіли навчальних точок:
 \begin{itemize}
-    \item Тип 1 --- рівномірний;
-    \item Тип 2 --- нормальний;
-    \item Тип 3 --- рівномірний.
+    \item Тип~1 --- рівномірний у заданому паралелепіпеді;
+    \item Тип~2 --- нормальний (гаусівський) з заданими середнім та стандартним відхиленням;
+    \item Тип~3 --- рівномірний у заданому паралелепіпеді.
 \end{itemize}
+Координата $z$ для кожного типу генерується тим самим законом, що й $x$, $y$.
 
 \subsection{Завдання}
 \begin{enumerate}
-    \item Згенерувати три навчальні множини точок та множину тестових точок.
-    \item Для кожної навчальної множини обчислити центроїд.
-    \item Для кожної тестової точки порахувати відстані до центроїдів за $L2$ та $L1$.
-    \item Призначити клас за правилом мінімальної відстані.
-    \item Порівняти результати $L2$ і $L1$ на тестовому наборі.
+    \item Згенерувати три навчальні множини та тестові точки; порівняти два режими розташування класів --- \texttt{separated} (майже без перекриття) та \texttt{overlap} (часткове перекриття).
+    \item Обчислити центроїди класів у $(x,y)$ та у $(x,y,z)$.
+    \item Реалізувати класифікацію за $L2$ та $L1$ до центроїдів; за еліпсами Петуніна у~2D та~3D (аргумент максимуму $m$, нічия --- мінімум $\mathrm{dist}/\max(r)$).
+    \item Порівняти результати на тестовому наборі для обох режимів генерації; оформити метрики розбіжностей і розподілів у таблицях.
+    \item Побудувати ілюстрації: розкид даних, карти рішень $L2$ та $L1$, вкладені еліпси Петуніна у $(x,y)$, проекції та тривимірні зображення з еліпсоїдами Петуніна і межами $L2$-класифікатора.
 \end{enumerate}
 
-%================ ТЕОРЕТИЧНІ ОСНОВИ ================
+%================ ТЕОРІЯ ================
 \section{Теоретичні відомості}
 
-Нехай маємо три класи точок $C_1, C_2, C_3$. Для кожного класу обчислюється центроїд:
+Нехай маємо три класи точок $C_1$, $C_2$, $C_3$. \emph{Центроїд} класу:
 \begin{equation}
-\mu_k = \frac{1}{|C_k|} \sum_{x \in C_k} x, \quad k \in \{1,2,3\}.
+  \boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x} \in C_k} \mathbf{x}, \quad k \in \{1,2,3\}.
 \end{equation}
 
-Для тестової точки $t=(t_x,t_y)$ відстані до центроїда $\mu_k=(\mu_{k,x},\mu_{k,y})$:
+Для тестової точки $\mathbf{t}=(t_x,t_y)$ у площині відстані до $\boldsymbol{\mu}_k=(\mu_{k,x},\mu_{k,y})$:
 \begin{align}
-d_{L2}(t,\mu_k) &= \sqrt{(t_x-\mu_{k,x})^2 + (t_y-\mu_{k,y})^2}, \\
-d_{L1}(t,\mu_k) &= |t_x-\mu_{k,x}| + |t_y-\mu_{k,y}|.
+  d_{L2}(\mathbf{t},\boldsymbol{\mu}_k) &= \sqrt{(t_x-\mu_{k,x})^2 + (t_y-\mu_{k,y})^2}, \\
+  d_{L1}(\mathbf{t},\boldsymbol{\mu}_k) &= |t_x-\mu_{k,x}| + |t_y-\mu_{k,y}|.
 \end{align}
+Клас за центроїдним правилом: $\hat{k} = \arg\min_k d(\mathbf{t},\boldsymbol{\mu}_k)$.
 
-Рішення класифікатора:
-\begin{equation}
-\hat{k} = \arg\min_k d(t,\mu_k).
-\end{equation}
+Згідно з лабораторною роботою~1, для кожного класу в площині $(x,y)$ будується \textbf{система вкладених еліпсів Петуніна}: знаходять опуклу оболонку навчальних точок, на ній --- дві найвіддаленіші вершини, здійснюють поворот осі, переносять множину у квадрат і будують систему вкладених кіл у квадраті; після зворотного масштабування й повороту кола стають \textbf{вкладеними еліпсами} у вихідних координатах.
+Для тестової точки в квадраті вимірюють відстань до центру квадрата, упорядковують радіуси навчальних точок і знаходять порядковий номер $m$ (скільки радіусів не менші за цю відстань) та показник $P$ (ймовірність за емпіричним порядком, як у ЛР~1).
+Клас обирають за $\arg\max_k m_k$; при рівності --- за мінімумом відношення відстані до максимального радіуса класу.
+
+У~3D для кожного класу будують мінімальний паралелепіпед, що містить точки; після афінної нормалізації $(\mathbf{p}-\mathbf{c})/\mathbf{h}$ обчислюють $m$, $P$ від евклідової норми в одиничній кулі; у вихідних координатах отримують \textbf{вкладені еліпсоїди} з півосями, пропорційними $\mathbf{h}$.
 
 %================ АЛГОРИТМ ================
-\section{Описання алгоритму та реалізація}
+\section{Опис алгоритму та реалізації}
 
-Робота виконана у ноутбуці \texttt{lab3/lab-3.ipynb}. Для геометричних допоміжних обчислень перевикористано частину коду з лабораторної 1 (\texttt{cross}, \texttt{convex\_hull}, \texttt{scale\_to\_square}).
+Експеримент виконано для двох наборів параметрів генерації (\texttt{separated} та \texttt{overlap}) при однаковому \texttt{SEED}. Для кожної тестової точки обчислюють передбачення за $L2$, $L1$, еліпсами Петуніна у~$(x,y)$ та за $L2$ і еліпсоїдами Петуніна у~$(x,y,z)$; підраховують кількість розбіжностей між парами правил і розподіл точок по класах.
 
-\subsection{Параметри експерименту}
 \begin{table}[H]
 \centering
+\renewcommand{\arraystretch}{1.15}
+\caption{Параметри експерименту}
 \begin{tabular}{|l|r|}
-\toprule
+\hline
 \textbf{Параметр} & \textbf{Значення} \\
-\midrule
+\hline
 Кількість класів & 3 \\
+\hline
 Точок у кожному класі & 100 \\
+\hline
 Кількість тестових точок & 100 \\
+\hline
 Seed генератора & 24 \\
-\bottomrule
+\hline
+Режими генерації & \texttt{separated}, \texttt{overlap} \\
+\hline
 \end{tabular}
-\caption{Параметри генерації даних}
 \end{table}
 
-\subsection{Центроїди класів}
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|r|}
-\toprule
-\textbf{Клас} & \textbf{$x_c$} & \textbf{$y_c$} \\
-\midrule
-Тип 1 & -8.5236 & 4.2531 \\
-Тип 2 & 4.2152 & 5.6406 \\
-Тип 3 & 2.6207 & -4.6042 \\
-\bottomrule
-\end{tabular}
-\caption{Обчислені центри мас для трьох класів}
-\end{table}
-
-\subsection{Фрагмент класифікації тестових точок}
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|c|r|r|c|c|}
-\toprule
-\textbf{\#} & \textbf{$x$} & \textbf{$y$} & \textbf{L2} & \textbf{L1} \\
-\midrule
-1  & -1.496  & -8.546 & Тип 3 & Тип 3 \\
-2  & -10.070 & 9.686  & Тип 1 & Тип 1 \\
-3  & 8.628   & 0.621  & Тип 2 & Тип 2 \\
-4  & -7.454  & -4.472 & Тип 1 & Тип 1 \\
-5  & -4.679  & 6.022  & Тип 1 & Тип 1 \\
-6  & 1.557   & -6.082 & Тип 3 & Тип 3 \\
-7  & -9.908  & 8.822  & Тип 1 & Тип 1 \\
-8  & -12.140 & -5.443 & Тип 1 & Тип 1 \\
-9  & -8.551  & 4.767  & Тип 1 & Тип 1 \\
-10 & 1.779   & -5.877 & Тип 3 & Тип 3 \\
-\bottomrule
-\end{tabular}
-\caption{Перші 10 результатів класифікації}
-\end{table}
+Для наочності побудовані рисунки: розкид навчальних і тестових точок, карти рішень центроїдного класифікатора за $L2$ та $L1$ у площині, вкладені еліпси Петуніна, проекції тривимірних даних, а також тривимірна сцена з площинами рівної $L2$-відстані між центроїдами та каркасом еліпсоїдів Петуніна.
 
 %================ РЕЗУЛЬТАТИ ================
 \section{Результати та аналіз}
+\label{sec:results}
 
-\subsection{Порівняння метрик}
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|r|r|}
-\toprule
-\textbf{Метрика} & \textbf{Тип 1} & \textbf{Тип 2} & \textbf{Тип 3} \\
-\midrule
-L2 & 43 & 25 & 32 \\
-L1 & 41 & 25 & 34 \\
-\bottomrule
-\end{tabular}
-\caption{Кількість тестових точок, віднесених до кожного типу}
-\end{table}
+\input{report_metrics_generated}
 
-Кількість розбіжностей між індивідуальними рішеннями $L2$ та $L1$ становить 4 зі 100 точок.
+У режимі \emph{розділені} множини геометрично далі одна від одної: розбіжностей між $L2$, $L1$ та Петуніним, як правило, менше.
+У режимі \emph{перекриття} зона суміщення хмар збільшує кількість точок, де різні геометрії правил дають різні класи (порівняйте стовпці таблиці~\ref{tab:lab3mismatch}).
 
-\subsection{Ілюстрації з методичних матеріалів}
+\subsection{Ілюстрації}
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{telegram-cloud-document-2-5278242879519624596.jpg}
-\caption{Схеми класифікації за центрами та відстанями}
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_scatter_separated.png}
+\caption{Режим \texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_scatter_overlap.png}
+\caption{Режим \texttt{overlap}}
+\end{subfigure}
+\caption{Навчальні хмари, центроїди та тестові точки в площині $(x,y)$}
+\label{fig:lab3scatter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{telegram-cloud-document-2-5298853036003733245.jpg}
-\caption{Приклади ручних обчислень та ілюстрацій граничних випадків}
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_petunin2d_separated.png}
+\caption{\texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_petunin2d_overlap.png}
+\caption{\texttt{overlap}}
+\end{subfigure}
+\caption{Вкладені еліпси Петуніна (2D) та тестові точки}
+\label{fig:lab3pet2d}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_l2regions_separated.png}
+\caption{$L2$, \texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_l2regions_overlap.png}
+\caption{$L2$, \texttt{overlap}}
+\end{subfigure}
+\\[0.6em]
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_l1regions_separated.png}
+\caption{$L1$, \texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_l1regions_overlap.png}
+\caption{$L1$, \texttt{overlap}}
+\end{subfigure}
+\caption{Карти рішень центроїдного класифікатора за $L2$ та $L1$ (колір фону --- клас за argmin на сітці)}
+\label{fig:lab3l2l1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_projections_separated.png}
+\caption{\texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_projections_overlap.png}
+\caption{\texttt{overlap}}
+\end{subfigure}
+\caption{Проекції 3D-даних на площини $xy$, $xz$, $yz$}
+\label{fig:lab3proj}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_3d_l2_pet_separated.png}
+\caption{\texttt{separated}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab3_3d_l2_pet_overlap.png}
+\caption{\texttt{overlap}}
+\end{subfigure}
+\caption{3D: площини рівної $L2$-відстані між центроїдами та каркас еліпсоїдів Петуніна}
+\label{fig:lab33d}
 \end{figure}
 
 %================ ВИСНОВКИ ================
 \section{Висновки}
 \begin{enumerate}
-    \item Лабораторну роботу 3 перероблено під умову для парного номера (Тип 1 і Тип 3 --- рівномірний, Тип 2 --- нормальний).
-    \item Реалізовано класифікацію трьох типів точок за відстанню до центроїдів класів.
-    \item Підтверджено коректну роботу критеріїв $L2$ та $L1$ на вибірці зі 100 тестових точок.
-    \item Виявлено 4 прикордонні точки, для яких рішення за $L2$ і $L1$ відрізняються.
+    \item Реалізовано класифікацію трьох типів за центроїдними метриками $L2$ та $L1$ у $(x,y)$, а також за еліпсами та еліпсоїдами Петуніна у~2D та~3D при узгодженій генерації координати~$z$.
+    \item Порівняно два режими генерації (\texttt{separated} та \texttt{overlap}): за таблицею~\ref{tab:lab3mismatch} видно, що при перекритті множин зростає кількість розбіжностей між $L2$ і Петуніним (2D та 3D), тобто геометрія правила суттєво впливає на рішення в спірних зонах.
+    \item Метрика $L1$ дає ромбоподібні рівні відстані в $(x,y)$ і може відрізнятися від $L2$ на прикордонних точках; еліпси Петуніна відображають форму навчальної хмари, а не лише положення центру.
+    \item Рисунки~\ref{fig:lab3scatter}--\ref{fig:lab33d} узгоджені з таблицею~\ref{tab:lab3mismatch}: видно карти $L2$/$L1$, вкладені еліпси та тривимірні межі $L2$ разом із каркасом еліпсоїдів.
+    \item Обмеження підходу: центроїдні евристики та еліпси Петуніна не задають байєсівський оптимум для перекривних класів; результати демонстраційні й залежать від вибору областей генерації та випадкового seed.
 \end{enumerate}
-
-%================ ДЖЕРЕЛА ================
-\section{Використані джерела}
-\begin{enumerate}
-    \item Методичні матеріали до ЛР3 з дисципліни ``Розпізнавання образів''.
-    \item Duda R., Hart P., Stork D. Pattern Classification. 2nd ed. Wiley, 2000.
-    \item Bishop C. Pattern Recognition and Machine Learning. Springer, 2006.
-\end{enumerate}
-
-%================ ДОДАТКИ ================
-\appendix
-\section{Фрагмент коду класифікації}
-\begin{lstlisting}[language=Python, basicstyle=\small]
-def pairwise_distances(point, centroids):
-    names = list(centroids.keys())
-    centers = np.array([centroids[n] for n in names])
-    diffs = centers - point
-    d_l2 = np.sqrt(np.sum(diffs ** 2, axis=1))
-    d_l1 = np.sum(np.abs(diffs), axis=1)
-    return names, d_l2, d_l1
-\end{lstlisting}
 
 \end{document}

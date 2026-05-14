@@ -3,3 +3,4 @@
 
 numpy>=1.24
 opencv-python>=4.8
+plotly>=5.18
