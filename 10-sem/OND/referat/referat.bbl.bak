@@ -1,0 +1,330 @@
+\begin{thebibliography}{46}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{University of Waterloo}(2026)]{c01}
+{University of Waterloo}.
+\newblock Top 5 applications of fractals.
+\newblock \url{https://uwaterloo.ca/math/news/top-5-applications-fractals},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c02(2026)]{c02}
+Fractals in computer graphics.
+\newblock \url{https://kdkce.edu.in/writereaddata/fckimagefile/unit-4-CG.pdf},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c03(2026)]{c03}
+Fractal antenna.
+\newblock \url{https://en.wikipedia.org/wiki/Fractal_antenna}, 2026.
+\newblock Wikipedia, accessed 2026-05-14.
+
+\bibitem[c04(2026)]{c04}
+Fractal landscape.
+\newblock \url{https://en.wikipedia.org/wiki/Fractal_landscape}, 2026.
+\newblock Wikipedia, accessed 2026-05-14.
+
+\bibitem[{University of Oregon}(1992)]{c05}
+{University of Oregon}.
+\newblock Fractals in science and graphics (undergraduate report).
+\newblock \url{https://www.cs.uoregon.edu/Reports/UG-199204-Gondek.pdf}, 1992.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{VanEck}(2026)]{c06}
+{VanEck}.
+\newblock Fractal geometry and finance: You're doing risk wrong.
+\newblock
+  \url{https://www.vaneck.com.au/blog/vectors-insights/fractal-geometry-and-finance-youre-doing-risk-wrong/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Analytics Vidhya}(2026)]{c07}
+{Analytics Vidhya}.
+\newblock Deterministic vs stochastic.
+\newblock
+  \url{https://www.analyticsvidhya.com/blog/2026/03/deterministic-vs-stochastic/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Milvus}(2026)]{c08}
+{Milvus}.
+\newblock What is the difference between deterministic and stochastic time
+  series?
+\newblock
+  \url{https://milvus.io/ai-quick-reference/what-is-the-difference-between-deterministic-and-stochastic-time-series},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{JEM Engineering}(2026)]{c09}
+{JEM Engineering}.
+\newblock Fractal antennas, explained.
+\newblock \url{https://jemengineering.com/blog-fractal-antennas-explained/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Analytica}(2026)]{c10}
+{Analytica}.
+\newblock Deterministic or stochastic: Which business modeling should you
+  present?
+\newblock
+  \url{https://analytica.com/blog/deterministic-or-stochastic-which-business-modeling-should-you-present/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c11(2026)]{c11}
+Fractal compression.
+\newblock \url{https://en.wikipedia.org/wiki/Fractal_compression}, 2026.
+\newblock Wikipedia, accessed 2026-05-14.
+
+\bibitem[{GitHub (grkvlt)}(2026)]{c12}
+{GitHub (grkvlt)}.
+\newblock Fractal landscape generator.
+\newblock \url{https://github.com/grkvlt/landscape}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Harbourfront / Medium}(2026)]{c13}
+{Harbourfront / Medium}.
+\newblock Fractal market hypothesis: From theory to practice.
+\newblock
+  \url{https://derivvaluation.medium.com/fractal-market-hypothesis-from-theory-to-practice-1ceab717af7b},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c14(2026)]{c14}
+Fractal landscape (reference).
+\newblock \url{https://en.wikipedia.org/wiki/Fractal_landscape}, 2026.
+\newblock Wikipedia, accessed 2026-05-14.
+
+\bibitem[{Undiscovered Worlds (blog)}(2019)]{c15}
+{Undiscovered Worlds (blog)}.
+\newblock The global map --- fractals.
+\newblock
+  \url{https://undiscoveredworlds.blogspot.com/2019/01/the-global-map-fractals.html},
+  2019.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{null program}(2007)]{c16}
+{null program}.
+\newblock Noise fractals and clouds.
+\newblock \url{https://nullprogram.com/blog/2007/11/20/}, 2007.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{DKNazar}(2026)]{c17}
+{DKNazar}.
+\newblock Perlin noise vs diamond square.
+\newblock
+  \url{https://dknazar.wordpress.com/portfolio/perlin-noise-vs-diamond-square/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{NoisePosti.ng}(2022)]{c18}
+{NoisePosti.ng}.
+\newblock The perlin problem: Moving past square noise.
+\newblock
+  \url{https://noiseposti.ng/posts/2022-01-16-The-Perlin-Problem-Moving-Past-Square-Noise.html},
+  2022.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{CRUST, UST}(2026)]{c19}
+{CRUST, UST}.
+\newblock Fractals --- repository materials (crust).
+\newblock
+  \url{https://crust.ust.edu.ua/server/api/core/bitstreams/71dc9ff1-5c76-449d-a7da-93235d9f2e07/content},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Northwestern University}(2026)]{c20}
+{Northwestern University}.
+\newblock Fractal image compression.
+\newblock
+  \url{https://users.cs.northwestern.edu/~agupta/_projects/image_processing/web/FractalImageCompression/index.html},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c21(2026)]{c21}
+Fractal image compression overview.
+\newblock \url{https://www.scribd.com/presentation/136687426/Fic}, 2026.
+\newblock Scribd, accessed 2026-05-14.
+
+\bibitem[c22(2025)]{c22}
+Optimization of fractal image compression.
+\newblock \url{https://arxiv.org/html/2507.06325}, 2025.
+\newblock arXiv, accessed 2026-05-14.
+
+\bibitem[c23(2026)]{c23}
+A review on fractal image compression using optimization techniques.
+\newblock
+  \url{https://pdfs.semanticscholar.org/2d4d/92516651740de8820298bc1b0b7ded4e6313.pdf},
+  2026.
+\newblock Semantic Scholar PDF, accessed 2026-05-14.
+
+\bibitem[{Fractal Foundation}(2026{\natexlab{a}})]{c24}
+{Fractal Foundation}.
+\newblock Fractal foundation online course --- chapter 12.
+\newblock \url{https://fractalfoundation.org/OFC/OFC-12-2.html},
+  2026{\natexlab{a}}.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Fractal Foundation}(2026{\natexlab{b}})]{c25}
+{Fractal Foundation}.
+\newblock Fractals in the body.
+\newblock \url{https://fractalfoundation.org/OFC/OFC-1-2.html},
+  2026{\natexlab{b}}.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{PMC / Royal Society Publishing family}(2025)]{c26}
+{PMC / Royal Society Publishing family}.
+\newblock Fractal anatomy of human organs: A narrative review.
+\newblock \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12914156/}, 2025.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Simply.Science}(2026)]{c27}
+{Simply.Science}.
+\newblock Fractals in the human body.
+\newblock
+  \url{https://simply.science/index.php/fractals-in-nature/10479-fractals-in-human-body},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Open Biology / Royal Society}(2020)]{c28}
+{Open Biology / Royal Society}.
+\newblock Fractal analysis of latex rubber casts of bronchial and vascular
+  systems.
+\newblock
+  \url{https://royalsocietypublishing.org/rsob/article/10/7/190249/90968/Fractal-analysis-of-concurrently-prepared-latex},
+  2020.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Fractal Foundation}(2026{\natexlab{c}})]{c29}
+{Fractal Foundation}.
+\newblock Fractal neurons.
+\newblock \url{https://fractalfoundation.org/OFC/OFC-1-6.html},
+  2026{\natexlab{c}}.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{MDPI}(2024)]{c30}
+{MDPI}.
+\newblock Fractal metasurfaces and antennas: An overview.
+\newblock \url{https://www.mdpi.com/2076-3417/14/7/2843}, 2024.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{MathWorks}(2026)]{c31}
+{MathWorks}.
+\newblock Fractal antennas.
+\newblock \url{https://www.mathworks.com/help/antenna/fractal-antennas.html},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Fractenna}(2026)]{c32}
+{Fractenna}.
+\newblock Technical overview --- fractal antennas.
+\newblock \url{https://www.fractenna.com/our/antennatech.html}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Tom Rocks Maths}(2025)]{c33}
+{Tom Rocks Maths}.
+\newblock Fractals and the market patterns: A mathematical perspective.
+\newblock
+  \url{https://tomrocksmaths.com/wp-content/uploads/2025/06/fractals_and_the_market_patterns-aditi-shukla.pdf},
+  2025.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{YouTube}(2026)]{c34}
+{YouTube}.
+\newblock Fractals in finance: Unlocking self-similarity and infinite
+  complexity.
+\newblock \url{https://www.youtube.com/watch?v=h_-L1KQewaM}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{MDPI Fractal Fract}(2026)]{c35}
+{MDPI Fractal Fract}.
+\newblock Fractal and multifractal analysis in econometric models and empirical
+  finance.
+\newblock
+  \url{https://www.mdpi.com/journal/fractalfract/special_issues/EFZD7ME4S0},
+  2026.
+\newblock Special issue, accessed 2026-05-14.
+
+\bibitem[{Grasshopper3d}(2026)]{c36}
+{Grasshopper3d}.
+\newblock Diffusion limited aggregation.
+\newblock
+  \url{https://www.grasshopper3d.com/profiles/blogs/diffusion-limited-aggregation},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[c37(2026)]{c37}
+Diffusion-limited aggregation.
+\newblock \url{https://en.wikipedia.org/wiki/Diffusion-limited_aggregation},
+  2026.
+\newblock Wikipedia, accessed 2026-05-14.
+
+\bibitem[{Paul Bourke}(2026)]{c38}
+{Paul Bourke}.
+\newblock Dla --- diffusion limited aggregation.
+\newblock \url{https://paulbourke.net/fractals/dla/}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{PMC}(2025)]{c39}
+{PMC}.
+\newblock Tunable fractal morphogenesis in reaction-diffusion crystallization.
+\newblock \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12409535/}, 2025.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Tech Science (CMES)}(2026)]{c40}
+{Tech Science (CMES)}.
+\newblock Stochastic fractal search: A decade comprehensive review.
+\newblock \url{https://www.techscience.com/CMES/v142n3/59771}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{MDPI Atmosphere}(2024)]{c41}
+{MDPI Atmosphere}.
+\newblock Fractal geometry in precipitation.
+\newblock \url{https://www.mdpi.com/2073-4433/15/1/135}, 2024.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{University of Wisconsin--Madison}(2026)]{c42}
+{University of Wisconsin--Madison}.
+\newblock Satellite images: Oakfield, wi tornado.
+\newblock \url{https://cimss.ssec.wisc.edu/oakfield/sat.htm}, 2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{NASA Science}(2026)]{c43}
+{NASA Science}.
+\newblock Weather and atmospheric dynamics' relevant missions and campaigns.
+\newblock
+  \url{https://science.nasa.gov/earth-science/focus-areas/earth-weather/missions-2/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{ISPRS Archives}(2025)]{c44}
+{ISPRS Archives}.
+\newblock Fractal analysis of satellite night-time imagery for environmental
+  and urban monitoring.
+\newblock
+  \url{https://isprs-archives.copernicus.org/articles/XLVIII-5-W3-2025/43/2025/},
+  2025.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{Benoit Mandelbrot / MIT Infinite}(2026)]{c45}
+{Benoit Mandelbrot / MIT Infinite}.
+\newblock Fractals in science, engineering and finance (video lecture).
+\newblock
+  \url{https://infinite.mit.edu/video/benoit-b-mandelbrot-fractals-science-engineering-and-finance-roughness-and-beauty%E2%80%9D-mit/},
+  2026.
+\newblock Accessed 2026-05-14.
+
+\bibitem[{USC Signal and Image Processing Institute}(1997)]{c46}
+{USC Signal and Image Processing Institute}.
+\newblock Standard test image ``lenna'' ({USC}-{SIPI} 4.2.04, miscellaneous
+  volume).
+\newblock
+  \url{https://sipi.usc.edu/database/database.php?volume=misc&image=12}, 1997.
+\newblock Illustration uses the replica from OpenCV sample data (same classic
+  512$\times$512 test image); accessed 2026-05-15.
+
+\end{thebibliography}
