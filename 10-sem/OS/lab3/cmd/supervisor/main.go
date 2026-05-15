@@ -53,12 +53,28 @@ type supervisor struct {
 	metricsB      binding.String
 	collisions    binding.String
 	statusBinding binding.String
+	autoCheck     *widget.Check
+	sliderA       *widget.Slider
+	sliderB       *widget.Slider
+	delayLabelA   *widget.Label
+	delayLabelB   *widget.Label
 }
 
 func main() {
+	captureMode := os.Getenv("LAB3_CAPTURE") != ""
+
 	a := app.New()
 	w := a.NewWindow("Lab 3 — Автомат розміну (Деккер, " + dekker.Mode + ")")
 	w.Resize(fyne.NewSize(900, 720))
+	if captureMode {
+		w.CenterOnScreen()
+	} else {
+		w.SetFixedSize(true)
+		w.CenterOnScreen()
+	}
+	setWindowTitle := func(shmID int) {
+		w.SetTitle(fmt.Sprintf("Lab 3 — Автомат розміну (Деккер, %s) SHM=%d", dekker.Mode, shmID))
+	}
 
 	sv := &supervisor{
 		logBind:       binding.NewString(),
@@ -77,6 +93,8 @@ func main() {
 
 	if err := sv.bootstrap(); err != nil {
 		dialog.ShowError(err, w)
+	} else {
+		setWindowTitle(sv.seg.ID)
 	}
 
 	w.SetContent(sv.buildUI(w))
@@ -95,6 +113,13 @@ func main() {
 		sv.shutdown()
 		os.Exit(0)
 	}()
+
+	if captureMode {
+		go func() {
+			time.Sleep(900 * time.Millisecond)
+			fyne.Do(func() { w.SetFullScreen(true) })
+		}()
+	}
 
 	w.ShowAndRun()
 }
@@ -132,6 +157,9 @@ func (s *supervisor) bootstrap() error {
 	}
 	s.setStatus("Процеси A і B запущені, SHM id=" + strconv.Itoa(s.seg.ID))
 	s.appendLog(fmt.Sprintf("[supervisor] mode=%s SHM id=%d", dekker.Mode, s.seg.ID))
+	if path := os.Getenv("LAB3_SHM_ID_FILE"); path != "" {
+		_ = os.WriteFile(path, []byte(strconv.Itoa(s.seg.ID)), 0o644)
+	}
 	return nil
 }
 
@@ -300,6 +328,33 @@ func (s *supervisor) refreshFromState() {
 		collText = "!! " + collText + " — взаємовиключення ПОРУШЕНЕ"
 	}
 	s.collisions.Set(collText)
+
+	if s.autoCheck != nil {
+		want := atomic.LoadInt32(&st.AutoMode) == 1
+		if s.autoCheck.Checked != want {
+			fyne.Do(func() { s.autoCheck.SetChecked(want) })
+		}
+	}
+	s.syncDelaySlider(s.sliderA, s.delayLabelA, atomic.LoadInt32(&st.DelayMsA), "A")
+	s.syncDelaySlider(s.sliderB, s.delayLabelB, atomic.LoadInt32(&st.DelayMsB), "B")
+}
+
+func (s *supervisor) syncDelaySlider(sl *widget.Slider, lbl *widget.Label, ms int32, proc string) {
+	if sl == nil || lbl == nil {
+		return
+	}
+	v := float64(ms)
+	if int(sl.Value+0.5) == int(v+0.5) {
+		want := fmt.Sprintf("Затримка %s: %d мс", proc, ms)
+		if lbl.Text != want {
+			fyne.Do(func() { lbl.SetText(want) })
+		}
+		return
+	}
+	fyne.Do(func() {
+		sl.SetValue(v)
+		lbl.SetText(fmt.Sprintf("Затримка %s: %d мс", proc, ms))
+	})
 }
 
 func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
@@ -332,6 +387,11 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 	}
 
 	// --- Dekker flags + metrics panel ---
+	metricsLabel := func(b binding.String) *widget.Label {
+		l := widget.NewLabelWithData(b)
+		l.Wrapping = fyne.TextWrapWord
+		return l
+	}
 	dekkerBox := container.NewVBox(
 		widget.NewLabelWithStyle("Флаги Деккера", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
 		widget.NewLabelWithData(s.flagC1),
@@ -339,9 +399,9 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 		widget.NewLabelWithData(s.flagTurn),
 		widget.NewSeparator(),
 		widget.NewLabelWithStyle("Метрики", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
-		widget.NewLabelWithData(s.metricsA),
-		widget.NewLabelWithData(s.metricsB),
-		widget.NewLabelWithData(s.collisions),
+		metricsLabel(s.metricsA),
+		metricsLabel(s.metricsB),
+		metricsLabel(s.collisions),
 	)
 
 	// --- Bottom controls ---
@@ -371,6 +431,7 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 		atomic.StoreInt32(&s.state.AutoMode, v)
 		s.appendLog(fmt.Sprintf("[supervisor] auto-mode=%v", on))
 	})
+	s.autoCheck = autoCheck
 
 	sliderA := widget.NewSlider(0, 500)
 	sliderA.SetValue(float64(atomic.LoadInt32(&s.state.DelayMsA)))
@@ -380,6 +441,8 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 		atomic.StoreInt32(&s.state.DelayMsA, int32(v))
 		delayLabelA.SetText(fmt.Sprintf("Затримка A: %d мс", int(v)))
 	}
+	s.sliderA = sliderA
+	s.delayLabelA = delayLabelA
 
 	sliderB := widget.NewSlider(0, 500)
 	sliderB.SetValue(float64(atomic.LoadInt32(&s.state.DelayMsB)))
@@ -389,14 +452,25 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 		atomic.StoreInt32(&s.state.DelayMsB, int32(v))
 		delayLabelB.SetText(fmt.Sprintf("Затримка B: %d мс", int(v)))
 	}
+	s.sliderB = sliderB
+	s.delayLabelB = delayLabelB
+
+	const sliderWrap = 300
+	sliderRowA := container.NewGridWrap(fyne.NewSize(sliderWrap, 36), sliderA)
+	sliderRowB := container.NewGridWrap(fyne.NewSize(sliderWrap, 36), sliderB)
 
 	controls := container.NewVBox(
 		widget.NewLabelWithStyle("Керування", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
-		container.NewHBox(widget.NewLabel("Номінал розміну:"), denomEntry, requestBtn),
-		container.NewHBox(insertBtn, autoCheck),
-		delayLabelA, sliderA,
-		delayLabelB, sliderB,
+		container.NewHBox(widget.NewLabel("Номінал розміну:"), denomEntry),
+		requestBtn,
+		insertBtn,
+		autoCheck,
+		delayLabelA,
+		sliderRowA,
+		delayLabelB,
+		sliderRowB,
 	)
+	controlsPanel := container.NewHBox(controls, layout.NewSpacer())
 
 	// --- Event log ---
 	logText := widget.NewMultiLineEntry()
@@ -416,12 +490,17 @@ func (s *supervisor) buildUI(parent fyne.Window) fyne.CanvasObject {
 		container.NewScroll(logText),
 	)
 
-	top := container.New(layout.NewGridLayoutWithColumns(3), bankBox, liveBox, dekkerBox)
+	topSplit := container.NewHSplit(
+		container.NewHBox(bankBox, liveBox),
+		dekkerBox,
+	)
+	topSplit.SetOffset(0.42)
+
 	status := widget.NewLabelWithData(s.statusBinding)
 
 	return container.NewBorder(
-		top, status, nil, nil,
-		container.New(layout.NewGridLayoutWithColumns(2), controls, logPanel),
+		topSplit, status, controlsPanel, nil,
+		logPanel,
 	)
 }
 

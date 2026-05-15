@@ -15,6 +15,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -73,16 +74,41 @@ func main() {
 		fmt.Printf("  EnterA=%d EnterB=%d  BusyA=%d BusyB=%d\n", st.EnterA, st.EnterB, st.BusyA, st.BusyB)
 		fmt.Printf("  Collisions=%d  MaxInCS=%d\n", st.Collisions, st.MaxInCS)
 		fmt.Printf("  AutoMode=%d  DelayMsA=%d DelayMsB=%d\n", st.AutoMode, st.DelayMsA, st.DelayMsB)
+		lastB := atomic.LoadInt32(&st.LastB)
+		lastCoin := atomic.LoadInt32(&st.LastCoin)
+		if lastB != 0 {
+			fmt.Printf("  Last: REFUSE %d\n", lastB)
+		} else if lastCoin != 0 {
+			fmt.Printf("  Last: DEAL coin=%d count=%d denom=%d\n",
+				lastCoin, atomic.LoadInt32(&st.LastCount), atomic.LoadInt32(&st.LastDenom))
+		}
 		fmt.Printf("  Bank: ")
 		for i, d := range shm.BankDenominations {
-			fmt.Printf("%dk=%d ", d, st.Bank[i])
+			fmt.Printf("%dk=%d ", d, atomic.LoadInt32(&st.Bank[i]))
 		}
 		fmt.Println()
 	}
 }
 
-// detectSHM finds the most recent SHM segment owned by the current user.
+// detectSHM returns the highest-numbered System V segment owned by the user.
+// ipcs -m row order is not guaranteed; taking the last line used to attach to
+// a stale segment while the supervisor held a different id.
 func detectSHM() (int, error) {
+	if v := strings.TrimSpace(os.Getenv("LAB3_SHM_ID")); v != "" {
+		id, err := strconv.Atoi(v)
+		if err == nil && id > 0 {
+			return id, nil
+		}
+	}
+	if path := os.Getenv("LAB3_SHM_ID_FILE"); path != "" {
+		b, err := os.ReadFile(path)
+		if err == nil {
+			id, err := strconv.Atoi(strings.TrimSpace(string(b)))
+			if err == nil && id > 0 {
+				return id, nil
+			}
+		}
+	}
 	out, err := exec.Command("ipcs", "-m").Output()
 	if err != nil {
 		return 0, err
@@ -92,7 +118,7 @@ func detectSHM() (int, error) {
 		f := strings.Fields(line)
 		if len(f) >= 2 && f[0] == "m" {
 			n, err := strconv.Atoi(f[1])
-			if err == nil {
+			if err == nil && n > id {
 				id = n
 			}
 		}
