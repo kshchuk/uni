@@ -1,0 +1,214 @@
+go build -o bin/server ./cmd/server
+go build -o bin/client ./cmd/client
+2026/05/18 01:43:06 server listening on 127.0.0.1:9504
+Lab 4 client: addr=127.0.0.1:9504 n=10000 runs=100 seed=42
+Bytes per round-trip (request+response): 80008
+
+2026/05/18 01:43:06 [127.0.0.1:51345] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51345] sorted and replied (sort 381µs)
+2026/05/18 01:43:06 [127.0.0.1:51346] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51346] sorted and replied (sort 363.167µs)
+2026/05/18 01:43:06 [127.0.0.1:51347] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51347] sorted and replied (sort 358.542µs)
+2026/05/18 01:43:06 [127.0.0.1:51348] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51348] sorted and replied (sort 354.584µs)
+2026/05/18 01:43:06 [127.0.0.1:51349] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51349] sorted and replied (sort 360.584µs)
+2026/05/18 01:43:06 [127.0.0.1:51350] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51350] sorted and replied (sort 434.625µs)
+2026/05/18 01:43:06 [127.0.0.1:51351] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51351] sorted and replied (sort 448.708µs)
+2026/05/18 01:43:06 [127.0.0.1:51352] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51352] sorted and replied (sort 465.709µs)
+2026/05/18 01:43:06 [127.0.0.1:51353] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51353] sorted and replied (sort 455.792µs)
+2026/05/18 01:43:06 [127.0.0.1:51354] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51354] sorted and replied (sort 462.584µs)
+2026/05/18 01:43:06 [127.0.0.1:51355] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51355] sorted and replied (sort 457µs)
+2026/05/18 01:43:06 [127.0.0.1:51356] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51356] sorted and replied (sort 443.959µs)
+2026/05/18 01:43:06 [127.0.0.1:51357] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51357] sorted and replied (sort 392.666µs)
+2026/05/18 01:43:06 [127.0.0.1:51358] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51358] sorted and replied (sort 353.917µs)
+2026/05/18 01:43:06 [127.0.0.1:51359] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51359] sorted and replied (sort 354.709µs)
+2026/05/18 01:43:06 [127.0.0.1:51360] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51360] sorted and replied (sort 351.667µs)
+2026/05/18 01:43:06 [127.0.0.1:51361] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51361] sorted and replied (sort 350.417µs)
+2026/05/18 01:43:06 [127.0.0.1:51362] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51362] sorted and replied (sort 401.666µs)
+2026/05/18 01:43:06 [127.0.0.1:51363] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51363] sorted and replied (sort 358.959µs)
+2026/05/18 01:43:06 [127.0.0.1:51364] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51364] sorted and replied (sort 418.042µs)
+2026/05/18 01:43:06 [127.0.0.1:51365] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51365] sorted and replied (sort 366.167µs)
+2026/05/18 01:43:06 [127.0.0.1:51366] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51366] sorted and replied (sort 350.459µs)
+2026/05/18 01:43:06 [127.0.0.1:51367] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51367] sorted and replied (sort 354.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51368] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51368] sorted and replied (sort 349.666µs)
+2026/05/18 01:43:06 [127.0.0.1:51369] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51369] sorted and replied (sort 354.084µs)
+2026/05/18 01:43:06 [127.0.0.1:51370] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51370] sorted and replied (sort 366.791µs)
+2026/05/18 01:43:06 [127.0.0.1:51371] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51371] sorted and replied (sort 493.375µs)
+2026/05/18 01:43:06 [127.0.0.1:51372] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51372] sorted and replied (sort 363.458µs)
+2026/05/18 01:43:06 [127.0.0.1:51373] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51373] sorted and replied (sort 395.542µs)
+2026/05/18 01:43:06 [127.0.0.1:51374] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51374] sorted and replied (sort 402.709µs)
+2026/05/18 01:43:06 [127.0.0.1:51375] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51375] sorted and replied (sort 400.375µs)
+2026/05/18 01:43:06 [127.0.0.1:51376] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51376] sorted and replied (sort 408.459µs)
+2026/05/18 01:43:06 [127.0.0.1:51377] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51377] sorted and replied (sort 414.292µs)
+2026/05/18 01:43:06 [127.0.0.1:51378] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51378] sorted and replied (sort 407.458µs)
+2026/05/18 01:43:06 [127.0.0.1:51379] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51379] sorted and replied (sort 401.75µs)
+2026/05/18 01:43:06 [127.0.0.1:51380] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51380] sorted and replied (sort 388.25µs)
+2026/05/18 01:43:06 [127.0.0.1:51381] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51381] sorted and replied (sort 381.083µs)
+2026/05/18 01:43:06 [127.0.0.1:51382] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51382] sorted and replied (sort 385.375µs)
+2026/05/18 01:43:06 [127.0.0.1:51383] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51383] sorted and replied (sort 386.667µs)
+2026/05/18 01:43:06 [127.0.0.1:51384] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51384] sorted and replied (sort 379.084µs)
+2026/05/18 01:43:06 [127.0.0.1:51386] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51386] sorted and replied (sort 378.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51387] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51387] sorted and replied (sort 383.5µs)
+2026/05/18 01:43:06 [127.0.0.1:51388] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51388] sorted and replied (sort 374.208µs)
+2026/05/18 01:43:06 [127.0.0.1:51389] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51389] sorted and replied (sort 382.416µs)
+2026/05/18 01:43:06 [127.0.0.1:51390] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51390] sorted and replied (sort 420.375µs)
+2026/05/18 01:43:06 [127.0.0.1:51391] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51391] sorted and replied (sort 422.25µs)
+2026/05/18 01:43:06 [127.0.0.1:51392] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51392] sorted and replied (sort 511.292µs)
+2026/05/18 01:43:06 [127.0.0.1:51393] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51393] sorted and replied (sort 426.75µs)
+2026/05/18 01:43:06 [127.0.0.1:51394] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51394] sorted and replied (sort 429.125µs)
+2026/05/18 01:43:06 [127.0.0.1:51395] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51395] sorted and replied (sort 417.208µs)
+2026/05/18 01:43:06 [127.0.0.1:51396] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51396] sorted and replied (sort 426µs)
+2026/05/18 01:43:06 [127.0.0.1:51397] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51397] sorted and replied (sort 420.417µs)
+2026/05/18 01:43:06 [127.0.0.1:51398] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51398] sorted and replied (sort 384.292µs)
+2026/05/18 01:43:06 [127.0.0.1:51399] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51399] sorted and replied (sort 389.875µs)
+2026/05/18 01:43:06 [127.0.0.1:51400] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51400] sorted and replied (sort 382.792µs)
+2026/05/18 01:43:06 [127.0.0.1:51401] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51401] sorted and replied (sort 475.917µs)
+2026/05/18 01:43:06 [127.0.0.1:51402] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51402] sorted and replied (sort 375.458µs)
+2026/05/18 01:43:06 [127.0.0.1:51403] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51403] sorted and replied (sort 374.667µs)
+2026/05/18 01:43:06 [127.0.0.1:51404] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51404] sorted and replied (sort 378.625µs)
+2026/05/18 01:43:06 [127.0.0.1:51405] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51405] sorted and replied (sort 388.459µs)
+2026/05/18 01:43:06 [127.0.0.1:51406] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51406] sorted and replied (sort 521.459µs)
+2026/05/18 01:43:06 [127.0.0.1:51407] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51407] sorted and replied (sort 386µs)
+2026/05/18 01:43:06 [127.0.0.1:51408] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51408] sorted and replied (sort 359.459µs)
+2026/05/18 01:43:06 [127.0.0.1:51409] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51409] sorted and replied (sort 406.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51410] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51410] sorted and replied (sort 354.708µs)
+2026/05/18 01:43:06 [127.0.0.1:51411] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51411] sorted and replied (sort 363.875µs)
+2026/05/18 01:43:06 [127.0.0.1:51412] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51412] sorted and replied (sort 354.625µs)
+2026/05/18 01:43:06 [127.0.0.1:51413] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51413] sorted and replied (sort 348µs)
+2026/05/18 01:43:06 [127.0.0.1:51414] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51414] sorted and replied (sort 405.417µs)
+2026/05/18 01:43:06 [127.0.0.1:51415] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51415] sorted and replied (sort 393.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51416] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51416] sorted and replied (sort 404.125µs)
+2026/05/18 01:43:06 [127.0.0.1:51417] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51417] sorted and replied (sort 446.667µs)
+2026/05/18 01:43:06 [127.0.0.1:51418] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51418] sorted and replied (sort 560.125µs)
+2026/05/18 01:43:06 [127.0.0.1:51419] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51419] sorted and replied (sort 468.875µs)
+2026/05/18 01:43:06 [127.0.0.1:51420] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51420] sorted and replied (sort 548.709µs)
+2026/05/18 01:43:06 [127.0.0.1:51421] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51421] sorted and replied (sort 441.292µs)
+2026/05/18 01:43:06 [127.0.0.1:51422] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51422] sorted and replied (sort 567.25µs)
+2026/05/18 01:43:06 [127.0.0.1:51423] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51423] sorted and replied (sort 355.5µs)
+2026/05/18 01:43:06 [127.0.0.1:51424] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51424] sorted and replied (sort 363.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51425] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51425] sorted and replied (sort 353.834µs)
+2026/05/18 01:43:06 [127.0.0.1:51426] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51426] sorted and replied (sort 355.708µs)
+2026/05/18 01:43:06 [127.0.0.1:51427] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51427] sorted and replied (sort 349.375µs)
+2026/05/18 01:43:06 [127.0.0.1:51428] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51428] sorted and replied (sort 363.709µs)
+2026/05/18 01:43:06 [127.0.0.1:51429] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51429] sorted and replied (sort 353.708µs)
+2026/05/18 01:43:06 [127.0.0.1:51430] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51430] sorted and replied (sort 524.916µs)
+2026/05/18 01:43:06 [127.0.0.1:51431] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51431] sorted and replied (sort 376.542µs)
+2026/05/18 01:43:06 [127.0.0.1:51432] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51432] sorted and replied (sort 390.042µs)
+2026/05/18 01:43:06 [127.0.0.1:51433] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51433] sorted and replied (sort 367.833µs)
+2026/05/18 01:43:06 [127.0.0.1:51434] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51434] sorted and replied (sort 390.416µs)
+2026/05/18 01:43:06 [127.0.0.1:51435] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51435] sorted and replied (sort 390.167µs)
+2026/05/18 01:43:06 [127.0.0.1:51436] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51436] sorted and replied (sort 381.625µs)
+2026/05/18 01:43:06 [127.0.0.1:51437] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51437] sorted and replied (sort 384.083µs)
+2026/05/18 01:43:06 [127.0.0.1:51438] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51438] sorted and replied (sort 401.25µs)
+2026/05/18 01:43:06 [127.0.0.1:51439] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51439] sorted and replied (sort 401.291µs)
+2026/05/18 01:43:06 [127.0.0.1:51440] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51440] sorted and replied (sort 402.083µs)
+2026/05/18 01:43:06 [127.0.0.1:51441] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51441] sorted and replied (sort 400.334µs)
+2026/05/18 01:43:06 [127.0.0.1:51442] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51442] sorted and replied (sort 408µs)
+2026/05/18 01:43:06 [127.0.0.1:51443] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51443] sorted and replied (sort 406.542µs)
+2026/05/18 01:43:06 [127.0.0.1:51444] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51444] sorted and replied (sort 639.25µs)
+2026/05/18 01:43:06 [127.0.0.1:51445] received 10000 elements
+2026/05/18 01:43:06 [127.0.0.1:51445] sorted and replied (sort 450.416µs)
+=== Results (100 experiments) ===
+RTT avg:  530.293µs
+RTT min:  435.125µs
+RTT max:  868.375µs
+RTT stdev: 78.105µs
+Average port speed: 1207.00 Mbit/s
+Average port speed: 150.88 MB/s
+2026/05/18 01:43:06 shutting down

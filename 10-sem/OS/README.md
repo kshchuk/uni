@@ -9,3 +9,4 @@ Deeper systems programming topics implemented as three laboratories (kernel or u
 | [lab1](./lab1/) | OS lab 1 (includes nested project `Sorting-Algorithms` with its own README). |
 | [lab2](./lab2/) | OS lab 2. |
 | [lab3](./lab3/) | OS lab 3. |
+| [lab4](./lab4/) | OS lab 4 — TCP client/server array sorting. |
