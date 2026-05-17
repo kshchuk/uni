@@ -17,11 +17,29 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage[tableposition=top]{caption}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \usepackage{fancyhdr}
 \usepackage{amsmath}
+
+\addto\captionsukrainian{%
+  \renewcommand{\tablename}{Таблиця}%
+}
+\captionsetup[table]{%
+  position=top,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt,
+  font=small,
+  labelfont=normalsize,
+  labelsep=endash,
+}
+\newcommand{\dstutablerules}{%
+  \setlength{\tabcolsep}{5pt}%
+  \renewcommand{\arraystretch}{1.2}%
+}
 
 \lstdefinelanguage{Go}{
     keywords={break,default,func,interface,select,case,defer,go,map,struct,
@@ -107,18 +125,21 @@
 \section{Протокол і архітектура}
 
 Транспорт --- TCP (\texttt{127.0.0.1:9504}, loopback). Бінарний формат
-повідомлення:
+повідомлення наведено в табл.~\ref{tab:protocol}.
 
-\begin{center}
-\begin{tabular}{ll}
+\begin{table}[H]
+\caption{Формат бінарного повідомлення}
+\label{tab:protocol}
+\dstutablerules
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l L@{}}
 \toprule
 Поле & Розмір \\
 \midrule
-\texttt{N} & 4 байти, \texttt{uint32} little-endian \\
-\texttt{data} & $N \times 4$ байти (\texttt{int32}) \\
+\texttt{N} & 4~байти, \texttt{uint32} little-endian \\
+\texttt{data} & $N \times 4$~байти (\texttt{int32}, little-endian) \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
+\end{table}
 
 Обсяг одного round-trip (запит + відповідь):
 $2 \times (4 + 10000 \times 4) = 80\,008$~байт.
@@ -149,9 +170,10 @@ V = \frac{2 \cdot (4 + N \cdot 4) \cdot 8}{T_{\mathrm{avg}}} \quad \text{(Мбі
 \texttt{seed=42}).
 
 \begin{table}[H]
-\centering
 \caption{Метрики round-trip (100 експериментів)}
-\begin{tabular}{lr}
+\label{tab:metrics}
+\dstutablerules
+\begin{tabularx}{\linewidth}{@{}l r@{}}
 \toprule
 Показник & Значення \\
 \midrule
@@ -162,7 +184,7 @@ V = \frac{2 \cdot (4 + N \cdot 4) \cdot 8}{T_{\mathrm{avg}}} \quad \text{(Мбі
 Середня швидкість порту & 1207.00~Мбіт/с \\
 Пропускна здатність & 150.88~МБ/с \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 \begin{figure}[H]
