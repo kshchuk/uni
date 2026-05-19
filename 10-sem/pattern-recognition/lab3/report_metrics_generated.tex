@@ -9,25 +9,46 @@
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.15}
-\caption{Зведення розбіжностей індивідуальних рішень на тестовому наборі}
-\label{tab:lab3mismatch}
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Пара порівняння} & \textbf{Розділені} & \textbf{Перекриття} \\
+\textbf{Метод} & \textbf{Розділені} & \textbf{Перекриття} \\
 \hline
-$L2$ vs $L1$ & 3 з 100 & 10 з 100 \\
+$L2$ & 100 з 100 & 69 з 100 \\
 \hline
-$L2$ vs Петунін 2D & 6 з 100 & 40 з 100 \\
+$L1$ & 100 з 100 & 66 з 100 \\
 \hline
-$L2$ (3D) vs Петунін 3D & 4 з 100 & 31 з 100 \\
+Петунін 2D & 100 з 100 & 59 з 100 \\
+\hline
+$L2$ у 3D & 100 з 100 & 70 з 100 \\
+\hline
+Петунін 3D & 100 з 100 & 64 з 100 \\
 \hline
 \end{tabular}
+\caption{Точність класифікації на тестовому наборі (істинні мітки типів)}
+\label{tab:lab3accuracy}
 \end{table}
 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.15}
-\caption{Центроїди класів у площині $(x,y)$ для двох режимів генерації}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Пара порівняння} & \textbf{Розділені} & \textbf{Перекриття} \\
+\hline
+$L2$ vs $L1$ & 0 з 100 & 7 з 100 \\
+\hline
+$L2$ vs Петунін 2D & 0 з 100 & 18 з 100 \\
+\hline
+$L2$ (3D) vs Петунін 3D & 0 з 100 & 24 з 100 \\
+\hline
+\end{tabular}
+\caption{Зведення розбіжностей індивідуальних рішень на тестовому наборі}
+\label{tab:lab3mismatch}
+\end{table}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.15}
 \begin{tabular}{|l|r|r|r|r|}
 \hline
 \textbf{Клас} & \multicolumn{2}{c|}{\textbf{Розділені ($x_c,\,y_c$)}} & \multicolumn{2}{c|}{\textbf{Перекриття ($x_c,\,y_c$)}} \\
@@ -41,46 +62,50 @@ $L2$ (3D) vs Петунін 3D & 4 з 100 & 31 з 100 \\
 Тип 3 & 3.0557 & -4.7480 & 2.0488 & -1.7477 \\
 \hline
 \end{tabular}
+\caption{Центроїди класів у площині $(x,y)$ для двох режимів генерації}
+\label{tab:lab3centroids}
 \end{table}
 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.12}
-\caption{Кількість тестових точок за передбаченням (режим \textit{розділені})}
 \begin{tabular}{|l|c|c|c|}
 \hline
 \textbf{Метод} & \textbf{Тип 1} & \textbf{Тип 2} & \textbf{Тип 3} \\
 \hline
-$L2$ & 48 & 32 & 20 \\
+$L2$ & 34 & 33 & 33 \\
 \hline
-$L1$ & 47 & 30 & 23 \\
+$L1$ & 34 & 33 & 33 \\
 \hline
-Петунін 2D & 46 & 30 & 24 \\
+Петунін 2D & 34 & 33 & 33 \\
 \hline
-$L2$ у 3D & 43 & 25 & 32 \\
+$L2$ у 3D & 34 & 33 & 33 \\
 \hline
-Петунін 3D & 43 & 22 & 35 \\
+Петунін 3D & 34 & 33 & 33 \\
 \hline
 \end{tabular}
+\caption{Кількість передбачень по класах (режим \textit{розділені}; тест $34{+}33{+}33$)}
+\label{tab:lab3predsep}
 \end{table}
 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.12}
-\caption{Кількість тестових точок за передбаченням (режим \textit{перекриття})}
 \begin{tabular}{|l|c|c|c|}
 \hline
 \textbf{Метод} & \textbf{Тип 1} & \textbf{Тип 2} & \textbf{Тип 3} \\
 \hline
-$L2$ & 42 & 27 & 31 \\
+$L2$ & 38 & 36 & 26 \\
 \hline
-$L1$ & 38 & 27 & 35 \\
+$L1$ & 36 & 41 & 23 \\
 \hline
-Петунін 2D & 16 & 57 & 27 \\
+Петунін 2D & 31 & 40 & 29 \\
 \hline
-$L2$ у 3D & 37 & 25 & 38 \\
+$L2$ у 3D & 37 & 37 & 26 \\
 \hline
-Петунін 3D & 22 & 50 & 28 \\
+Петунін 3D & 40 & 27 & 33 \\
 \hline
 \end{tabular}
+\caption{Кількість передбачень по класах (режим \textit{перекриття}; тест $34{+}33{+}33$)}
+\label{tab:lab3predovl}
 \end{table}

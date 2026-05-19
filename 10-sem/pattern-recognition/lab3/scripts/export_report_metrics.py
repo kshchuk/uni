@@ -64,6 +64,10 @@ def notebook_namespace(generation: str) -> dict:
     return ns
 
 
+def _accuracy(results: list, pred_key: str) -> int:
+    return sum(1 for r in results if r[pred_key] == r["true"])
+
+
 def _run_pipeline(generation: str) -> dict:
     ns = notebook_namespace(generation)
 
@@ -75,6 +79,7 @@ def _run_pipeline(generation: str) -> dict:
         ns["test_points_3d"],
         ns["centroids_3d"],
         ns["petunin_models_3d"],
+        ns["test_labels"],
     )
     names = list(ns["class_points"].keys())
     mismatch = [r for r in results if r["pred_L2"] != r["pred_L1"]]
@@ -92,6 +97,11 @@ def _run_pipeline(generation: str) -> dict:
         "n_test": n,
         "seed": int(ns.get("SEED", 24)),
         "n_per_class": int(ns.get("N_PER_CLASS", 100)),
+        "acc_l2": _accuracy(results, "pred_L2"),
+        "acc_l1": _accuracy(results, "pred_L1"),
+        "acc_pet": _accuracy(results, "pred_pet"),
+        "acc_l2_3d": _accuracy(results, "pred_L2_3d"),
+        "acc_pet3": _accuracy(results, "pred_pet_3d"),
         "mismatch_l2_l1": len(mismatch),
         "mismatch_l2_pet": len(mismatch_pet),
         "mismatch_l2_pet3d": len(mismatch_pet3),
@@ -119,8 +129,28 @@ def build_tex(sep: dict, ovl: dict) -> str:
         r"\begin{table}[H]",
         r"\centering",
         r"\renewcommand{\arraystretch}{1.15}",
-        r"\caption{Зведення розбіжностей індивідуальних рішень на тестовому наборі}",
-        r"\label{tab:lab3mismatch}",
+        r"\begin{tabular}{|l|c|c|}",
+        r"\hline",
+        r"\textbf{Метод} & \textbf{Розділені} & \textbf{Перекриття} \\",
+        r"\hline",
+        rf"$L2$ & {sep['acc_l2']} з {sep['n_test']} & {ovl['acc_l2']} з {ovl['n_test']} \\",
+        r"\hline",
+        rf"$L1$ & {sep['acc_l1']} з {sep['n_test']} & {ovl['acc_l1']} з {ovl['n_test']} \\",
+        r"\hline",
+        rf"Петунін 2D & {sep['acc_pet']} з {sep['n_test']} & {ovl['acc_pet']} з {ovl['n_test']} \\",
+        r"\hline",
+        rf"$L2$ у 3D & {sep['acc_l2_3d']} з {sep['n_test']} & {ovl['acc_l2_3d']} з {ovl['n_test']} \\",
+        r"\hline",
+        rf"Петунін 3D & {sep['acc_pet3']} з {sep['n_test']} & {ovl['acc_pet3']} з {ovl['n_test']} \\",
+        r"\hline",
+        r"\end{tabular}",
+        r"\caption{Точність класифікації на тестовому наборі (істинні мітки типів)}",
+        r"\label{tab:lab3accuracy}",
+        r"\end{table}",
+        "",
+        r"\begin{table}[H]",
+        r"\centering",
+        r"\renewcommand{\arraystretch}{1.15}",
         r"\begin{tabular}{|l|c|c|}",
         r"\hline",
         r"\textbf{Пара порівняння} & \textbf{Розділені} & \textbf{Перекриття} \\",
@@ -132,12 +162,13 @@ def build_tex(sep: dict, ovl: dict) -> str:
         rf"$L2$ (3D) vs Петунін 3D & {sep['mismatch_l2_pet3d']} з {sep['n_test']} & {ovl['mismatch_l2_pet3d']} з {ovl['n_test']} \\",
         r"\hline",
         r"\end{tabular}",
+        r"\caption{Зведення розбіжностей індивідуальних рішень на тестовому наборі}",
+        r"\label{tab:lab3mismatch}",
         r"\end{table}",
         "",
         r"\begin{table}[H]",
         r"\centering",
         r"\renewcommand{\arraystretch}{1.15}",
-        r"\caption{Центроїди класів у площині $(x,y)$ для двох режимів генерації}",
         r"\begin{tabular}{|l|r|r|r|r|}",
         r"\hline",
         r"\textbf{Клас} & \multicolumn{2}{c|}{\textbf{Розділені ($x_c,\,y_c$)}} & \multicolumn{2}{c|}{\textbf{Перекриття ($x_c,\,y_c$)}} \\",
@@ -154,12 +185,13 @@ def build_tex(sep: dict, ovl: dict) -> str:
     lines.extend(
         [
             r"\end{tabular}",
+            r"\caption{Центроїди класів у площині $(x,y)$ для двох режимів генерації}",
+            r"\label{tab:lab3centroids}",
             r"\end{table}",
             "",
             r"\begin{table}[H]",
             r"\centering",
             r"\renewcommand{\arraystretch}{1.12}",
-        r"\caption{Кількість тестових точок за передбаченням (режим \textit{розділені})}",
         r"\begin{tabular}{|l|" + "c|" * len(names) + "}",
         r"\hline",
         r"\textbf{Метод} & " + " & ".join([rf"\textbf{{{n}}}" for n in names]) + r" \\",
@@ -175,12 +207,13 @@ def build_tex(sep: dict, ovl: dict) -> str:
         r"Петунін 3D & " + " & ".join(str(sep["counts_pet3"][t]) for t in names) + r" \\",
         r"\hline",
         r"\end{tabular}",
+        r"\caption{Кількість передбачень по класах (режим \textit{розділені}; тест $34{+}33{+}33$)}",
+        r"\label{tab:lab3predsep}",
         r"\end{table}",
         "",
         r"\begin{table}[H]",
         r"\centering",
         r"\renewcommand{\arraystretch}{1.12}",
-        r"\caption{Кількість тестових точок за передбаченням (режим \textit{перекриття})}",
         r"\begin{tabular}{|l|" + "c|" * len(names) + "}",
         r"\hline",
         r"\textbf{Метод} & " + " & ".join([rf"\textbf{{{n}}}" for n in names]) + r" \\",
@@ -196,6 +229,8 @@ def build_tex(sep: dict, ovl: dict) -> str:
         r"Петунін 3D & " + " & ".join(str(ovl["counts_pet3"][t]) for t in names) + r" \\",
         r"\hline",
         r"\end{tabular}",
+        r"\caption{Кількість передбачень по класах (режим \textit{перекриття}; тест $34{+}33{+}33$)}",
+        r"\label{tab:lab3predovl}",
         r"\end{table}",
         ]
     )
@@ -218,6 +253,23 @@ def export_figures() -> None:
         "separated": "Класи: розділені хмари (мало перекриття)",
         "overlap": "Класи: часткове перекриття множин",
     }
+
+    def scatter_test_labeled(ax, test_points, test_labels, class_specs, *, s=14, alpha=0.9, marker="x"):
+        labels = np.asarray(test_labels)
+        for name, spec in class_specs.items():
+            mask = labels == name
+            if not np.any(mask):
+                continue
+            ax.scatter(
+                test_points[mask, 0],
+                test_points[mask, 1],
+                s=s,
+                alpha=alpha,
+                color=spec["color"],
+                marker=marker,
+                linewidths=0.8,
+                label=f"тест ({name})",
+            )
 
     def ellipsoid_parametric(center, half, rho, n_u=16, n_v=32):
         u = np.linspace(0.0, np.pi, n_u)
@@ -272,6 +324,7 @@ def export_figures() -> None:
         centroids = ns["centroids"]
         test_points = ns["test_points"]
         test_points_3d = ns["test_points_3d"]
+        test_labels = ns["test_labels"]
         petunin_models_2d = ns["petunin_models_2d"]
 
         # --- 2D: навчальні + центроїди + тест (як клітина 5 ноутбука) ---
@@ -296,14 +349,7 @@ def export_figures() -> None:
                 color=class_specs[name]["color"],
             )
             ax.text(c[0] + 0.15, c[1] + 0.15, f"центр {name}")
-        ax.scatter(
-            test_points[:, 0],
-            test_points[:, 1],
-            s=15,
-            color="black",
-            alpha=0.35,
-            label="Тестові точки",
-        )
+        scatter_test_labeled(ax, test_points, test_labels, class_specs, s=42, alpha=0.95)
         ax.set_title(titles[gen])
         ax.set_xlabel("x")
         ax.set_ylabel("y")
@@ -332,7 +378,7 @@ def export_figures() -> None:
             for r in ru:
                 xy = model.ellipse_xy(r, n_phi=96)
                 ax.plot(xy[:, 0], xy[:, 1], color=col, lw=0.9, alpha=0.7)
-        ax.scatter(test_points[:, 0], test_points[:, 1], s=6, c="k", alpha=0.2, label="тест")
+        scatter_test_labeled(ax, test_points, test_labels, class_specs, s=22, alpha=0.9)
         ax.set_title("Еліпси Петуніна (lab1) для кожного типу на одній площині $(x,y)$")
         ax.set_xlabel("x")
         ax.set_ylabel("y")
@@ -369,7 +415,7 @@ def export_figures() -> None:
                 linewidths=0.15,
             )
         ax.scatter(cent2[:, 0], cent2[:, 1], s=200, c="white", marker="X", edgecolors="black", linewidths=1.1, zorder=5)
-        ax.scatter(test_points[:, 0], test_points[:, 1], s=5, c="k", alpha=0.18, zorder=4)
+        scatter_test_labeled(ax, test_points, test_labels, class_specs, s=18, alpha=0.85, marker="x")
         ax.set_title(f"$L2$ до центроїдів (фон = argmin) — {titles[gen]}")
         ax.set_xlabel("x")
         ax.set_ylabel("y")
@@ -393,7 +439,7 @@ def export_figures() -> None:
                 linewidths=0.15,
             )
         ax.scatter(cent2[:, 0], cent2[:, 1], s=200, c="white", marker="X", edgecolors="black", linewidths=1.1, zorder=5)
-        ax.scatter(test_points[:, 0], test_points[:, 1], s=5, c="k", alpha=0.18, zorder=4)
+        scatter_test_labeled(ax, test_points, test_labels, class_specs, s=18, alpha=0.85, marker="x")
         ax.set_title(f"$L1$ до центроїдів (фон = argmin) — {titles[gen]}")
         ax.set_xlabel("x")
         ax.set_ylabel("y")
@@ -417,13 +463,17 @@ def export_figures() -> None:
                     color=class_specs[name]["color"],
                     label=name,
                 )
-            ax.scatter(
-                test_points_3d[:, i],
-                test_points_3d[:, j],
-                s=4,
-                c="k",
-                alpha=0.15,
-            )
+            labels3 = np.asarray(test_labels)
+            for name, spec in class_specs.items():
+                mask = labels3 == name
+                ax.scatter(
+                    test_points_3d[mask, i],
+                    test_points_3d[mask, j],
+                    s=12,
+                    c=spec["color"],
+                    alpha=0.5,
+                    marker="x",
+                )
             ax.set_xlabel(li)
             ax.set_ylabel(lj)
             ax.set_title(f"{li}{lj}")
