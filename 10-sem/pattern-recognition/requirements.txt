@@ -2,5 +2,7 @@
 # Also install ffmpeg on the system:  brew install ffmpeg  (macOS)
 
 numpy>=1.24
+matplotlib>=3.8
+pandas>=2.0
 opencv-python>=4.8
 plotly>=5.18

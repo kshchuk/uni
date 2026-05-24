@@ -1,0 +1,100 @@
+% --- AUTO-GENERATED from lab-4.ipynb via export_report_metrics.py ---
+% Оновити: python3 lab4/scripts/export_report_metrics.py
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Клас} & \textbf{Підхід 1 (середина діапазону)} & \textbf{Підхід 2 (середнє)} \\
+\hline
+Зелена & (2.0000, 5.0000, 5.0000, 8.0000) & (2.0000, 5.0000, 5.0000, 8.0000) \\
+\hline
+Синя & (6.5000, 6.0000, 13.0000, 2.5000) & (6.3333, 6.0000, 13.0000, 2.6667) \\
+\hline
+Червона & (13.0000, 6.0000, 29.5000, 5.5000) & (13.3333, 6.0000, 29.6667, 5.3333) \\
+\hline
+\end{tabular}
+\caption{Середні представники класів у $\mathbb{R}^4$}
+\label{tab:lab4reps}
+\end{table}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\textbf{Вимір} & Зелена & Синя & Червона & \textbf{$S_j$} & \textbf{$w_j$} \\
+\hline
+$x_1$ & 2 & 3 & 6 & 11 & 0.090909 \\
+\hline
+$x_2$ & 4 & 2 & 2 & 8 & 0.125000 \\
+\hline
+$x_3$ & 2 & 6 & 3 & 11 & 0.090909 \\
+\hline
+$x_4$ & 2 & 3 & 3 & 8 & 0.125000 \\
+\hline
+\end{tabular}
+\caption{Розмахи класів $s_{k,j}$, сумарний розмах $S_j$ і ваги $w_j=1/S_j$}
+\label{tab:lab4weights}
+\end{table}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{Вимір} & \textbf{Зелена} & \textbf{Синя} & \textbf{Червона} & \textbf{Переможець} \\
+\hline
+$x_1$ & --- & $\checkmark$ & --- & Синя \\
+\hline
+$x_2$ & --- & $\checkmark$ & $\checkmark$ & Синя, Червона \\
+\hline
+$x_3$ & --- & --- & $\checkmark$ & Червона \\
+\hline
+$x_4$ & --- & --- & $\checkmark$ & Червона \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Голоси:} Зелена: 0, Синя: 2, Червона: 3; \textbf{рішення:} Червона} \\
+\hline
+\end{tabular}
+\caption{Голосування по вимірах (Підхід 1)}
+\label{tab:lab4voterange}
+\end{table}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{Вимір} & \textbf{Зелена} & \textbf{Синя} & \textbf{Червона} & \textbf{Переможець} \\
+\hline
+$x_1$ & --- & $\checkmark$ & --- & Синя \\
+\hline
+$x_2$ & --- & $\checkmark$ & $\checkmark$ & Синя, Червона \\
+\hline
+$x_3$ & --- & --- & $\checkmark$ & Червона \\
+\hline
+$x_4$ & --- & --- & $\checkmark$ & Червона \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Голоси:} Зелена: 0, Синя: 2, Червона: 3; \textbf{рішення:} Червона} \\
+\hline
+\end{tabular}
+\caption{Голосування по вимірах (Підхід 2)}
+\label{tab:lab4votemean}
+\end{table}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|l|r|r|r|l|}
+\hline
+\textbf{Підхід} & \textbf{$D_{\text{Зел.}}$} & \textbf{$D_{\text{Син.}}$} & \textbf{$D_{\text{Черв.}}$} & \textbf{Клас} \\
+\hline
+Підхід 1 & 2.7727 & 1.5398 & 1.0170 & Червона \\
+\hline
+Підхід 2 & 2.7727 & 1.5038 & 1.0417 & Червона \\
+\hline
+\end{tabular}
+\caption{Зважена сума модулів $D_k$ для тестової точки $(6,6,26,5)$}
+\label{tab:lab4weighted}
+\end{table}

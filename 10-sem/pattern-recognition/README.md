@@ -13,9 +13,8 @@ Classical geometric and statistical ideas for describing point sets and simple d
 | `lab1/` | Nested **ellipses** from a 2D point cloud: convex hull, farthest pair, rotation, scaling to a square, nested circles, inverse map, empirical **membership probabilities** for test points. Notebook `lab-1.ipynb`, LaTeX `REPORT.tex`. |
 | `lab2/` | Same **nested-ellipse / Petunin** pipeline as lab 1, but training and test points are sampled **inside a fixed polygon** (variant #1). Notebook `lab-2.ipynb`; numeric summary in `lab2_results.txt`. |
 | `lab3/` | **Three-class** synthetic data (mixed uniform / Gaussian). Compare **centroid classifiers** under $L_2$ and $L_1$ with **2D and 3D Petunin ellipsoids**; optional separated vs overlapping regimes. Notebook `lab-3.ipynb`, Ukrainian LaTeX report `REPORT.tex`, exported figures under `figures/`, metrics helper `scripts/export_report_metrics.py`. |
+| `lab4/` | **Multidimensional classification** in $\mathbb{R}^4$: class representatives by range midpoint vs arithmetic mean; **per-dimension voting** and **weighted $L_1$** distance. Notebook `lab-4.ipynb`, `REPORT.tex`, `scripts/export_report_metrics.py` (reads logic from the notebook). |
 | `lab5/` | Three **3D** uniform classes. **Project** data onto candidate lines between class **centroids**; pick the best line using (1) minimum sum of orthogonal distances to the line and (2) maximum spread of 1D projections; then classify in 1D. Notebook `lab-5.ipynb`, `REPORT.tex`. |
-
-There is no `lab4/` folder in this tree.
 
 ## Environment
 

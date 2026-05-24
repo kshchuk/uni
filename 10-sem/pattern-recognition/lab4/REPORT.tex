@@ -1,0 +1,188 @@
+\documentclass[14pt,a4paper,oneside]{extarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[ukrainian]{babel}
+
+\usepackage[a4paper,left=30mm,right=15mm,top=20mm,bottom=20mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionLabelSeparator{dstudash}{\,---\,}
+\captionsetup{format=plain,labelfont=bf,labelsep=dstudash}
+\captionsetup[figure]{justification=centering}
+\captionsetup[table]{position=bottom,justification=raggedright,singlelinecheck=false}
+
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\addto\captionsukrainian{%
+  \renewcommand{\figurename}{Рисунок}%
+  \renewcommand{\tablename}{Таблиця}%
+  \renewcommand{\contentsname}{Зміст}%
+}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\graphicspath{{./}{figures/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Розпізнавання образів}
+\fancyhead[R]{Лабораторна робота 4}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{17pt}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+{\Large \textbf{КИЇВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ\\
+ІМЕНІ ТАРАСА ШЕВЧЕНКА}}\\[2\baselineskip]
+{\large Факультет комп'ютерних наук та кібернетики}\\[3\baselineskip]
+{\Large \textbf{ЛАБОРАТОРНА РОБОТА 4}}\\[0.75\baselineskip]
+{\large \textbf{Розпізнавання образів}}\\[2.5\baselineskip]
+{\normalsize на тему:}\\[0.75\baselineskip]
+{\large \textbf{Багатовимірна класифікація за середніми\\
+представниками класів}}\\[4\baselineskip]
+\end{center}
+\begin{flushright}
+Виконав:\\[0.25\baselineskip]
+студент групи ПМ\\[0.4\baselineskip]
+{\Large \textbf{Кіщук Ярослав Ярославович}}\\[2\baselineskip]
+\end{flushright}
+\vfill
+\begin{center}
+{\large \textbf{Київ --- 2026}}
+\end{center}
+\end{titlepage}
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\section{Мета та завдання роботи}
+
+\subsection{Мета}
+Класифікувати тестову точку в $\mathbb{R}^4$ за трьома класами, використовуючи два способи побудови \emph{середнього представника} класу та два правила порівняння з тестом.
+
+\subsection{Завдання}
+\begin{enumerate}
+    \item Задати навчальні множини трьох класів (по три 4-вимірні вектори).
+    \item Обчислити представників класів: середина діапазону по вимірах і арифметичне середнє.
+    \item Обчислити ваги $w_j$ через сумарний розмах $S_j$ по всіх класах.
+    \item Класифікувати тестову точку $\mathbf{t}=(6,6,26,5)$ правилом голосування та зваженою сумою модулів.
+    \item Порівняти результати для обох підходів; оформити таблиці та ілюстрації.
+\end{enumerate}
+
+\section{Теоретичні відомості}
+
+Нехай клас $C_k$ містить точки $\mathbf{x}^{(i)}\in\mathbb{R}^d$.
+
+\textbf{Підхід 1} (середина діапазону):
+\begin{equation}
+  \mu_{k,j}=\tfrac{1}{2}\Bigl(\min_{\mathbf{x}\in C_k} x_j + \max_{\mathbf{x}\in C_k} x_j\Bigr).
+\end{equation}
+
+\textbf{Підхід 2} (середнє арифметичне):
+\begin{equation}
+  \boldsymbol{\mu}_k = \frac{1}{|C_k|}\sum_{\mathbf{x}\in C_k}\mathbf{x}.
+\end{equation}
+
+Розмах класу по виміру $j$: $s_{k,j}=\max x_j-\min x_j$ у $C_k$. Сумарний розмах $S_j=\sum_k s_{k,j}$, вага $w_j=1/S_j$.
+
+\textbf{Голосування:} для кожного $j$ клас з $\min_k |t_j-\mu_{k,j}|$ отримує один голос; переможець --- $\arg\max_k$ голосів.
+
+\textbf{Зважена відстань:}
+\begin{equation}
+  D_k(\mathbf{t})=\sum_{j=1}^{d} w_j\,|t_j-\mu_{k,j}|,\qquad
+  \hat{k}=\arg\min_k D_k(\mathbf{t}).
+\end{equation}
+
+\section{Вихідні дані}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Клас} & \textbf{Навчальні вектори} \\
+\hline
+Зелена & $(1,3,5,7)$, $(2,7,6,9)$, $(3,5,4,8)$ \\
+\hline
+Синя & $(5,5,10,1)$, $(6,7,13,3)$, $(8,6,16,4)$ \\
+\hline
+Червона & $(10,7,30,4)$, $(14,6,31,5)$, $(16,5,28,7)$ \\
+\hline
+\end{tabular}
+\caption{Навчальні дані (4 виміри)}
+\label{tab:lab4data}
+\end{table}
+
+Тестова точка: $\mathbf{t}=(6,6,26,5)$.
+
+Реалізація: ноутбук \texttt{lab-4.ipynb}; таблиці та рисунки нижче генеруються скриптом \texttt{scripts/export\_report\_metrics.py} (код з ноутбука).
+
+\section{Результати та аналіз}
+\label{sec:results}
+
+\input{report_metrics_generated}
+
+\subsection{Голосування}
+
+Для \textbf{підходу 1} найближчі представники по вимірах: $x_1$ і $x_2$ --- Синя, $x_3$ і $x_4$ --- Червона. На вимірі $x_2$ відстані до Синьої та Червоної однакові ($|6-6|=0$), тому обидва класи отримують голос. Підсумок: Синя~2, Червона~3 --- перемагає \textbf{Червона}.
+
+Для \textbf{підходу 2} представники Синьої та Червоної зміщуються ($x_1$ Синьої $\approx 6{,}33$), але розподіл голосів той самий: Червона перемагає з рахунком 3:2.
+
+У друкованій методичці для червоного класу інколи вказують $y=4{,}5$ замість $6$ при підході~1; це дає нічию 2:2 між Синьою та Червоною. За коректною формулою $(\min+\max)/2$ для координат $y\in\{7,6,5\}$ отримуємо $y=6$.
+
+\subsection{Зважена сума}
+
+Мінімальне $D_k$ для обох підходів --- у \textbf{Червоного} класу (табл.~\ref{tab:lab4weighted}). Внесок виміру $x_3$ найбільший: $|26-29{,}5|$ або $|26-29{,}67|$ менше, ніж відстані до зеленого та синього представників, а вага $w_3=1/11$ однакова для всіх класів, але абсолютні відхилення у червоного найменші.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/lab4_pairplot.png}
+\caption{Проекції навчальних точок, представників (підхід~1) і тестової точки}
+\label{fig:lab4pair}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab4_votes_range.png}
+\caption{Голосування, підхід 1}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lab4_votes_mean.png}
+\caption{Голосування, підхід 2}
+\end{subfigure}
+\\[0.5em]
+\includegraphics[width=0.65\textwidth]{figures/lab4_distances_weighted.png}
+\caption{Зважені відстані $D_k$ для обох підходів}
+\label{fig:lab4dist}
+\end{figure}
+
+\section{Висновки}
+
+\begin{enumerate}
+    \item Для тестової точки $(6,6,26,5)$ обидва правила зваженої суми відносять її до \textbf{Червоного} класу при обох підходах до представника.
+    \item Голосування також дає \textbf{Червону} (3:2 проти Синьої); зелений клас не отримує жодного голосу, бо представник $(2,5,5,8)$ далекий по $x_1$ та $x_3$.
+    \item Підхід~2 змінює лише представник Синьої по $x_1$ та $x_4$, тому голосування не змінює переможця; $D_k$ злегка зменшуються, але порядок класів той самий.
+    \item Зважування $w_j=1/S_j$ узгоджує виміри з різним масштабом ($x_1$ має великий розмах); без ваг домінував би вимір з найбільшими абсолютними координатами.
+\end{enumerate}
+
+\end{document}
