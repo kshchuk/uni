@@ -1,6 +1,7 @@
 % Звіт до лабораторної роботи №2 (рівняння Бюргерса)
-% Компіляція: pdflatex report.tex && pdflatex report.tex  (двічі — для змісту)
-\documentclass[12pt,a4paper]{article}
+% Оформлення: ДСТУ 3008:2015 (поля, шрифт, інтервал, підписи)
+% Компіляція: pdflatex report.tex && pdflatex report.tex
+\documentclass[14pt,a4paper,extarticle]{extarticle}
 \usepackage[utf8]{inputenc}
 \usepackage[T2A]{fontenc}
 \usepackage[ukrainian]{babel}
@@ -8,72 +9,128 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
-\usepackage{booktabs}
+\usepackage{array}
 \usepackage{float}
 \usepackage{caption}
+\usepackage{setspace}
+\usepackage{indentfirst}
 
-\geometry{margin=2.3cm}
-\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+% ДСТУ 3008:2015 — поля (ліве підшиття 30 мм)
+\geometry{left=3cm, right=1cm, top=2cm, bottom=2cm}
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black}
 \graphicspath{{figures/}}
+
+\renewcommand{\contentsname}{Зміст}
+\renewcommand{\figurename}{Рис.}
+\renewcommand{\tablename}{Таблиця}
+\DeclareCaptionLabelSeparator{ukrdash}{~---~}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  labelsep=endash,
+  skip=6pt,
+}
+\captionsetup[table]{
+  position=top,
+  skip=0pt,
+  font=normalsize,
+  labelfont=normalfont,
+  labelsep=ukrdash,
+  justification=raggedright,
+  singlelinecheck=false,
+}
 
 \newcommand{\tauh}{\tau}
 \newcommand{\uex}{u^*}
-\renewcommand{\contentsname}{Зміст}
 
 \begin{document}
 
+% -------------------------------------------------------------------
 \begin{titlepage}
   \centering\thispagestyle{empty}
-  Київський національний університет імені Тараса Шевченка\\
+  Міністерство освіти і науки України\\[0.4em]
+  Київський національний університет імені Тараса Шевченка\\[0.4em]
   Факультет комп'ютерних наук та кібернетики
   \vfill
-  {\Large ЗВІТ}\\[0.35em]
-  до лабораторної роботи №\,2\\
-  з дисципліни ``Чисельне моделювання динаміки систем''\\[1.1em]
-  {\large Тема: Чисельне розв'язання рівняння Бюргерса\\}
+  {\Large\bfseries ЗВІТ}\\[0.6em]
+  до лабораторної роботи №\,2\\[0.4em]
+  з дисципліни\\[0.2em]
+  <<Чисельне моделювання динаміки систем>>\\[1.2em]
+  {\large\bfseries Тема: Чисельне розв'язання рівняння Бюргерса}
   \vfill
-  \raggedleft
-  Виконав:\\
-  Кіщук Ярослав Ярославович
+  \begin{flushright}
+    \begin{tabular}{@{}l@{}}
+      Виконав:\\
+      Кіщук Я.~Я.\\[1.2em]
+    \end{tabular}
+  \end{flushright}
   \vfill
-  \centering Київ --- 2026
+  Київ~--- 2026
 \end{titlepage}
 
-\begin{abstract}
-\noindent Чисельно розв'язано одновимірне рівняння Бюргерса на відрізку $[0,100]$ за час $T=50$.
-Реалізовано два методи з умови лабораторної: двокроковий симетризований алгоритм (ДС) за~[1] та однокрокову неявну $\sigma$-зважену схему з $\sigma=1/2$ за~[2],~[3] (пор.~[1],~\S\,6) з ітераціями Ньютона.
-Додатково побудовано PINN на TensorFlow та PhiFlow за туторіалом Physics-based Deep Learning~[4].
-Порівняння з тестовим розв'язком $u^*(x,t)=f(x-ct)$, візуалізація полів $(x,t)$ та норм похибки.
-\end{abstract}
+% -------------------------------------------------------------------
+\section*{Анотація}
+\addcontentsline{toc}{section}{Анотація}
+
+У роботі чисельно розв'язано одновимірне рівняння Бюргерса на відрізку $[0,100]$ за час $T=50$.
+Реалізовано два методи з умови лабораторної: ДС-алгоритм за~[1] та однокрокову неявну $\sigma$-зважену схему з $\sigma=1/2$ за~[2],~[3] (пор.~[1],~\S\,6) з ітераціями Ньютона.
+Додатково побудовано пряму та зворотну нейромережу з фізичним обмеженням (PINN) на TensorFlow та PhiFlow за~[4].
+Проведено порівняння з тестовим розв'язком~\eqref{eq:uex}, підбір кроку $\tau$ для стабільності ДС та порівняння скінченорізницевих методів і PINN.
 
 \tableofcontents
 \newpage
 
+% -------------------------------------------------------------------
 \section{Мета роботи}
-Оволодіти чисельним розв'язанням нелінійного рівняння Бюргерса: реалізувати ДС-алгоритм і неявну $\sigma$-схему з умови лабораторної, провести обчислювальний експеримент з параметрами $\beta=\gamma=1$, $T=50$, порівняти з аналітичним профілем; додатково --- навчити physics-informed нейромережу за~[4].
 
+Оволодіти чисельним розв'язанням нелінійного рівняння Бюргерса: реалізувати ДС-алгоритм і неявну $\sigma$-схему з умови лабораторної, провести обчислювальний експеримент з параметрами $\beta=\gamma=1$, $T=50$, порівняти з аналітичним профілем; додатково --- навчити нейромережу з фізичним обмеженням (PINN) за~[4].
+
+% -------------------------------------------------------------------
 \section{Постановка задачі}
+
 У області $Q=\Omega\times(0,T]$, $\Omega=[0,\ell]$, $\ell=100$, розглядається рівняння
 \begin{equation}
   \frac{\partial u}{\partial t} + \beta\, u \frac{\partial u}{\partial x}
   = \gamma \frac{\partial^2 u}{\partial x^2},
   \qquad \beta=\gamma=1,\quad T=50. \label{eq:burgers}
 \end{equation}
-Тестовий розв'язок з умови лабораторної:
+Тестовий розв'язок з умови лабораторної (бігаюча хвиля вправо зі швидкістю $c$):
 \begin{equation}
-  \uex(x,t)=f(x-ct),\quad c=\frac{u_{01}+u_{02}}{2}=2,\quad
-  f(x)=\frac{u_{01}-u_{02}}{1+\exp\!\bigl(-\frac{(u_{01}-u_{02})x}{2u_{01}}\bigr)},
+  \uex(x,t)=u_{02}+\frac{u_{01}-u_{02}}{1+\exp\!\bigl(\frac{(u_{01}-u_{02})(x-ct)}{2\gamma}\bigr)},
+  \quad c=\frac{u_{01}+u_{02}}{2}=2,
+  \label{eq:uex}
 \end{equation}
-$u_{01}=3$, $u_{02}=1$. Початкова умова $\varphi(x)=\uex(x,0)$; граничні (Дирихле):
-$\uex(0,t)$, $\uex(\ell,t)$.
+$u_{01}=3$, $u_{02}=1$, $\beta=\gamma=1$. Після підстановки:
+$\uex(x,t)=1+2/(1+\exp(x-2t))$.
+Початкова умова $\varphi(x)=\uex(x,0)$; граничні (Діріхле):
+$u(0,t)=\uex(0,t)$, $u(\ell,t)=\uex(\ell,t)$.
+Профіль змінюється в діапазоні $[1,3]$; фронт ($u\approx 2$) рухається по $x=ct$, при $t=50$ --- біля $x=100$.
 
-Рівномірна сітка $x_i=ih$, $h=1$, $\tau=1/3$ (як у~[1]).
+Рівномірна сітка $x_i=ih$, $h=1$. Номінальне значення з~[1] --- $\tau=1/3$; залежність похибки від $\tau$ --- у табл.~\ref{tab:tau}.
 
+% -------------------------------------------------------------------
 \section{ДС-алгоритм}
-За~[1] вузли діляться на підмножини $\Omega_h^{(1,2)}$ за парністю $i+n$.
-Повний крок $n\to n{+}1$ складається з чотирьох підкроків (4')--(7'): явне оновлення на одній підмножині та локально-неявне на іншій (заморожена адвекція), з підстановкою граничних значень $\uex$ після кожного підкроку. Ефективний крок по часу на підкрок --- $\tau/2$.
 
+Реалізація відповідає однокроковій схемі з~[1], формули (4')--(8'): на шарі $n+1$ спочатку оновлюють вузли однієї парності (напівнеявно зі шару $n$), потім --- протилежної парності з уже обчисленими сусідами на новому шарі. Локальний оператор
+\begin{equation}
+  \mathcal{L}u_i^{n+k}
+  = -\beta\, u_i^{n+1}\,\frac{u_{i+1}^{n+k}-u_{i-1}^{n+k}}{2h}
+  + \gamma\,\frac{u_{i+1}^{n+k}-2u_i^{n+k}+u_{i-1}^{n+k}}{h^2},
+\end{equation}
+$k\in\{0,1,2\}$ --- як у статті. Для вузлів непарної парності (при фіксованому $n$):
+\begin{equation}
+  u_i^{n+1}=\frac{u_i^n+\tau\gamma\,(u_{i+1}^n-2u_i^n+u_{i-1}^n)/h^2}
+  {1+\tau\beta\,(u_{i+1}^n-u_{i-1}^n)/(2h)};
+\end{equation}
+для парної --- аналогічна формула з різницями від $u^{n+1}$ на сусідніх вузлах. Після кожного проходу --- граничні $\uex$; на шар $n+1$ використовується один повний крок $\tau$.
+
+% -------------------------------------------------------------------
 \section{Неявна різницева схема}
+
 У~[1],~\S\,6 та дисертації~[2],~\S\,2.3.2 зазначено, що ДС має такі ж апроксимаційні властивості, як \emph{однокрокові двошарові} неявні схеми з вагою $\sigma=1/2$, але не вимагає розв'язання глобальної системи нелінійних рівнянь на кожному кроці. Другий обов'язковий метод лабораторної --- саме цей клас схем: за загальною $\sigma$-конструкцією~[2], формула~(2.3), при $\sigma=1/2$ на \emph{усій} просторовій сітці (на відміну від чергування підмножин у ДС).
 
 Для рівняння~\eqref{eq:burgers} записано однокрокову неявну $\sigma$-зважену схему ($\sigma=1/2$; аналог усереднення явної/неявної частини, як у неявній схемі для теплопровідності --- лекція~6, приклад~2,~[3]):
@@ -82,96 +139,173 @@ $\uex(0,t)$, $\uex(\ell,t)$.
   = \gamma\, u_{xx}^{n+1/2},
   \label{eq:implicit-sigma}
 \end{equation}
-де $u^{n+1/2}=\tfrac12(u^{n+1}+u^n)$, $u_x^{n+1/2}$ та $u_{xx}^{n+1/2}$ --- центральні різниці від усереднених значень. Граничні умови Дирихле: $u^{n+1}_0=\uex(0,t^{n+1})$, $u^{n+1}_M=\uex(\ell,t^{n+1})$ --- так само, як у ДС-розділі.
+де $u^{n+1/2}=\tfrac12(u^{n+1}+u^n)$, $u_x^{n+1/2}$ та $u_{xx}^{n+1/2}$ --- центральні різниці від усереднених значень. Граничні умови Діріхле: $u^{n+1}_0=\uex(0,t^{n+1})$, $u^{n+1}_M=\uex(\ell,t^{n+1})$ --- так само, як у розділі~3.
 
 Нелінійність~\eqref{eq:implicit-sigma} на кожному часовому шарі лінеаризовано ітераціями Ньютона; для одновимірного шаблону Якобіан має трикутну структуру, тому підсистему на внутрішніх вузлах розв'язують прогонкою (метод Томаса), як у~[2] для неявних схем у нелінійних задачах.
 
-\section{Додатково: PINN (TensorFlow + PhiFlow)}
+% -------------------------------------------------------------------
+\section{Нейромережа з фізичним обмеженням (PINN)}
+
 Реалізація за структурою~[4]: мережа \texttt{network(x,t)} (8 прихованих шарів по 20 нейронів, \texttt{tanh}), фізичний залишок
 \begin{equation}
   R = u_t + \beta u u_x - \gamma u_{xx}
 \end{equation}
-через \texttt{gradients} PhiFlow; функціонал $\mathcal{L}=\mathcal{L}_u + \lambda_{\mathrm{ph}}\mathcal{L}_{\mathrm{ph}}$,
-де $\mathcal{L}_u$ --- MSE на точках IC та BC з $\uex$, $\mathcal{L}_{\mathrm{ph}}$ --- MSE від $R$ на collocation-точках у $(0,\ell)\times(0,T)$.
-Оптимізатор --- \texttt{GradientDescentOptimizer} з $lr=0.02$, 3000--10000 ітерацій.
+обчислюють через \texttt{gradients} PhiFlow. Функціонал втрат записано у вигляді
+\begin{equation}
+  L = L_u + \lambda_{\text{ph}}\, L_{\text{ph}},
+  \label{eq:pinn-loss}
+\end{equation}
+де $L_u$~--- середньоквадратична похибка на точках початкових і граничних умов відносно $\uex$; $L_{\text{ph}}$~--- середньоквадратична похибка залишку $R$ на колокаційних точках у $(0,\ell)\times(0,T)$; $\lambda_{\text{ph}}$~--- вага фізичного члена.
+Оптимізатор~--- \texttt{GradientDescentOptimizer} з кроком навчання 0{,}02; у звіті --- 10000 ітерацій (прямий режим).
 
-\textbf{Відмінності від туторіалу:} домен $[0,100]\times[0,50]$, коефіцієнти $\beta=\gamma=1$, IC/BC з $\uex$ (не inverse-задача при $t=0.5$ на $[-1,1]$).
+\subsection{Зворотний PINN: оцінювання $\gamma$}
 
-\section{Результати}
+Додатково реалізовано зворотний режим: скаляр $\hat\gamma$ (ініціалізація $\hat\gamma_0=0{,}5$, істина $\gamma=1$) навчається разом із мережею за функціоналом
+$L = L_{\text{ic}}+L_{\text{bc}}+L_{\text{obs}}+\lambda_{\text{ph}} L_{\text{ph}}$,
+де $L_{\text{obs}}$ --- похибка на 250 випадкових внутрішніх точках $\uex(x,t)$; $\lambda_{\text{ph}}=10$; для $\hat\gamma$ --- окремий крок 0{,}08. Після 8000 ітерацій $\hat\gamma\approx 0{,}83$ (рис.~\ref{fig:gamma}).
+
+Це очікувана поведінка для зворотної задачі Бюргерса: $\gamma$ і форма фронту сильно корельовані; при обмеженій кількості розріджених спостережень мережа може пояснити дані різними парами $(u_\theta,\hat\gamma)$. Тому зворотний PINN демонструє ідею ідентифікації параметра, а не точне відновлення $\gamma=1$; основний експеримент --- прямий PINN з фіксованим $\gamma=1$.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{gamma_convergence.png}
+  \caption{Зворотний PINN: траєкторія $\hat\gamma$ при $\hat\gamma_0=0{,}5$}
+  \label{fig:gamma}
+\end{figure}
+
+% -------------------------------------------------------------------
+\section{Перевірка точного розв'язку}
+
+На рис.~\ref{fig:sanity} наведено $\uex(x,t)$ при $t=0$, $T/3$, $2T/3$, $T$.
+Вертикальні лінії $x=2t$ відповідають положенню фронту; при $t=T$ значення на правій границі $x=\ell$ збігається з $\uex(\ell,T)\approx 2$.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\linewidth]{sanity_exact.png}
+  \caption{Перевірка точного розв'язку $\uex(x,t)$ на $[0,\ell]$ у чотирьох моментах часу}
+  \label{fig:sanity}
+\end{figure}
+
+% -------------------------------------------------------------------
+\section{Результати обчислювальних експериментів}
+\label{sec:results}
+
+\subsection{Вибір кроку по часу $\tau$}
+\label{sec:tau}
+
+На фіксованій сітці $h=1$, $T=50$ проведено порівняння норм похибки на $t=T$ для різних $\tau$ (табл.~\ref{tab:tau}). Для ДС за~[1] при $\tau=1/3$ спостерігається чисельна нестійкість ($\|e\|_\infty\sim 10^2$). При зменшенні $\tau$ похибка ДС монотонно зменшується; вже при $\tau\leq 0{,}1$ схема стабільна. Неявна $\sigma=1/2$-схема слабо залежить від $\tau$ ($\|e\|_\infty\approx 0{,}09$--$0{,}12$ на всьому діапазоні).
+
+Обрано $\tau=0{,}01$: для ДС $\|e\|_\infty\approx 0{,}09$ при $\approx 5000$ кроках; подальше зменшення $\tau$ (до $0{,}002$) дає лише незначне покращення ($\approx 0{,}08$), але збільшує число кроків у $5$ разів. Подальші порівняння методів (табл.~\ref{tab:comp}) виконано при $\tau=0{,}01$.
 
 \begin{table}[H]
+  \caption{Похибка на $t=T$ відносно $\uex$ при різних $\tau$ ($h=1$)}
+  \label{tab:tau}
   \centering
-  \caption{Порівняння методів при $T=50$, $h=1$, $\tau=1/3$.}
-  \label{tab:comp}
-  \begin{tabular}{lcccc}
-    \toprule
-    Метод & Кроків & $\|e\|_\infty$ & $\|e\|_2$ & Час, с\\
-    \midrule
-    ДС & 150 & $1.59$ & $10.23$ & 0.02\\
-    Неявна $\sigma=1/2$ & 150 & $1.59$ & $10.26$ & 0.18\\
-    PINN (3000 iter) & --- & $0.87$ & $5.64$ & 6.8\\
-    \bottomrule
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{|r|r|r|r|r|r|}
+    \hline
+    $\tau$ & Кроків & $\|e\|_\infty$ (ДС) & $\|e\|_2$ (ДС) & $\|e\|_\infty$ (неявна) & $\|e\|_2$ (неявна) \\
+    \hline
+    $1/3$ & 150 & 373 & 374 & 0,12 & 0,18 \\
+    0,1 & 500 & 0,75 & 0,79 & 0,09 & 0,14 \\
+    0,05 & 1000 & 0,37 & 0,44 & 0,09 & 0,14 \\
+    0,02 & 2500 & 0,13 & 0,19 & 0,09 & 0,13 \\
+    0,01 & 5001 & 0,09 & 0,13 & 0,09 & 0,13 \\
+    0,005 & 10000 & 0,08 & 0,12 & 0,09 & 0,13 \\
+    0,002 & 25000 & 0,08 & 0,13 & 0,09 & 0,13 \\
+    \hline
   \end{tabular}
 \end{table}
+
+\subsection{Порівняння методів}
+
+Зведені результати наведено в табл.~\ref{tab:comp} (похибка на $t=T$ відносно~\eqref{eq:uex}).
+
+\begin{table}[H]
+  \caption{Порівняння методів при $T=50$, $h=1$, $\tau=0{,}01$}
+  \label{tab:comp}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|l|c|r|r|r|}
+    \hline
+    Метод & Кроків & $\|e\|_\infty$ & $\|e\|_2$ & Час, с \\
+    \hline
+    ДС [1], (4')--(8') & 5001 & 0,09 & 0,13 & 0,30 \\
+    Неявна $\sigma=1/2$ & 5001 & 0,09 & 0,13 & 5,7 \\
+    PINN (прямий) & --- & 1,36 & 3,41 & 23 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Зворотний PINN (окремий експеримент): $\hat\gamma_0=0{,}5$, після 8000 іт. $\hat\gamma\approx 0{,}83$ --- див. рис.~\ref{fig:gamma} та підрозд.~5.1.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\linewidth]{profiles_compare.png}
-  \caption{Профілі $u(x)$ у моменти $t=0$, $T/3$, $2T/3$, $T$.}
+  \caption{Профілі $u(x)$ у моменти $t=0$, $T/3$, $2T/3$, $T$}
+  \label{fig:profiles}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \begin{minipage}{0.48\textwidth}\centering
-    \includegraphics[width=\linewidth]{heatmap_exact.png}\\\small Точний
+    \includegraphics[width=\linewidth]{heatmap_exact.png}\\[0.3em]
+    \small Точний розв'язок
   \end{minipage}\hfill
   \begin{minipage}{0.48\textwidth}\centering
-    \includegraphics[width=\linewidth]{heatmap_ds.png}\\\small ДС
-  \end{minipage}\\[0.5em]
+    \includegraphics[width=\linewidth]{heatmap_ds.png}\\[0.3em]
+    \small ДС-алгоритм
+  \end{minipage}\\[0.8em]
   \begin{minipage}{0.48\textwidth}\centering
-    \includegraphics[width=\linewidth]{heatmap_implicit.png}\\\small Неявна
+    \includegraphics[width=\linewidth]{heatmap_implicit.png}\\[0.3em]
+    \small Неявна $\sigma=1/2$
   \end{minipage}\hfill
   \begin{minipage}{0.48\textwidth}\centering
-    \includegraphics[width=\linewidth]{heatmap_pinn.png}\\\small PINN
+    \includegraphics[width=\linewidth]{heatmap_pinn.png}\\[0.3em]
+    \small PINN
   \end{minipage}
-  \caption{Поля $u(x,t)$.}
+  \caption{Поля $u(x,t)$}
+  \label{fig:heatmaps}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\linewidth]{error_norms.png}
-  \caption{Норми похибки FDM-методів відносно $\uex$.}
+  \caption{Норми похибки скінченорізницевих методів відносно $\uex$}
+  \label{fig:errors}
 \end{figure}
 
+% -------------------------------------------------------------------
 \section{Висновки}
+
 \begin{enumerate}
-  \item Реалізовано два обов'язкові методи з умови: ДС за~[1] та однокрокову неявну $\sigma$-схему ($\sigma=1/2$) за~[2],~[3] з Ньютоном і прогонкою.
-  \item Додатково реалізовано PINN на TensorFlow+PhiFlow за~[4]; loss склався з граничних/початкових умов та PDE residual.
-  \item На довгому інтервалі $T=50$ похибка відносно профілю $f(x-ct)$ зростає для всіх методів; PINN при 3000 ітераціях дає меншу $\|e\|_2$ на кінцевому шарі, ніж FDM у наведеному експерименті, але потребує підбору ітерацій.
-  \item ДС швидший за неявну схему (без глобальної прогонки); обидві FDM-схеми на тесті дають близькі норми похибки (табл.~\ref{tab:comp}).
+  \item Реалізовано ДС-алгоритм за~[1] у вигляді однокрокової схеми (4')--(8') та однокрокову неявну $\sigma=1/2$-схему за~[2],~[3] з Ньютоном і прогонкою.
+  \item Для ДС при номінальному $\tau=1/3$ на тестовій задачі виникає нестійкість; при $\tau\leq 0{,}1$ схема стабільна. Оптимальний компроміс точність/вартість --- $\tau=0{,}01$ (табл.~\ref{tab:tau}): $\|e\|_\infty\approx 0{,}09$ для ДС і неявної схеми.
+  \item При $h=1$, $\tau=0{,}01$ обидві скінченорізницеві схеми дають близькі норми похибки на $t=T$ (табл.~\ref{tab:comp}, рис.~\ref{fig:errors}).
+  \item Прямий PINN відтворює бігаючу хвилю; зворотний PINN з $\hat\gamma_0=0{,}5$ дає $\hat\gamma\approx 0{,}83$ --- ілюстрація слабкої ідентифікованості $\gamma$ при розріджених даних.
+  \item Точний розв'язок~\eqref{eq:uex} --- гладка хвиля в $[1,3]$; фронт при $t=50$ біля $x=100$ (рис.~\ref{fig:sanity}).
 \end{enumerate}
 
-\section*{Список літератури}
-\addcontentsline{toc}{section}{Список літератури}
+% -------------------------------------------------------------------
+\section*{Список використаних джерел}
+\addcontentsline{toc}{section}{Список використаних джерел}
 
 \begin{enumerate}
-  \item O.~Yu.~Grischenko, V.~V.~Onotsky.
-  \emph{Двокроковий різницевий алгоритм для рівняння Бюргерса.}
-  Вісник Київського університету, серія фіз.-мат. науки, 2007.
-  (файл \texttt{burgers.pdf}.)
-  \item O.~Yu.~Grischenko.
-  \emph{Дискретні моделі та алгоритми чисельного моделювання процесів переносу.}
-  Дисертація, Київ, 2002.
-  (файл \texttt{chmds/dis.pdf}; $\sigma$-зважені схеми, формула~(2.3), \S\,2.3.2, додаток~5.1.3.)
-  \item Конспект лекцій з курсу ЧМДС.
+  \item Грищенко О.~Ю., Оноцький В.~В.
+  Двокроковий різницевий алгоритм для рівняння Бюргерса //
+  \emph{Вісник Київського університету.} Серія: фіз.-мат. науки. --- 2007. --- №\,4.
+  \item Грищенко О.~Ю.
+  Дискретні моделі та алгоритми чисельного моделювання процесів переносу: дис. ...
+  --- К., 2002. --- \S\,2.1.1 (формула~(2.3)), \S\,2.3.2, додаток~5.1.3.
+  \item Конспект лекцій з курсу <<Чисельне моделювання динаміки систем>>.
   Лекція~6 (неявна схема для теплопровідності, приклад~2); лекція~10 ($\sigma$-важення в ДС).
-  (файли \texttt{chmds/lecture06\_.pdf}, \texttt{chmds/lecture10\_.pdf}.)
-  \item R.~Thuerey et al.
-  \emph{Physics-based Deep Learning}, розділ ``Burgers Optimization with a PINN''.
+  \item Thuerey N. et al.
+  Physics-based Deep Learning, розділ <<Burgers Optimization with a PINN>> //
   \url{https://physicsbaseddeeplearning.org/physicalloss-code.html}
-  \item M.~Raissi, P.~Perdikaris, G.~E.~Karniadakis.
-  Physics-informed neural networks.
-  J.~Comput.~Phys., 378:686--707, 2019.
+  \item Raissi M., Perdikaris P., Karniadakis G.~E.
+  Physics-informed neural networks //
+  \emph{Journal of Computational Physics.} --- 2019. --- Vol.~378. --- P.~686--707.
 \end{enumerate}
 
 \end{document}

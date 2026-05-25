@@ -6,59 +6,45 @@ from typing import Callable, List, Tuple
 
 import numpy as np
 
-# Problem parameters (lr2 assignment + burgers.pdf experiment)
+# --- Problem parameters 
+
 BETA = 1.0
 GAMMA = 1.0
 U01 = 3.0
 U02 = 1.0
-C_WAVE = 0.5 * (U01 + U02)
+C_WAVE = 0.5 * (U01 + U02)  # c = (u01+u02)/2 = 2; traveling wave moves right
 L_DOM = 100.0
 T_FINAL = 50.0
 H = 1.0
-TAU = 1.0 / 3.0
+TAU = 0.01  # reduced from 1/3 (lab nominal) — DS [1] stable at this step on the test problem
 
 
 def f_profile(x: np.ndarray) -> np.ndarray:
-    """Steady profile f(x) from assignment."""
-    return (U01 - U02) / (1.0 + np.exp(-(U01 - U02) * x / (2.0 * U01)))
+    """Initial profile u(x,0) = u02 + (u01-u02) / (1 + exp((u01-u02)*x / (2*gamma)))."""
+    arg = (U01 - U02) * np.asarray(x, dtype=float) / (2.0 * GAMMA)
+    return U02 + (U01 - U02) / (1.0 + np.exp(arg))
 
 
-def u_exact(x: np.ndarray, t: float) -> np.ndarray:
-    """u*(x,t) = f(x - c*t)."""
-    return f_profile(x - C_WAVE * t)
+def u_exact(x: np.ndarray, t) -> np.ndarray:
+    """Analytical traveling-wave solution from the lab assignment.
+
+    u*(x,t) = u02 + (u01-u02) / (1 + exp((u01-u02)*(x - c*t) / (2*gamma)))
+    With default parameters: u*(x,t) = 1 + 2 / (1 + exp(x - 2*t)).
+    ``t`` may be a scalar or array (broadcast with ``x``).
+    """
+    xi = np.asarray(x, dtype=float) - C_WAVE * np.asarray(t, dtype=float)
+    arg = (U01 - U02) * xi / (2.0 * GAMMA)
+    return U02 + (U01 - U02) / (1.0 + np.exp(arg))
 
 
 def apply_bc(u: np.ndarray, x: np.ndarray, t: float) -> None:
+    """In-place Dirichlet BC: boundary values from u* at the current time layer."""
     u[0] = u_exact(np.array([x[0]]), t)[0]
     u[-1] = u_exact(np.array([x[-1]]), t)[0]
 
 
-def burger_rhs(u: np.ndarray, i: int, h: float, beta: float, gamma: float) -> float:
-    """u_t = -beta*u*u_x + gamma*u_xx at interior index i."""
-    ux = (u[i + 1] - u[i - 1]) / (2.0 * h)
-    uxx = (u[i + 1] - 2.0 * u[i] + u[i - 1]) / (h * h)
-    return -beta * u[i] * ux + gamma * uxx
-
-
-def implicit_node(
-    u_old: np.ndarray,
-    u_nb: np.ndarray,
-    i: int,
-    dt: float,
-    h: float,
-    beta: float,
-    gamma: float,
-) -> float:
-    """Local implicit solve (frozen advection at u_old[i], BE diffusion)."""
-    um, up = u_nb[i - 1], u_nb[i + 1]
-    adv = -beta * u_old[i] * (up - um) / (2.0 * h)
-    coef = 1.0 + 2.0 * dt * gamma / (h * h)
-    rhs = u_old[i] + dt * adv + (dt * gamma / (h * h)) * (um + up)
-    return rhs / coef
-
-
-def ds_burgers_step(
-    u: np.ndarray,
+def ds_step_paper(
+    u_n: np.ndarray,
     n: int,
     tau: float,
     h: float,
@@ -67,34 +53,49 @@ def ds_burgers_step(
     gamma: float = GAMMA,
     t_n: float = 0.0,
 ) -> np.ndarray:
-    """Two-step symmetrized DS algorithm (4')-(7'), burgers.pdf; substep dt=tau/2."""
-    dt = tau / 2.0
-    u_h = u.copy()
+    """DS algorithm per [1], formulas (4')--(8'): one full step n -> n+1.
 
-    for i in range(1, len(u) - 1):
+    On layer t_{n+1}:
+      1) nodes of one parity: semi-implicit update from layer n;
+      2) opposite parity: update using neighbours already on the new layer.
+
+    Local discretisation of
+      u_t + beta*u*u_x - gamma*u_xx = 0
+    with the advection/diffusion stencil as in the article (k in {0,1,2}).
+    """
+    u_next = u_n.copy()
+    t_next = t_n + tau
+    h2 = h * h
+
+    def explicit_update(i: int) -> None:
+        dx_old = (u_n[i + 1] - u_n[i - 1]) / (2.0 * h)
+        dxx_old = (u_n[i + 1] - 2.0 * u_n[i] + u_n[i - 1]) / h2
+        denom = 1.0 + tau * beta * dx_old
+        u_next[i] = (u_n[i] + tau * gamma * dxx_old) / denom
+
+    def implicit_update(i: int) -> None:
+        dx_new = (u_next[i + 1] - u_next[i - 1]) / (2.0 * h)
+        dxx_new_num = (u_next[i + 1] + u_next[i - 1]) / h2
+        denom = 1.0 + tau * beta * dx_new + 2.0 * tau * gamma / h2
+        u_next[i] = (u_n[i] + tau * gamma * dxx_new_num) / denom
+
+    for i in range(1, len(u_n) - 1):
         if (i + n) % 2 == 1:
-            u_h[i] = u[i] + dt * burger_rhs(u, i, h, beta, gamma)
-    apply_bc(u_h, x, t_n + dt)
+            explicit_update(i)
+    apply_bc(u_next, x, t_next)
 
-    for i in range(1, len(u) - 1):
+    for i in range(1, len(u_n) - 1):
         if (i + n) % 2 == 0:
-            u_h[i] = implicit_node(u, u_h, i, dt, h, beta, gamma)
-    apply_bc(u_h, x, t_n + dt)
+            implicit_update(i)
+    apply_bc(u_next, x, t_next)
+    return u_next
 
-    u_new = u_h.copy()
-    for i in range(1, len(u) - 1):
-        if (i + n) % 2 == 1:
-            u_new[i] = u_h[i] + dt * burger_rhs(u_h, i, h, beta, gamma)
-    apply_bc(u_new, x, t_n + tau)
 
-    for i in range(1, len(u) - 1):
-        if (i + n) % 2 == 0:
-            u_new[i] = implicit_node(u_h, u_new, i, dt, h, beta, gamma)
-    apply_bc(u_new, x, t_n + tau)
-    return u_new
+ds_burgers_step = ds_step_paper
 
 
 def thomas_tridiag_solve(a: np.ndarray, b: np.ndarray, c: np.ndarray, d: np.ndarray) -> np.ndarray:
+    """Thomas algorithm for tridiagonal system; used inside Newton iterations."""
     n = len(d)
     cp = np.zeros(n)
     dp = np.zeros(n)
@@ -120,7 +121,11 @@ def _sigma05_residual(
     beta: float,
     gamma: float,
 ) -> np.ndarray:
-    """sigma=0.5 (two-layer) implicit residual on interior nodes; dis.pdf (2.3), sigma=1/2."""
+    """sigma=0.5 (Crank–Nicolson-type) implicit residual on interior nodes.
+
+    Time derivative and spatial operators averaged between layers n and n+1;
+    see dis.pdf eq. (2.3) with sigma = 1/2.
+    """
     r = np.zeros(len(u))
     for i in range(1, len(u) - 1):
         u_mid = 0.5 * (u[i] + u_n[i])
@@ -144,11 +149,10 @@ def implicit_sigma05_newton_step(
     max_iter: int = 12,
     tol: float = 1e-10,
 ) -> np.ndarray:
-    """One-step implicit sigma-weighted scheme (sigma=0.5) on the full grid.
+    """Advance one time layer with sigma=0.5 implicit scheme + Newton + Thomas.
 
-    Course reference: dis.pdf (2.3), burgers.pdf sec. 6 (comparison with DS).
-    Nonlinear system per time layer: Newton + Thomas tridiagonal solve.
-    Dirichlet BC u*(x,t) at boundaries, same as ds_burgers_step (apply_bc).
+    Nonlinear coupling from beta*u*u_x makes each layer a tridiagonal Newton system.
+    Dirichlet BC u*(x,t) enforced after each Newton correction (same as DS step).
     """
     u = u_n.copy()
     apply_bc(u, x, t_n + tau)
@@ -164,21 +168,21 @@ def implicit_sigma05_newton_step(
         d = np.zeros(n_in)
         for k, i in enumerate(range(1, len(u) - 1)):
             u_mid = 0.5 * (u[i] + u_n[i])
-            # d/du_i of sigma=0.5 residual
+            # Jacobian of the sigma=0.5 residual w.r.t. u[i], u[i±1] (tridiagonal).
             b[k] = 1.0 / tau + gamma / (h * h) - beta * 0.25 * (u[i + 1] - u[i - 1]) / h
             a[k] = -gamma / (2.0 * h * h) - beta * u_mid / (4.0 * h)
             c[k] = -gamma / (2.0 * h * h) + beta * u_mid / (4.0 * h)
             d[k] = -F[k]
         if n_in > 0:
-            a[0] = 0.0
-            c[-1] = 0.0
+            a[0] = 0.0   # no coupling below the first interior node
+            c[-1] = 0.0  # no coupling above the last interior node
             du = thomas_tridiag_solve(a, b, c, d)
             u[1:-1] += du
         apply_bc(u, x, t_n + tau)
     return u
 
 
-# Backward-compatible alias (same implementation).
+# Backward-compatible alias (historical name; implementation is sigma=0.5, not CN).
 implicit_cn_newton_step = implicit_sigma05_newton_step
 
 
@@ -189,6 +193,11 @@ def run_solver(
     x: np.ndarray,
     record_every: int = 1,
 ) -> Tuple[np.ndarray, np.ndarray, List[np.ndarray], int, float]:
+    """Time-march from t=0 to T_final with the given single-step integrator.
+
+    Returns final field, time history, list of recorded snapshots, step count, CPU time.
+    Last step may be shortened so t never overshoots T_final.
+    """
     t = 0.0
     u = u_exact(x, t).copy()
     apply_bc(u, x, t)
@@ -198,7 +207,8 @@ def run_solver(
     t0 = time.perf_counter()
     while t < T_final - 1e-12:
         tau_eff = min(tau, T_final - t)
-        if step_fn is ds_burgers_step:
+        # DS step needs step index n for odd/even line pattern; implicit step does not.
+        if step_fn in (ds_burgers_step, ds_step_paper):
             u = step_fn(u, nstep, tau_eff, H, x, t_n=t)
         elif step_fn in (implicit_sigma05_newton_step, implicit_cn_newton_step):
             u = step_fn(u, tau_eff, H, x, t_n=t)
@@ -216,13 +226,16 @@ def run_solver(
 
 
 def norm_linf(e: np.ndarray) -> float:
+    """Discrete L-infinity norm ||e||_inf = max|e_i|."""
     return float(np.max(np.abs(e)))
 
 
 def norm_l2(e: np.ndarray, h: float) -> float:
+    """Discrete L2 norm with trapezoid/quadrature weight h: sqrt(h * sum(e_i^2))."""
     return float(np.sqrt(h * np.sum(e * e)))
 
 
 def build_grid() -> Tuple[np.ndarray, int]:
+    """Uniform spatial grid x in [0, L_DOM] with spacing H."""
     x = np.linspace(0.0, L_DOM, int(L_DOM / H) + 1)
     return x, len(x)

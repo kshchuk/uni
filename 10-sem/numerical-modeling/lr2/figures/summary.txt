@@ -1,7 +1,9 @@
-tau=0.3333333333333333
-steps_ds=150 steps_im=150
-time_ds=0.018 time_im=0.179
-Linf_ds=1.592894e+00 L2_ds=1.022915e+01
-Linf_im=1.594907e+00 L2_im=1.025525e+01
-pinn_iters=3000 pinn_time=6.845 pinn_loss=4.554599e-04
-Linf_pinn=8.685518e-01 L2_pinn=5.635789e+00
+tau=0.01
+steps_ds=5001 steps_im=5001
+time_ds=0.301 time_im=5.668
+Linf_ds=8.878201e-02 L2_ds=1.326903e-01
+Linf_im=9.193591e-02 L2_im=1.344581e-01
+pinn_iters=10000 pinn_time=23.427 pinn_loss=1.516302e-04
+Linf_pinn=1.359852e+00 L2_pinn=3.408088e+00
+inverse_iters=8000 inverse_time=20.004
+gamma_init=0.5 gamma_hat=0.825129 gamma_true=1.0
