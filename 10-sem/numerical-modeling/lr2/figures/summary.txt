@@ -1,0 +1,7 @@
+tau=0.3333333333333333
+steps_ds=150 steps_im=150
+time_ds=0.018 time_im=0.179
+Linf_ds=1.592894e+00 L2_ds=1.022915e+01
+Linf_im=1.594907e+00 L2_im=1.025525e+01
+pinn_iters=3000 pinn_time=6.845 pinn_loss=4.554599e-04
+Linf_pinn=8.685518e-01 L2_pinn=5.635789e+00
