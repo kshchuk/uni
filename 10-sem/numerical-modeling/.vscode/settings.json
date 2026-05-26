@@ -1,0 +1,4 @@
+{
+  "python.defaultInterpreterPath": "/Users/user/miniconda3/envs/uni/bin/python",
+  "python.analysis.extraPaths": ["lr2"]
+}

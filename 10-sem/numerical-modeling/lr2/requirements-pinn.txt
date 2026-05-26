@@ -1,0 +1,5 @@
+# PINN stack for burgers_pinn.py (conda env: uni, Python 3.12)
+# TensorFlow has no wheel for Python 3.14+.
+numpy>=1.24,<2
+tensorflow>=2.15,<2.22
+phiflow==1.5.1

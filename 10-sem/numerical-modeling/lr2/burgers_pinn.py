@@ -1,4 +1,4 @@
-"""PINN for Burgers — TensorFlow + PhiFlow (forward + inverse gamma estimation).
+"""PINN for Burgers - TensorFlow + PhiFlow (forward + inverse gamma estimation).
 
 Forward mode: fixed diffusion coefficient gamma=1; network learns u(x,t) from
 IC/BC + physics residual on collocation points.
@@ -9,17 +9,23 @@ drive joint recovery of the field and the parameter.
 """
 from __future__ import annotations
 
+import collections
+import collections.abc
 import time
 from typing import List, Tuple
+
+# PhiFlow 1.5.x expects collections.Iterable (removed in Python 3.10+).
+if not hasattr(collections, "Iterable"):
+    collections.Iterable = collections.abc.Iterable
 
 import numpy as np
 import tensorflow as tf
 
-# PhiFlow expects TF1 graph mode (matches PBDL tutorial stack).
+# PhiFlow expects TF1 graph mode 
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.disable_v2_behavior()
 
-from phi.tf.flow import *  # noqa: F403 — Session, math, gradients
+from phi.tf.flow import * 
 
 from burgers_fdm import (
     BETA,
@@ -30,7 +36,7 @@ from burgers_fdm import (
     u_exact,
 )
 
-# --- Hyperparameters (aligned with physicalloss-code tutorial where noted) ---
+# --- Hyperparameters ---
 
 N_SAMPLE_POINTS_BND = 100   # IC + Dirichlet BC collocation samples per step
 N_SAMPLE_POINTS_INNER = 1000  # physics residual collocation points

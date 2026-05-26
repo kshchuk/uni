@@ -16,8 +16,12 @@
 cd lr2
 python3 figures/_make_figures.py   # FDM + (опційно) PINN
 
-# PINN потребує Python з tensorflow та phiflow, напр.:
-PINN_ITERS=10000 PYTHON_PINN=~/miniconda3/bin/python python3 figures/_make_figures.py
+# PINN: conda env `uni` (Python 3.12) + tensorflow + phiflow==1.5.1
+conda activate uni
+pip install -r requirements-pinn.txt
+# У Cursor/VS Code оберіть інтерпретатор: ~/miniconda3/envs/uni/bin/python
+
+PINN_ITERS=10000 PYTHON_PINN=~/miniconda3/envs/uni/bin/python python3 figures/_make_figures.py
 
 pdflatex report.tex && pdflatex report.tex
 ```

@@ -16,7 +16,7 @@ C_WAVE = 0.5 * (U01 + U02)  # c = (u01+u02)/2 = 2; traveling wave moves right
 L_DOM = 100.0
 T_FINAL = 50.0
 H = 1.0
-TAU = 0.01  # reduced from 1/3 (lab nominal) — DS [1] stable at this step on the test problem
+TAU = 0.01  # reduced from 1/3 — DS [1] stable at this step on the test problem
 
 
 def f_profile(x: np.ndarray) -> np.ndarray:
