@@ -1,6 +1,6 @@
-\documentclass[14pt,a4paper]{extarticle}
+\documentclass[12pt,a4paper]{extarticle}
 
-\usepackage[a4paper, left=3cm, right=1cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[a4paper, left=2.5cm, right=1.5cm, top=1.5cm, bottom=1.5cm]{geometry}
 \usepackage{fontspec}
 \setmainfont{Times New Roman}[
   Ligatures=TeX,
@@ -21,9 +21,11 @@
 \usepackage{fancyhdr}
 \usepackage{indentfirst}
 
-\onehalfspacing
+\setlength{\headheight}{17pt}
+
+\setstretch{1.25}
 \justifying
-\setlength{\parindent}{10mm}
+\setlength{\parindent}{7mm}
 \setlength{\parskip}{0pt}
 
 \addto\captionsukrainian{%
@@ -107,10 +109,10 @@
 \begin{titlepage}
 \thispagestyle{empty}
 \begin{center}
-\vspace*{4cm}
-{\Large\bfseries Словничок термінів та основних понять\\[0.4em] з математичної нелінійної оптимізації}\\[1.5cm]
-{\normalsize на основі матеріалу лекцій Джалладової І.~А.\\ та посібника М.~П.~Моклячука\\[0.3em] \emph{«Негладкий аналіз та оптимізація»}}\\[2.5cm]
-{\large Виконав: Кіщук Ярослав}\\[0.6cm]
+\vspace*{3cm}
+{\Large\bfseries Словничок термінів та основних понять\\[0.3em] з математичної нелінійної оптимізації}\\[1.2cm]
+{\normalsize на основі матеріалу лекцій Джалладової І.~А.\\ та посібника М.~П.~Моклячука\\[0.2em] \emph{«Негладкий аналіз та оптимізація»}}\\[2cm]
+{\large Виконав: Кіщук Ярослав}\\[0.4cm]
 {\normalsize Викладач: Джалладова І.~А.}
 \vfill
 {\normalsize Київ~--- 2026}
@@ -179,6 +181,13 @@ $$
     \item Відносне нутро відносного нутра збігається з відносним нутром: $\operatorname{ri}(\operatorname{ri} X) = \operatorname{ri} X$.
     \item Якщо $x \in \operatorname{ri} X$ та $y \in \overline{X}$, то для всіх $\lambda \in (0, 1]$ виконується $\lambda x + (1-\lambda)y \in \operatorname{ri} X$.
 \end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{relative_interior.png}
+\caption{Геометричний зміст відносного нутра: диск не має об'єму у 3D просторі (звичайне нутро порожнє), але має внутрішність відносно своєї афінної площини.}
+\label{fig:relative-interior}
+\end{figure}
 
 \section{Підпростір, гіперплощина, півпростір, промінь.}
 Гіперплощина з нормаллю $p$ задається рівнянням
@@ -377,6 +386,13 @@ $$
 $$
 \mu(x \mid A)= \begin{cases}0, & x=0 \\ \inf \left\{\lambda>0: \lambda^{-1} x \in A\right\}, & x \neq 0\end{cases}
 $$
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{minkowski_gauge.png}
+\caption{Геометричний зміст функції Мінковського: коефіцієнт $\lambda$, на який треба розтягнути базову множину $U$, щоб вона досягла точки $x$.}
+\label{fig:minkowski-gauge}
+\end{figure}
 
 Спряженою до функції Мінковського множини $A$ є індикаторна функція поляри $A^{0}$. (про це далі) I я б хотів ще зазначити деякі властивості: Нехай - опукла множина і $0 \in \operatorname{int}()$. Функція Мінковського має такі властивості:\\
 а) якщо $\lambda \geq 0$, то $\mu(\lambda x \mid M)=\lambda \mu(x \mid M)$;\\
@@ -590,6 +606,13 @@ $$
 f^{*}\left(x^{*}\right)=\sup _{x}\left\{\left\langle x^{*}, x\right\rangle-f(x)\right\} .
 $$
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{fenchel_conjugate.png}
+\caption{Перетворення Лежандра-Фенхеля: значення $f^*(p)$ дорівнює максимальній вертикальній відстані (зазору) між прямою $y = px$ та графіком функції $f(x)$.}
+\label{fig:fenchel-conjugate}
+\end{figure}
+
 Ця ж функція називається перетворенням Юнга-Фенхеля функції $f$.\\
 Коли $f(x)$ - опукла гладка функція на $\mathbb{R}^{n}$, що росте на нескінченності швидше лінійної функції, перетворення Юнга-Фенхеля - це перетворення Лежандра:
 
@@ -693,6 +716,13 @@ $$
 $$
 I\left(x_{0}\right)=\left\{i: f_{i}\left(x_{0}\right)=f\left(x_{0}\right)\right\} .
 $$
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{max_subdifferential.png}
+\caption{Субдиференціал максимуму двох функцій є опуклою оболонкою їхніх дотичних у точці перетину (зламу), утворюючи суцільне «віяло» опорних прямих.}
+\label{fig:max-subdifferential}
+\end{figure}
 
 \section{Субдиференціал композиції функцій.}
 Нехай $\Lambda: X \rightarrow Y$ - неперервний лінійний оператор, $f$ - опукла функція на $Y$. Тоді для кожної точки $x \in X$ справджується
@@ -1843,6 +1873,14 @@ $$
 $$
 z_k^{\omega} = \arg\min_{z \in L_{\omega}(x_k)} \|z\|.
 $$
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{demyanov_shift.png}
+\caption{Крок методу Дем'янова: базовий субдиференціал зсувається на вектор $\omega$, утворюючи множину $L_\omega$, на якій відшукується елемент із мінімальною евклідовою нормою.}
+\label{fig:demyanov-shift}
+\end{figure}
+
 Оптимальний напрямок спуску, що відповідає даному $\omega$, має вигляд $g_{\omega}(x_k) = -\frac{z_k^{\omega}}{\|z_k^{\omega}\|}$.
 
 Далі виконується одновимірна мінімізація вздовж променя для кожного можливого напрямку:
@@ -1870,6 +1908,13 @@ $$
 P(X, x) = \{ g \in \mathbb{R}^n \mid \exists \alpha_0 > 0 : x + \alpha g \in X \quad \forall \alpha \in [0, \alpha_0] \}.
 $$
 Для будь-якої множини справедливе включення $\overline{P}(X, x) \subset T(X, x)$. Якщо множина $X$ опукла, то їхні замикання збігаються: $\overline{P}(X, x) = T(X, x)$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{bouligand_cones.png}
+\caption{Дотичний конус розширює «кут» множини назовні, а нормальний конус є його полярою --- множиною всіх векторів, що утворюють тупий кут із дотичними напрямками.}
+\label{fig:bouligand-cones}
+\end{figure}
 
 \section{Нормальний конус.}
 \textbf{Означення.} \textit{Нормальним конусом} $N(X, x)$ до множини $X$ у точці $x \in X$ називається поляра (негативний спряжений конус) до дотичного конуса Булігана:
