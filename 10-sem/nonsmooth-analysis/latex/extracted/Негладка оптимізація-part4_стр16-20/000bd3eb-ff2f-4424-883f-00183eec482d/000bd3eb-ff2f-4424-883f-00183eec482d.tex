@@ -1,0 +1,367 @@
+\documentclass[10pt]{article}
+\usepackage[ukrainian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+
+\begin{document}
+Іншими словами, якщо
+
+$$
+\left[\underline{\partial} f_{1}(x), \bar{\partial} f_{1}(x)\right], \quad\left[\underline{\partial} f_{2}(x), \bar{\partial} f_{2}(x)\right]
+$$
+
+є квазидиференціалами функцій $f_{1}$ і $f_{2}$ в точці $x$, то
+
+$$
+\begin{aligned}
+& \underline{\partial}\left(f_{1}+f_{2}\right)(x)=\underline{\partial} f_{1}(x)+\underline{\partial} f_{2}(x), \\
+& \bar{\partial}\left(f_{1}+f_{2}\right)(x)=\bar{\partial} f_{1}(x)+\bar{\partial} f_{2}(x) .
+\end{aligned}
+$$
+
+Для добутку маємо:
+
+$$
+\begin{aligned}
+& \underline{\partial}\left(f_{1} \cdot f_{2}\right)(x)= \begin{cases}f_{1}(x) \underline{\partial} f_{2}(x)+f_{2}(x) \underline{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \geq 0, \quad f_{2}(x) \geq 0, \\
+f_{1}(x) \bar{\partial} f_{2}(x)+f_{2}(x) \underline{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \leq 0, \quad f_{2}(x) \geq 0, \\
+f_{1}(x) \underline{\partial} f_{2}(x)+f_{2}(x) \bar{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \geq 0, \quad f_{2}(x) \leq 0, \\
+f_{1}(x) \bar{\partial} f_{2}(x)+f_{2}(x) \bar{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \leq 0, \quad f_{2}(x) \leq 0,\end{cases} \\
+& \bar{\partial}\left(f_{1} \cdot f_{2}\right)(x)= \begin{cases}f_{1}(x) \bar{\partial} f_{2}(x)+f_{2}(x) \bar{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \geq 0, \quad f_{2}(x) \geq 0, \\
+f_{1}(x) \underline{\partial} f_{2}(x)+f_{2}(x) \bar{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \leq 0, \quad f_{2}(x) \geq 0, \\
+f_{1}(x) \bar{\partial} f_{2}(x)+f_{2}(x) \underline{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \geq 0, \quad f_{2}(x) \leq 0, \\
+f_{1}(x) \underline{\partial} f_{2}(x)+f_{2}(x) \underline{\partial} f_{1}(x), & \text { якщо } f_{1}(x) \leq 0, \quad f_{2}(x) \leq 0 .\end{cases}
+\end{aligned}
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{1}
+  \item Множення на число. Нехай функція $f(x)$ квазидиференційовна в точці $x$. Тоді при будь-якому дійсному $\lambda$ функція $\lambda f(x)$ також квазидиференційовна в цій точці, причому
+\end{enumerate}
+
+$$
+\mathcal{D}(\lambda f)(x)=\lambda \mathcal{D} f(x)
+$$
+
+Іншими словами,
+
+$$
+\begin{aligned}
+& \underline{\partial}(\lambda f)(x)= \begin{cases}\lambda \underline{\partial} f(x), & \lambda \geq 0, \\
+\lambda \bar{\partial} f(x), & \lambda \leq 0,\end{cases} \\
+& \bar{\partial}(\lambda f)(x)= \begin{cases}\lambda \bar{\partial} f(x), & \lambda \geq 0, \\
+\lambda \underline{\partial} f(x), & \lambda \leq 0 .\end{cases}
+\end{aligned}
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{2}
+  \item Обернена функція. Нехай функція $f(x)$ квазидиференційовна в точці $x$, причому $f(x) \neq 0$. Тоді функція $\frac{1}{f}(x)=\frac{1}{f(x)}$ квазидиференційовна в точці $x$ і
+\end{enumerate}
+
+$$
+\mathcal{D}\left(\frac{1}{f}\right)(x)=-\frac{1}{f^{2}(x)} \mathcal{D} f(x)
+$$
+
+Іншими словами,
+
+$$
+\underline{\partial}\left(\frac{1}{f}\right)(x)=-\frac{1}{f^{2}(x)} \bar{\partial} f(x), \quad \bar{\partial}\left(\frac{1}{f}\right)(x)=-\frac{1}{f^{2}(x)} \underline{\partial} f(x)
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item Максимум і мінімум скінченної кількості функцій. Нехай функції $f_{1}(x), \ldots, f_{m}(x)$ визначені на відкритій множині $X$ та квазидиференційовні в точці $x \in X$. Нехай
+\end{enumerate}
+
+$$
+\varphi_{1}(x)=\max _{i=1, \ldots, m} f_{i}(x), \quad \varphi_{2}(x)=\min _{i=1, \ldots, m} f_{i}(x) .
+$$
+
+Тоді функції $\varphi_{1}(x)$ і $\varphi_{2}(x)$ квазидиференційовні в точці $x$.
+
+Позначимо
+
+$$
+R(x)=\left\{i \in I: f_{i}(x)=\varphi_{1}(x)\right\}, \quad Q(x)=\left\{i \in I: f_{i}(x)=\varphi_{2}(x)\right\}, \quad I=\{1, \ldots, m\}
+$$
+
+Тоді
+
+$$
+\begin{gathered}
+\underline{\partial} \varphi_{1}(x)=\operatorname{conv} \bigcup_{k \in R(x)}\left(\underline{\partial} f_{k}(x)-\sum_{\substack{i \in R(x) \\
+i \neq k}} \bar{\partial} f_{i}(x)\right) \\
+\bar{\partial} \varphi_{1}(x)=\sum_{k \in R(x)} \bar{\partial} f_{k}(x), \quad \underline{\partial} \varphi_{2}(x)=\sum_{k \in Q(x)} \underline{\partial} f_{k}(x) \\
+\bar{\partial} \varphi_{2}(x)=\operatorname{conv} \bigcup_{k \in Q(x)}\left(\bar{\partial} f_{k}(x)-\sum_{\substack{i \in Q(x) \\
+i \neq k}} \underline{\partial} f_{i}(x)\right)
+\end{gathered}
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{4}
+  \item Суперпозиція квазидиференційовних функцій. Нехай $X$ - відкрита множина в $\mathbb{R}^{n}, Y$ - відкрита множина в $\mathbb{R}^{m}$, і нехай відображення
+\end{enumerate}
+
+$$
+H(x)=\left(h_{1}(x), \ldots, h_{m}(x)\right)
+$$
+
+визначене на $X$ та приймає значення в $Y$. Нехай також функція $f$, визначена на $Y$, квазидиференційовна за Адамаром в точці $y_{0}=H\left(x_{0}\right)$. Тоді функція
+
+$$
+\varphi(x)=f(H(x))
+$$
+
+квазидиференційовна в точці $x_{0}$.\\
+При цьому квазидиференціал
+
+$$
+\mathcal{D} \varphi\left(x_{0}\right)=\left[\underline{\partial} \varphi\left(x_{0}\right), \bar{\partial} \varphi\left(x_{0}\right)\right]
+$$
+
+описується так:
+
+$$
+\begin{array}{r}
+\underline{\partial} \varphi\left(x_{0}\right)=\left\{p \mid p=\sum_{i=1}^{m}\left(\nu^{(i)}\left(\lambda_{i}+\mu_{i}\right)-\underline{\nu}^{(i)} \lambda_{i}-\bar{\nu}^{(i)} \mu_{i}\right),\right. \\
+\left.\nu=\left(\nu^{(1)}, \ldots, \nu^{(m)}\right) \in \underline{\partial} f\left(y_{0}\right), \quad \lambda_{i} \in \underline{\partial} h_{i}\left(x_{0}\right), \quad \mu_{i} \in \bar{\partial} h_{i}\left(x_{0}\right)\right\}, \\
+\bar{\partial} \varphi\left(x_{0}\right)=\left\{l \mid l=\sum_{i=1}^{m}\left(\nu^{(i)}\left(\lambda_{i}+\mu_{i}\right)+\bar{\nu}^{(i)} \lambda_{i}+\underline{\nu}^{(i)} \mu_{i}\right),\right. \\
+\left.\nu=\left(\nu^{(1)}, \ldots, \nu^{(m)}\right) \in \bar{\partial} f\left(y_{0}\right), \quad \lambda_{i} \in \underline{\partial} h_{i}\left(x_{0}\right), \quad \mu_{i} \in \bar{\partial} h_{i}\left(x_{0}\right)\right\} .
+\end{array}
+$$
+
+Тут $\underline{\nu}$ і $\bar{\nu}$ - будь-які вектори, які задовольняють нерівність
+
+$$
+\underline{\nu} \leq \nu \leq \bar{\nu}
+$$
+
+для всіх
+
+$$
+\nu \in \underline{\partial} f\left(y_{0}\right) \cup\left(-\bar{\partial} f\left(y_{0}\right)\right) .
+$$
+
+$\varepsilon$-квазідиференціал.\\
+Пара компактів $\left[\underline{\partial}_{\varepsilon} f(x), \bar{\partial}_{\varepsilon} f(x)\right]$ є $\varepsilon$-квазідиференціалом, якщо вона наближено задає похідну за напрямком з похибкою не більше $\varepsilon\|g\|$ :
+
+$$
+\left|f^{\prime}(x, g)-\left(\max _{v \in \underline{\partial}_{\varepsilon} f(x)}\langle v, g\rangle+\min _{w \in \bar{\partial}_{\varepsilon} f(x)}\langle w, g\rangle\right)\right| \leq \varepsilon\|g\| .
+$$
+
+\section*{Субдиференціал Мішеля-Пено.}
+Верхня похідна Мішеля-Пено записується як
+
+$$
+f_{m p}^{\uparrow}(x, g)=\sup _{q \in \mathbb{R}^{n}} \lim _{\alpha \downarrow 0} \frac{f(x+\alpha(g+q))-f(x+\alpha q)}{\alpha} .
+$$
+
+Субдиференціалом Мішеля-Пено функції $f$ в точці $x$ називається множина
+
+$$
+\partial_{m p} f(x)=\left\{h \mid\langle h, g\rangle \leq f^{\prime}(x, g), g \in \mathbb{R}^{n}\right\} .
+$$
+
+Супердиференціалом Мішеля-Пено функції $f$ в точці $x$ називається множина
+
+$$
+\bar{\partial}^{m p} f(x)=\left\{h \mid\langle h, g\rangle \geq f^{\prime}(x, g), g \in \mathbb{R}^{n}\right\} .
+$$
+
+\section*{Розділ VII. Кодиференційовні функції}
+\section*{Кодиференційовна функція.}
+Функція $f(x)$ кодиференційовна в точці $x$, якщо існують опуклі компакти $\underline{d} f(x) \subset \mathbb{R}^{n+1}$ і $\bar{d} f(x) \subset \mathbb{R}^{n+1}$ такі, що
+
+$$
+\begin{gathered}
+f(x+\Delta)-f(x)=\Phi_{x}(\Delta)+o_{x}(\Delta), \\
+\Phi_{x}(\Delta)=\max _{[a, v] \in \underline{d} f(x)}[a+\langle v, \Delta\rangle]+\min _{[b, w] \in \bar{d} f(x)}[b+\langle w, \Delta\rangle], \\
+\frac{o_{x}(\alpha \Delta)}{\alpha} \longrightarrow 0, \quad \forall \Delta \in \mathbb{R}^{n} .
+\end{gathered}
+$$
+
+де $a, b \in \mathbb{R}^{1} ; v, w \in \mathbb{R}^{n}, \operatorname{conv}\{x, x+\Delta\} \subset X$.
+
+\section*{Кодиференціал, гіподиференціал, гіпердиференціал.}
+Пара
+
+$$
+D f(x)=[\underline{d} f(x), \bar{d} f(x)]
+$$
+
+називається кодиференціалом функції $f$ в точці $x$. Множина $\underline{d} f(x)$ називається гіподиференціалом функції $f$ в точці $x$, а множина $\bar{d} f(x)$ називається гіпердиференціалом функції $f$ в точці $x$.
+
+Функція $f$ називається гіподиференційовною в точці $x$, якщо існує кодиференціал вигляду
+
+$$
+D f(x)=\left[\underline{d} f(x),\left\{0_{n+1}\right\}\right] .
+$$
+
+Функція $f$ називається гіпердиференційовною в точці $x$, якщо існує кодиференціал вигляду
+
+$$
+D f(x)=\left[\left\{0_{n+1}\right\}, \bar{d} f(x)\right] .
+$$
+
+Тут $0_{m}$ - нульовий елемент простору $\mathbb{R}^{m}$.
+
+\section*{Зв'язок квазідиференціала і кодиференціала.}
+Просто важливе уточнення: Клас кодиференційовних функцій співпадає с класом квазидиференційовних функцій. Проте використання поняття кодиференціала дозволяє виділити підмножину неперервно кодиференційовних функцій, в той час як для негладких функцій квазидиференціальне відображення є, взагалі кажучи, розривним.\\
+Відмітимо, що квазидиференціал - це пара опуклих компактів у просторі $\mathbb{R}^{n}$, а кодиференціал - пара опуклих компактів у просторі $\mathbb{R}^{n+1}$.
+
+\section*{Основні формули кодиференціального числення.}
+Далі розглядаються скінченні функції, що визначені на відкритій множині $X \subset \mathbb{R}^{n}$.
+
+\begin{enumerate}
+  \item Лінійна комбінація. Якщо $f_{1}(x), \ldots, f_{N}(x)$ - кодиференційовні функції в точці $x \in X$, то функція
+\end{enumerate}
+
+$$
+f(x)=\sum_{i=1}^{N} c_{i} f_{i}(x), \quad c_{i} \in \mathbb{R}^{1}
+$$
+
+також кодиференційовна в точці $x$. При цьому
+
+$$
+D f(x)=\sum_{i=1}^{N} c_{i} D f_{i}(x)
+$$
+
+де
+
+$$
+D f_{i}(x)=\left[\underline{d} f_{i}(x), \bar{d} f_{i}(x)\right]
+$$
+
+\begin{itemize}
+  \item кодиференціал функції $f_{i}(x)$ в точці $x$.
+\end{itemize}
+
+\begin{enumerate}
+  \setcounter{enumi}{1}
+  \item Добуток функцій. Якщо функції $f_{1}(x)$ та $f_{2}(x)$ кодиференційовні в точці $x \in X$, то функція
+\end{enumerate}
+
+$$
+f(x)=f_{1}(x) \cdot f_{2}(x)
+$$
+
+також кодиференційовна в точці $x$. При цьому
+
+$$
+D f(x)=f_{1}(x) D f_{2}(x)+f_{2}(x) D f_{1}(x)
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{2}
+  \item Обернена функція. Якщо функція $f_{1}(x)$ кодиференційовна в точці $x$ і $f_{1}(x) \neq 0$, то функція
+\end{enumerate}
+
+$$
+f(x)=\frac{1}{f_{1}(x)}
+$$
+
+кодиференційовна в точці $x$. При цьому
+
+$$
+D f(x)=-\frac{1}{f_{1}^{2}(x)} D f_{1}(x)
+$$
+
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item Максимум і мінімум скінченної кількості функцій. Нехай функції $\varphi_{i}(x), i \in I= \{1, \ldots, N\}$, кодиференційовні в точці $x$. Тоді функції
+\end{enumerate}
+
+$$
+f_{1}(x)=\max _{i \in I} \varphi_{i}(x), \quad f_{2}(x)=\min _{i \in I} \varphi_{i}(x)
+$$
+
+також кодиференційовні в точці $x$. При цьому
+
+$$
+D f_{1}(x)=\left[\underline{d} f_{1}(x), \bar{d} f_{1}(x)\right], \quad D f_{2}(x)=\left[\underline{d} f_{2}(x), \bar{d} f_{2}(x)\right],
+$$
+
+де
+
+$$
+\underline{d} f_{1}(x)=\operatorname{conv}\left\{\underline{d} \varphi_{k}(x)-\sum_{i \in I \backslash\{k\}} \bar{d} \varphi_{i}(x)+\left\{\left[\varphi_{k}(x)-f_{1}(x), 0_{n}\right]\right\} \mid k \in I\right\},
+$$
+
+$$
+\begin{gathered}
+\bar{d} f_{1}(x)=\sum_{i \in I} \bar{d} \varphi_{i}(x) \\
+\underline{d} f_{2}(x)=\sum_{i \in I} \underline{d} \varphi_{i}(x) \\
+\bar{d} f_{2}(x)=\operatorname{conv}\left\{\bar{d} \varphi_{k}(x)-\sum_{i \in I \backslash\{k\}} \underline{d} \varphi_{i}(x)+\left\{\left[\varphi_{k}(x)-f_{2}(x), 0_{n}\right]\right\} \mid k \in I\right\}
+\end{gathered}
+$$
+
+\section*{Кодиференціал суперпозиції.}
+Нехай $z \in \mathbb{R}^{m}, x \in \mathbb{R}^{n}$ і нехай $y_{1}(x), \ldots, y_{m}(x)$ - кодиференційовні в точці $x_{0}$ функції. Припустимо, що функція $F(z)$ кодиференційовна в точці
+
+$$
+z_{0}=\left(y_{1}\left(x_{0}\right), \ldots, y_{m}\left(x_{0}\right)\right) .
+$$
+
+Тоді
+
+$$
+y_{i}\left(x_{0}+\Delta x\right)=y_{i}\left(x_{0}\right)+\max _{\left[\widetilde{a}_{i}, \widetilde{v}_{i}\right] \in \underline{d} y_{i}\left(x_{0}\right)}\left[\widetilde{a}_{i}+\left\langle\widetilde{v}_{i}, \Delta x\right\rangle\right]+\min _{\left[\widetilde{b}_{i}, \widetilde{w}_{i}\right] \in \bar{d} y_{i}\left(x_{0}\right)}\left[\widetilde{b}_{i}+\left\langle\widetilde{w}_{i}, \Delta x\right\rangle\right]+o_{i}(\Delta x)
+$$
+
+для всіх $i \in\{1, \ldots, m\}$, а також
+
+$$
+F\left(z_{0}+\Delta z\right)=F\left(z_{0}\right)+\max _{[a, v] \in \underline{d} F\left(z_{0}\right)}[a+\langle v, \Delta z\rangle]+\min _{[b, w] \in \bar{d} F\left(z_{0}\right)}[b+\langle w, \Delta z\rangle]+o(\Delta z) .
+$$
+
+Тут
+
+$$
+\frac{o_{i}(\alpha \Delta x)}{\alpha} \rightarrow 0, \quad \frac{o(\alpha \Delta z)}{\alpha} \rightarrow 0 \quad \text { при } \alpha \downarrow 0 .
+$$
+
+Якщо функції $y_{1}(x), \ldots, y_{m}(x)$ кодиференційовні в точці $x_{0}$, функція $F(z)$ кодиференційовна в точці $z_{0}$, то функція
+
+$$
+f(x)=F\left(y_{1}(x), \ldots, y_{m}(x)\right)
+$$
+
+кодиференційовна в точці $x_{0}$. Якщо функції $y_{1}(x), \ldots, y_{m}(x)$ неперервно кодиференційовні в околі точки $x_{0}$, а функція $F(z)$ неперервно кодиференційовна в околі точки $z_{0}$, то і функція $f(x)$ також неперервно кодиференційовна в околі точки $x_{0}$.
+
+\section*{Кодиференційовна множина.}
+Нехай множина $S$ визначається співвідношенням
+
+$$
+S=\left\{x \in \mathbb{R}^{n} \mid h(x) \leq 0\right\}
+$$
+
+де $h: X \rightarrow \mathbb{R}^{1}$ - кодиференційовна на $X$ функція, $X \subset \mathbb{R}^{n}$ - відкрита множина, $S \subset X$. Для фіксованого $x \in X$ покладають
+
+$$
+\Gamma(x)=x+K(x), \quad K(x)=\left\{\Delta \in \mathbb{R}^{n} \mid h(x)+h_{1}(x, \Delta) \leq 0\right\}
+$$
+
+де
+
+$$
+h_{1}(x, \Delta)=\max _{[a, v] \in \underline{d} h(x)}[a+\langle v, \Delta\rangle]+\min _{[b, w] \in \bar{d} h(x)}[b+\langle w, \Delta\rangle] .
+$$
+
+Також розглядаються множини
+
+$$
+\begin{aligned}
+& \bar{\gamma}_{1}(x)=\left\{\Delta \in \mathbb{R}^{n} \mid h(x)+h_{1}(x, \Delta)<0\right\} \\
+& \bar{\Gamma}_{1}(x)=\left\{\Delta \in \mathbb{R}^{n} \mid h(x)+h_{1}(x, \Delta) \leq 0\right\}
+\end{aligned}
+$$
+
+
+\end{document}

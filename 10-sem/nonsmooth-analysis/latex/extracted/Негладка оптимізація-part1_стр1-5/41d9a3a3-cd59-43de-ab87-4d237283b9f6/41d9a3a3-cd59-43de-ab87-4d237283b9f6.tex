@@ -1,0 +1,289 @@
+\documentclass[10pt]{article}
+\usepackage[ukrainian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+
+\title{Словничок термінів та основних понять з МНО на основі матеріалу лекцій Джалладової І. А. та посібником М. П. Моклячука "Негладкий аналіз та оптимізація" }
+
+\author{}
+\date{}
+
+
+\begin{document}
+\maketitle
+\captionsetup{singlelinecheck=false}
+посібник для підготовки до модуля за одну ніч :(
+
+\begin{figure}[h]
+\begin{center}
+  \includegraphics[alt={},max width=\textwidth]{41d9a3a3-cd59-43de-ab87-4d237283b9f6-1_1106_1678_781_233}
+\captionsetup{labelformat=empty}
+\caption{Зробив: Уразовський А. В.\\
+Викладач: Джалладова I. А.}
+\end{center}
+\end{figure}
+
+\section*{Розділ І. Опуклі множини}
+\section*{Опукла множина.}
+Непорожня множина $X \subset \mathbb{R}^{n}$ називається опуклою, якщо разом з будь-якими двома своїми точками вона містить увесь відрізок між ними:
+
+$$
+x_{1}, x_{2} \in X, \quad 0 \leq \lambda \leq 1 \quad \Longrightarrow \quad \lambda x_{1}+(1-\lambda) x_{2} \in X .
+$$
+
+\section*{Підпростір, гіперплощина, півпростір, промінь.}
+Гіперплощина з нормаллю $p$ задається рівнянням
+
+$$
+H_{p \beta}=\left\{x \in \mathbb{R}^{n}:\langle p, x\rangle=\beta\right\} .
+$$
+
+Їй відповідають два півпростори:
+
+$$
+H_{p \beta}^{+}=\{x:\langle p, x\rangle \geq \beta\}, \quad H_{p \beta}^{-}=\{x:\langle p, x\rangle \leq \beta\} .
+$$
+
+Промінь з точки $\widehat{x}$ у напрямку $h$ має вигляд
+
+$$
+\ell_{\widehat{x} h}^{+}=\{\widehat{x}+\alpha h: \alpha \geq 0\} .
+$$
+
+\section*{Конус і опуклий конус.}
+Множина $K \subset \mathbb{R}^{n}$ називається конусом, якщо з $x \in K$ випливає $\lambda x \in K$ для всіх $\lambda>0$. Опуклий конус замкнений відносно додавання та додатного множення:
+
+$$
+x_{1}, x_{2} \in K, \quad \lambda_{1}, \lambda_{2}>0 \quad \Longrightarrow \quad \lambda_{1} x_{1}+\lambda_{2} x_{2} \in K .
+$$
+
+\section*{Афінна множина.}
+Множина $X \subset \mathbb{R}^{n}$ називається афінною, якщо разом з будь-якими двома точками вона містить усю пряму через них:
+
+$$
+x_{1}, x_{2} \in X, \quad \lambda \in \mathbb{R} \quad \Longrightarrow \quad \lambda x_{1}+(1-\lambda) x_{2} \in X .
+$$
+
+\section*{Опукла, конічна, афінна і лінійна комбінації.}
+Комбінація точок $x_{1}, \ldots, x_{m}$ має вигляд $\sum_{i=1}^{m} \lambda_{i} x_{i}$. Вона називається:
+
+$$
+\begin{array}{ll}
+\text { опуклою, якщо } & \lambda_{i} \geq 0, \quad \sum_{i} \lambda_{i}=1, \\
+\text { конічною, якщо } & \lambda_{i} \geq 0, \\
+\text { афінною, якщо } & \sum_{i} \lambda_{i}=1, \\
+\text { лінійною, якщо } & \lambda_{i} \in \mathbb{R}^{1} .
+\end{array}
+$$
+
+\section*{Оболонка точок: опукла, конічна, афінна, лінійна.}
+Позначення (я буду писати у порядку опукла, конічна, афінна, лінійна)
+
+$$
+\operatorname{conv} X, \quad \operatorname{cone} X, \quad \operatorname{aff} X, \quad \operatorname{Lin} X .
+$$
+
+Перетин всіх опуклих множин, що містять дану множину $X$, називається опуклою, конічною, афінною, лінійною оболонкою множини $X$.
+
+\section*{Теорема Каратеодорі.}
+Нехай $\operatorname{dim} \operatorname{Lin} X=n$. Кожну точку, що належить опуклій, конічній, афінній або лінійній оболонці множини $X$, можна подати як відповідну комбінацію не більш ніж $r$ точок $x^{1}, \ldots, x^{r}$ із $X$. Для опуклої та афінної оболонки $r=n+1$, причому точки можна вважати афінно незалежними. Для конічної та лінійної оболонки $r=n$, причому точки можна вважати лінійно незалежними.
+
+\section*{Теорема про розділення множин.}
+Зміст теорем розділення такий: якщо опуклі множини не перетинаються, то за відповідних умов існує ненульовий лінійний функціонал, який розділяє ці множини. (далі написані як раз вони)\\
+Теорема 1.4.1. Нехай $M$ - опукла множина і точка $x_{0} \notin \bar{M}$. Тоді існує $x^{*} \neq 0$ і число $\varepsilon>0$ такі, що
+
+$$
+\left\langle x, x^{*}\right\rangle \leq\left\langle x_{0}, x^{*}\right\rangle-\varepsilon
+$$
+
+для всіх $x \in M$.\\
+Теорема 1.4.2. Нехай $M$ - опукла множина і точка $x_{0} \notin M$. Тоді існує $x^{*} \neq 0$, що задовольняє нерівності
+
+$$
+\left\langle x, x^{*}\right\rangle \leq\left\langle x_{0}, x^{*}\right\rangle
+$$
+
+для всіх $x \in M$.\\
+Теорема 1.4.3. Нехай $M_{1}, M_{2}$ - опуклі множини, що не перетинаються. Тоді існує така точка $x^{*} \neq 0$, що виконується нерівність
+
+$$
+\left\langle x_{1}, x^{*}\right\rangle \leq\left\langle x_{2}, x^{*}\right\rangle
+$$
+
+для всіх $x_{1} \in M_{1}, x_{2} \in M_{2}$.\\
+Теорема 1.4.4. Нехай $M_{1}, M_{2}$ - замкнуті опуклі множини, що не перетинаються. Нехай одна з множин компактна. Тоді існує точка $x^{*}$ і число $\varepsilon>0$ такі, що
+
+$$
+\left\langle x_{1}, x^{*}\right\rangle \leq\left\langle x_{2}, x^{*}\right\rangle-\varepsilon
+$$
+
+для всіх $x_{1} \in M_{1}, x_{2} \in M_{2}$.\\
+Теорема 1.4.5. Нехай $M$ - замкнута опукла множина. Тоді $x \in M$ тоді і тільки тоді, коли
+
+$$
+\left\langle x, x^{*}\right\rangle \leq s\left(x^{*} \mid M\right)
+$$
+
+для всіх $x^{*} \in M$.
+
+\section*{Функція Мінковського.}
+Для множини $A \subset X$ функція Мінковського задається формулою
+
+$$
+\mu(x \mid A)= \begin{cases}0, & x=0 \\ \inf \left\{\lambda>0: \lambda^{-1} x \in A\right\}, & x \neq 0\end{cases}
+$$
+
+Спряженою до функції Мінковського множини $A$ є індикаторна функція поляри $A^{0}$. (про це далі) I я б хотів ще зазначити деякі властивості: Нехай - опукла множина і $0 \in \operatorname{int}()$. Функція Мінковського має такі властивості:\\
+а) якщо $\lambda \geq 0$, то $\mu(\lambda x \mid M)=\lambda \mu(x \mid M)$;\\
+б) якщо $x \in M$, то $\mu(x \mid M) \leq 1$, а якщо $x \notin M$, то $\mu(x \mid M) \geq 1$;\\
+в) $\mu(x+y \mid M) \leq \mu(x \mid M)+\mu(y \mid M)$.
+
+\section*{Теорема Хана-Банаха.}
+Нехай на просторі $X$ визначена функція $p(x)$ така, що
+
+$$
+p(x+y) \leq p(x)+p(y), \quad p(\lambda x)=\lambda p(x), \quad \lambda \geq 0 .
+$$
+
+Нехай, крім цього, задана лінійна функція $f(x)$ на підпросторі $X_{0} \subseteq X$ і $f(x) \leq p(x)$ для всіх $x \in X_{0}$. Тоді існує лінійна функція $F(x)$, що визначена на всьому просторі $X$ і така, що
+
+$$
+f(x)=F(x) \quad \text { для } x \in X_{0}
+$$
+
+i
+
+$$
+F(x) \leq p(x) \quad \text { для } x \in X \text {. }
+$$
+
+\section*{Спряжений конус і поляра конуса.}
+Для конуса $K$ поляра має вигляд
+
+$$
+K^{0}=\left\{x^{*} \in X^{*}:\left\langle x^{*}, x\right\rangle \leq 0, \forall x \in K\right\} .
+$$
+
+Спряжений конус визначається як
+
+$$
+K^{*}=-K^{0} .
+$$
+
+\section*{Крайня точка.}
+Точка $x$ опуклої множини $X$ називається крайньою, якщо з подання
+
+$$
+x=\lambda x_{1}+(1-\lambda) x_{2}, \quad 0<\lambda<1, \quad x_{1}, x_{2} \in X,
+$$
+
+випливає $x_{1}=x_{2}=x$.\\
+Критерій існування крайньої точки: нехай $X$ - замкнута опукла множина в $\mathbb{R}^{n}$. Тоді $X$ має принаймні одну крайню точку тоді і тільки тоді, коли в $X$ не включаються прямі, тобто множини виду
+
+$$
+l_{x^{0} h}=\left\{x \in \mathbb{R}^{n}: x=x^{0}+\alpha h, \alpha \in \mathbb{R}\right\},
+$$
+
+де $x^{0} \in \mathbb{R}^{n}, h \in \mathbb{R}^{n}, h \neq 0$.
+
+\section*{Теорема Мінковського про опуклий компакт.}
+Якщо $X$ - опуклий компакт у $\mathbb{R}^{n}$, то він є опуклою оболонкою множини своїх крайніх точок: $X=\operatorname{conv} E(X)$, де $E(X)$ - множина крайніх точок $X$.
+
+\section*{Поліедр, многогранні множини, многогранний конус.}
+Поліедри та многогранні задаються скінченними системами лінійних нерівностей.\\
+Поліедром називається множина розв'язків системи скінченної кількості лінійних нерівностей, тобто перетин скінченної кількості півпросторів:
+
+$$
+X=\left\{x \in \mathbb{R}^{n}:\left\langle a^{i}, x\right\rangle \leq b_{i}, i \in I=\{1, \ldots, m\}\right\},
+$$
+
+або
+
+$$
+X=\left\{x \in \mathbb{R}^{n}: A x \leq b\right\},
+$$
+
+де $b=\left(b_{1}, \ldots, b_{m}\right) \in \mathbb{R}^{m}, A$ - матриця розмірності $m \times n$ з рядками $a^{1}, a^{2}, \ldots, a^{m} \in \mathbb{R}^{n}$.\\
+Опуклим многограником називається опукла оболонка множини, що складається із скінченної кількості точок, та є опуклим многогранником породженим цими точками. Обмежена множина, що задана скінченною системою лінійних нерівностей, що написані вище і є опуклим многогранником, правда і навпаки, що так можна подати будь-який многограник
+
+Опуклий многогранник $X=\operatorname{conv}\left\{x^{1}, \ldots, x^{m}\right\}$ має вигляд
+
+$$
+X=\left\{x \in \mathbb{R}^{n} \mid x=\sum_{i=1}^{m} \lambda_{i} x^{i}, \lambda_{i} \geq 0 ; \sum_{i=1}^{m} \lambda_{i}=1\right\} .
+$$
+
+Опорна функція многогранника має вигляд
+
+$$
+s\left(x^{*} \mid M\right)=\sup _{x \in M}\left\langle x, x^{*}\right\rangle=\max _{1 \leq i \leq m}\left\langle x^{i}, x^{*}\right\rangle
+$$
+
+Нехай
+
+$$
+I\left(x^{*}\right)=\left\{i:\left\langle x^{i}, x^{*}\right\rangle=s\left(x^{*} \mid M\right), i=1, \ldots, m\right\}
+$$
+
+тобто $I\left(x^{*}\right)$ - це множина індексів $i$, для яких скалярний добуток $\left\langle x^{i}, x^{*}\right\rangle$ досягає максимуму.
+
+Гіперплощина
+
+$$
+\left\{x:\left\langle x, x^{*}\right\rangle=s\left(x^{*} \mid M\right)\right\}
+$$
+
+називається опорною гіперплощиною. Якщо $j \in I\left(x^{*}\right)$ і серед векторів $\left\langle x^{i}-x^{j}, x^{*}\right\rangle=0$, $i \in I\left(x^{*}\right)$ є $n$ лінійно незалежних, то опора називається крайньою.
+
+Многогранного множиною називається множина точок, що задовольняють систему лінійних нерівностей
+
+$$
+\left\langle x, x_{i}^{*}\right\rangle \geq \alpha_{i}, \quad i=1, \ldots, l
+$$
+
+Многограним конусом називається конус $K$, якщо існує скінченний набір векторів $x_{1}, \ldots, x_{m}$ таких, що для векторів $x \in K$ і тільки для них виконується рівність
+
+$$
+x=\sum_{i=1}^{m} \lambda_{i} x_{i}, \quad \lambda_{i} \geq 0, \quad i=1, \ldots, m
+$$
+
+Многогранний конус може бути заданий скінченною кількістю лінійних однорідних нерівностей
+
+$$
+\left\langle x, x_{k}^{*}\right\rangle \geq 0, \quad k=1, \ldots, l
+$$
+
+\section*{Розділ II. Опуклі функції}
+\section*{Ефективна множина функції.}
+Ефективна множина функції $f$ - це непорожня множина точок, у яких функція приймає скінченні значення або значення $-\infty$ :
+
+$$
+\operatorname{dom} f:=\left\{x \in \mathbb{R}^{n}: f(x)<\infty\right\}
+$$
+
+Ефективна множина опуклої функції (див. далі) - опукла множина
+
+\section*{Надграфік.}
+Надграфік, або епіграф, функції $f: \mathbb{R}^{n} \rightarrow \mathbb{R} \cup\{-\infty\} \cup\{+\infty\}$ визначається як
+
+$$
+\operatorname{epi} f:=\left\{(x, r) \in \mathbb{R}^{n} \times \mathbb{R}: f(x) \leq r\right\} \text {. }
+$$
+
+Функція відновлюється за надграфіком формулою
+
+$$
+f(x)=\inf \{r \in \mathbb{R}:(x, r) \in \operatorname{epi} f\}
+$$
+
+
+\end{document}

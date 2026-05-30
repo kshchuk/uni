@@ -1,0 +1,331 @@
+\documentclass[10pt]{article}
+\usepackage[ukrainian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+
+\begin{document}
+\section*{Похідна Пшеничного.}
+Для $x \in \operatorname{dom} f=\{x:|f(x)|<+\infty\} ., g \neq 0$
+
+$$
+F(x, g)=\sup _{r(\cdot)} \limsup _{\lambda \downarrow 0} \frac{f(x+\lambda g+r(\lambda))-f(x)}{\lambda}, \quad \frac{r(\lambda)}{\lambda} \rightarrow 0 .
+$$
+
+де зовнішня верхня грань береться по всім функціям $r(\lambda) \in X$ таким, що $\lambda^{-1} r(\lambda) \rightarrow 0$ при $\lambda \downarrow 0$, будемо називати похідною за напрямком Пшеничного. Величина $F(x, g)$ - скінченна або нескінченна - існує завжди.\\
+Легко також перевірити, що функція $F(x, g)$ додатньо однорідна за $g$, тобто для $\lambda>0$
+
+$$
+F(x, \lambda g)=\lambda F(x, g) .
+$$
+
+Якщо виконується умова Ліпшиця в околі точки $x$, справедлива формула
+
+$$
+F(x, g)=\underset{\lambda \downarrow 0}{\lim \sup } \frac{f(x+\lambda g)-f(x)}{\lambda} .
+$$
+
+\section*{Верхня опукла апроксимація. (в. о. а)}
+Функція $h(x, g)$ називається верхньою опуклою апроксимацією функції $f$ у точці $x$, якщо вона мажорує похідну Пшеничного за ненульовими напрямками і як функція $h(x, g)$ є опуклою, замкнутою та додатньо однорідною:
+
+$$
+h(x, g) \geq F(x, g), \quad g \neq 0
+$$
+
+Якщо $h_{1}(x, g)$ і $h_{2}(x, g)$ в.о.а. для $f(x)$ в точці $x$, то функція
+
+$$
+h(x, g)=\lambda_{1} h_{1}(x, g)+\lambda_{2} h_{2}(x, g), \quad \lambda_{1}+\lambda_{2}=1, \quad \lambda_{1}, \lambda_{2} \geq 0
+$$
+
+і функція
+
+$$
+h(x, g)=\max \left\{h_{1}(x, g), h_{2}(x, g)\right\}
+$$
+
+також є в.о.а. для $f(x)$ в точці $x$.
+
+\section*{Субдиференціал, породжений верхньою опуклою апроксимацією.}
+Якщо $h(x, g)$ є верхньюю опуклою апроксимацією, то субдиференціал визначається як
+
+$$
+\partial f(x)=\partial h(x, 0)=\left\{x^{*}: h(x, g) \geq\left\langle x^{*}, g\right\rangle, \forall g\right\} .
+$$
+
+При цьому
+
+$$
+h(x, g)=\sup _{x^{*} \in \partial f(x)}\left\langle x^{*}, g\right\rangle
+$$
+
+\section*{Головна верхня апроксимація і головний субдиференціал.}
+В.о.a. $h(x, g)$ функції $f(x)$ в точці $x$ називається головною, якщо не існує іншої в.о.а. $h_{1}(x, g)$, такої, що
+
+$$
+h(x, g) \geq h_{1}(x, g) \quad \forall x .
+$$
+
+Відповідний в.о.а. $h(x, g)$ субдиференціал називається головним.\\
+Якщо $F(x, g)$ після довизначення $F(x, 0)=0$ є опуклою замкнутою функцією, то існує єдиний головний субдиференціал. Якщо $f$ - опукла неперервна функція, то її звичайний субдиференціал є єдиним головним субдиференціалом.\\
+Якщо $h(x, g)=\left\langle x^{*}, g\right\rangle$ є в.о.а. функції $f$ в точці $x$, то $h(x, g)$ - головна в.о.а., а $x^{*}$ - головний субдиференціал.
+
+\section*{Розділ IV. Похідні за напрямком}
+\section*{Похідна Діні.}
+Нехай функція $f: \mathbb{R}^{n} \rightarrow \mathbb{R}^{1}$ визначена на деякій відкритій множині $S \subset \mathbb{R}^{n}$ і приймає лише скінченні значення.\\
+Величина
+
+$$
+f_{D}^{\uparrow}(x, g)=\varlimsup_{\alpha \downarrow 0} \frac{1}{\alpha}(f(x+\alpha g)-f(x))
+$$
+
+називається верхнъою похідною Діні функції $f$ в точці $x \in S$ за напрямком $g \in \mathbb{R}^{n}$.\\
+Величина
+
+$$
+f_{D}^{\downarrow}(x, g)=\lim _{\underline{\alpha \rightarrow+0}} \frac{1}{\alpha}(f(x+\alpha g)-f(x))
+$$
+
+називається нижнъою похідною Діні функції $f$ в точці $x \in S$ за напрямком $g \in \mathbb{R}^{n}$.\\
+Похідна Діні функції $f$ у точці $x$ за напрямком $g$ задається границею
+
+$$
+f_{D}^{\prime}(x, g)=\lim _{\alpha \downarrow 0} \frac{f(x+\alpha g)-f(x)}{\alpha}
+$$
+
+якщо ця границя існує. Також виконуються аналогічні формули похідної суми, добутка, відношення.
+
+\section*{Похідна Адамара.}
+В той же час рівномірна диференційовність за напрямками разом із неперервністю похідної еквівалентні диференційовності за Адамаром (тобто, існуванню і скінченності похідної Адамара за всіма напрямками).\\
+Величина
+
+$$
+f_{H}^{\uparrow}(x, g)=\lim _{\alpha \downarrow 0, g^{\prime} \rightarrow g} \frac{1}{\alpha}\left(f\left(x+\alpha g^{\prime}\right)-f(x)\right)
+$$
+
+називається верхньою похідною Адамара функції $f$ в точці $x \in S$ за напрямком $g \in \mathbb{R}^{n}$. Величина
+
+$$
+f_{H}^{\downarrow}(x, g)=\lim _{\underline{\alpha \downarrow 0, g^{\prime} \rightarrow g}} \frac{1}{\alpha}\left(f\left(x+\alpha g^{\prime}\right)-f(x)\right)
+$$
+
+називається нижнъого похідного Адамара функції $f$ в точці $x \in S$ за напрямком $g \in \mathbb{R}^{n}$. Похідною Адамара функції $f$ в точці $x \in S$ за напрямком $g \in \mathbb{R}^{n}$ називається границя
+
+$$
+f_{H}^{\prime}(x, g)=\lim _{\alpha \downarrow 0, g^{\prime} \rightarrow g} \frac{1}{\alpha}\left(f\left(x+\alpha g^{\prime}\right)-f(x)\right),
+$$
+
+якщо вона існує.\\
+Якщо функція $f$ диференційовна за Адамаром в точці $x$, то вона неперервна в цій точці. Таким чином, із рівномірної диференційовності за Діні і неперервності похідної як функції напрямку випливає неперервність самої функції.\\
+Якщо диференційовність функції $f$ в точці $x$ не рівномірна, то функція в цій точці може мати розрив, навіть якщо похідна неперервна як функція напрямку.
+
+\section*{Конус допустимих напрямків.}
+Напрямок $g$ називається допустимим для множини $S$ у точці $x$, якщо існує $\alpha_{g}>0$ таке, що
+
+$$
+x+\alpha g \in S \quad \forall \alpha \in\left(0, \alpha_{g}\right) .
+$$
+
+Множина таких напрямків позначається $\gamma(x, S)$.
+
+\section*{Конус можливих напрямків і конус Булігана.}
+Напрямок $g$ є можливим, якщо існують $g_{k} \rightarrow g$ і $\alpha_{k} \downarrow 0$ такі, що
+
+$$
+x+\alpha_{k} g_{k} \in S .
+$$
+
+Множина можливих напрямків позначається $\Gamma(x, S)$ і називається конусом Булігана.
+
+\section*{Зв'язок основних конусів.}
+Для конусів напрямків справедливо включення
+
+$$
+\gamma(x, S) \subset K(x, S) \subset \Gamma(x, S),
+$$
+
+де $\gamma(x, S)$ - конус допустимих напрямків, $K(x, S)$ - конус дотичних напрямків, $\Gamma(x, S)$ конус можливих напрямків.
+
+\section*{Розділ V. Субдиференційовні функції}
+\section*{Субдиференційовна функція за Діні та Адамаром.}
+Функція $f: S \rightarrow \mathbb{R}^{1}, S \subset \mathbb{R}^{n}$, субдиференційовна за Діні в точці $x \in S$, якщо існує така опукла компактна множина $\partial f(x) \subset \mathbb{R}^{n}$, що
+
+$$
+f_{D}^{\prime}(x, g)=\lim _{\alpha \downarrow 0} \frac{f(x+\alpha g)-f(x)}{\alpha}=\max _{v \in \partial f(x)}\langle v, g\rangle \quad \forall g \in \mathbb{R}^{n} .
+$$
+
+Субдиференціалом Діні називається множина $\partial f(x) \subset \mathbb{R}^{n}$, для якої виконується вказане співвідношення функції $f$ в точці $x \in S$.\\
+Функція $f: S \rightarrow \mathbb{R}^{1}, S \subset \mathbb{R}^{n}$, субдиференційовна за Адамаром в точці $x \in S$, якщо існує опукла компактна множина $\partial f(x) \subset \mathbb{R}^{n}$ така, що
+
+$$
+f_{H}^{\prime}(x, g)=\lim _{\left[\alpha, g^{\prime}\right] \rightarrow[+0, g]} \frac{f\left(x+\alpha g^{\prime}\right)-f(x)}{\alpha}=\max _{v \in \partial f(x)}\langle v, g\rangle \quad \forall g \in \mathbb{R}^{n} .
+$$
+
+Субдиференціалом Адамара називається множина $\partial f(x) \subset \mathbb{R}^{n}$, для якої виконується вказане співвідношення функції $f$ в точці $x \in S$.
+
+\section*{Умова мінімуму субдиференціальна.}
+Якщо точка $x^{*}$ є точкою локального мінімуму субдиференційовної за Діні або Адамаром функції, то необхідною умовою є
+
+$$
+0 \in \partial f\left(x^{*}\right) .
+$$
+
+Для субдиференційовної за Адамаром функції умова
+
+$$
+0 \in \operatorname{int} \partial f\left(x^{*}\right)
+$$
+
+є достатньою умовою мінімуму.
+
+\section*{Субдиференціал Шора.}
+Для локально ліпшицевої функції, диференційовної майже скрізь на множині $Q$, субдиференціал Шора має вигляд
+
+$$
+\partial_{S h} f(x)=\left\{v \in \mathbb{R}^{n}: \exists\left\{x_{i}\right\}, v=\lim _{i \rightarrow \infty} f^{\prime}\left(x_{i}\right), x_{i} \rightarrow x, x_{i} \in Q\right\} .
+$$
+
+Ця множина компактна, але не обов'язково опукла.
+
+\section*{Верхня і нижня регуляризації .}
+Функції
+
+$$
+\begin{aligned}
+& \bar{f}(x)=\inf _{\delta>0} \sup _{\left\|x^{\prime}-x\right\|<\delta, x^{\prime} \in X} f\left(x^{\prime}\right) \\
+& \underline{f}(x)=\sup _{\delta>0} \inf _{\left\|x^{\prime}-x\right\|<\delta, x^{\prime} \in X} f\left(x^{\prime}\right)
+\end{aligned}
+$$
+
+називаються відповідно верхньою і нижньою регуляризаціями функції $f$ на множині $X$.\\
+Завжди справджуються співвідношення
+
+$$
+\underline{f}(x) \leq f(x) \leq \bar{f}(x) .
+$$
+
+Нехай функція $f$ визначена на відкритій множині $X$ в просторі $\mathbb{R}^{n}$. Розглянемо її верхню та нижню похідні Діні за деяким фіксованим напрямком $g$ при всіх $x$ із $X$, тобто функції $x \rightarrow f_{D}^{\uparrow}(x, g), x \in X$ та $x \rightarrow f_{D}^{\downarrow}(x, g), x \in X$.\\
+Визначимо верхню регуляризацію
+
+$$
+\overline{f_{D}^{\uparrow}}(x, g)=\max \left(f_{D}^{\uparrow}(x, g), \varlimsup_{x^{\prime} \rightarrow x} f_{D}^{\uparrow}\left(x^{\prime}, g\right)\right)
+$$
+
+верхньої похідної Діні $f_{D}^{\uparrow}(x, g)$ і нижню регуляризацію
+
+$$
+\underline{f_{D}^{\downarrow}}(x, g)=\min \left(f_{D}^{\downarrow}(x, g), \lim _{\underline{x^{\prime} \rightarrow x}} f_{D}^{\downarrow}\left(x^{\prime}, g\right)\right)
+$$
+
+нижньої похідної Діні $f_{D}^{\downarrow}(x, g)$.
+
+\section*{Похідна Кларка.}
+Верхньою та нижньою похідною Кларка називаються відповідно
+
+$$
+\begin{aligned}
+f_{C l}^{\uparrow}(x, g) & =\varlimsup_{\substack{x^{\prime} \rightarrow x \\
+\alpha \downarrow 0}} \frac{1}{\alpha}\left(f\left(x^{\prime}+\alpha g\right)-f\left(x^{\prime}\right)\right) \\
+f_{C l}^{\downarrow}(x, g) & =\lim _{\substack{x^{\prime} \rightarrow x \\
+\alpha \downarrow 0}} \frac{1}{\alpha}\left(f\left(x^{\prime}+\alpha g\right)-f\left(x^{\prime}\right)\right)
+\end{aligned}
+$$
+
+При фіксованому напрямку $g$ верхня похідна Кларка є верхньою регуляризацією верхньої похідної Діні, а нижня похідна Кларка є нижньою регуляризацією нижньої похідної Діні.
+
+\section*{Субдиференціал Кларка.}
+Для локально ліпшицевої функції субдиференціал Кларка визначається як опукла оболонка субдиференціала Шора:
+
+$$
+\partial_{C l} f(x)=\operatorname{conv} \partial_{S h} f(x)
+$$
+
+Він є опуклим і компактним, а його елементи називаються узагальненими градієнтами.
+
+\section*{Конус Кларка.}
+Дотичний конус Кларка до множини $S$ у точці $x$ визначається через функцію відстані $\rho_{S}$ :
+
+$$
+T(x, S)=\left\{g:\left(\rho_{S}\right)_{C l}^{\uparrow}(x, g)=0\right\} .
+$$
+
+\section*{Розділ VI. Квазідиференційовні функції}
+\section*{Квазідиференційовна функція.}
+Функція $f$ називається квазідиференційовною в точці $x$, якщо вона має похідну за напрямками і цю похідну можна подати у вигляді
+
+$$
+f^{\prime}(x, g)=\max _{v \in U}\langle v, g\rangle+\min _{w \in V}\langle w, g\rangle, \quad g \in \mathbb{R}^{n}
+$$
+
+де $U, V$ - опуклі компактні множини.
+
+\section*{Квазідиференціал.}
+Квазідиференціалом функції $f$ у точці $x$ називається клас еквівалентних пар опуклих компактів
+
+$$
+D f(x)=[\underline{\partial} f(x), \bar{\partial} f(x)]
+$$
+
+для яких
+
+$$
+f^{\prime}(x, g)=\max _{v \in \underline{\partial} f(x)}\langle v, g\rangle+\min _{w \in \bar{\partial} f(x)}\langle w, g\rangle
+$$
+
+\section*{Суперградієнт і супердиференціал.}
+Нехай $f$ - угнута функція, визначена на відкритій множині $X \subset \mathbb{R}^{n}$. Тоді функція $f \in$ квазидиференційовною в точках $x \in X$, і як квазидиференціал можна взяти пару
+
+$$
+D f(x)=[\{0\}, \bar{\partial} f(x)]
+$$
+
+де $\bar{\partial} f(x)$ - супердиференціал функції $f$ в точці $x$ :
+
+$$
+\bar{\partial} f(x)=\left\{w \in \mathbb{R}^{n} \mid f(z)-f(x) \leq\langle w, z-x\rangle, \forall z \in X\right\}
+$$
+
+Елементи множини $\bar{\partial} f(x)$ називають суперградієнтами функції $f$ в точці $x$. Для угнутої функції суперградієнт задає афінну мажоранту функції в точці $x$, тобто дотичну зверху оцінку:
+
+$$
+f(z) \leq f(x)+\langle w, z-x\rangle, \quad w \in \bar{\partial} f(x)
+$$
+
+\section*{Еквівалентні пари опуклих компактів.}
+Пари $\left[U_{1}, V_{1}\right]$ і $\left[U_{2}, V_{2}\right]$ називаються еквівалентними, якщо
+
+$$
+U_{1}-V_{2}=U_{2}-V_{1}
+$$
+
+Через це один і той самий квазідиференціал може мати різні представники.
+
+\section*{Основні формули квазідиференціального числення.}
+Алгебраїчні операції над парами опуклих компактів, зокрема над квазидиференціалами, розуміються так:
+
+$$
+\begin{gathered}
+{\left[U_{1}, V_{1}\right]+\left[U_{2}, V_{2}\right]=\left[U_{1}+U_{2}, V_{1}+V_{2}\right]} \\
+\lambda[U, V]= \begin{cases}{[\lambda U, \lambda V],} & \lambda \geq 0 \\
+{[\lambda V, \lambda U],} & \lambda \leq 0\end{cases}
+\end{gathered}
+$$
+
+\begin{enumerate}
+  \item Сума і добуток квазидиференційовних функцій. Нехай функції $f_{1}(x)$ і $f_{2}(x)$ квазидиференційовні в точці $x$. Тоді сума і добуток цих функцій квазидиференційовні в цій точці, причому
+\end{enumerate}
+
+$$
+\begin{gathered}
+\mathcal{D}\left(f_{1}+f_{2}\right)(x)=\mathcal{D} f_{1}(x)+\mathcal{D} f_{2}(x) \\
+\mathcal{D}\left(f_{1} \cdot f_{2}\right)(x)=f_{1}(x) \mathcal{D} f_{2}(x)+f_{2}(x) \mathcal{D} f_{1}(x)
+\end{gathered}
+$$
+
+
+\end{document}

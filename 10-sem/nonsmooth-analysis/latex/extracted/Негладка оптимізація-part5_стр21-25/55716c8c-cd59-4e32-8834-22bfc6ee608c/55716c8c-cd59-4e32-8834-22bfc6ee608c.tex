@@ -1,0 +1,362 @@
+\documentclass[10pt]{article}
+\usepackage[ukrainian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+
+\begin{document}
+Говорять, що в точці $x$ виконана умова регулярності, якщо
+
+$$
+\operatorname{cl} \gamma_{1}(x)=\Gamma(x)
+$$
+
+Нехай точка $x$ така, що $h(x)=0$. Якщо в точці $x$ виконана умова регулярності, то визначена співвідношенням (7.5.2) множина $\Gamma(x)$ є апроксимацією першого порядку множини $S$ в околі точки $x$.
+
+В точці $x$ виконана умова корегулярності, якщо
+
+$$
+\operatorname{cl} \bar{\gamma}_{1}(x)=\bar{\Gamma}_{1}(x) .
+$$
+
+Нехай $x \in X$. Якщо функція $h$ неперервно кодиференційовна в точці $x$ і виконана умова корегулярності, то відображення $K$ неперервне за Какутані в точці $x$.
+
+\section*{Двічі кодиференційовна функція.}
+Нехай функція $f$ задана і скінченна на відкритій множині $X \subset \mathbb{R}^{n}$.\\
+Функція $f$ двічі кодиференційовна в точці $x \in X$, якщо існують опуклі компакти
+
+$$
+d^{2} f(x), \bar{d}^{2} f(x) \subset \mathbb{R}^{1} \times \mathbb{R}^{n} \times \mathbb{R}^{n \times n}
+$$
+
+такі, що
+
+$$
+\begin{aligned}
+f(x+\Delta)=f(x) & +\max _{[a, v, A] \in d^{2} f(x)}\left[a+\langle v, \Delta\rangle+\frac{1}{2}\langle A \Delta, \Delta\rangle\right] \\
+& +\min _{[b, w, B] \in \bar{d}^{2} f(x)}\left[b+\langle w, \Delta\rangle+\frac{1}{2}\langle B \Delta, \Delta\rangle\right]+o\left(\Delta^{2}\right)
+\end{aligned}
+$$
+
+де
+
+$$
+\frac{o\left((\alpha \Delta)^{2}\right)}{\alpha^{2}} \rightarrow 0 \quad \text { при } \alpha \downarrow 0 .
+$$
+
+Тут $\mathbb{R}^{n \times n}$ - простір дійсних ( $n \times n$ )-матриць, а відрізок
+
+$$
+\operatorname{conv}\{x, x+\Delta\} \subset X
+$$
+
+Пара множин
+
+$$
+D^{2} f(x)=\left[d^{2} f(x), \bar{d}^{2} f(x)\right]
+$$
+
+називається другим кодиференціалом функції $f$ в точці $x$. Множина $d^{2} f(x)$ називається другим гіподиференціалом, а множина $\bar{d}^{2} f(x)$ називається другим гіпердиференціалом функції $f$ в точці $x$.\\
+Якщо функція $f$ двічі кодиференційовна в деякому околі точки $x$ і відображення $D^{2} f$ неперервне в метриці Хаусдорфа в точці $x$, то функція $f$ називається двічі неперервно кодиференційовною в точці $x$.
+
+Якщо серед других кодиференціалів функції $f$ в точці $x$ є кодиференціал вигляду
+
+$$
+D^{2} f(x)=\left[d^{2} f(x),\{O\}\right]
+$$
+
+то функція $f$ називається двічі гіподиференційовною. Тут
+
+$$
+O=\left[0,0_{n}, 0_{n \times n}\right] \in \mathbb{R}^{1} \times \mathbb{R}^{n} \times \mathbb{R}^{n \times n}
+$$
+
+Якщо серед других кодиференціалів функції $f$ в точці $x$ є кодиференціал вигляду
+
+$$
+D^{2} f(x)=\left[\{O\}, \bar{d}^{2} f(x)\right],
+$$
+
+то функція $f$ називається двічі гіпердиференційовною.\\
+Двічі кодиференційовна функція є кодиференційовною.
+
+$$
+f(x+\Delta)=f(x)+\max _{[a, v] \in \underline{d} f(x)}[a+\langle v, \Delta\rangle]+\min _{[b, w] \in \bar{d} f(x)}[b+\langle w, \Delta\rangle]+o(\Delta)
+$$
+
+де
+
+$$
+\begin{aligned}
+\underline{d} f(x) & =\left\{[a, v] \mid \exists A \in \mathbb{R}^{n \times n}:[a, v, A] \in d^{2} f(x)\right\} \\
+\bar{d} f(x) & =\left\{[b, w] \mid \exists B \in \mathbb{R}^{n \times n}:[b, w, B] \in \bar{d}^{2} f(x)\right\}
+\end{aligned}
+$$
+
+\section*{Формули для кодиференціалів другого порядку.}
+Основні "гладкі" операції зберігають властивість двічі кодиференційовності. Якщо
+
+$$
+D_{1}^{2}=\left[C_{1}, \bar{C}_{1}\right], \quad D_{2}^{2}=\left[C_{2}, \bar{C}_{2}\right]
+$$
+
+де
+
+$$
+C_{i}, \bar{C}_{i} \subset \mathbb{R}^{1} \times \mathbb{R}^{n} \times \mathbb{R}^{n \times n}, \quad i=1,2
+$$
+
+то сума пар множин визначається так:
+
+$$
+D_{1}^{2}+D_{2}^{2}=[C, \bar{C}], \quad C=C_{1}+C_{2}, \quad \bar{C}=\bar{C}_{1}+\bar{C}_{2}
+$$
+
+Добуток на число задається формулою
+
+$$
+\lambda D_{1}^{2}= \begin{cases}{\left[\lambda C_{1}, \lambda \bar{C}_{1}\right],} & \lambda \geq 0 \\ {\left[\lambda \bar{C}_{1}, \lambda C_{1}\right],} & \lambda<0\end{cases}
+$$
+
+Якщо функції $f_{i}(x), i \in I=\{1, \ldots, N\}$, двічі неперервно кодиференційовні в точці $x \in X$, то функція
+
+$$
+f(x)=\sum_{i \in I} c_{i} f_{i}(x), \quad c_{i} \in \mathbb{R}^{1}
+$$
+
+теж двічі неперервно кодиференційовна в точці $x$, причому
+
+$$
+D^{2} f(x)=\sum_{i \in I} c_{i} D^{2} f_{i}(x)
+$$
+
+Якщо функції $f_{1}(x)$ та $f_{2}(x)$ двічі кодиференційовні або двічі неперервно кодиференційовні в точці $x \in X$, то і функція
+
+$$
+f(x)=f_{1}(x) \cdot f_{2}(x)
+$$
+
+є двічі кодиференційовною або, відповідно, двічі неперервно кодиференційовною в точці $x$.
+
+\section*{Умова мінімуму гіподиференціальна.}
+Нехай функція $f$ задана і неперервно кодиференційовна на відкритій множині $X \subset \mathbb{R}^{n}$, i нехай множину $S \subset X$ задано співвідношенням
+
+$$
+S=\left\{x \in \mathbb{R}^{n} \mid h(x) \leq 0\right\}
+$$
+
+де $h$ - неперервно кодиференційовна на $X$ функція.\\
+Нехай функції $f$ і $h$ є ліпшицевими і неперервно гіподиференційовними на $X$, тобто
+
+$$
+f(x+\Delta)=f(x)+\max _{[a, v] \in \underline{d} f(x)}[a+\langle v, \Delta\rangle]+o_{1}(\Delta)
+$$
+
+$$
+h(x+\Delta)=h(x)+\max _{\left[a^{\prime}, v^{\prime}\right] \in \underline{d} h(x)}\left[a^{\prime}+\left\langle v^{\prime}, \Delta\right\rangle\right]+o_{2}(\Delta)
+$$
+
+де
+
+$$
+\frac{o_{i}(\alpha \Delta)}{\alpha} \rightarrow 0, \quad i=1,2 .
+$$
+
+Також
+
+$$
+\max _{[a, v] \in \underline{d} f(x)} a=\max _{\left[a^{\prime}, v^{\prime}\right] \in \underline{d} h(x)} a^{\prime}=0
+$$
+
+Для того, щоб в точці $x^{*} \in S$ функція $f$ досягала свого найменшого на $S$ значення, необхідно, щоб виконувалась умова
+
+$$
+0_{n+1} \in \operatorname{conv}\left\{\underline{d} f\left(x^{*}\right), \underline{d} h\left(x^{*}\right)+\left[h\left(x^{*}\right), 0_{n}\right]\right\} \equiv L\left(x^{*}\right)
+$$
+
+Якщо $h\left(x^{*}\right)<0$, то одержуємо умову
+
+$$
+0_{n+1} \in \underline{d} f\left(x^{*}\right)
+$$
+
+а звідси
+
+$$
+0_{n} \in \partial f\left(x^{*}\right)
+$$
+
+Якщо ж $h\left(x^{*}\right)=0$, то
+
+$$
+0_{n} \in \operatorname{conv}\left\{\partial f\left(x^{*}\right), \partial h\left(x^{*}\right)\right\} .
+$$
+
+Якщо умова в точці $x \in S$ не виконується, то знаходять
+
+$$
+\min _{z \in L(x)}\|z\|=\|z(x)\|
+$$
+
+де
+
+$$
+z(x)=[\eta(x), z(x)] .
+$$
+
+Тоді напрямок
+
+$$
+g(x)=-\frac{z(x)}{\|z(x)\|}
+$$
+
+є напрямком спуску функції $f$ на множині $S$, причому
+
+$$
+f^{\prime}(x, g(x)) \leq-\|z(x)\|
+$$
+
+\section*{Метод кодиференціального спуску.}
+Нехай $f$ - ліпшицева неперервно кодиференційовна на відкритій множині $X \subset \mathbb{R}^{n}$ функція. У випадку безумовної мінімізації $S=\mathbb{R}^{n}, X=\mathbb{R}^{n}$ маємо
+
+$$
+f(x+\Delta)=f(x)+\max _{[a, v] \in \underline{d} f(x)}[a+\langle v, \Delta\rangle]+\min _{[b, w] \in \bar{d} f(x)}[b+\langle w, \Delta\rangle]+o(\Delta) .
+$$
+
+Необхідна умова мінімуму має вигляд
+
+$$
+0_{n+1} \in\left\{\underline{d} f\left(x^{*}\right)+[0, w]\right\} \quad \forall[0, w] \in \bar{d} f\left(x^{*}\right)
+$$
+
+Нехай в точці $x \in \mathbb{R}^{n}$ попередня умова не виконується. Тоді знайдеться таке
+
+$$
+\omega=[0, w] \in \bar{d} f(x)
+$$
+
+що
+
+$$
+0_{n+1} \notin\{\underline{d} f(x)+\omega\} \equiv L_{\omega}(x)
+$$
+
+Знайдемо
+
+$$
+\min _{z \in L_{\omega}(x)}\|z\|=\left\|z^{\omega}(x)\right\| .
+$$
+
+Тоді
+
+$$
+z^{\omega}(x)=\left[\eta_{\omega}(x), z_{\omega}(x)\right] \neq 0_{n+1}
+$$
+
+Для напрямку
+
+$$
+g_{\omega}(x)=-\frac{z_{\omega}(x)}{\left\|z_{\omega}(x)\right\|}
+$$
+
+маємо
+
+$$
+f^{\prime}\left(x, g_{\omega}(x)\right) \leq-\left\|z^{\omega}(x)\right\| .
+$$
+
+Фіксується довільне $\mu>0$ і вибирається довільне $x_{0} \in \mathbb{R}^{n}$. Якщо в точці $x_{k}$ виконується необхідна умова, то точка $x_{k} \in$ inf-стаціонарною і процес припиняється. Якщо ж необхідна умова не виконується, то для кожного
+
+$$
+\omega \in \bar{d}_{\mu} f\left(x_{k}\right)
+$$
+
+де
+
+$$
+\bar{d}_{\mu} f(x)=\{\omega \in \bar{d} f(x) \mid \omega=(s, w), 0 \leq s \leq \mu\},
+$$
+
+знаходять
+
+$$
+\min _{z \in L_{\omega}\left(x_{k}\right)}\|z\|=\left\|z_{\omega}^{k}\right\|,
+$$
+
+де
+
+$$
+z_{\omega}^{k}=\left[\eta_{\omega}^{k}, z_{\omega}^{k}\right], \quad L_{\omega}\left(x_{k}\right)=\underline{d} f\left(x_{k}\right)+\omega .
+$$
+
+Після цього спочатку для кожного $\omega \in \bar{d}_{\mu} f\left(x_{k}\right)$ знаходять
+
+$$
+\min _{\alpha>0} f\left(x_{k}-\alpha z_{\omega}^{k}\right)=f\left(x_{k}-\alpha_{\omega}^{k} z_{\omega}^{k}\right)
+$$
+
+a потім
+
+$$
+\min _{\omega \in \bar{d}_{\mu} f\left(x_{k}\right)} f\left(x_{k}-\alpha_{\omega}^{k} z_{\omega}^{k}\right)=f\left(x_{k}-\alpha_{\omega_{k}}^{k} z_{\omega_{k}}^{k}\right)
+$$
+
+Покладають
+
+$$
+x_{k+1}=x_{k}-\alpha_{\omega_{k}}^{k} z_{\omega_{k}}^{k}
+$$
+
+У результаті будується послідовність $\left\{x_{k}\right\}$ така, що
+
+$$
+f\left(x_{k+1}\right)<f\left(x_{k}\right) .
+$$
+
+\section*{Умовна мінімізація у методі кодиференціального спуску.}
+Нехай функції $f$ і $h$ ліпшицеві і неперервно кодиференційовні на відкритій множині $X \subset \mathbb{R}^{n}$. Нехай
+
+$$
+S=\left\{x \in \mathbb{R}^{n} \mid h(x) \leq 0\right\} .
+$$
+
+Тоді
+
+$$
+\begin{gathered}
+f(x+\Delta)=f(x)+\max _{[a, v] \in \underline{d} f(x)}[a+\langle v, \Delta\rangle]+\min _{[b, w] \in \bar{d} f(x)}[b+\langle w, \Delta\rangle]+o_{1}(\Delta), \\
+h(x+\Delta)=h(x)+\max _{\left[a^{\prime}, v^{\prime}\right] \in \underline{d} h(x)}\left[a^{\prime}+\left\langle v^{\prime}, \Delta\right\rangle\right]+\min _{\left[b^{\prime}, w^{\prime}\right] \in \bar{d} h(x)}\left[b^{\prime}+\left\langle w^{\prime}, \Delta\right\rangle\right]+o_{2}(\Delta) .
+\end{gathered}
+$$
+
+Для того, щоб функція $f$ в точці $x^{*} \in S$ досягала свого найменшого на $S$ значення, необхідно, щоб
+
+$$
+0_{n+1} \in \operatorname{conv}\left\{\underline{d} f\left(x^{*}\right)+[0, w], \underline{d} h\left(x^{*}\right)+\left[0, w^{\prime}\right]+\left[h\left(x^{*}\right), 0_{n}\right]\right\} \equiv L\left(x^{*}, w, w^{\prime}\right)
+$$
+
+для всіх
+
+$$
+w \in \partial f\left(x^{*}\right), \quad w^{\prime} \in \partial h\left(x^{*}\right)
+$$
+
+де
+
+$$
+\begin{aligned}
+& \partial f(x)=\left\{w \in \mathbb{R}^{n} \mid[0, w] \in \bar{d} f(x)\right\} \\
+& \partial h(x)=\left\{w^{\prime} \in \mathbb{R}^{n} \mid\left[0, w^{\prime}\right] \in \bar{d} h(x)\right\} .
+\end{aligned}
+$$
+
+\section*{Література}
+[1] Моклячук М. П. Негладкий аналіз та оптимізація. Київ, 2008.
+
+
+\end{document}
