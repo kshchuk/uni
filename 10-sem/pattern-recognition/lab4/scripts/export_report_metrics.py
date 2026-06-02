@@ -45,7 +45,18 @@ def _tex_escape(s: str) -> str:
     return s.replace("_", r"\_")
 
 
-def build_tex(exp: dict, dim_labels: list) -> str:
+def _matrix_cell_tex(exp: dict, approach: str, rule: str, names: list, variant_result) -> str:
+    r = variant_result(exp, approach, rule)
+    if rule == "vote":
+        votes_str = ":".join(str(r["votes"][n]) for n in names)
+        if r["tie"]:
+            tied = ", ".join(_tex_escape(t) for t in r["tied_classes"])
+            return f"нічия ({tied}) [{votes_str}]"
+        return f"{_tex_escape(r['winner'] or '')} ({votes_str})"
+    return rf"$D_{{\min}}$={r['d_min']:.4f} $\rightarrow$ {_tex_escape(r['winner'])}"
+
+
+def build_tex(exp: dict, dim_labels: list, ns: dict) -> str:
     names = exp["names"]
     w = exp["weights"]
     total = exp["total_spread"]
@@ -96,6 +107,33 @@ def build_tex(exp: dict, dim_labels: list) -> str:
             r"\end{tabular}",
             r"\caption{Розмахи класів $s_{k,j}$, сумарний розмах $S_j$ і ваги $w_j=1/S_j$}",
             r"\label{tab:lab4weights}",
+            r"\end{table}",
+            "",
+            r"\begin{table}[H]",
+            r"\centering",
+            r"\renewcommand{\arraystretch}{1.2}",
+            r"\begin{tabular}{|l|c|c|}",
+            r"\hline",
+            r" & \textbf{Підхід 1} & \textbf{Підхід 2} \\",
+            r"\hline",
+        ]
+    )
+    variant_result = ns["variant_result"]
+    rule_keys = ns["RULE_KEYS"]
+    approach_keys = ns["APPROACH_KEYS"]
+    rule_labels = ns["RULE_LABELS"]
+    for rule in rule_keys:
+        cells = [
+            _matrix_cell_tex(exp, approach, rule, names, variant_result)
+            for approach in approach_keys
+        ]
+        lines.append(f"{rule_labels[rule]} & {cells[0]} & {cells[1]} \\\\")
+        lines.append(r"\hline")
+    lines.extend(
+        [
+            r"\end{tabular}",
+            r"\caption{Результат класифікації тестової точки для чотирьох варіантів алгоритму}",
+            r"\label{tab:lab4matrix}",
             r"\end{table}",
             "",
         ]
@@ -206,41 +244,34 @@ def export_figures(exp: dict, class_colors: dict) -> None:
     fig.savefig(FIG_DIR / "lab4_pairplot.png", dpi=200, facecolor="white")
     plt.close(fig)
 
-    for approach_key, title in [("range", "Підхід 1"), ("mean", "Підхід 2")]:
+    fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+    approach_titles = [("range", "Підхід 1"), ("mean", "Підхід 2")]
+    for col, (approach_key, approach_title) in enumerate(approach_titles):
         vote = exp[approach_key]["vote"]
-        fig, ax = plt.subplots(figsize=(7, 4))
+        ax_vote = axes[0, col]
         counts = [vote.votes_per_class[n] for n in names]
-        ax.bar(names, counts, color=[class_colors[n] for n in names], edgecolor="black")
-        ax.set_ylabel("Голосів")
-        ax.set_title(f"Голосування по вимірах ({title})")
-        ax.set_ylim(0, max(counts) + 1)
-        fig.tight_layout()
-        fig.savefig(FIG_DIR / f"lab4_votes_{approach_key}.png", dpi=200, facecolor="white")
-        plt.close(fig)
+        ax_vote.bar(names, counts, color=[class_colors[n] for n in names], edgecolor="black")
+        ax_vote.set_ylabel("Голосів")
+        ax_vote.set_title(f"Голосування — {approach_title}")
+        ax_vote.set_ylim(0, max(counts) + 1)
 
-    fig, ax = plt.subplots(figsize=(8, 4))
-    x = np.arange(2)
-    width = 0.25
-    for idx, n in enumerate(names):
-        vals = [
-            exp["range"]["weighted"].distances[n],
-            exp["mean"]["weighted"].distances[n],
-        ]
-        ax.bar(x + idx * width, vals, width, label=n, color=class_colors[n], edgecolor="black")
-    ax.set_xticks(x + width)
-    ax.set_xticklabels(["Підхід 1", "Підхід 2"])
-    ax.set_ylabel(r"$D_k$")
-    ax.set_title("Зважена відстань до тестової точки")
-    ax.legend()
-    fig.tight_layout()
-    fig.savefig(FIG_DIR / "lab4_distances_weighted.png", dpi=200, facecolor="white")
+        wd = exp[approach_key]["weighted"]
+        ax_w = axes[1, col]
+        dists = [wd.distances[n] for n in names]
+        ax_w.bar(names, dists, color=[class_colors[n] for n in names], edgecolor="black")
+        ax_w.set_ylabel(r"$D_k$")
+        ax_w.set_title(f"Зважена сума — {approach_title}")
+
+    fig.suptitle("Чотири варіанти класифікації", fontsize=12)
+    fig.tight_layout(rect=[0, 0, 1, 0.96])
+    fig.savefig(FIG_DIR / "lab4_variants_matrix.png", dpi=200, facecolor="white")
     plt.close(fig)
 
 
 def main() -> None:
     ns = notebook_namespace()
     exp = ns["run_experiment"]()
-    tex = build_tex(exp, ns["DIM_LABELS"])
+    tex = build_tex(exp, ns["DIM_LABELS"], ns)
     OUT_TEX.write_text(tex, encoding="utf-8")
     print("Wrote", OUT_TEX)
     export_figures(exp, ns["CLASS_COLORS"])
