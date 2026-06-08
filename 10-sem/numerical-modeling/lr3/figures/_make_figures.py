@@ -5,42 +5,42 @@ from __future__ import annotations
 import os
 import sys
 import time
+from pathlib import Path
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.animation import FFMpegWriter, FuncAnimation, PillowWriter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 os.chdir(HERE)
 
-from ns_solver import (  # noqa: E402
-    Params,
-    build_grid,
-    laplacian_h,
-    p_exact,
-    p_y_bc,
-    sor_pressure,
-    solve_ns,
-    u_exact,
-    v_exact,
-    _apply_p_neumann,
-)
+from nb_loader import load_solver  # noqa: E402
+
+_solver = load_solver(Path(ROOT))
+Params = _solver["Params"]
+build_grid = _solver["build_grid"]
+laplacian_h = _solver["laplacian_h"]
+p_exact = _solver["p_exact"]
+sor_pressure = _solver["sor_pressure"]
+solve_ns = _solver["solve_ns"]
+_apply_p_neumann = _solver["_apply_p_neumann"]
 
 plt.rcParams.update({"font.size": 10, "figure.dpi": 120})
 
 
 def run_main():
-    par = Params(Nx=40, Ny=40, T_final=0.5, cfl=0.25)
-    times = np.linspace(0.0, par.T_final, 9)
-    print("Running NS simulation ...")
+    par = Params(Nx=40, Ny=40, T_final=0.5, cfl=0.25)  # SOR (за умовою)
+    times = np.linspace(0.0, par.T_final, 25)
+    method = "прямий (порівняння)" if par.pressure_use_direct else "SOR (за умовою)"
+    print(f"Running NS simulation (тиск: {method}) ...")
     t0 = time.time()
     res = solve_ns(par, record_times=times)
-    print(f"  done in {time.time() - t0:.1f}s")
+    print(f"  done in {time.time() - t0:.1f}s; SOR iters mean={np.mean(res['sor_iters']):.0f}")
     X, Y = res["X"], res["Y"]
     rec = res["records"][-1]
     t_fin = rec["t"]
@@ -150,6 +150,37 @@ def run_main():
     ani_p = FuncAnimation(fig, update_p, frames=len(res["records"]), interval=200)
     ani_p.save("pressure_anim.gif", writer=PillowWriter(fps=5))
     plt.close(fig)
+
+    # --- combined MP4 video (velocity + pressure)
+    print("Building MP4 video ...")
+    figv, (axv, axp) = plt.subplots(1, 2, figsize=(12, 4.5))
+    pmax = max(np.max(np.abs(r["P"])) for r in res["records"])
+
+    def update_v(k):
+        axv.clear()
+        axp.clear()
+        r = res["records"][k]
+        u, v, p = r["U"], r["V"], r["P"]
+        axv.quiver(
+            X[::step, ::step], Y[::step, ::step],
+            u[::step, ::step], v[::step, ::step],
+            np.hypot(u, v)[::step, ::step], cmap="viridis", scale=25,
+        )
+        axv.set_title(f"Поле швидкості, $t={r['t']:.3f}$")
+        axv.set_xlabel("$x$"); axv.set_ylabel("$y$"); axv.set_aspect("equal")
+        axp.pcolormesh(X, Y, p, shading="auto", cmap="RdBu_r", vmin=-pmax, vmax=pmax)
+        axp.set_title(f"Поле тиску, $t={r['t']:.3f}$")
+        axp.set_xlabel("$x$"); axp.set_ylabel("$y$"); axp.set_aspect("equal")
+        return []
+
+    ani_v = FuncAnimation(figv, update_v, frames=len(res["records"]), interval=150)
+    try:
+        ani_v.save("ns_dynamics.mp4", writer=FFMpegWriter(fps=8, bitrate=2400))
+        print("  saved ns_dynamics.mp4")
+    except Exception as exc:  # ffmpeg недоступний -> запасний gif
+        print(f"  ffmpeg unavailable ({exc}); saving ns_dynamics.gif")
+        ani_v.save("ns_dynamics.gif", writer=PillowWriter(fps=8))
+    plt.close(figv)
 
     # --- SOR convergence demo
     print("SOR convergence demo ...")

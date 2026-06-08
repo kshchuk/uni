@@ -3,6 +3,6 @@ scipy>=1.10
 sympy>=1.12
 matplotlib>=3.7
 jupyter>=1.0
-nbconvert>=7.0
+nbformat>=5.9
 ipykernel>=6.0
 pillow>=10.0
