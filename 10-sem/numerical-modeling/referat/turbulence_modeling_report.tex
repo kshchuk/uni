@@ -1,0 +1,590 @@
+% Реферат: Моделювання турбулентності
+% Оформлення: ДСТУ 3008:2015 (поля, шрифт, інтервал, підписи)
+% Компіляція: xelatex turbulence_modeling_report.tex && xelatex turbulence_modeling_report.tex
+\documentclass[14pt,a4paper,extarticle]{extarticle}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setmainfont{Times New Roman}[
+  Ligatures=TeX,
+  BoldFont = {Times New Roman Bold},
+  ItalicFont = {Times New Roman Italic},
+  BoldItalicFont = {Times New Roman Bold Italic},
+]
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% ДСТУ 3008:2015 — поля (ліве підшиття 30 мм)
+\geometry{left=3cm, right=1cm, top=2cm, bottom=2cm}
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black}
+
+\renewcommand{\contentsname}{Зміст}
+\renewcommand{\figurename}{Рис.}
+\renewcommand{\tablename}{Таблиця}
+\DeclareCaptionLabelSeparator{ukrdash}{~---~}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  labelsep=endash,
+  skip=6pt,
+}
+\captionsetup[table]{
+  position=top,
+  skip=0pt,
+  font=normalsize,
+  labelfont=normalfont,
+  labelsep=ukrdash,
+  justification=raggedright,
+  singlelinecheck=false,
+}
+
+\newcommand{\Rey}{\mathrm{Re}}
+
+\begin{document}
+
+% -------------------------------------------------------------------
+\begin{titlepage}
+  \centering\thispagestyle{empty}
+  Міністерство освіти і науки України\\[0.4em]
+  Київський національний університет імені Тараса Шевченка\\[0.4em]
+  Факультет комп'ютерних наук та кібернетики
+  \vfill
+  {\Large\bfseries РЕФЕРАТ}\\[0.6em]
+  з дисципліни\\[0.2em]
+  <<Чисельне моделювання динаміки систем>>\\[1.2em]
+  {\large\bfseries Тема: Моделювання турбулентності:\\
+  фундаментальні фізико-математичні аспекти,\\
+  замикання рівнянь Нав'є--Стокса та чисельні методи}
+  \vfill
+  \begin{flushright}
+    \begin{tabular}{@{}l@{}}
+      Виконав:\\
+      Кіщук Я.~Я.\\[1.2em]
+    \end{tabular}
+  \end{flushright}
+  \vfill
+  Київ~--- 2026
+\end{titlepage}
+
+% -------------------------------------------------------------------
+\section*{Анотація}
+\addcontentsline{toc}{section}{Анотація}
+
+У рефераті систематизовано фізичні властивості турбулентного руху рідини,
+теорію енергетичного каскаду та роль числа Рейнольдса. Проаналізовано
+обчислювальні вимоги до прямого чисельного моделювання (DNS), процедуру
+осереднення Рейнольдса та проблему замикання RANS-моделей. Наведено
+класифікацію алгебраїчних, двопараметричних ($k$--$\varepsilon$,
+$k$--$\omega$, SST) та LES-підходів; обговорено вплив схемної в'язкості
+і параметра $y^+$ на достовірність CFD-розрахунків.
+
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------------
+\section{Вступ}
+
+Турбулентність є однією з найскладніших проблем механіки рідини та газу
+і водночас ключовим об'єктом сучасної обчислювальної гідродинаміки (CFD).
+Практичні задачі --- від аеродинаміки літальних апаратів до теплообміну
+в енергетичних установках --- майже завжди відбуваються при високих числах
+Рейнольдса, коли потік стає хаотичним і тривимірним. Точне відтворення
+таких процесів вимагає узгодженого поєднання фізичної моделі турбулентності,
+математичного замикання рівнянь Нав'є--Стокса та чисельних методів
+дискретизації.
+
+% -------------------------------------------------------------------
+\section{Фізична природа турбулентності та класичні теорії}
+
+Турбулентність --- це складна, просторово-часова тривимірна нестаціонарна
+форма руху рідини або газу, що характеризується вираженою хаотичністю та
+високою інтенсивністю дисипації механічної енергії. На відміну від
+ламінарного режиму, де шари середовища переміщуються впорядковано,
+турбулентна течія супроводжується інтенсивним перемішуванням, пульсаціями
+швидкості, тиску й температури, а також безперервним утворенням і руйнуванням
+вихорів різного масштабу.
+
+\subsection{Фундаментальні властивості}
+
+\textbf{Хаотичність та непередбачуваність.} Локальні гідродинамічні параметри
+демонструють випадкові коливання у часі та просторі, що унеможливлює точний
+довгостроковий прогноз миттєвого стану течії і вимагає статистичних та
+ймовірнісних методів опису.
+
+\textbf{Просторова тривимірність.} Турбулентні пульсації швидкості завжди
+тривимірні, навіть якщо осереднена течія є одновимірною чи двовимірною.
+Це зумовлено механізмом розтягування вихрових трубок (\emph{vortex stretching})
+--- нелінійним процесом, за якого кутова швидкість обертання вихорів зростає
+при їхньому розтягуванні вздовж ліній середнього зсуву.
+
+\textbf{Дисипативність.} Кінетична енергія, що надходить у систему від
+зовнішніх джерел або середнього руху, безперервно переноситься вздовж
+спектра вихорів і перетворюється на внутрішню теплову енергію під дією
+молекулярного в'язкого тертя.
+
+\subsection{Енергетичний каскад Річардсона--Колмогорова}
+
+Згідно з цією концепцією, турбулентний потік складається з вихорів широкого
+спектра розмірів. Енергія середньої течії генерує найбільші вихори з
+характерним лінійним масштабом~$L$, визначеним геометрією задачі. У
+інерційному інтервалі енергія передається «зверху вниз» практично без втрат
+на в'язке тертя, доки розмір вихорів не досягає масштабу Колмогорова~$\eta$,
+на якому домінують сили молекулярної в'язкості:
+\begin{equation}
+  \eta = \left( \frac{\nu^3}{\varepsilon} \right)^{1/4},
+  \label{eq:kolmogorov}
+\end{equation}
+де $\varepsilon$ --- швидкість дисипації турбулентної кінетичної енергії.
+
+\subsection{Число Рейнольдса}
+
+Основним критерієм стійкості ламінарної течії та її переходу у турбулентний
+стан виступає безрозмірне число Рейнольдса:
+\begin{equation}
+  \Rey = \frac{\rho U L}{\mu} = \frac{U L}{\nu},
+  \label{eq:reynolds}
+\end{equation}
+де $\rho$ --- густина, $U$ --- характерна швидкість, $L$ --- характерний
+масштаб, $\mu$ --- динамічна в'язкість, $\nu = \mu/\rho$ --- кінематична
+в'язкість. При малих $\Rey$ молекулярна в'язкість демпфує збурення; при
+перевищенні критичного $\Rey_{cr}$ сили інерції переважають, і течія
+переходить у турбулентний режим.
+
+% -------------------------------------------------------------------
+\section{Пряме чисельне моделювання (DNS)}
+
+Найбільш безкомпромісним методом є пряме чисельне моделювання (Direct
+Numerical Simulation, DNS) --- безпосереднє розв'язання тривимірних
+нестаціонарних рівнянь Нав'є--Стокса без емпіричних моделей турбулентності.
+Це вимагає дискретизації процесів від масштабу~$L$ до масштабу~$\eta$.
+
+Оскільки $\varepsilon \sim U^3/L$, з \eqref{eq:kolmogorov} випливає
+\begin{equation}
+  \eta \sim L\,\Rey^{-3/4}.
+  \label{eq:eta-re}
+\end{equation}
+Для адекватного розв'язання крок сітки $\Delta x$ має бути сумірним з~$\eta$
+($\Delta x \sim \eta$). Кількість вузлів в одному напрямку $n \sim L/\eta
+\sim \Rey^{3/4}$, а загальна кількість просторових вузлів
+\begin{equation}
+  N = n^3 \sim \Rey^{9/4}.
+  \label{eq:nodes}
+\end{equation}
+
+За умовою Куранта--Фрідріхса--Леві (CFL) часовий крок $\Delta t \sim \eta/U$,
+тому кількість кроків за характерний час $T \sim L/U$ дорівнює
+$N_t \sim L/\eta \sim \Rey^{3/4}$. Сумарна обчислювальна складність
+\begin{equation}
+  N_f = N \times N_t \propto \Rey^{9/4} \times \Rey^{3/4} = \Rey^3.
+  \label{eq:complexity}
+\end{equation}
+
+\begin{table}[H]
+  \caption{Теоретичні вимоги до ресурсів DNS залежно від числа Рейнольдса}
+  \label{tab:dns}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r|r|r|r|r|}
+    \hline
+    $\Rey$ & $n$ & $N$ & $N_t$ & $N_f$ (умовні флопи) \\
+    \hline
+    $10^2$   & 32    & $3{,}2 \times 10^4$   & 32    & $1{,}0 \times 10^6$ \\
+    \hline
+    $10^3$   & 178   & $5{,}6 \times 10^6$   & 178   & $1{,}0 \times 10^9$ \\
+    \hline
+    $10^4$   & 1000  & $1{,}0 \times 10^9$   & 1000  & $1{,}0 \times 10^{12}$ \\
+    \hline
+    $10^5$   & 5623  & $1{,}8 \times 10^{11}$ & 5623  & $1{,}0 \times 10^{15}$ \\
+    \hline
+    $10^6$   & 31622 & $3{,}2 \times 10^{13}$ & 31622 & $1{,}0 \times 10^{18}$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Наведені оцінки показують, що DNS для інженерних задач ($\Rey \sim 10^6$--$10^8$)
+на сучасному етапі є практично неможливим.
+
+% -------------------------------------------------------------------
+\section{Осереднення Рейнольдса та проблема замикання}
+
+Для подолання обмежень DNS у прикладних задачах застосовують статистичний
+опис на основі осереднення Рейнольдса. Миттєве значення гідродинамічної
+змінної розкладається на осереднену та пульсаційну складові:
+\begin{equation}
+  u_i(\mathbf{x}, t) = \bar{u}_i(\mathbf{x}) + u_i'(\mathbf{x}, t),
+  \qquad
+  p(\mathbf{x}, t) = \bar{p}(\mathbf{x}) + p'(\mathbf{x}, t).
+  \label{eq:reynolds-decomp}
+\end{equation}
+Осереднення за інтервалом $T_0$:
+\begin{equation}
+  \bar{u}_i(\mathbf{x}) = \frac{1}{T_0} \int_{0}^{T_0} u_i(\mathbf{x}, t)\, dt.
+  \label{eq:time-avg}
+\end{equation}
+
+Основні статистичні тотожності Рейнольдса:
+\begin{equation}
+  \overline{u_i'} = 0,\quad
+  \overline{\bar{u}_i} = \bar{u}_i,\quad
+  \overline{\frac{\partial u_i}{\partial x_j}} = \frac{\partial \bar{u}_i}{\partial x_j},\quad
+  \overline{u_i u_j} = \bar{u}_i \bar{u}_j + \overline{u_i' u_j'}.
+  \label{eq:reynolds-identities}
+\end{equation}
+
+\subsection{Рівняння RANS}
+
+Миттєві рівняння неперервності та збереження імпульсу для нестислої рідини:
+\begin{equation}
+  \frac{\partial u_i}{\partial x_i} = 0,
+  \label{eq:continuity}
+\end{equation}
+\begin{equation}
+  \rho \left( \frac{\partial u_i}{\partial t} + u_j \frac{\partial u_i}{\partial x_j} \right)
+  = -\frac{\partial p}{\partial x_i} + \mu \frac{\partial^2 u_i}{\partial x_j \partial x_j}.
+  \label{eq:ns-instant}
+\end{equation}
+
+Після осереднення одержуємо рівняння RANS:
+\begin{equation}
+  \rho \left( \frac{\partial \bar{u}_i}{\partial t} + \bar{u}_j \frac{\partial \bar{u}_i}{\partial x_j} \right)
+  = -\frac{\partial \bar{p}}{\partial x_i}
+  + \frac{\partial}{\partial x_j} \left[
+      \mu \left( \frac{\partial \bar{u}_i}{\partial x_j} + \frac{\partial \bar{u}_j}{\partial x_i} \right)
+      - \rho \overline{u_i' u_j'}
+    \right].
+  \label{eq:rans}
+\end{equation}
+
+Тензор $-\rho \overline{u_i' u_j'}$ називають тензором напружень Рейнольдса.
+Він містить 6 незалежних компонент, тоді як система має лише 4 рівняння
+(3 імпульсу + неперервність). Це --- \emph{проблема замикання} рівнянь
+Нав'є--Стокса.
+
+\subsection{Гіпотеза Буссінеска}
+
+Найпоширеніше замикання --- напівкласична гіпотеза Буссінеска про вихрову
+в'язкість:
+\begin{equation}
+  -\rho \overline{u_i' u_j'} = \mu_t \left( \frac{\partial \bar{u}_i}{\partial x_j}
+    + \frac{\partial \bar{u}_j}{\partial x_i}
+    - \frac{2}{3} \frac{\partial \bar{u}_k}{\partial x_k} \delta_{ij} \right)
+    - \frac{2}{3} \rho k \delta_{ij},
+  \label{eq:boussinesq}
+\end{equation}
+де $\mu_t$ --- динамічна турбулентна в'язкість,
+$k = \tfrac{1}{2} \overline{u_i' u_i'}$ --- кінетична енергія турбулентності,
+$\delta_{ij}$ --- символ Кронекера. Обмеження гіпотези --- припущення про
+ізотропність $\mu_t$, що знижує точність у сильно закручених і анізотропних
+течіях.
+
+% -------------------------------------------------------------------
+\section{Класифікація моделей турбулентності}
+
+\subsection{Алгебраїчні моделі (zero-equation)}
+
+Алгебраїчні моделі обчислюють $\mu_t$ без додаткових диференціальних
+рівнянь переносу. За гіпотезою Прандтля для зсувного пристінкового шару:
+\begin{equation}
+  \nu_t = l_m^2 \left| \frac{\partial \bar{u}}{\partial y} \right|,
+  \label{eq:prandtl}
+\end{equation}
+де $l_m$ --- довжина шляху перемішування (наприклад, $l_m = \kappa y$ біля
+стінки, $\kappa \approx 0{,}41$).
+
+Переваги: простота, мінімальні витрати, висока чисельна стійкість.
+Недоліки: відсутність «пам'яті» турбулентності; складне емпіричне
+налаштування $l_m$ для тривимірних течій.
+
+\subsection{Двопараметричні RANS-моделі}
+
+\subsubsection{Модель $k$--$\varepsilon$ (Launder \& Spalding, 1974)}
+
+Замикаючі змінні --- $k$ та швидкість дисипації $\varepsilon$:
+\begin{align}
+  \frac{\partial (\rho k)}{\partial t} + \frac{\partial (\rho \bar{u}_i k)}{\partial x_i}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \frac{\mu_t}{\sigma_k} \right) \frac{\partial k}{\partial x_j} \right]
+    + G_k - \rho \varepsilon, \label{eq:k-eps-k}\\
+  \frac{\partial (\rho \varepsilon)}{\partial t} + \frac{\partial (\rho \bar{u}_i \varepsilon)}{\partial x_i}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \frac{\mu_t}{\sigma_\varepsilon} \right) \frac{\partial \varepsilon}{\partial x_j} \right]
+    + C_{1\varepsilon} \frac{\varepsilon}{k} G_k - C_{2\varepsilon} \rho \frac{\varepsilon^2}{k}, \label{eq:k-eps-eps}
+\end{align}
+де $G_k = \mu_t S^2$, $S = \sqrt{2 S_{ij} S_{ij}}$, а
+\begin{equation}
+  \mu_t = \rho C_\mu \frac{k^2}{\varepsilon}.
+  \label{eq:mut-keps}
+\end{equation}
+Стандартні константи: $C_\mu = 0{,}09$, $C_{1\varepsilon} = 1{,}44$,
+$C_{2\varepsilon} = 1{,}92$, $\sigma_k = 1{,}0$, $\sigma_\varepsilon = 1{,}3$.
+Модель ефективна для вільних зсувних течій, але слабка в пристінкових
+шарах із позитивним градієнтом тиску (відрив потоку).
+
+\subsubsection{Модель $k$--$\omega$ (Wilcox, 1988/2006)}
+
+Замість $\varepsilon$ використовують питому швидкість дисипації
+$\omega = \varepsilon/(\beta^* k)$:
+\begin{align}
+  \frac{\partial (\rho k)}{\partial t} + \frac{\partial (\rho \bar{u}_j k)}{\partial x_j}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \sigma_k \mu_t \right) \frac{\partial k}{\partial x_j} \right]
+    + P_k - \beta^* \rho \omega k, \label{eq:k-omega-k}\\
+  \frac{\partial (\rho \omega)}{\partial t} + \frac{\partial (\rho \bar{u}_j \omega)}{\partial x_j}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \sigma_\omega \mu_t \right) \frac{\partial \omega}{\partial x_j} \right]
+    + \gamma \frac{\omega}{k} P_k - \beta \rho \omega^2, \label{eq:k-omega-omega}
+\end{align}
+$\mu_t = \rho k / \omega$. Переваги: інтегрування до стінки ($y \to 0$),
+точність у граничному шарі. Недолік: чутливість до граничних умов $\omega$
+у вільному потоці.
+
+\subsubsection{Модель $k$--$\omega$ SST (Menter, 1994)}
+
+Модель SST поєднує $k$--$\omega$ біля стінок і $k$--$\varepsilon$ у
+вільному потоці через функцію змішування $F_1$ та член перехресної дифузії:
+\begin{equation}
+  CD_{k\omega} = \max \left( 2 \rho \sigma_{\omega 2} \frac{1}{\omega}
+    \frac{\partial k}{\partial x_i} \frac{\partial \omega}{\partial x_i},\, 10^{-10} \right).
+  \label{eq:cd-kw}
+\end{equation}
+\begin{align}
+  \frac{\partial (\rho k)}{\partial t} + \frac{\partial (\rho \bar{u}_j k)}{\partial x_j}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \sigma_k \mu_t \right) \frac{\partial k}{\partial x_j} \right]
+    + \tilde{P}_k - \beta^* \rho \omega k, \label{eq:sst-k}\\
+  \frac{\partial (\rho \omega)}{\partial t} + \frac{\partial (\rho \bar{u}_j \omega)}{\partial x_j}
+  &= \frac{\partial}{\partial x_j} \left[ \left( \mu + \sigma_\omega \mu_t \right) \frac{\partial \omega}{\partial x_j} \right]
+    + P_\omega - \beta \rho \omega^2 \notag\\
+  &\quad + 2(1 - F_1) \rho \sigma_{\omega 2} \frac{1}{\omega}
+    \frac{\partial k}{\partial x_j} \frac{\partial \omega}{\partial x_j}. \label{eq:sst-omega}
+\end{align}
+
+Функція змішування:
+\begin{equation}
+  F_1 = \tanh \left( \arg_1^4 \right),
+  \label{eq:f1}
+\end{equation}
+\begin{equation}
+  \arg_1 = \min \left[
+    \max \left( \frac{\sqrt{k}}{\beta^* \omega d},\; \frac{500\nu}{d^2 \omega} \right),\;
+    \frac{4\rho\sigma_{\omega 2} k}{CD_{k\omega}\, d^2}
+  \right],
+  \label{eq:arg1}
+\end{equation}
+де $d$ --- відстань до найближчої стінки, $\beta^* = 0{,}09$. Константи моделі інтерполюються:
+$\phi = F_1 \phi_1 + (1 - F_1)\phi_2$.
+
+Обмеження в'язкості за Бредшоу:
+\begin{equation}
+  \mu_t = \frac{\rho a_1 k}{\max \left( a_1 \omega,\, S F_2 \right)},
+  \qquad a_1 = 0{,}31,
+  \label{eq:bradshaw}
+\end{equation}
+\begin{equation}
+  F_2 = \tanh \left( \arg_2^2 \right),
+  \quad
+  \arg_2 = \max \left( \frac{2\sqrt{k}}{\beta^* \omega d},\; \frac{500 \nu}{d^2 \omega} \right).
+  \label{eq:f2}
+\end{equation}
+
+SST є фактичним стандартом у аеродинамічному проектуванні, зокрема для
+відривних течій (backward-facing step), де $k$--$\varepsilon$ занижує
+відривну зону.
+
+\subsection{Метод великих вихорів (LES)}
+
+LES застосовує просторовий фільтр із характерним розміром~$\Delta$ (зазвичай
+крок сітки). Фільтрована швидкість:
+\begin{equation}
+  \bar{u}_i(\mathbf{x}, t) = \int_{\Omega} G(\mathbf{x}, \mathbf{y}; \Delta)\, u_i(\mathbf{y}, t)\, d\mathbf{y}.
+  \label{eq:filter}
+\end{equation}
+
+Фільтровані рівняння Нав'є--Стокса:
+\begin{align}
+  \frac{\partial \bar{u}_i}{\partial x_i} &= 0, \label{eq:les-cont}\\
+  \frac{\partial \bar{u}_i}{\partial t} + \frac{\partial (\bar{u}_i \bar{u}_j)}{\partial x_j}
+  &= -\frac{1}{\rho}\frac{\partial \bar{p}}{\partial x_i}
+    + \nu \frac{\partial^2 \bar{u}_i}{\partial x_j \partial x_j}
+    - \frac{\partial \tau_{ij}^{\mathrm{SGS}}}{\partial x_j}, \label{eq:les-momentum}
+\end{align}
+де $\tau_{ij}^{\mathrm{SGS}} = \overline{u_i u_j} - \bar{u}_i \bar{u}_j$ ---
+тензор підсіткових напружень.
+
+Замикання Смагоринського--Ліллі:
+\begin{equation}
+  \tau_{ij}^{\mathrm{SGS}} - \frac{1}{3}\tau_{kk}^{\mathrm{SGS}}\delta_{ij}
+  = -2 \nu_{\mathrm{SGS}} \bar{S}_{ij},
+  \qquad
+  \nu_{\mathrm{SGS}} = (C_s \Delta)^2 |\bar{S}|,
+  \label{eq:smagorinsky}
+\end{equation}
+$|\bar{S}| = \sqrt{2 \bar{S}_{ij} \bar{S}_{ij}}$, $C_s \approx 0{,}17$--$0{,}21$
+(ізотропна турбулентність) або $0{,}065$--$0{,}1$ (зсувні течії). Динамічна
+модель Germano--Lilly обчислює $C_s$ локально за тотожністю Germano.
+
+% -------------------------------------------------------------------
+\section{Вплив чисельних методів на моделювання турбулентності}
+
+Точність CFD залежить не лише від моделі турбулентності, а й від властивостей
+різницевих схем. Дослідження А.~Самарського та П.~Роуча показують жорсткий
+зв'язок між локальною похибкою апроксимації та штучною дисипацією потоку.
+
+\subsection{Схемна (чисельна) в'язкість}
+
+Розглянемо одновимірне рівняння адвекції ($a > 0$):
+\begin{equation}
+  \frac{\partial u}{\partial t} + a \frac{\partial u}{\partial x} = 0.
+  \label{eq:advection}
+\end{equation}
+Схема «вперед за часом, назад за простором» (upwind):
+\begin{equation}
+  \frac{u_j^{n+1} - u_j^n}{\Delta t} + a \frac{u_j^n - u_{j-1}^n}{\Delta x} = 0.
+  \label{eq:upwind}
+\end{equation}
+
+Розклад у ряд Тейлора дає модифіковане рівняння (за Роучем):
+\begin{equation}
+  \frac{\partial u}{\partial t} + a \frac{\partial u}{\partial x}
+  = \nu_{\mathrm{num}} \frac{\partial^2 u}{\partial x^2},
+  \label{eq:modified}
+\end{equation}
+де
+\begin{equation}
+  \nu_{\mathrm{num}} = \frac{a \Delta x}{2} (1 - C),
+  \qquad C = \frac{a \Delta t}{\Delta x}
+  \label{eq:num-visc}
+\end{equation}
+--- число Куранта.
+
+При $C < 1$ маємо $\nu_{\mathrm{num}} > 0$: стійкість забезпечується
+штучним згладжуванням. Якщо $\nu_{\mathrm{num}}$ стає сумірною з
+фізичною турбулентною в'язкістю $\nu_t$, чисельний алгоритм пригнічує
+дрібні вихори --- виникає передчасна «ламінаризація». Тому конвективні
+члени дискретизують схемами 2-го та вищих порядків (QUICK, TVD, WENO).
+
+\subsection{Параметр $y^+$ і пристінкове моделювання}
+
+Безрозмірна відстань від стінки:
+\begin{equation}
+  y^+ = \frac{u_\tau y}{\nu},
+  \qquad
+  u_\tau = \sqrt{\tau_w / \rho},
+  \label{eq:yplus}
+\end{equation}
+де $y$ --- відстань до центру першої комірки, $\tau_w$ --- напруження тертя.
+
+\begin{table}[H]
+  \caption{Зони граничного шару та вимоги до сітки й моделей}
+  \label{tab:yplus}
+  \centering
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{|l|c|p{4.5cm}|p{3.8cm}|}
+    \hline
+    Зона & $y^+$ & Особливості & Рекомендовані моделі \\
+    \hline
+    В'язкий підшар & $< 5$ &
+      Домінує молекулярна в'язкість &
+      $k$--$\omega$ SST, Wilcox $k$--$\omega$ \\
+    \hline
+    Буферний шар & $5$--$30$ &
+      Суміш в'язких і турбулентних ефектів; уникати 1-го вузла тут &
+      Універсальні wall functions \\
+    \hline
+    Логарифмічний шар & $30$--$500$ &
+      Турбулентне перемішування, log-law &
+      Стандартна $k$--$\varepsilon$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Невідповідність сітки моделі (наприклад, $y^+ = 100$ для low-Re підходу)
+приводить до грубих похибок у силах тертя та теплових потоках.
+
+% -------------------------------------------------------------------
+\section{Висновки}
+
+\begin{enumerate}
+  \item DNS --- єдиний безмодельний точний підхід, але обмежений низькими
+        $\Rey$ через складність $N_f \propto \Rey^3$.
+  \item RANS залишається основним інструментом для пристінкових інженерних
+        течій. Найуніверсальнішою двопараметричною моделлю є $k$--$\omega$ SST,
+        що поєднує переваги $k$--$\omega$ біля стінок і $k$--$\varepsilon$
+        у вільному потоці.
+  \item LES займає проміжне положення між RANS і DNS, дозволяючи моделювати
+        нестаціонарну тривимірну динаміку великих вихорів, але вимагає
+        значних обчислювальних ресурсів, особливо в пристінкових шарах.
+  \item Фізично достовірний CFD-розрахунок потребує комплексного підходу:
+        узгодженого вибору моделі турбулентності, контролю $y^+$ та схем
+        підвищеного порядку для мінімізації схемної в'язкості.
+\end{enumerate}
+
+\begin{table}[H]
+  \caption{Порівняльний аналіз підходів до моделювання турбулентності}
+  \label{tab:compare}
+  \centering
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|p{3.1cm}|c|c|p{4.2cm}|}
+    \hline
+    Клас моделі & Точність & Вартість & Обмеження \\
+    \hline
+    Алгебраїчні (zero-eq) & Дуже низька & Надзвичайно низька &
+      Немає history effects \\
+    \hline
+    RANS ($k$--$\varepsilon$, $k$--$\omega$) & Середня & Помірна &
+      Ізотропність $\mu_t$; чутливість до $y^+$ \\
+    \hline
+    $k$--$\omega$ SST & Висока (RANS) & Помірна &
+      Не розв'язує нестаціонарні великі вихори \\
+    \hline
+    LES & Дуже висока & Висока &
+      Високі вимоги до сітки та потужності \\
+    \hline
+    DNS & Абсолютна & Гранично висока &
+      Лише низькі $\Rey$, прості геометрії \\
+    \hline
+  \end{tabular}
+\end{table}
+
+% -------------------------------------------------------------------
+\section*{Список використаних джерел}
+\addcontentsline{toc}{section}{Список використаних джерел}
+
+\begin{enumerate}
+  \item Pope S.~B.
+  \emph{Turbulent Flows}.
+  --- Cambridge University Press, 2000. --- 771~p.
+  \item Wilcox D.~C.
+  \emph{Turbulence Modeling for CFD}.
+  --- DCW Industries, 2006. --- 522~p.
+  \item Launder B.~E., Spalding D.~B.
+  The numerical computation of turbulent flows //
+  \emph{Computer Methods in Applied Mechanics and Engineering}. ---
+  1974. --- Vol.~3. --- P.~269--289.
+  \item Menter F.~R.
+  Two-equation eddy-viscosity turbulence models for engineering applications //
+  \emph{AIAA Journal}. --- 1994. --- Vol.~32, No.~8. --- P.~1598--1605.
+  \item Smagorinsky J.
+  General circulation experiments with the primitive equations //
+  \emph{Monthly Weather Review}. --- 1963. --- Vol.~91. --- P.~99--164.
+  \item Роуч П.
+  \emph{Вычислительная гидродинамика}.
+  --- М.: Мир, 1980. --- 616~с.
+  \item Самарский А.~А.
+  \emph{Теория разностных схем}.
+  --- М.: Наука, 1989. --- 616~с.
+  \item Андерсон Д., Таннехилл Дж., Плетчер Р.
+  \emph{Вычислительная гидродинамика и теплообмен: в 2 т.}
+  --- М.: Мир, 1990.
+\end{enumerate}
+
+\end{document}
