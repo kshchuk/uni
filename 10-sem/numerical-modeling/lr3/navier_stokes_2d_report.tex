@@ -128,7 +128,7 @@ $\partial p/\partial y$ за формулами (7)--(8).
 \end{align}
 
 У чисельних експериментах: $\rho=1$, $d=1$, $a=\pi$ (період $2x/d$ по $x$),
-$\Rey=1$, $\nu=1/\Rey$, $T=0.5$.
+$\Rey=1$, $\nu=1/\Rey$, $T=1{,}0$; основна сітка $N_x=N_y=96$.
 
 % -------------------------------------------------------------------
 \section{Чисельний метод}
@@ -194,27 +194,27 @@ $1\pm\nu\tau/h_{\mathrm{ref}}^2$, $h_{\mathrm{ref}}=\min(h_1,h_2)$.
 \subsection{Поля швидкості та тиску}
 
 На рис.~\ref{fig:velocity}--\ref{fig:pressure} наведено векторне поле швидкості
-та порівняння чисельного і точного полів $u$, $v$, $p$ при $t=0{,}5$,
-$N_x=N_y=40$.
+та порівняння чисельного і точного полів $u$, $v$, $p$ при $t=1{,}0$,
+$N_x=N_y=96$ ($\approx9{,}3\cdot10^3$ вузлів, $\approx3{,}7\cdot10^4$ часових кроків).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.75\linewidth]{velocity_quiver.png}
-  \caption{Векторне поле швидкості (чисельний розв'язок), $t=0{,}5$}
+  \caption{Векторне поле швидкості (чисельний розв'язок), $t=1{,}0$, $N=96$}
   \label{fig:velocity}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{velocity_compare.png}
-  \caption{Поля $u$, $v$: чисельний, точний та похибка, $t=0{,}5$}
+  \caption{Поля $u$, $v$: чисельний, точний та похибка, $t=1{,}0$, $N=96$}
   \label{fig:velocity-cmp}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{pressure_compare.png}
-  \caption{Поле тиску: чисельний, точний та похибка, $t=0{,}5$}
+  \caption{Поле тиску: чисельний, точний та похибка, $t=1{,}0$, $N=96$}
   \label{fig:pressure}
 \end{figure}
 
@@ -227,7 +227,7 @@ $N_x=N_y=40$.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.72\linewidth]{error_vs_time.png}
-  \caption{Норми $\|e\|_\infty$ для $u$, $v$, $p$ від часу ($N_x=N_y=40$)}
+  \caption{Норми $\|e\|_\infty$ для $u$, $v$, $p$ від часу ($N_x=N_y=96$, $T=1{,}0$)}
   \label{fig:err-time}
 \end{figure}
 
@@ -236,7 +236,8 @@ $N_x=N_y=40$.
 На рис.~\ref{fig:sor} показано збіжність SOR для рівняння Пуассона при
 підстановці $\Delta_h P_{\mathrm{exact}}$ як правої частини.
 На рис.~\ref{fig:spatial} --- просторова збіжність $\|e_u\|_\infty$,
-$\|e_v\|_\infty$ при $t=0{,}2$.
+$\|e_v\|_\infty$ при $t=0{,}5$ ($N=20,40,64,96$).
+На рис.~\ref{fig:p-conv} --- похибка тиску від кроку сітки (не зникає при $h\to0$).
 
 \begin{figure}[H]
   \centering
@@ -248,14 +249,21 @@ $\|e_v\|_\infty$ при $t=0{,}2$.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.65\linewidth]{spatial_convergence.png}
-  \caption{Просторова збіжність $\|e_u\|_\infty$, $\|e_v\|_\infty$ при $t=0{,}2$}
+  \caption{Просторова збіжність $\|e_u\|_\infty$, $\|e_v\|_\infty$ при $t=0{,}5$}
   \label{fig:spatial}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.65\linewidth]{pressure_convergence.png}
+  \caption{Похибка тиску $\|e_p\|_\infty$ vs~$h$ при $t=0{,}5$ ($N=20,40,64,96$)}
+  \label{fig:p-conv}
 \end{figure}
 
 Зведені результати наведено в табл.~\ref{tab:errors}.
 
 \begin{table}[H]
-  \caption{Похибки при $t=0{,}5$ ($N_x=N_y=40$) та просторова збіжність ($t=0{,}2$)}
+  \caption{Похибки при $t=1{,}0$ ($N=96$) та просторова збіжність швидкостей ($t=0{,}5$)}
   \label{tab:errors}
   \centering
   \renewcommand{\arraystretch}{1.2}
@@ -263,12 +271,12 @@ $\|e_v\|_\infty$ при $t=0{,}2$.
     \hline
     Величина & $\|e\|_\infty$ & $\|e\|_2$ & Відносна похибка \\
     \hline
-    $u$ ($N=40$) & 0,046 & 0,024 & 1,1\,\% \\
-    $v$ ($N=40$) & 0,091 & 0,034 & 2,1\,\% \\
-    $p$ ($N=40$) & 30,76 & 11,10 & --- \\
+    $u$ ($N=96$, $t=1$) & 0,016 & 0,008 & 0,6\,\% \\
+    $v$ ($N=96$, $t=1$) & 0,026 & 0,010 & 0,9\,\% \\
+    $p$ ($N=96$, $t=1$) & 18,79 & 6,90 & --- \\
     \hline
-    $u$ ($N=20\to80$) & \multicolumn{3}{c|}{порядок $\approx 1{,}1$} \\
-    $v$ ($N=20\to80$) & \multicolumn{3}{c|}{порядок $\approx 1{,}2$--$1{,}3$} \\
+    $u$ ($N=20\to96$) & \multicolumn{3}{c|}{порядок $\approx 1{,}0$--$1{,}1$} \\
+    $v$ ($N=20\to96$) & \multicolumn{3}{c|}{порядок $\approx 1{,}1$--$1{,}2$} \\
     \hline
   \end{tabular}
 \end{table}
@@ -297,15 +305,17 @@ $\omega\to1.9$.
 \subsection{Швидкості}
 
 Компоненти $u,v$ збігаються до точного розв'язку:
-$\|e_u\|_\infty$ спадає $0{,}149\to0{,}070\to0{,}033$ при $N=20,40,80$
-(порядок $\approx1.1$, рис.~\ref{fig:spatial}), відносна похибка $\approx1.1\%$
-($u$) та $\approx2.1\%$ ($v$) при $N=40$ (табл.~\ref{tab:errors}).
+$\|e_u\|_\infty$ спадає $0{,}142\to0{,}067\to0{,}040\to0{,}026$ при $N=20,40,64,96$
+(порядок $\approx1.0$--$1.1$, рис.~\ref{fig:spatial}), відносна похибка $\approx0.6\%$
+($u$) та $\approx0.9\%$ ($v$) при $N=96$, $t=1$ (табл.~\ref{tab:errors}).
 
 \subsection{Артефакт тиску}
 
 Поле $P$ відтворює правильну просторову структуру ($\cos(2x/d)\,e^{2y/d}$,
-рис.~\ref{fig:pressure}), але з завищеною амплітудою ($\sim\pm25$ замість
-$\pm2$). Причина: права частина \eqref{eq:poisson} містить член $D/\tau$. Через
+рис.~\ref{fig:pressure}), але з завищеною амплітудою ($\|e_p\|_\infty\approx19$
+після вирівнювання константи при $|p|_{\max}\approx1{,}3$ на $N=96$, $t=1$;
+рис.~\ref{fig:p-conv}). На сітках $N=20,40,64,96$ похибка тиску \emph{не}
+зменшується при $h\to0$. Причина: права частина \eqref{eq:poisson} містить член $D/\tau$. Через
 CFL-обмеження ДС-схеми $\tau\sim h^2$, а центральна дискретна дивергенція
 $D\sim h^2$, отже $D/\tau\sim O(1)$ не зникає при $h\to0$ і має той самий
 патерн, що й тиск. Це наслідок дискретизації $u$, $v$ і $p$ в одних вузлах
@@ -321,8 +331,9 @@ $(i,j)$ (формули (10) з~\lrcond{}): центральні різниці 
   \item Реалізовано повний цикл методу з~\lrcond{}: рівняння Пуассона для $P$
         (SOR за~[2]); $u,v$ оновлюються ДС-алгоритмом з~\lrone{} на сітці з
         спільними вузлами $(i,j)$ (як у~\lrcond{}).
-  \item Швидкості коректні та збіжні ($\approx O(h)$, $1.1$--$2.1\%$ при
-        $N=40$); побудовано динаміку векторного поля та тиску (рис.~\ref{fig:velocity}--\ref{fig:pressure}).
+  \item Швидкості коректні та збіжні ($\approx O(h)$, $\lesssim1\%$ при
+        $N=96$); побудовано динаміку векторного поля та тиску на сітці $96\times96$
+        (рис.~\ref{fig:velocity}--\ref{fig:pressure}, відео \texttt{ns\_dynamics.mp4}).
   \item Тиск відтворює правильну форму, але з роздутою амплітудою через
         член $D/\tau$ у \eqref{eq:poisson} (неусувний при $u,v,p$ в одних
         вузлах); для кількісно точного тиску потрібна рознесена сітка за~[2].
