@@ -1,15 +1,41 @@
-# OND — course workspace
+# OND — курс «Основи нелінійної динаміки»
 
-This directory collects materials for **nonlinear dynamical systems** and the **qualitative theory of ordinary differential equations** (planar ODEs): phase portraits, equilibria, limit cycles, and bifurcations. Root-level PDFs are reference texts (e.g. Andronov–Leontovich–Gordon and related sources).
+Матеріали з якісної теорії ОДР на площині: фазові портрети, особливі точки, граничні цикли, біфуркації, фрактали.
 
-## Labs
+## Структура
 
-| Folder | Contents |
-|--------|----------|
-| **lab1** | Phase-plane study of second-order autonomous systems: Maple worksheet (`lab1.mw`) and Python notebook (`phase_potrait.ipynb`) for portraits and analysis. |
-| **lab2** | Supporting artefacts for lab work (screenshots, Maple/Python outputs, figures, and short write-ups). |
-| **lab3** | Bautin-type bifurcation and ideal-form comparisons: Jupyter notebooks, LaTeX sources and compiled reports, plus the `pi_kan` numerical experiment package. |
+```
+OND/
+├── README.md
+├── literature/          # підручники та довідники (PDF, DJVU)
+├── course/              # білети, програма
+├── exam_guide/          # довідники до іспиту
+│   ├── teorka_shatyrko/
+│   ├── practika_fractals/
+│   └── _sources/        # сирі скріншоти для збірки довідників
+├── lab1/ … lab3/        # лабораторні (code/, figures/, photos/, звіт .tex)
+├── notebooks/           # окремі ноутбуки
+├── lecs/                # лекції (PDF)
+└── referat/             # реферат про стохастичні фрактали
+```
 
-## Referat
+## Довідники (`exam_guide/`)
 
-**referat/** is a separate **LaTeX** project (essay on **stochastic fractals** in nature and applications): main source `referat.tex`, bibliography, `Makefile` / `build.sh`, and Python scripts under `scripts/` to regenerate figures in `figures/`.
+| Довідник | Збірка |
+|----------|--------|
+| `teorka_shatyrko/dovidnyk_teorka_shatyrko.tex` | `make theory` |
+| `practika_fractals/dovidnyk_practika_fractals.tex` | `make practika` |
+
+Обидва: `make all` у каталозі `exam_guide/`.
+
+## Лабораторні
+
+| Папка | Зміст |
+|-------|--------|
+| **lab1** | Фазові портрети 2-го порядку: Maple (`code/lab1.mw`), Python, звіт |
+| **lab2** | Нелінійні портрети, розширений фазовий простір: `code/`, `figures/`, `screenshots/` |
+| **lab3** | Біфуркація Баутіна, `pi_kan/`, ноутбуки в `code/` |
+
+## Реферат
+
+**referat/** — LaTeX-проєкт про стохастичні фрактали: `referat.tex`, `make` / `build.sh`.

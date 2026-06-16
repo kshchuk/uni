@@ -1,0 +1,270 @@
+% !TeX program = pdflatex
+% Практичний довідник з курсу «Основи нелінійної динаміки».
+% Тема: фрактали.
+% Компіляція: pdflatex dovidnyk_practika_fractals.tex (двічі, для змісту).
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,ukrainian]{babel}
+\usepackage{lmodern}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks,colorlinks=true,linkcolor=blue!55!black,urlcolor=teal!70!black]{hyperref}
+\usepackage{fancyhdr}
+
+% --- Оформлення заголовків ---
+\definecolor{accent}{RGB}{30,110,70}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{accent}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{accent!85!black}}{\thesubsection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[L]{\small\itshape Практикум: фрактали}
+\fancyhead[R]{\small\thepage}
+
+\newcommand{\placeholder}{%
+  \par\medskip\noindent\textit{Розв'язок буде додано.}%
+}
+
+\addto\captionsukrainian{%
+  \renewcommand{\contentsname}{Зміст}%
+  \renewcommand{\figurename}{Рисунок}%
+}
+
+\graphicspath{{figures/}}
+\captionsetup{format=plain,labelfont=bf,justification=centering}
+\setlength{\headheight}{14pt}
+
+\begin{document}
+
+% ======================= ТИТУЛЬНА СТОРІНКА =======================
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{1cm}
+{\scshape\large Київський національний університет імені Тараса Шевченка\par}
+{\scshape факультет комп'ютерних наук та кібернетики\par}
+\vspace{1.5cm}
+{\color{accent}\rule{\linewidth}{1.2pt}\par}
+\vspace{0.6cm}
+{\Huge\bfseries Основи нелінійної\\[0.25em] динаміки\par}
+\vspace{0.5cm}
+{\LARGE Практичний довідник\par}
+\vspace{0.35cm}
+{\large Фрактали\par}
+\vspace{0.4cm}
+{\color{accent}\rule{\linewidth}{1.2pt}\par}
+\vfill
+{\small Київ --- 2026\par}
+\end{titlepage}
+
+% ======================= ЗМІСТ =======================
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section{Обов'язкові та додаткові задачі (тема~4)}
+% =====================================================================
+
+\subsection{Задача 4.1. Фрактальна розмірність губки Менгера}
+Знайдіть фрактальну розмірність губки Менгера.
+\placeholder
+
+\subsection{Задача 4.2. Фрактальна розмірність килима Серпінського}
+Знайдіть фрактальну розмірність килима Серпінського.
+\placeholder
+
+\subsection{Задача 4.3. Збіжність у метриці Хаусдорфа}
+Нехай $\{\mathcal{A}_k\}\subset\mathrm{comp}(\mathbb{R}^n)$~--- послідовність компактів,
+$\mathcal{A}_k\supset\mathcal{A}_{k+1}$, $k=1,2,\ldots$,
+$\mathcal{A}=\bigcap_{k=1}^{\infty}\mathcal{A}_k$. Довести, що
+$\mathcal{A}\in\mathrm{comp}(\mathbb{R}^n)$ і в метриці Хаусдорфа
+\begin{equation*}
+  \lim_{k\to\infty}\mathcal{A}_k=\mathcal{A}.
+\end{equation*}
+\placeholder
+
+\subsection{Задача 4.4. Відстань Хаусдорфа для множини Кантора}
+Нехай $\mathcal{K}$~--- множина Кантора, $\mathcal{K}_0=[0,1]$,
+\begin{gather*}
+  \mathcal{K}_1=\Bigl[0,\tfrac13\Bigr]\cup\Bigl[\tfrac23,1\Bigr],\\
+  \mathcal{K}_2=\Bigl[0,\tfrac{1}{3^2}\Bigr]\cup\Bigl[\tfrac{2}{3^2},\tfrac13\Bigr]
+  \cup\Bigl[\tfrac23,\tfrac23+\tfrac{1}{3^2}\Bigr]
+  \cup\Bigl[\tfrac23+\tfrac{2}{3^2},1\Bigr],\quad\ldots
+\end{gather*}
+Знайти відстань Хаусдорфа
+$h(\mathcal{K},\mathcal{K}_0)$, $h(\mathcal{K},\mathcal{K}_1)$,
+$h(\mathcal{K},\mathcal{K}_2)$, $\ldots$
+\placeholder
+
+\subsection{Задача 4.5. Фрактальна розмірність кола}
+Знайти фрактальну розмірність множини
+$S=\{x\in\mathbb{R}^2:\|x\|=1\}$.
+\placeholder
+
+\subsection{Задача 4.6. Фрактальна міра відрізка}
+Показати, що фрактальна міра множини $\mathcal{A}=[0,1]$ дорівнює нулю при $d>1$.
+\placeholder
+
+\paragraph{Умови для задач 4.7--4.11.}
+У $\mathbb{R}^2$ задано одиничний квадрат $\mathcal{K}$ з вершинами в точках
+$a^{(1)},a^{(2)},a^{(3)},a^{(4)}$. Позначимо через $F$ систему перетворень
+\begin{equation*}
+  f_i(x)=r(x-a^{(i)})+a^{(i)},\quad i=1,2,3,4,
+\end{equation*}
+де $r\in(0,\tfrac12)$, $x\in\mathbb{R}^2$.
+
+\subsection{Задача 4.7. Перші ітерації IFS на квадраті}
+Побудувати геометричне представлення перших трьох членів послідовності
+$\mathcal{K}_j$, $j=1,2,3$, де $\mathcal{K}_1=\mathcal{K}$,
+$\mathcal{K}_{j+1}=f(\mathcal{K}_j)$, $j=1,2,3$,
+\begin{equation*}
+  f=f_1\cup f_2\cup f_3\cup f_4,\quad
+  a^{(1)}=\begin{pmatrix}0\\0\end{pmatrix},\;
+  a^{(2)}=\begin{pmatrix}1\\0\end{pmatrix},\;
+  a^{(3)}=\begin{pmatrix}0\\1\end{pmatrix},\;
+  a^{(4)}=\begin{pmatrix}1\\1\end{pmatrix}.
+\end{equation*}
+\placeholder
+
+\subsection{Задача 4.8. Алгоритм атрактора IFS}
+Розробити алгоритм знаходження атрактора системи функцій $F$.
+\placeholder
+
+\subsection{Задача 4.9. Фрактальна розмірність атрактора}
+Знайти фрактальну розмірність атрактора, який відповідає системі функцій $F$.
+\placeholder
+
+\subsection{Задача 4.10. Розмірність подібності}
+Знайти розмірність подібності атрактора системи функцій $F$. Порівняти її
+з фрактальною розмірністю.
+\placeholder
+
+\subsection{Задача 4.11. Умова відкритої множини}
+Перевірити для системи функцій $F$ виконання умов відкритої множини.
+Обґрунтувати самоподібність атрактора системи функцій $F$.
+\placeholder
+
+\subsection{Задача 4.12. Килим Серпінського}
+Розробити алгоритм та побудувати зображення килима Серпінського.
+\placeholder
+
+\subsection{Задача 4.13. Крива Коха}
+Розробити алгоритм та побудувати зображення кривої Коха.
+\placeholder
+
+\subsection{Задача 4.14. П'ятикутник Дарера}
+Розробити алгоритм та побудувати зображення п'ятикутника Дарера.
+\placeholder
+
+\medskip
+\noindent\textit{Додаткові задачі за даною тематикою представлені у [25,~56].}
+
+\newpage
+% =====================================================================
+\section{Обов'язкові та додаткові задачі (тема~5)}
+% =====================================================================
+
+\subsection{Задача 5.1. Період $n\geqslant 3$ і нерухома точка}
+Довести, що якщо функція $f$ має орбіту періоду $n\geqslant 3$, то вона має
+орбіту періоду~$1$ (тобто має нерухому точку).
+\placeholder
+
+\subsection{Задача 5.2*. Періоди $2^n$ та $2^k$}
+Довести, що якщо $f$ має орбіту періоду $2^n$, то вона має орбіту періоду
+$2^k$ при $n>k$.
+\placeholder
+
+\paragraph{Умови для задач 5.3--5.5.}
+Нехай $Q(x)=4x(1-x)$, $0\leqslant x\leqslant 1$, та
+\begin{equation*}
+  T(x)=
+  \begin{cases}
+    2x, & 0\leqslant x\leqslant \tfrac12,\\[0.3em]
+    2(1-x), & \tfrac12<x\leqslant 1.
+  \end{cases}
+\end{equation*}
+
+\subsection{Задача 5.3*. Топологічна спряженість $Q$ і $T$}
+Показати, що відображення $Q$ і $T$ топологічно спряжені на $[0,1]$ за
+допомогою $H(x)=\sin^2\!\bigl(\tfrac{\pi}{2}x\bigr)$, тобто
+$g=h\circ f\circ h^{-1}$.
+\placeholder
+
+\subsection{Задача 5.4. Орбіта періоду 3}
+Знайти орбіту $Q(x)$ періоду~$3$, показавши, що
+$\bigl\{\tfrac27,\tfrac47,\tfrac67\bigr\}$~--- 3-цикл для $T(x)$.
+\placeholder
+
+\subsection{Задача 5.5. Орбіти періодів 4 і 5}
+Знайти орбіти $Q(x)$ періодів~4 і~5.
+\placeholder
+
+\subsection{Задача 5.7. Орбіта в $\mathbb{C}$}
+Для многочлена $f(z)=z^2-1+0.213i$ реалізувати алгоритм знаходження орбіти
+на 100 ітерацій при $z_0=0.3+0.2i$ та $z_0=0.31+0.2i$.
+\placeholder
+
+\subsection{Задача 5.8. Множина Жюліа ($c=-0.8+0.156i$)}
+Реалізувати алгоритм конструювання множини Жюліа для
+$f(z)=z^2-0.8+0.156i$.
+\placeholder
+
+\subsection{Задача 5.9. Множина Жюліа ($c=0.285+0.01i$)}
+Реалізувати алгоритм конструювання множини Жюліа для
+$f(z)=z^2+0.285+0.01i$.
+\placeholder
+
+\subsection{Задача 5.10. Множина Жюліа ($c=-0.0085+0.71i$)}
+Реалізувати алгоритм конструювання множини Жюліа для
+$f(z)=z^2-0.0085+0.71i$.
+\placeholder
+
+\subsection{Задача 5.11. Множина Мандельброта}
+Розробити алгоритм конструювання множини Мандельброта.
+\placeholder
+
+\subsection{Задача 5.12. Крива «готель Гільберта»}
+Розробити алгоритм та побудувати зображення кривої «готель Гільберта».
+\placeholder
+
+\subsection{Задача 5.13. Кардіоїда}
+Побудувати зображення кардіоїди за рівнянням
+\begin{equation*}
+  c=\tfrac12 e^{i\theta}-\tfrac14 e^{2i\theta},\qquad \theta\in[0,2\pi].
+\end{equation*}
+\placeholder
+
+\subsection{Задача 5.14. Множина Мандельброта для $z^3+c$}
+Отримати зображення множини Мандельброта для $f(z)=z^3+c$; показати, що якщо
+$|c|>2$, орбіта прямує до $\infty$.
+\placeholder
+
+\subsection{Задача 5.15. Басейн $\mathcal{A}(1)$ для $z^4-1$}
+Побудувати графічне зображення басейну притягання $\mathcal{A}(1)$ для
+$f(z)=z^4-1$.
+\placeholder
+
+\subsection{Задача 5.16. Басейн $\mathcal{A}(1)$ для $z^3-z$}
+Побудувати графічне зображення басейну притягання $\mathcal{A}(1)$ для
+$f(z)=z^3-z$.
+\placeholder
+
+\medskip
+\noindent\textit{Додаткові задачі за даною тематикою представлені у [25,~60,~62].}
+
+\end{document}
