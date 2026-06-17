@@ -11,8 +11,10 @@ OND/
 ├── course/              # білети, програма
 ├── exam_guide/          # довідники до іспиту
 │   ├── teorka_shatyrko/
+│   ├── teorka_fractals/
 │   ├── practika_fractals/
-│   └── _sources/        # сирі скріншоти для збірки довідників
+│   ├── practica_shatyrko/
+│   └── _sources/        # сирі скріншоти (screenshots/, clips/, inbox/)
 ├── lab1/ … lab3/        # лабораторні (code/, figures/, photos/, звіт .tex)
 ├── notebooks/           # окремі ноутбуки
 ├── lecs/                # лекції (PDF)
@@ -21,12 +23,17 @@ OND/
 
 ## Довідники (`exam_guide/`)
 
+Сирі матеріали для збірки: `_sources/screenshots/`, `_sources/clips/`;
+нові файли з кореня проєкту — у `_sources/inbox/`.
+
 | Довідник | Збірка |
 |----------|--------|
 | `teorka_shatyrko/dovidnyk_teorka_shatyrko.tex` | `make theory` |
+| `teorka_fractals/dovidnyk_teorka_fractals.pdf` | лише PDF (без `.tex`) |
 | `practika_fractals/dovidnyk_practika_fractals.tex` | `make practika` |
+| `practica_shatyrko/dovidnyk_practica_shatyrko.tex` | `make practica-shatyrko` |
 
-Обидва: `make all` у каталозі `exam_guide/`.
+Усі `.tex`-довідники: `make all` у `exam_guide/`. Артефакти збірки: `make clean`.
 
 ## Лабораторні
 
