@@ -48,10 +48,10 @@ def vortex_velocity(x, y, x0, y0, delta=0.0):
 
 # ---------- Крок 4. СЛАР ----------
 
-def solve_gammas(P, v_inf, gamma0):
-    """Розв'язує систему (7.1.19)-(7.1.20) відносно Γ_1..Γ_M."""
+def solve_gammas(P, v_inf, gamma0, colloc=collocation):
+    """Розв'язує систему (7.1.19)-(7.1.20) відносно Γ_1..Γ_M; colloc(P) -> (точки колокації, нормалі)."""
     M = len(P)
-    C, N = collocation(P)
+    C, N = colloc(P)
     u, v = vortex_velocity(C[:, [0]], C[:, [1]], P[None, :, 0], P[None, :, 1])
     A = np.empty((M, M))
     b = np.empty(M)

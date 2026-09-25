@@ -50,13 +50,13 @@ def draw_contour(ax, P, lw=2.2):
     ax.plot(P[:, 0], P[:, 1], color=INK, lw=lw, solid_capstyle="round", zorder=5)
 
 
-def fig_geometry(sample=hook, out=OUT / "geometry.png", lim=0.6):
+def fig_geometry(sample=hook, out=OUT / "geometry.png", lim=0.6, colloc=collocation):
     P = sample(16)
-    C, N = collocation(P)
+    C, N = colloc(P)
     fig, ax = plt.subplots(figsize=(4.6, 4.6))
     Pd = sample(400)
     ax.plot(Pd[:, 0], Pd[:, 1], color=GRID, lw=6, solid_capstyle="round", zorder=1, label="вихідний контур")
-    ax.plot(P[:, 0], P[:, 1], color=INK, lw=1, zorder=2)
+    ax.plot(Pd[:, 0], Pd[:, 1], color=INK, lw=1, zorder=2)
     ax.quiver(C[:, 0], C[:, 1], N[:, 0], N[:, 1], color=MUTED, scale=9, width=0.006, zorder=3)
     ax.scatter(P[:, 0], P[:, 1], s=42, facecolor="white", edgecolor=BLUE, lw=1.8, zorder=4,
                label=r"особливості $\omega_{0j}$ (M = 16)")
@@ -90,9 +90,9 @@ def fig_phi_cuts():
     plt.close(fig)
 
 
-def four_panels(gamma0, out, sample=hook, m=M):
+def four_panels(gamma0, out, sample=hook, m=M, colloc=collocation):
     P = sample(m)
-    G = solve_gammas(P, V_INF, gamma0)
+    G = solve_gammas(P, V_INF, gamma0, colloc)
     X, Y = grid(500)
     U, V = velocity(X, Y, P, G, V_INF, DELTA)
     speed = np.hypot(U, V)
@@ -141,12 +141,12 @@ def four_panels(gamma0, out, sample=hook, m=M):
     plt.close(fig)
 
 
-def fig_psi_gammas(out=OUT / "psi_gammas.png", sample=hook, m=M):
+def fig_psi_gammas(out=OUT / "psi_gammas.png", sample=hook, m=M, colloc=collocation):
     P = sample(m)
     X, Y = grid(500)
     fig, axes = plt.subplots(1, 3, figsize=(10, 3.6))
     for ax, g0 in zip(axes, (-1.0, 0.0, 1.0)):
-        G = solve_gammas(P, V_INF, g0)
+        G = solve_gammas(P, V_INF, g0, colloc)
         psi = psi_transformed(X, Y, P, G, V_INF, DELTA)
         lv = np.linspace(-1.1, 1.1, 34)
         ax.contour(X, Y, psi, levels=lv, colors=BLUE, linewidths=0.7)

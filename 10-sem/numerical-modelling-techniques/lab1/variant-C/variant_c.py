@@ -1,4 +1,4 @@
-"""Лаб. №1, варіант «С»: контур — дуга кола у формі літери С. Будує рисунки, метрики та дані для звіту."""
+"""Лаб. №1, варіант «С»: контур — гладке півколо, відкрите праворуч. Будує рисунки, метрики та дані для звіту."""
 import json
 import sys
 from pathlib import Path
@@ -11,10 +11,12 @@ sys.path.insert(0, str(HERE.parent / "guide"))
 import matplotlib.pyplot as plt  # noqa: E402
 
 from make_figures import BLUE, GRID, INK, MUTED, RED, fig_geometry, fig_psi_gammas, four_panels  # noqa: E402
-from mdo_lab1 import collocation, grid, psi_transformed, solve_gammas, velocity  # noqa: E402
+from mdo_lab1 import grid, psi_direct, solve_gammas, velocity  # noqa: E402
 
 # ---- Вхідні дані варіанту ----
-OPENING_DEG = 80.0          # кутовий розмір «розриву» літери С (відкрита праворуч)
+R = 0.5                     # радіус: діаметр = відстань між кінцями = 1
+T0, T1 = np.pi / 2, 3 * np.pi / 2   # півколо від верхнього кінця до нижнього, проти год. стрілки
+CENTER = np.array([R / 2, 0.0])     # центр кола; центр описаного прямокутника — у (0, 0)
 M = 80
 GAMMAS0 = (-1.0, 0.0, 1.0)
 V_INF = np.array([1.0, 0.0])
@@ -24,34 +26,47 @@ FIG = HERE / "figures"
 FIG.mkdir(exist_ok=True)
 
 
-def c_contour(m, opening_deg=OPENING_DEG):
-    """Літера С: дуга кола від кута opening/2 до 360° − opening/2 (проти год. стрілки), розмір 1, центр bbox у (0, 0)."""
-    a = np.radians(opening_deg / 2)
-    t = np.linspace(a, 2 * np.pi - a, m)
-    P = 0.5 * np.column_stack([np.cos(t), np.sin(t)])
-    x_min, x_max = -0.5, 0.5 * np.cos(a)
-    return P - np.array([0.5 * (x_min + x_max), 0.0])
+def arc_point(t):
+    return CENTER + R * np.column_stack([np.cos(t), np.sin(t)])
+
+
+def semicircle(m):
+    """M точок ω0j на півколі, рівномірно за кутом (= за довжиною дуги)."""
+    return arc_point(np.linspace(T0, T1, m))
+
+
+def arc_collocation(P):
+    """Колокації на самій дузі (середина між сусідніми ω0j за кутом) і точні нормалі до кола.
+
+    Нормаль дивиться ліворуч від обходу (обхід проти год. стрілки -> до центру кола).
+    """
+    t = np.arctan2(P[:, 1] - CENTER[1], P[:, 0] - CENTER[0])
+    t = np.unwrap(t)
+    tm = 0.5 * (t[:-1] + t[1:])
+    C = arc_point(tm)
+    return C, -np.column_stack([np.cos(tm), np.sin(tm)])
 
 
 def metrics():
-    P = c_contour(M)
-    C, N = collocation(P)
+    P = semicircle(M)
+    C, N = arc_collocation(P)
     h = np.hypot(*np.diff(P, axis=0).T)
-    out = {"M": M, "opening_deg": OPENING_DEG, "delta": DELTA, "h_min": float(h.min()), "h_max": float(h.max()),
+    out = {"M": M, "R": R, "delta": DELTA, "h_min": float(h.min()), "h_max": float(h.max()),
            "size": float(np.max(np.hypot(*(P[:, None] - P[None]).transpose(2, 0, 1)))), "runs": []}
     Xb, Yb = grid(201, 3.0)
     edge = np.maximum(np.abs(Xb), np.abs(Yb)) > 2.95
     for g0 in GAMMAS0:
-        G = solve_gammas(P, V_INF, g0)
+        G = solve_gammas(P, V_INF, g0, arc_collocation)
         U, V = velocity(C[:, 0], C[:, 1], P, G, V_INF, 0.0)
-        side = [psi_transformed(*(C + s * 0.01 * N).T, P, G, V_INF, 0.005) for s in (1, -1)]
+        psi_c = psi_direct(C[:, 0], C[:, 1], P, G, V_INF, 1e-9)
+        k = len(C) // 10
         Ub, Vb = velocity(Xb, Yb, P, G, V_INF, DELTA)
         out["runs"].append({
             "gamma0": g0,
             "sum_gamma": float(G.sum()),
             "max_vn": float(np.abs(U * N[:, 0] + V * N[:, 1]).max()),
-            "psi_ptp_outer": float(np.ptp(side[0])),
-            "psi_ptp_inner": float(np.ptp(side[1])),
+            "psi_ptp_contour": float(np.ptp(psi_c)),
+            "psi_ptp_central80": float(np.ptp(psi_c[k:-k])),
             "far_speed_dev": float(np.abs(np.hypot(Ub, Vb) - 1)[edge].max()),
             "speed_max_1": float(np.hypot(*velocity(*grid(300), P, G, V_INF, DELTA)).max()),
         })
@@ -62,18 +77,18 @@ def metrics():
 
 def convergence():
     X, Y = grid(161)
-    ref_P = c_contour(1280)
+    ref_P = semicircle(1280)
     dist = np.min(np.hypot(X[..., None] - ref_P[:, 0], Y[..., None] - ref_P[:, 1]), axis=-1)
     far = dist > 0.1
     Ms = [20, 40, 80, 160, 320]
     res = {}
     fig, ax = plt.subplots(figsize=(5.4, 3.4))
     for g0, color in [(0.0, BLUE), (1.0, RED)]:
-        Ur, Vr = velocity(X, Y, ref_P, solve_gammas(ref_P, V_INF, g0), V_INF, DELTA)
+        Ur, Vr = velocity(X, Y, ref_P, solve_gammas(ref_P, V_INF, g0, arc_collocation), V_INF, DELTA)
         errs = []
         for m in Ms:
-            P = c_contour(m)
-            U, V = velocity(X, Y, P, solve_gammas(P, V_INF, g0), V_INF, DELTA)
+            P = semicircle(m)
+            U, V = velocity(X, Y, P, solve_gammas(P, V_INF, g0, arc_collocation), V_INF, DELTA)
             errs.append(float(np.max(np.hypot(U - Ur, V - Vr)[far])))
         res[f"{g0:g}"] = dict(zip(map(str, Ms), errs))
         ax.loglog(Ms, errs, "o-", color=color, lw=2, ms=6, label=rf"$\Gamma_0 = {g0:g}$")
@@ -89,13 +104,13 @@ def convergence():
 
 
 def gamma_distribution():
-    P = c_contour(M)
+    P = semicircle(M)
     s = np.concatenate([[0], np.cumsum(np.hypot(*np.diff(P, axis=0).T))])
     h = s[1] - s[0]
     fig, ax = plt.subplots(figsize=(5.4, 3.2))
     for g0, color in zip(GAMMAS0, [BLUE, INK, RED]):
-        ax.plot(s / s[-1], solve_gammas(P, V_INF, g0) / h, color=color, lw=1.8, label=rf"$\Gamma_0 = {g0:g}$")
-    ax.set_xlabel(r"параметр дуги $s/L$ (0 — верхній кінець С, 1 — нижній)")
+        ax.plot(s / s[-1], solve_gammas(P, V_INF, g0, arc_collocation) / h, color=color, lw=1.8, label=rf"$\Gamma_0 = {g0:g}$")
+    ax.set_xlabel(r"параметр дуги $s/L$ (0 — верхній кінець півкола, 1 — нижній)")
     ax.set_ylabel(r"$\Gamma_j / h \approx \gamma(s)$")
     ax.set_title("Густина вихорів уздовж контуру")
     ax.grid(True, color=GRID, lw=0.5)
@@ -105,10 +120,10 @@ def gamma_distribution():
 
 
 if __name__ == "__main__":
-    fig_geometry(sample=lambda m: c_contour(m), out=FIG / "geometry.png", lim=0.7)
+    fig_geometry(sample=semicircle, out=FIG / "geometry.png", lim=0.7, colloc=arc_collocation)
     for g0 in GAMMAS0:
-        four_panels(g0, FIG / f"result_G{g0:+g}.png", sample=c_contour, m=M)
-    fig_psi_gammas(out=FIG / "psi_gammas.png", sample=c_contour, m=M)
+        four_panels(g0, FIG / f"result_G{g0:+g}.png", sample=semicircle, m=M, colloc=arc_collocation)
+    fig_psi_gammas(out=FIG / "psi_gammas.png", sample=semicircle, m=M, colloc=arc_collocation)
     gamma_distribution()
     data = metrics()
     data["convergence"] = convergence()
