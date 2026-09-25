@@ -31,6 +31,10 @@ HOOK = normalize([(0.35, 0.45), (-0.3, 0.45), (-0.3, -0.45), (0.2, -0.45), (0.2,
 M = 60
 
 
+def hook(m):
+    return resample(HOOK, m)
+
+
 def style(ax, lim=1.0):
     ax.set_aspect("equal")
     ax.set_xlim(-lim, lim)
@@ -46,11 +50,12 @@ def draw_contour(ax, P, lw=2.2):
     ax.plot(P[:, 0], P[:, 1], color=INK, lw=lw, solid_capstyle="round", zorder=5)
 
 
-def fig_geometry():
-    P = resample(HOOK, 16)
+def fig_geometry(sample=hook, out=OUT / "geometry.png", lim=0.6):
+    P = sample(16)
     C, N = collocation(P)
     fig, ax = plt.subplots(figsize=(4.6, 4.6))
-    ax.plot(HOOK[:, 0], HOOK[:, 1], color=GRID, lw=6, solid_capstyle="round", zorder=1, label="вихідна ламана")
+    Pd = sample(400)
+    ax.plot(Pd[:, 0], Pd[:, 1], color=GRID, lw=6, solid_capstyle="round", zorder=1, label="вихідний контур")
     ax.plot(P[:, 0], P[:, 1], color=INK, lw=1, zorder=2)
     ax.quiver(C[:, 0], C[:, 1], N[:, 0], N[:, 1], color=MUTED, scale=9, width=0.006, zorder=3)
     ax.scatter(P[:, 0], P[:, 1], s=42, facecolor="white", edgecolor=BLUE, lw=1.8, zorder=4,
@@ -58,10 +63,10 @@ def fig_geometry():
     ax.scatter(C[:, 0], C[:, 1], s=36, marker="x", color=RED, lw=1.6, zorder=4, label=r"колокації $\omega_k$ (M − 1 = 15)")
     for j in (0, len(P) - 1):
         ax.annotate(rf"$\omega_{{0{1 if j == 0 else 'M'}}}$", P[j], xytext=(6, 4), textcoords="offset points", color=INK)
-    style(ax, 0.6)
+    style(ax, lim)
     ax.legend(loc="lower left", fontsize=7.5, frameon=False, bbox_to_anchor=(0, -0.02))
     ax.set_title("Дискретизація контуру: нормалі дивляться ліворуч від обходу")
-    fig.savefig(OUT / "geometry.png")
+    fig.savefig(out)
     plt.close(fig)
 
 
@@ -85,8 +90,8 @@ def fig_phi_cuts():
     plt.close(fig)
 
 
-def four_panels(gamma0, name):
-    P = resample(HOOK, M)
+def four_panels(gamma0, out, sample=hook, m=M):
+    P = sample(m)
     G = solve_gammas(P, V_INF, gamma0)
     X, Y = grid(500)
     U, V = velocity(X, Y, P, G, V_INF, DELTA)
@@ -129,15 +134,15 @@ def four_panels(gamma0, name):
         ax.set_title(title)
         fig.colorbar(cs, ax=ax, shrink=0.8)
 
-    fig.suptitle(rf"Результат лаб. №1: M = {M}, $\Gamma_0 = {gamma0:g}$, $\vec V_\infty = (1, 0)$, $r_j = {DELTA}$",
+    fig.suptitle(rf"Результат лаб. №1: M = {m}, $\Gamma_0 = {gamma0:g}$, $\vec V_\infty = (1, 0)$, $r_j = {DELTA}$",
                  color=INK)
     fig.tight_layout()
-    fig.savefig(OUT / name)
+    fig.savefig(out)
     plt.close(fig)
 
 
-def fig_psi_gammas():
-    P = resample(HOOK, M)
+def fig_psi_gammas(out=OUT / "psi_gammas.png", sample=hook, m=M):
+    P = sample(m)
     X, Y = grid(500)
     fig, axes = plt.subplots(1, 3, figsize=(10, 3.6))
     for ax, g0 in zip(axes, (-1.0, 0.0, 1.0)):
@@ -150,7 +155,7 @@ def fig_psi_gammas():
         ax.set_title(rf"$\Gamma_0 = {g0:g}$")
     fig.suptitle(r"Лінії течії $\psi = \mathrm{const}$ при різних циркуляціях", color=INK)
     fig.tight_layout()
-    fig.savefig(OUT / "psi_gammas.png")
+    fig.savefig(out)
     plt.close(fig)
 
 
@@ -216,8 +221,8 @@ if __name__ == "__main__":
     fig_geometry()
     fig_regularization()
     fig_phi_cuts()
-    four_panels(1.0, "result_G1.png")
-    four_panels(0.0, "result_G0.png")
+    four_panels(1.0, OUT / "result_G1.png")
+    four_panels(0.0, OUT / "result_G0.png")
     fig_psi_gammas()
     fig_plate()
     print("figures:", sorted(p.name for p in OUT.glob("*.png")))

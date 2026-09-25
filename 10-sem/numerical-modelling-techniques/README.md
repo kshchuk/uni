@@ -17,6 +17,13 @@ numerical-modelling-techniques/
     │   ├── run_lab1.py                             # шаблон: свій контур → 4 графіки
     │   ├── make_figures.py                         # генерація рисунків гайду
     │   └── figures/
+    ├── variant-C/                                  # мій варіант: перешкода у формі літери «С»
+    │   ├── report.pdf                              # чернетка звіту (Typst)
+    │   ├── report.typ
+    │   ├── variant_c.py                            # розрахунок, рисунки, метрики
+    │   ├── metrics.json                            # перевірки й збіжність (читає report.typ)
+    │   ├── solution_G{-1,+0,+1}.csv                # x0j, y0j, Γj для кожного Γ0
+    │   └── figures/
     ├── materials/
     │   └── Навчальний посібник ТЧМ 2024.pdf        # Довгий, Троценко, Черній, 2024
     └── lecture-transcript/
@@ -40,6 +47,16 @@ numerical-modelling-techniques/
 ```
 pip install numpy matplotlib typst
 cd lab1/guide && python3 make_figures.py && python3 -c "import typst; typst.compile('guide.typ', output='guide.pdf')"
+```
+
+## Варіант «С» (lab1/variant-C)
+
+Контур — дуга кола у формі літери «С» (розрив 80° праворуч, розмір 1), M = 80, V∞ = (1, 0),
+Γ0 ∈ {−1, 0, 1}. `report.pdf` — чернетка звіту: постановка, метод, вхідні дані, 4 графіки для кожного Γ0,
+перевірки (непроникнення ~1e-15, ΣΓ = Γ0, збіжність ~1/M), висновки, код. Перезбірка:
+
+```
+cd lab1/variant-C && python3 variant_c.py && python3 -c "import typst; typst.compile('report.typ', output='report.pdf', root='..')"
 ```
 
 ## Транскрипт пари 17.09.2026
