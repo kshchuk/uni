@@ -97,3 +97,43 @@ ax[2].set_title("|V| уздовж x = 0.3: зі зростанням M → то�
 ax[2].grid(alpha=0.3)
 ax[2].legend()
 plt.show()
+
+
+# --- Рисунок 3: 4 графіки лаби для пластини ---
+def plot_four(X, Y, x0, y0, G, v_inf, delta, title, mask=None):
+    """4 графіки лаби (як у кроці 7) для будь-якого контуру; mask ховає частину."""
+    u, v = velocity_field(X, Y, x0, y0, G, v_inf, delta)
+    phi, _ = transformed(X, Y, x0, y0, G, v_inf, delta)
+    psi = psi_direct(X, Y, x0, y0, G, v_inf, delta)
+    if mask is not None:
+        u, v, phi, psi = (np.where(mask, np.nan, F) for F in (u, v, phi, psi))
+    speed = np.hypot(u, v)
+    ext = (X.min(), X.max(), Y.min(), Y.max())
+    s = max(1, X.shape[0] // 25)                 # ≈ 25 стрілок уздовж кожної осі
+
+    fig, ax = plt.subplots(2, 2, figsize=(11, 10))
+    ax[0, 0].imshow(speed, extent=ext, origin="lower", cmap="Blues",
+                    vmax=np.nanpercentile(speed, 99))
+    ax[0, 0].quiver(X[::s, ::s], Y[::s, ::s], (u / speed)[::s, ::s],
+                    (v / speed)[::s, ::s], scale=35, width=0.003)
+    ax[0, 0].set_title("1) векторне поле V на тлі |V|")
+    panels = [(ax[0, 1], speed, "2) |V| = const", "Blues"),
+              (ax[1, 0], phi, "3) φ = const", "RdBu_r"),
+              (ax[1, 1], psi, "4) ψ = const", "RdBu_r")]
+    for a, F, name, cmap in panels:
+        levels = np.linspace(*np.nanpercentile(F, [1, 99]), 30)
+        cs = a.contourf(X, Y, F, levels=levels, cmap=cmap, extend="both")
+        a.contour(X, Y, F, levels=levels, colors="k", linewidths=0.4)
+        fig.colorbar(cs, ax=a)
+        a.set_title(name)
+    for a in ax.flat:
+        a.plot(x0, y0, "k-", lw=2)
+        a.set_aspect("equal")
+    fig.suptitle(title)
+    plt.show()
+
+
+qx0, qy0, *colloc = plate(80)
+Gq = solve_gammas(qx0, qy0, *colloc, vinf, 1.0)
+Xs, Ys = np.meshgrid(np.linspace(-1, 1, 300), np.linspace(-1, 1, 300))
+plot_four(Xs, Ys, qx0, qy0, Gq, vinf, 0.01, "Пластина: M = 80, Γ0 = 1")
