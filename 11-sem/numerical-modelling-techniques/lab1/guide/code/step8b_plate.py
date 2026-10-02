@@ -8,17 +8,92 @@ def plate_exact(X, Y, gamma, a=0.5):
     return vbar.real, -vbar.imag
 
 
-Xp, Yp = np.meshgrid(np.linspace(-1, 1, 201), np.linspace(-1, 1, 201))
+def plate_exact_psi(X, Y, gamma, a=0.5):
+    """Точна функція течії ψ = Im w, де w — комплексний потенціал пластини."""
+    zp = -1j * (X + 1j * Y)
+    root = np.sqrt(zp - a) * np.sqrt(zp + a)
+    alpha = -np.pi / 2
+    w = np.cos(alpha) * zp - 1j * np.sin(alpha) * root
+    w = w + gamma / (2j * np.pi) * np.log(zp + root)
+    return w.imag
+
+
+def plate(m):
+    """Відрізок з m точок, колокації посередині, нормалі (-1, 0)."""
+    qx0, qy0 = np.zeros(m), np.linspace(-0.5, 0.5, m)
+    qxc, qyc = qx0[:-1], (qy0[:-1] + qy0[1:]) / 2
+    return qx0, qy0, qxc, qyc, -np.ones(m - 1), np.zeros(m - 1)
+
+
+xp = np.linspace(-1, 1, 201)
+Xp, Yp = np.meshgrid(xp, xp)
 mask = np.hypot(Xp, np.maximum(np.abs(Yp) - 0.5, 0)) > 0.15     # далі 0.15 від пластини
+Ms = [10, 20, 40, 80, 160]
+errors = {}
 for g0 in (0.0, 1.0):
-    errors = []
-    for m in (10, 20, 40, 80, 160):
-        qx0, qy0 = np.zeros(m), np.linspace(-0.5, 0.5, m)
-        qxc, qyc = qx0[:-1], (qy0[:-1] + qy0[1:]) / 2
-        qnx, qny = -np.ones(m - 1), np.zeros(m - 1)
-        Gq = solve_gammas(qx0, qy0, qxc, qyc, qnx, qny, vinf, g0)
+    errors[g0] = []
+    for m in Ms:
+        qx0, qy0, *colloc = plate(m)
+        Gq = solve_gammas(qx0, qy0, *colloc, vinf, g0)
         uq, vq = velocity_field(Xp, Yp, qx0, qy0, Gq, vinf, 0.01)
         with np.errstate(divide="ignore", invalid="ignore"):
             ue, ve = plate_exact(Xp, Yp, g0)
-        errors.append(np.max(np.hypot(uq - ue, vq - ve)[mask]))
-    print(f"Γ0 = {g0}: похибки", np.round(errors, 3))
+        errors[g0].append(np.max(np.hypot(uq - ue, vq - ve)[mask]))
+    print(f"Γ0 = {g0}: похибки", np.round(errors[g0], 3))
+
+# --- Рисунок 1: збіжність ---
+fig, ax = plt.subplots(figsize=(6, 4))
+for g0, err in errors.items():
+    ax.loglog(Ms, err, "o-", label=f"Γ0 = {g0:g}")
+ax.loglog(Ms, 1.3 / np.array(Ms), "k--", lw=1, label="~ 1/M")
+ax.set_xlabel("M")
+ax.set_ylabel("max |V_МДО - V_точн|")
+ax.set_title("Пластина: похибка спадає як 1/M")
+ax.grid(alpha=0.3, which="both")
+ax.legend()
+plt.show()
+
+# --- Рисунок 2: МДО проти точного розв'язку при M = 40, Γ0 = 1 ---
+m, g0 = 40, 1.0
+qx0, qy0, *colloc = plate(m)
+Gq = solve_gammas(qx0, qy0, *colloc, vinf, g0)
+uq, vq = velocity_field(Xp, Yp, qx0, qy0, Gq, vinf, 0.01)
+psi_m = psi_direct(Xp, Yp, qx0, qy0, Gq, vinf, 0.01)
+with np.errstate(divide="ignore", invalid="ignore"):
+    ue, ve = plate_exact(Xp, Yp, g0)
+    psi_e = plate_exact_psi(Xp, Yp, g0)
+psi_m -= psi_m[100, 0] - psi_e[100, 0]           # ψ — до сталої: вирівнюємо в (-1, 0)
+
+fig, ax = plt.subplots(1, 3, figsize=(17, 5))
+levels = np.linspace(-1.1, 1.1, 23)
+ax[0].contour(Xp, Yp, psi_m, levels=levels, colors="tab:blue", linewidths=1.5)
+ax[0].contour(Xp, Yp, psi_e, levels=levels, colors="tab:red", linewidths=0.8,
+              linestyles="--")
+ax[0].set_title("ψ: МДО (суцільні) і точний (пунктир)")
+
+err = np.hypot(uq - ue, vq - ve)
+im = ax[1].imshow(np.log10(err + 1e-12), extent=(-1, 1, -1, 1), origin="lower",
+                  cmap="magma", vmin=-4, vmax=0)
+fig.colorbar(im, ax=ax[1], label="log10 |ΔV|")
+ax[1].set_title("Де похибка: біля пластини й кінців")
+
+for a in ax[:2]:
+    a.plot([0, 0], [-0.5, 0.5], "k-", lw=3)
+    a.set_aspect("equal")
+
+yy = np.linspace(-1, 1, 401)
+xl = np.full_like(yy, 0.3)                       # вертикаль x = 0.3 за пластиною
+with np.errstate(divide="ignore", invalid="ignore"):
+    ue_l, ve_l = plate_exact(xl, yy, g0)
+ax[2].plot(yy, np.hypot(ue_l, ve_l), "k-", lw=2.5, label="точний")
+for m_l in (5, 10, 40):
+    qx0, qy0, *colloc = plate(m_l)
+    Gl = solve_gammas(qx0, qy0, *colloc, vinf, g0)
+    ul, vl = velocity_field(xl, yy, qx0, qy0, Gl, vinf, 0.01)
+    ax[2].plot(yy, np.hypot(ul, vl), "--", label=f"МДО, M = {m_l}")
+ax[2].set_xlabel("y")
+ax[2].set_ylabel("|V|")
+ax[2].set_title("|V| уздовж x = 0.3: зі зростанням M → точний")
+ax[2].grid(alpha=0.3)
+ax[2].legend()
+plt.show()
