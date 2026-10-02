@@ -10,10 +10,11 @@ ny = -np.sin(tc)                                # (= ліворуч від об�
 # xc, yc = (x0[:-1] + x0[1:]) / 2, (y0[:-1] + y0[1:]) / 2
 # nx, ny = -dy / ell, dx / ell
 
-fig, ax = plt.subplots(figsize=(5, 5))
+k = slice(None, None, 4)                        # кожна 4-та нормаль, щоб стрілки не злипались
+fig, ax = plt.subplots(figsize=(6, 6))
 ax.plot(x0, y0, "o", mfc="white", label="особливості ω0j")
 ax.plot(xc, yc, "x", label="колокації")
-ax.quiver(xc, yc, nx, ny, scale=15, width=0.004)
+ax.quiver(xc[k], yc[k], nx[k], ny[k], color="tab:green", scale=8, width=0.006)
 ax.set_aspect("equal")
-ax.legend()
+ax.legend(loc="upper left", bbox_to_anchor=(1, 1))
 plt.show()
