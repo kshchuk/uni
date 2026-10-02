@@ -96,3 +96,9 @@ ax[2].set_title("Похибка падає, доки розрив > кроку (
 ax[2].grid(alpha=0.3, which="both")
 ax[2].legend()
 plt.show()
+
+# --- Рисунок 3: 4 графіки лаби для кола (функція plot_four — з тесту на пластині) ---
+Xs, Ys = np.meshgrid(np.linspace(-1.2, 1.2, 300), np.linspace(-1.2, 1.2, 300))
+Gc = solve_gammas(cx0, cy0, *ccol, vinf, 2.0)
+plot_four(Xs, Ys, cx0, cy0, Gc, vinf, 0.01, "Коло з розривом 4°: M = 80, Γ0 = 2",
+          mask=np.hypot(Xs, Ys) < R)             # всередині кола не показуємо
