@@ -6,5 +6,5 @@ def vortex_velocity(x, y, x0j, y0j, delta=0.0):
     return -dy / (2 * np.pi * R2), dx / (2 * np.pi * R2)
 
 
-DELTA = h / 2                    # кола сусідніх вихорів дотикаються [Л2, сл. 31]
+DELTA = h / 2                    # кола сусідніх вихорів дотикаються
 print(f"DELTA = {DELTA:.4f}")
