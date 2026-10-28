@@ -58,6 +58,23 @@
 )
 #let fig(f, w, cap) = figure(image("figures/" + f, width: w), caption: cap)
 
+// Цитата з джерела: текст оригіналу, (необов'язково) переклад і точне місце в джерелі.
+#let srcq(from, body, tr: none) = block(
+  width: 100%, inset: (left: 0.9em, right: 0.3em, y: 0.45em), above: 1.1em, below: 1.1em,
+  stroke: (left: 1.2pt + luma(150)),
+)[
+  #set par(first-line-indent: 0pt, leading: 0.8em, spacing: 0.7em)
+  #set text(size: 10pt)
+  #set math.equation(numbering: none)  // у цитатах -- лише номери формул джерела
+  #body
+  #if tr != none {
+    parbreak()
+    set text(fill: luma(70))
+    [_Переклад:_ #tr]
+  }
+  #align(right, text(9.5pt, fill: luma(90))[-- #from])
+]
+
 // Форматування чисел з results.json
 #let fix(v, d) = {
   let s = str(calc.round(v, digits: d))
@@ -178,22 +195,66 @@ $ <eq-coupling>
 
 Рівняння @eq-mech -- закон обертального руху вала (момент двигуна долає інерцію і в'язке
 тертя). Рівняння @eq-elec -- другий закон Кірхгофа для кола якоря: це послідовне
-$R L$-коло з джерелом $e_a$ і зустрічною ЕРС $e_m$; перехідні процеси в такому колі (час
-наростання струму $tau = L_a slash R_a$) розглянуто в [5, §14.3--14.4]. Співвідношення
-@eq-coupling описують електромеханічне перетворення енергії; в одиницях СІ стала
-проти-ЕРС (В·с/рад) і стала моменту (Н·м/А) чисельно рівні [6, §9.1, врізка 9.4;
-вправа 2 до гл. 9], тому в експериментах беремо $K_1 = K_2$.
+$R L$-коло з джерелом $e_a$ і зустрічною ЕРС $e_m$. Для нерухомого вала ($e_m = 0$) і
+сталої напруги це рівно задача про ввімкнення $r L$-кола:
+
+#srcq([[5, §14.4 «Включение $r L$-цепи на постоянное напряжение», с. 238--239]])[
+  «Дифференциальное уравнение при включении $r L$-цепи (рис. 14.5) на постоянное
+  напряжение (к источнику ЭДС $E = U$) неоднородное
+  $ r i + L d i slash d t = U #h(2em) (14.13) $
+  и имеет решение в виде суммы установившейся и свободной составляющих
+  $i = i_"у" + i_"св"$. [...] Ток в цепи
+  $ i = i_"у" + i_"св" = U slash r + A e^(-t slash tau), #h(2em) (14.14) $
+  где $tau = L slash r$.»
+]
+
+Отже, струм якоря встановлюється зі сталою часу $tau = L_a slash R_a$ (для набору P1
+$tau = 0.25$ с). Співвідношення @eq-coupling описують електромеханічне перетворення
+енергії:
+
+#srcq([[6, §9.1, врізка 9.4 «Back EMF», с. 346]], tr: [«Двигун, що обертається, діє як
+  генератор і створює напругу $V_b$, яку називають проти-ЕРС; вона протидіє струму, що тече
+  в двигун. Проти-ЕРС пропорційна швидкості двигуна: $V_b = K_m omega$, де $K_m$ -- стала
+  моменту двигуна, одиниці якої можна також тлумачити як В·с·рад$""^(-1)$.»])[
+  «A spinning motor acts like a generator and produces a voltage $V_b$ called the back EMF
+  which opposes the current flowing into the motor. Back EMF is proportional to motor speed
+  $V_b = K_m omega$, where $K_m$ is the motor torque constant whose units can also be
+  interpreted as V s rad$""^(-1)$.»
+]
+
+#srcq([[6, §9.7.2, вправа 2, с. 372]], tr: [«Стала моменту двигуна має одиниці
+  Н·м·А$""^(-1)$ і дорівнює сталій проти-ЕРС, одиниці якої В·с·рад$""^(-1)$. Покажіть, що
+  ці одиниці еквівалентні.»])[
+  «The motor torque constant has units of N m A$""^(-1)$ and is equal to the back EMF
+  constant which has units of V s rad$""^(-1)$. Show that these units are equivalent.»
+]
+
+У позначеннях варіанта $K_1$ -- стала проти-ЕРС, $K_2$ -- стала моменту, тому в одиницях СІ
+$K_1 = K_2$; так і беремо в експериментах.
 
 == Зведення до нормальної системи
 
-Змінні стану -- величини, що визначають запас енергії: кут і кутова швидкість вала та
-струм в індуктивності якоря (метод змінних стану, рівняння у формі Коші [5, §14.20]).
-Заміна $x_1 = theta$, $x_2 = dot(theta) = omega$, $x_3 = i_a$ після підстановки
+Зведення виконуємо методом змінних стану:
+
+#srcq([[5, §14.20 «Метод переменных состояния», с. 263--264]])[
+  «Уравнениями состояния можно назвать любую систему уравнений, определяющих режим цепи.
+  В более узком смысле -- это система дифференциальных уравнений первого порядка,
+  разрешенная относительно производных. Методом переменных состояния назовем анализ цепи,
+  основанный на решении уравнений состояния (первого порядка), записанных в форме Коши.
+  [...] в качестве переменных состояния целесообразно выбирать токи $i_L$ и напряжения
+  $u_C$. [...] Сокращенно дифференциальные уравнения состояния запишем в матричной форме
+  так:
+  $ d/(d t) bold(X)(t) = bold(A) bold(X)(t) + bold(B) bold(F)(t) #h(2em) (14.91"а") "»" $
+]
+
+Для кола якоря змінна стану -- струм в індуктивності $i_a$; для механічної частини
+аналогічну роль відіграють кут і кутова швидкість вала (енергія обертання
+$J omega^2 slash 2$). Заміна $x_1 = theta$, $x_2 = dot(theta) = omega$, $x_3 = i_a$ після підстановки
 @eq-coupling у @eq-mech, @eq-elec дає
 $
   (d x)/(d t) = A x + f(t), quad
   A = mat(0, 1, 0; 0, -B/J, K_2/J; 0, -K_1/L_a, -R_a/L_a), quad
-  f(t) = vec(0, 0, e_a (t) / L_a).
+  f(t) = vec(0, 0, e_a (t) slash L_a).
 $ <eq-system>
 
 *Спектр матриці $A$.* Перший стовпець $A$ нульовий (кут не входить у праві частини), тому
@@ -271,9 +332,72 @@ $X(t) = union_(x_0 in M_0) x(t, x_0, 0)$.
 
 == Теорема про еліпсоїдальний пучок
 
-Для лінійної системи $dot(x) = A(t) x + f(t)$ з відомим входом $f$ і множиною початкових
-станів $cal(E)(x_0, Q_0)$ перетин пучка траєкторій є еліпсоїдом [1; 2, §2.3.1, (2.15)--(2.20);
-3, леми 1.2--1.3]:
+Теорему, на якій ґрунтується алгоритм, сформульовано в умові роботи:
+
+#srcq([[1, с. 4]])[
+  «Нехай множина початкових станів $M_0 = cal(E)(x_0, Q_0)$, де $x_0 in RR^n$, $Q_0$ --
+  $n times n$-матриця, симетрична і додатньовизначена. Тоді пучок траєкторій системи (5)
+  в момент $t$
+  $ X(t) = cal(E)(x(t), Q(t)), quad t in [t_0, T], #h(2em) (6) $
+  де $x(t) = x(t, x_0, t_0)$, $Q(t) = Theta(t, t_0) Q_0 Theta^*(t, t_0)$, $Theta(t, t_0)$ --
+  фундаментальна матриця системи $d x slash d t = A(t) x$, нормована за моментом $t_0$.
+  Матриця $Q(t)$ може бути знайдена з матричного диференціального рівняння
+  $ (d Q)/(d t) = A(t) Q + Q A^*(t), quad Q(t_0) = Q_0, quad t in [t_0, T]. #h(2em) (7) "»" $
+]
+
+Те саме твердження є в літературі з еліпсоїдальних методів. Означення еліпсоїда там
+збігається з @eq-ellipsoid:
+
+#srcq([[2, §2.1, (2.1), с. 6]])[
+  $ cal(E)(q, Q) = {x in RR^n | (x - q)^top Q^(-1) (x - q) <= 1}. #h(2em) (2.1) $
+]
+
+#srcq([[2, §2.3.1 «Without Controls or Disturbances», с. 10--11]], tr: [«Для системи без
+  керувань і збурень ($B(t) equiv G(t) equiv 0$) динаміка стану набуває вигляду
+  $dot(x)(t) = A(t) x(t)$ (2.15), що дає розв'язок $x(t) = Phi(t, t_0) x_0$ (2.16), де
+  $Phi(t, t_0)$ -- матриця переходу, що відповідає матриці коефіцієнтів $A(t)$. Тоді множина
+  досяжності з еліпсоїдального початкового стану $cal(E)(x_0, X_0)$ сама є еліпсоїдом
+  $cal(E)(x_c (t), X(t))$ з центром $x_c (t) = Phi(t, t_0) x_0$ і матрицею форми, яку
+  отримують з ОДР $dot(X)(t) = A(t) X(t) + X(t) A^top (t)$ (2.17). Лінійне матричне
+  диференціальне рівняння (2.17) добре відоме як диференціальне рівняння Ляпунова і має
+  розв'язок $X(t) = Phi(t, t_0) X_0 Phi^top (t, t_0)$ (2.18), тобто матриця форми в будь-який
+  момент є конгруентним перетворенням початкової матриці форми [...]. Якщо система
+  стаціонарна, тобто $A(t)$ стала в часі, то $Phi(t, t_0) = e^(A(t - t_0))$ і множина
+  досяжності має вигляд (2.20).»])[
+  «For a system without controls or disturbances ($B(t) equiv G(t) equiv 0$), the state
+  dynamics becomes
+  $ dot(x)(t) = A(t) x(t), #h(2em) (2.15) $
+  which results the solution
+  $ x(t) = Phi(t, t_0) x_0, #h(2em) (2.16) $
+  where $Phi(t, t_0)$ is the state-transition matrix corresponding to the coefficient matrix
+  $A(t)$. Then, the reach set from an ellipsoidal initial state $cal(E)(x_0, X_0)$ is itself
+  an ellipsoid $cal(E)(x_c (t), X(t))$ with its center $x_c (t) = Phi(t, t_0) x_0$, and its
+  shape matrix obtained from the ODE,
+  $ dot(X)(t) = A(t) X(t) + X(t) A^top (t). #h(2em) (2.17) $
+  The linear matrix differential equation (2.17) is well-known as the Lyapunov differential
+  equation, and admits solution
+  $ X(t) = Phi(t, t_0) X_0 Phi^top (t, t_0), #h(2em) (2.18) $
+  that is, the shape matrix at any time is the congruence transformation of the initial
+  shape matrix [...]. If the system is time-invariant, i.e., $A(t)$ is constant in time,
+  then $Phi(t, t_0) = e^(A(t - t_0))$ and the reach set is
+  $ cal(X)[t] = cal(E)(e^(A(t - t_0)) x_0, #h(0.3em) e^(A(t - t_0)) X_0 e^(A^top (t - t_0))). #h(2em) (2.20) "»" $
+]
+
+У нас є відомий вхід $f(t)$, який зсуває центр. Цей випадок у [2] -- частковий випадок
+системи з керуванням $dot(x) = A x + B u$, $u(t) in cal(E)(u_c (t), U(t))$:
+
+#srcq([[2, §2.3.2, (2.22)--(2.23), с. 12]], tr: [«Рівність (2.21) можна еквівалентно
+  записати як (2.22) з вектором центру, що визначається рівнянням (2.10): (2.23).»])[
+  «Eqn. (2.21) can be equivalently described as
+  $ cal(X)(t, t_0, cal(X)_0) = x_c (t) plus.dot Phi(t, t_0) cal(E)(0, X_0) plus.dot
+    integral_(t_0)^t Phi(t, tau) cal(E)(0, B(tau) U(tau) B^top (tau)) d tau #h(2em) (2.22) $
+  with the center vector guided by the Eqn. (2.10),
+  $ x_c (t) = Phi(t, t_0) x_0 + integral_(t_0)^t Phi(t, tau) B(tau) u_c (tau) d tau. #h(2em) (2.23) "»" $
+]
+
+Для системи @eq-system вхід відомий точно: $B = I$, $u_c (t) = f(t)$, $U(t) = 0$, тому
+кожна множина $cal(E)(0, B U B^top) = {0}$, інтеграл у (2.22) зникає, а $x_c (t)$ з (2.23) --
+це розв'язок системи з $x(t_0) = x_0$ (формула Коші). Звідси й з (2.20) маємо:
 $
   X(t) = cal(E)(x(t), Q(t)), quad Q(t) = Theta(t, t_0) Q_0 Theta^*(t, t_0),
 $ <eq-bundle>
@@ -283,15 +407,40 @@ $ <eq-bundle>
 $
   (d Q)/(d t) = A(t) Q + Q A^*(t), quad Q(t_0) = Q_0.
 $ <eq-lyap>
-У [3] множина досяжності системи з керуванням $u(t) in cal(E)(q(t), Q_u (t))$ записана як
-сума $x^star (t) + Theta(t, t_0) cal(E)(0, Q_0) + integral_(t_0)^t dots$ (лема 1.2); коли
-вхід відомий точно (обмеження вироджується в точку $f(t)$), інтегральний доданок зникає і
-лишається лінійний образ еліпсоїда, що й дає @eq-bundle. У [2] цей випадок
-(«without controls or disturbances») сформульовано окремо разом з рівнянням
-@eq-lyap та його розв'язком; центр при відомому вході описує формула (2.23) [2].
-Еліпсоїдальні методи для систем з невизначеністю в ширшому контексті (трубки
-розв'язності, синтез керування) викладено в [4].
 Для сталої $A$ маємо $Theta(t, 0) = e^(A t)$, тож $Q(t) = e^(A t) Q_0 e^(A^* t)$.
+
+Той самий результат дають леми з [3], де $X(t, s)$ -- матриця переходу, а керування
+обмежене еліпсоїдом $u(t) in cal(E)(q(t), Q(t))$:
+
+#srcq([[3, (3), леми 1.2--1.3, с. 2--3]], tr: [«(3) [...] Її опорна функція ([13]) дорівнює
+  $rho(l | cal(E)) = max{(l, x) | x in cal(E)} = (l, q(t)) + (l, Q(t) l)^(1 slash 2)$. [...]
+  *Лема 1.2.* Має місце рівність (5), де $x^star (t) = dots$ [...] *Лема 1.3.* Опорна
+  функція множини досяжності дорівнює (6).»])[
+  $ "«" cal(E)(q(t), Q(t)) = {u : (u - q(t), Q^(-1)(t)(u - q(t))) <= 1}, #h(2em) (3) $
+  [...] Its support function ([13]) is
+  $ rho(l | cal(E)(q(t), Q(t))) = max{(l, x) | x in cal(E)(q(t), Q(t))} = (l, q(t)) + (l, Q(t) l)^(1 slash 2). $
+  [...] *Lemma 1.2* The following relation holds:
+  $ cal(X)(t, t_0, cal(E)(x_0, X_0)) = x^star (t) + X(t, t_0) cal(E)(0, X_0) +
+    integral_(t_0)^t X(t, s) cal(E)(0, B(s) Q(s) B'(s)) d s, #h(2em) (5) $
+  where $x^star (t) = X(t, t_0) x_0 + integral_(t_0)^t X(t, s) B(s) q(s) d s$.
+  [...] *Lemma 1.3* The support function
+  $ rho(l | cal(X)(t, t_0, cal(E)(x_0, X_0))) & = (l, x^star (t)) + (l, X(t, t_0) X_0 X'(t, t_0) l)^(1 slash 2) \
+    & + integral_(t_0)^t (l, X(t, s) B(s) Q(s) B'(s) X'(t, s) l)^(1 slash 2) d s. #h(2em) (6)"»" $
+]
+
+При $Q(s) = 0$ (вхід відомий) інтеграли в (5), (6) зникають, і (6) збігається з опорною
+функцією еліпсоїда $cal(E)(x^star (t), X(t, t_0) X_0 X'(t, t_0))$, тобто з @eq-bundle.
+Ширший контекст -- еліпсоїдальні методи для систем з невідомими обмеженими збуреннями:
+
+#srcq([[4, Foreword]], tr: [«Це друга зі серії статей з раннім викладом застосування
+  еліпсоїдальних методів до задач моделювання динамічних систем. Стаття присвячена задачі
+  синтезу керування для лінійної системи з невідомими, але обмеженими збуреннями, яка
+  зводиться до синтезованого нелінійного диференціального включення.»])[
+  «This is the second of a series of papers giving an early account of the application of
+  ellipsoidal techniques to problems of modeling dynamical systems. The paper deals with
+  the problem of control synthesis for a linear system with unknown but bounded disturbances
+  which ends up in a synthesized nonlinear differential inclusion.»
+]
 
 Наслідки, які використано далі:
 + матриця $Q(t)$ *не залежить від* $f$, тобто від напруги $e_a (t)$: керування лише зсуває
@@ -318,7 +467,7 @@ $ <eq-liouville>
 
 == Опорна функція і межа проєкцій
 
-Опорна функція еліпсоїда [3, (3)]
+Опорна функція еліпсоїда (див. цитату з [3] у розділі 2.1)
 $
   c(cal(E)(p, Q), psi) = max_(x in cal(E)(p, Q)) chevron.l x\, psi chevron.r
     = chevron.l p\, psi chevron.r + sqrt(chevron.l Q psi\, psi chevron.r).
@@ -360,10 +509,25 @@ $#sci(R.rtol, d: 0)$ і $#sci(R.atol, d: 0)$. Розв'язок обчислює
 Множину значень $X(t)$ відновлюємо за $x(t), Q(t)$: півосі -- корені власних чисел $Q(t)$,
 межі проєкцій -- за @eq-boundary.
 
+#srcq([[7]], tr: [«Розв'язує задачу Коші для системи ЗДР. [...] 'DOP853': явний метод
+  Рунге--Кутти порядку 8. Реалізація на Python алгоритму "DOP853", спочатку написаного на
+  Fortran. [...] rtol, atol: відносна й абсолютна точності. Розв'язувач підтримує оцінки
+  локальної похибки меншими за `atol + rtol * abs(y)`.»])[
+  «Solve an initial value problem for a system of ODEs. [...] 'DOP853': Explicit
+  Runge-Kutta method of order 8 [13]. Python implementation of the "DOP853" algorithm
+  originally written in Fortran [14]. [...] rtol, atol: Relative and absolute tolerances.
+  The solver keeps the local error estimates less than `atol + rtol * abs(y)`.»
+]
+
 == Перевірка правильності
 
-+ *(a)* $Q(t)$ з @eq-lyap порівнюється з явною формулою $e^(A t) Q_0 e^(A^* t)$
-  (матрична експонента `scipy.linalg.expm` [8]).
++ *(a)* $Q(t)$ з @eq-lyap порівнюється з явною формулою $e^(A t) Q_0 e^(A^* t)$; матричну
+  експоненту обчислює `scipy.linalg.expm`:
+  #srcq([[8]], tr: [«Обчислює матричну експоненту масиву. [...] Реалізує алгоритм з [1],
+    що по суті є апроксимацією Паде змінного порядку [...]»])[
+    «Compute the matrix exponential of an array. [...] Implements the algorithm given in [1],
+    which is essentially a Pade approximation with a variable order [...]»
+  ]
 + *(b)* $det Q(t)$ порівнюється з формулою Ліувілля @eq-liouville.
 + *(c)* центр $x(t)$ порівнюється з окремо розв'язаною задачею Коші для $x$.
 + *(d)* Метод Монте-Карло: 300 точок, рівномірно розподілених у $M_0$, і 300 точок на межі
