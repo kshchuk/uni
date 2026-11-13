@@ -26,6 +26,7 @@ numerical-modelling-techniques/
 │   └── lecture-transcript/
 │       └── 2026-09-17.{txt,srt,json}               # транскрипт пари, де викладач пояснює лаб. №1
 └── lab2/
+    ├── lab2.ipynb                                  # Jupyter-ноутбук лаби №2 (13 кроків, уже виконаний)
     ├── materials/
     │   └── Лабораторна №2 (…кінематики…).pdf       # слайди до лаб. №2 (умова)
     ├── guide/
