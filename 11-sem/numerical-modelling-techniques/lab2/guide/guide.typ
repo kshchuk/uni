@@ -83,7 +83,11 @@
   - *[Сл. N]* — презентація «Лабораторна робота. Моделювання кінематики в гідродинамічних процесах», слайд N
     (`lab2/materials/`) — це і є умова лаби. Номери формул на слайдах (1)–(47) відповідають (7.2.1)–(7.2.39) посібника.
   - *[Г1]* — гайд до лаб. №1 (`lab1/guide/guide.pdf`).
-  - *[КК]* — Cottet G.-H., Koumoutsakos P. «Vortex Methods. Theory and Practice» (список літератури посібника, [4]).
+  - *[Wu]* — Wu J.C. Theory for aerodynamic force and moment in viscous flows // AIAA Journal, 1981 — сила через
+    перший момент завихреності (імпульс).
+  - *[КЛ]* — Koumoutsakos P., Leonard A. // Journal of Fluid Mechanics, 1995 — так рахують силу у вихрових методах
+    (циліндр, раптово запущений потік).
+  - *[Saffman]* — Saffman P.G. «Vortex Dynamics», 1992 — гідродинамічний імпульс системи вихорів.
 ]
 
 // ============================ 1 ============================
@@ -435,16 +439,19 @@ $partial phi slash partial t approx (phi(t_(n+1)) - phi(t_n)) slash tau_n$. Ал
   Результат — неперервне $partial phi slash partial t$ в усій області (рисунок $C_p$ у кроці 11).
 ]
 
-== Сили, що діють на перешкоду [П, §7.2.5; КК, гл. 1]
+== Сили, що діють на перешкоду [П, §7.2.5; Wu; КЛ]
 Посібник радить стежити за режимами через сили [П, §7.2.5], але формули для них не наводить. Найпростіше отримати їх через
-*гідродинамічний імпульс* системи вихорів [КК, гл. 1]:
+*гідродинамічний імпульс* системи вихорів [Wu; Saffman; КЛ]:
 $ arrow(P) = rho sum_("усі вихори") Gamma_k (y_k, -x_k), quad arrow(F) = -(d arrow(P)) / (d t), quad
   C_x = F_x / (rho V_infinity^2 D slash 2), quad C_y = F_y / (rho V_infinity^2 D slash 2), $
 де сума — по приєднаних і вільних вихорах, $D = 1$ — розмір перешкоди. Похідну беремо різницею на сусідніх кроках.
+Це дискретна форма формули Ву [Wu]: $arrow(F) = -rho thin d slash d t integral arrow(r) times arrow(omega) thin d V$; у 2D $arrow(r) times arrow(omega) = omega (y, -x)$,
+а для точкових вихорів $integral omega thin d A -> sum Gamma_k$. Формула справедлива, коли сумарна циркуляція всіх вихорів нуль —
+у нас це так за теоремою Кельвіна. Так само силу рахують у вихрових методах [КЛ].
 
 *Простими словами:* $arrow(P)$ — це «кількість руху», яку вихори передали рідині. Щоб розкрутити нові вихори і відправити їх
 у слід, перешкода має штовхати рідину — а рідина за третім законом Ньютона штовхає перешкоду назад з силою $arrow(F)$.
-#why[КК, гл. 1; перевірка на простому прикладі][
+#why[Wu; перевірка на простому прикладі][
   Нехай приєднаний вихор $Gamma$ стоїть у нулі, а вихор $-Gamma$, що відірвався, пливе зі швидкістю $V_infinity$ вздовж $O x$:
   $x = V_infinity t$. Тоді $P_y = -rho (-Gamma) V_infinity t$, $F_y = -d P_y slash d t = -rho V_infinity Gamma$ — це *теорема Жуковського*
   про підйомну силу. Формула дає правильний знак і величину.
@@ -778,6 +785,9 @@ $ arrow(P) = rho sum_("усі вихори") Gamma_k (y_k, -x_k), quad arrow(F) 
 = Список джерел
 + Довгий С.О., Троценко Я.П., Черній Д.І. Технології чисельного моделювання. Лабораторний практикум: навч. посібник. — К., 2024. — 139 с.
 + Презентація «Лабораторна робота. Моделювання кінематики в гідродинамічних процесах», слайди 1–19.
-+ Cottet G.-H., Koumoutsakos P. D. Vortex Methods. Theory and Practice. — Cambridge University Press, 2004. — 327 p.
++ Wu J.C. Theory for aerodynamic force and moment in viscous flows // AIAA Journal. — 1981. — Vol. 19, No. 4. — P. 432–441.
++ Koumoutsakos P., Leonard A. High-resolution simulations of the flow around an impulsively started cylinder using vortex methods // Journal of Fluid Mechanics. — 1995. — Vol. 296. — P. 1–38.
++ Saffman P.G. Vortex Dynamics. — Cambridge University Press, 1992.
++ Cottet G.-H., Koumoutsakos P. D. Vortex Methods. Theory and Practice. — Cambridge University Press (список літератури посібника, [4]) — загальний огляд вихрових методів.
 + Довгий С.А., Лифанов И.К., Черний Д.И. Метод сингулярных интегральных уравнений и вычислительные технологии. — К.: Юстон, 2016. — 380 с.
 + Белоцерковский С.М., Ништ М.И. Отрывное и безотрывное обтекание тонких крыльев идеальной жидкостью. — М.: Наука, 1978. — 351 с.
