@@ -14,7 +14,3 @@ def time_step(G, fx, fy, fg, shed_total):
     G = solve_gammas(px, py, pg, shed_total)
     return G, px, py, pg, shed_total, dt
 
-
-def impulse(G, fx, fy, fg):
-    """Гідродинамічний імпульс системи вихорів (ділений на ρ): Σ Γ (y, -x)."""
-    return np.array([G @ y0 + fg @ fy, -(G @ x0) - fg @ fx])
