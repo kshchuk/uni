@@ -12,7 +12,7 @@ while time_now < T_END:
     P = impulse(G, fx, fy, fg)
     Cx, Cy = -2 * (P - P_old) / dt              # F = -ρ dP/dt, C = F / (ρ V∞² D / 2)
     history.append((time_now, Cx, Cy, len(fg)))
-    far = fx > X_MAX                            # видаляємо вихори, що відлетіли
+    far = fx * V_INF[0] + fy * V_INF[1] > X_MAX  # відлетіли далі X_MAX уздовж потоку
     P -= impulse(np.zeros(M), fx[far], fy[far], fg[far])
     fx, fy, fg = fx[~far], fy[~far], fg[~far]
     P_old = P
