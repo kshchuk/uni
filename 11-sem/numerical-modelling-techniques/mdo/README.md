@@ -7,8 +7,18 @@
 
 ## Встановлення
 
+В іншому проєкті (приватний репозиторій — потрібен доступ до GitHub):
+
 ```bash
-pip install -e ".[test]"     # з цієї папки
+pip install "git+https://github.com/kshchuk/mdo.git"
+# або в requirements.txt:  mdo @ git+https://github.com/kshchuk/mdo.git
+```
+
+Для розробки:
+
+```bash
+git clone https://github.com/kshchuk/mdo.git && cd mdo
+pip install -e ".[test]"
 pytest -m "not slow"         # швидкі тести (~3 с)
 pytest -m slow               # повне відтворення лаб. №2 (~2 хв)
 ```
